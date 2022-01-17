@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9b8cf034-8b25-40a1-bc1e-57b823a343b4}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>runner.py</StartupFile>
+    <SearchPath>build\simon\py</SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId />
+    <TestFramework>Pytest</TestFramework>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="build\simon\log\commontypes.log" />
+    <Content Include="build\simon\log\externalfndtmsg.log" />
+    <Content Include="build\simon\log\weird.log" />
+    <Content Include="python_front.py" />
+    <Content Include="xsds\aeoi\SARSForeignTaxpayerInfoDeclarationV2.3.1.xsd" />
+    <Content Include="xsds\aeoi\SARSForeignTaxpayerInfoDeclarationV2.3.xsd" />
+    <Content Include="xsds\aeoi\SARSForeignTaxpayerInfoSupportingDataSubmissionV1.1.xsd" />
+    <Content Include="xsds\aeoi\SARSForeignTaxpayerInfoSupportingDataV1.1.xsd" />
+    <Content Include="xsds\aeoi\SARSGMD_BaseTypesV54.19.xsd" />
+    <Content Include="xsds\aeoi\SARSGMD_FormTypesV1.5.xsd" />
+    <Content Include="xsds\aeoi\SARSRequestForeignTaxpayerInfoDeclarationV2.3.1.xsd" />
+    <Content Include="xsds\aeoi\SARSRequestForeignTaxpayerInfoDeclarationV2.3.xsd" />
+    <Content Include="xsds\aeoi\SARSSubmitForeignTaxpayerInfoDeclarationV2.3.1.xsd" />
+    <Content Include="xsds\aeoi\SARSSubmitForeignTaxpayerInfoDeclarationV2.3.xsd" />
+    <Content Include="xsds\aeoi\SARSThirdPartyCorrespondenceV1.10.xsd" />
+    <Content Include="xsds\aeoi\SARSThirdPartySubmissionHeaderV1.11.xsd" />
+    <Content Include="xsds\example\GPSPayment.xsd" />
+    <Content Include="xsds\example\pacs.008.001.08.xsd" />
+    <Content Include="xsds\example\pain.001.001.09.xsd" />
+    <Content Include="xsds\messageorch\builtin\soap_envelope_v000003.xsd" />
+    <Content Include="xsds\messageorch\builtin\xml.xsd" />
+    <Content Include="xsds\messageorch\Common\file_message.xsd" />
+    <Content Include="xsds\README.md" />
+    <Content Include="xsds\simon\CommonTypes.xsd" />
+    <Content Include="xsds\simon\ExternalFndtMsg.xsd" />
+    <Content Include="xsds\simon\Weird.xsd" />
+    <Content Include="xsds\soapy\Accept_And_Reject.xsd" />
+    <Content Include="xsds\soapy\accept_it34.xsd" />
+    <Content Include="xsds\soapy\CDV.xsd" />
+    <Content Include="xsds\soapy\createCase.xsd" />
+    <Content Include="xsds\soapy\DCTMCONTENTMANAGEMENT_WS.xsd" />
+    <Content Include="xsds\soapy\DCTMCONTENTMANAGEMENT_WS_QA3.xsd" />
+    <Content Include="xsds\soapy\Documentum.xsd" />
+    <Content Include="xsds\soapy\its_through_services.xsd" />
+    <Content Include="xsds\soapy\SARS2008Webservice.xsd" />
+    <Content Include="xsds\soapy\SARSDocumentWebservice.xsd" />
+    <Content Include="xsds\soapy\SecurityAdminWebService.xsd" />
+    <Content Include="xsds\soapy\SecurityPrincipleWebService.xsd" />
+    <Content Include="xsds\soapy\service.xsd" />
+    <Content Include="xsds\soapy\SubmitWSDL.xsd" />
+    <Content Include="xsds\soapy\TrackingService.xsd" />
+    <Content Include="xsds\soapy\Workflow.xsd" />
+    <Content Include="xsd_py_gen.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="build\aeoi\py\XSD_SARS_FOREIGNTAXPAYERINFO_DECLARATION_V23.py" />
+    <Compile Include="build\aeoi\py\XSD_SARS_FOREIGNTAXPAYERINFO_DECLARATION_V231.py" />
+    <Compile Include="build\aeoi\py\XSD_SARS_FOREIGNTAXPAYERINFO_SUPPORTINGDATA.py" />
+    <Compile Include="build\aeoi\py\XSD_SARS_FOREIGNTAXPAYERINFO_SUPPORTINGDATASUBMISSION_V11.py" />
+    <Compile Include="build\aeoi\py\XSD_SARS_REQUEST_FOREIGNTAXPAYERINFO_DECLARATION_V23.py" />
+    <Compile Include="build\aeoi\py\XSD_SARS_REQUEST_FOREIGNTAXPAYERINFO_DECLARATION_V231.py" />
+    <Compile Include="build\aeoi\py\XSD_SARS_SUBMIT_FOREIGNTAXPAYERINFO_DECLARATION_V23.py" />
+    <Compile Include="build\aeoi\py\XSD_SARS_SUBMIT_FOREIGNTAXPAYERINFO_DECLARATION_V231.py" />
+    <Compile Include="build\aeoi\py\XSD_SARS_THIRDPARTYCORRESPONDENCE_V110.py" />
+    <Compile Include="build\aeoi\py\XSD_SARS_THIRDPARTYSUBMISSION_HEADER_V111.py" />
+    <Compile Include="build\example\py\XSD_GPS_PAYMENT.py" />
+    <Compile Include="build\example\py\XSD_PACS_008.py" />
+    <Compile Include="build\example\py\XSD_PAIN_001.py" />
+    <Compile Include="build\messageorch\Common\py\XSD_FILE_MESSAGE.py" />
+    <Compile Include="build\simon\py\XSD_CommonTypes.py" />
+    <Compile Include="build\simon\py\XSD_ExternalFndtMsg.py" />
+    <Compile Include="build\simon\py\XSD_Weird.py" />
+    <Compile Include="gends_util.py" />
+    <Compile Include="tester.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="runner.py" />
+    <Compile Include="simon_commontypes.py" />
+    <Compile Include="typing_usage.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="wsdl_to_xsd.py" />
+    <Compile Include="xml_to_xsd.py" />
+    <Compile Include="xsd_consts.py" />
+    <Compile Include="xsd_load_tester.py" />
+    <Compile Include="xsd_py_gen.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="build" />
+    <Folder Include="build\aeoi\" />
+    <Folder Include="build\aeoi\py" />
+    <Folder Include="build\example\" />
+    <Folder Include="build\example\py" />
+    <Folder Include="build\messageorch\" />
+    <Folder Include="build\messageorch\Common\" />
+    <Folder Include="build\messageorch\Common\py" />
+    <Folder Include="build\simon\" />
+    <Folder Include="build\simon\log\" />
+    <Folder Include="build\simon\py" />
+    <Folder Include="xsds\" />
+    <Folder Include="xsds\aeoi\" />
+    <Folder Include="xsds\example\" />
+    <Folder Include="xsds\messageorch\" />
+    <Folder Include="xsds\messageorch\builtin\" />
+    <Folder Include="xsds\messageorch\Common\" />
+    <Folder Include="xsds\simon\" />
+    <Folder Include="xsds\soapy\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+</Project>
