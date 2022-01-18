@@ -8,20 +8,10 @@ build_sets = '''\
 simon|CommonTypes|CommonTypes
 simon|ExternalFndtMsg|ExternalFndtMsg
 simon|Weird|Weird
-example|GPSPayment|GPS_PAYMENT
+example|GPSPayment|GPSPayment
 example|pacs.008.001.08|PACS_008
 example|pain.001.001.09|PAIN_001
 messageorch/Common|file_message|FILE_MESSAGE
-aeoi|SARSForeignTaxpayerInfoDeclarationV2.3.1|SARS_FOREIGNTAXPAYERINFO_DECLARATION_V231
-aeoi|SARSForeignTaxpayerInfoDeclarationV2.3|SARS_FOREIGNTAXPAYERINFO_DECLARATION_V23
-aeoi|SARSForeignTaxpayerInfoSupportingDataSubmissionV1.1|SARS_FOREIGNTAXPAYERINFO_SUPPORTINGDATASUBMISSION_V11
-aeoi|SARSForeignTaxpayerInfoSupportingDataV1.1|SARS_FOREIGNTAXPAYERINFO_SUPPORTINGDATA
-aeoi|SARSRequestForeignTaxpayerInfoDeclarationV2.3|SARS_REQUEST_FOREIGNTAXPAYERINFO_DECLARATION_V23
-aeoi|SARSRequestForeignTaxpayerInfoDeclarationV2.3.1|SARS_REQUEST_FOREIGNTAXPAYERINFO_DECLARATION_V231
-aeoi|SARSSubmitForeignTaxpayerInfoDeclarationV2.3|SARS_SUBMIT_FOREIGNTAXPAYERINFO_DECLARATION_V23
-aeoi|SARSSubmitForeignTaxpayerInfoDeclarationV2.3.1|SARS_SUBMIT_FOREIGNTAXPAYERINFO_DECLARATION_V231
-aeoi|SARSThirdPartyCorrespondenceV1.10|SARS_THIRDPARTYCORRESPONDENCE_V110
-aeoi|SARSThirdPartySubmissionHeaderV1.11|SARS_THIRDPARTYSUBMISSION_HEADER_V111
 '''.splitlines()
 
 CMAKE_CURRENT_SOURCE_DIR = 'C:/vlab/python/pytools/xsd_py_gen'
