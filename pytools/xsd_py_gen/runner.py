@@ -39,7 +39,7 @@ def process(build_set):
     sys.argv = ['xsd_py_gen.py', '-i', f'{inFile}', '-I', f'{inPath}', '-o', f'{outFile}', '-l', f'{logPath}', '-P', f'{python_front}']
 
 import xsd_py_gen
-for no in [0,1,2]:
+for no in [0,1,2,3,4,5,6]:
     process(build_sets[no])
     xsd_py_gen.runtime_parms()
     xsd_py_gen.main()

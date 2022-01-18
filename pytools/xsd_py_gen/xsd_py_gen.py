@@ -6,19 +6,12 @@ try:
     import xml.etree.cElementTree as etree
 except:
     import xml.etree.ElementTree as etree
-from typing import NewType, List, Tuple
-ATTRIB = NewType('ATTRIB', int)
-PSEUDO = NewType('PSEUDO', int)
-ASIS   = NewType('ASIS', int)
 
 PYTHON_FRONT = '''\
 import gends_util as xsd_check
 from datetime import date, datetime, time
-from typing import NewType, List, Tuple
 byte = short = int
-ATTRIB = NewType('ATTRIB', int)
-PSEUDO = NewType('PSEUDO', int)
-ASIS   = NewType('ASIS', int)
+ASIS, ATTRIB, PSEUDO = range(3)
 '''.splitlines()
 
 def runtime_parms():
@@ -559,6 +552,8 @@ class Schema:
             outline(']')
             outline(f'valid = value in elist', 1+ind)
             done = True
+        if done == False:
+          outline('valid = False', 1) 
         outline(f'return valid', 1)
         newline()
     
@@ -651,7 +646,7 @@ class Schema:
             field.isComplex = True
             complex.name = name_of(complex.attrib['name'])
             if field.has_many:
-                field.type = f'List[{complex.name}] ## {complex.name}'
+                field.type = f'[{complex.name}]'
                 field.set_to = '[]'
             else:
                 field.type = f'{complex.name}'
@@ -661,7 +656,7 @@ class Schema:
             complexType = element.complexType
             field.isComplex = True
             if field.has_many:
-                field.type = f'List[{field.name}] ## {base_name}.{field.name}'
+                field.type = f'[{field.name}]'
                 field.set_to = '[]'
             else:
                 field.type = f'{field.name}'
@@ -715,8 +710,10 @@ class Schema:
         if type == None:
             return
         if '[' in type:
-            x = type.replace('[','').replace(']',"").replace('#','').split()
-            type = x[0]
+            p = type.find('[')
+            x = type[p+1:]
+            p = x.find(']')
+            type = x[:p]
         if not type in xs_std_types:
             if not type in self.classes_depends[self.classes_key]:
                 self.classes_depends[self.classes_key].append(type)
@@ -751,9 +748,9 @@ class Schema:
                 attribs.append(attrib)
         for attrib in attribs:
             name, type = attrib.name, attrib.use_as
-            self.classline(f"{name}: Tuple[{type}, ATTRIB)]", ind+1)
+            self.classline(f"{name}: ({type}, ATTRIB))", ind+1)
             self.add_class_depends(type)
-        self.classline(f"value: Tuple[{value_type}, PSEUDO]", ind+1)
+        self.classline(f"value: ({value_type}, PSEUDO)", ind+1)
         self.add_class_depends(value_type)
         self.classline(f'def __init__(self):', ind+1)
         for attrib in attribs:
@@ -804,7 +801,7 @@ class Schema:
                 for attribute in main.attrib_fields:
                     attribs.append(attribute)
             for attribute in attribs:
-                self.classline(f"{attribute.name}: Tuple[{attribute.use_as}, ATTRIB]", ind+1)
+                self.classline(f"{attribute.name}: ({attribute.use_as}, ATTRIB)", ind+1)
             for no, name in elements:
                 element = self.elements[no]
                 base_name = element.basename

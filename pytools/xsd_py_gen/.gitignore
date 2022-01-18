@@ -1,2 +1,4 @@
 build
-__pychache__
+__pycache__
+out
+.vs

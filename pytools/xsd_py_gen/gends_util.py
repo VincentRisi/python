@@ -23,12 +23,8 @@ except:
 from xml.dom import minidom
 from io import BytesIO, StringIO
 import re, sys
-from typing import NewType, List, Tuple
-ATTRIB = NewType('ATTRIB', int)
-PSEUDO = NewType('PSEUDO', int)
-ASIS   = NewType('ASIS', int)
-
 byte = short = int
+ASIS, ATTRIB, PSEUDO = range(3)
 
 def validate(func, value, default=None):
     try:
@@ -342,12 +338,12 @@ def _load_element(cls, element, depth, previous, logfile):
             has_error = True
         return
     annote = annotations[entry_tag]
-    if type(annote) in [Tuple, tuple] and len(annote) == 2:
+    if type(annote) is tuple and len(annote) == 2:
         annote_type, annote_make = annote[0], annote[1]
     else:
         annote_type, annote_make = annote, ASIS 
     field = getattr(cls, entry_tag)
-    if type(field) in [list, List] or type(annote_type) is list:
+    if type(field) is list or type(annote_type) is list:
         field_type = annote_type[0]
     else:
         field_type = annote_type
@@ -405,12 +401,13 @@ def _load_attributes(cls, element, logfile):
             continue
         if 'value' in annotations:
             vnote = annotations['value']
-            if type(vnote) in [Tuple, tuple] and len(vnote) == 2:
+            if type(vnote) is tuple and len(vnote) == 2:
                 vnote_type, vnote_make = vnote[0], vnote[1]
                 if vnote_make is PSEUDO or vnote_make == 'pseudo':
                     setattr(cls, 'value', element.text)
         annote = annotations[attrib]
-        if type(annote) in [Tuple, tuple] and len(annote) == 2:
+        print (annote)
+        if type(annote) is tuple and len(annote) == 2:
             annote_type, annote_make = annote[0], annote[1]
         else:
             annote_type, annote_make = annote, ASIS 
