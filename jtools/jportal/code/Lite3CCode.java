@@ -22,16 +22,24 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Vector;
 
-public class Lite3 extends Generator
+public class Lite3CCode extends jtools.jportal.Generator
 {
+  static public PlaceHolder placeHolder;
+  /**
+   * Build of output data record for standard procedures
+   */
+  static String structName = "";
+
   public static String description()
   {
     return "Generate Lite3 C Code";
   }
+
   public static String documentation()
   {
     return "Generate Lite3 C Code";
   }
+
   /**
    * Padder function
    */
@@ -41,11 +49,12 @@ public class Lite3 extends Generator
       s = s + " ";
     return s + " ";
   }
+
   /**
    * Generates the procedure classes for each table present.
    */
   public static void generate(Database database, String output,
-      PrintWriter outLog)
+                              PrintWriter outLog)
   {
     for (int i = 0; i < database.tables.size(); i++)
     {
@@ -53,11 +62,13 @@ public class Lite3 extends Generator
       generate(table, output, outLog);
     }
   }
+
   static String fileName(String output, String node, String ext)
   {
     node = node.toLowerCase();
     return output + node + ext;
   }
+
   /**
    * Build of standard and user defined procedures
    */
@@ -88,7 +99,8 @@ public class Lite3 extends Generator
           generateInterface(table, outData);
           outData.println("#endif");
           outData.flush();
-        } finally
+        }
+        finally
         {
           outData.flush();
         }
@@ -105,23 +117,23 @@ public class Lite3 extends Generator
           outData.println("#include \"" + fileName("", table.useName().toLowerCase(), ".h") + "\"");
           outData.println();
           generateImplementation(table, outData);
-        } finally
+        }
+        finally
         {
           outData.flush();
         }
-      } finally
+      }
+      finally
       {
         outFile.close();
       }
-    } catch (IOException e1)
+    }
+    catch (IOException e1)
     {
       outLog.println("Generate Procs IO Error");
     }
   }
-  /**
-   * Build of output data record for standard procedures
-   */
-  static String structName = "";
+
   static void generateStdOutputRec(Table table, PrintWriter outData)
   {
     if (table.comments.size() > 0)
@@ -159,6 +171,7 @@ public class Lite3 extends Generator
     outData.println("};");
     outData.println();
   }
+
   /**
    * Build of output data record for user procedures
    */
@@ -185,7 +198,7 @@ public class Lite3 extends Generator
       outData.println("{");
       for (int j = 0; j < fields.size(); j++)
       {
-        Field field = (Field)fields.elementAt(j);
+        Field field = (Field) fields.elementAt(j);
         for (int c = 0; c < field.comments.size(); c++)
         {
           String s = field.comments.elementAt(c);
@@ -194,12 +207,12 @@ public class Lite3 extends Generator
         outData.println("  " + cppVar(field) + ";");
         if (isNull(field))
           outData.println("  "
-              + "int    " + field.useName() + "IsNull;");
+                  + "int    " + field.useName() + "IsNull;");
       }
       fields = proc.inputs;
       for (int j = 0; j < fields.size(); j++)
       {
-        Field field = (Field)fields.elementAt(j);
+        Field field = (Field) fields.elementAt(j);
         if (proc.hasOutput(field.name))
           continue;
         for (int c = 0; c < field.comments.size(); c++)
@@ -225,6 +238,7 @@ public class Lite3 extends Generator
       outData.println();
     }
   }
+
   static void generateInterface(Table table, PrintWriter outData)
   {
     for (int i = 0; i < table.procs.size(); i++)
@@ -235,6 +249,7 @@ public class Lite3 extends Generator
       generateInterface(table, proc, outData);
     }
   }
+
   /**
    * Emits class method for processing the database activity
    */
@@ -263,6 +278,7 @@ public class Lite3 extends Generator
     outData.println("};");
     outData.println();
   }
+
   static void generateImplementation(Table table, PrintWriter outData)
   {
     for (int i = 0; i < table.procs.size(); i++)
@@ -273,14 +289,14 @@ public class Lite3 extends Generator
       generateImplementation(table, proc, outData);
     }
   }
-  static public PlaceHolder placeHolder;
+
   static void generateCommand(Proc proc, PrintWriter outData)
   {
     placeHolder = new PlaceHolder(proc, PlaceHolder.COLON, "");
     Vector lines = placeHolder.getLines();
     if (lines.size() > 0)
     {
-      outData.println("const char* "+proc.table.useName()+proc.upperFirst()+"Command =");
+      outData.println("const char* " + proc.table.useName() + proc.upperFirst() + "Command =");
       for (int i = 0; i < lines.size(); i++)
       {
         String l = (String) lines.elementAt(i);
@@ -291,8 +307,7 @@ public class Lite3 extends Generator
           if (proc.isStrung(l) == true)
             quotes = "'";
           outData.println("\"" + quotes + "[>" + l + "<]" + quotes + "\\n\"");
-        }
-        else
+        } else
           outData.println(l + "\"\\n\"");
       }
       outData.println(";");
@@ -300,6 +315,7 @@ public class Lite3 extends Generator
       outData.println("const int " + proc.table.useName() + proc.upperFirst() + "DynamicSize = " + dynamicsize + ";");
     }
   }
+
   static void generateImplementation(Table table, Proc proc, PrintWriter outData)
   {
     generateCommand(proc, outData);
@@ -325,10 +341,10 @@ public class Lite3 extends Generator
       String nullField = "";
       if (isNull(field) == true)
         nullField = ", &" + field.useName() + "IsNull";
-      outData.println("  query.bind" + bindType(field) + "(" + (i+1)
-        + ", &" + field.useName() + bindLength(field)
-        + nullField
-        + ");");
+      outData.println("  query.bind" + bindType(field) + "(" + (i + 1)
+              + ", &" + field.useName() + bindLength(field)
+              + nullField
+              + ");");
     }
     if (proc.outputs.size() == 0)
     {
@@ -351,9 +367,9 @@ public class Lite3 extends Generator
         if (isNull(field) == true)
           nullField = ", &" + field.useName() + "IsNull";
         outData.println("    query.get" + bindType(field) + "(" + i
-          + ", &" + field.useName() + bindLength(field)
-          + nullField
-          + ");");
+                + ", &" + field.useName() + bindLength(field)
+                + nullField
+                + ");");
       }
       outData.println("  }");
       if (proc.isSingle)
@@ -372,43 +388,45 @@ public class Lite3 extends Generator
       }
     }
   }
+
   static String cppVar(Field field)
   {
     switch (field.type)
     {
-    case Field.BYTE:
-      return "char   " + field.useName();
-    case Field.SHORT:
-      return "short  " + field.useName();
-    case Field.BOOLEAN:
-    case Field.INT:
-    case Field.SEQUENCE:
-    case Field.IDENTITY:
-      return "int    " + field.useName();
-    case Field.LONG:
-      return "long   " + field.useName();
-    case Field.CHAR:
-    case Field.ANSICHAR:
-      return "char   " + field.useName() + "[" + (field.length + 1) + "]";
-    case Field.USERSTAMP:
-      return "char   " + field.useName() + "[51]";
-    case Field.BLOB:
-    case Field.TLOB:
-      return "TJLob  " + field.useName();
-    case Field.DATE:
-      return "char   " + field.useName() + "[9]";
-    case Field.TIME:
-      return "char   " + field.useName() + "[7]";
-    case Field.DATETIME:
-    case Field.TIMESTAMP:
-      return "char   " + field.useName() + "[15]";
-    case Field.FLOAT:
-    case Field.DOUBLE:
-    case Field.MONEY:
-      return "double " + field.useName();
+      case Field.BYTE:
+        return "char   " + field.useName();
+      case Field.SHORT:
+        return "short  " + field.useName();
+      case Field.BOOLEAN:
+      case Field.INT:
+      case Field.SEQUENCE:
+      case Field.IDENTITY:
+        return "int    " + field.useName();
+      case Field.LONG:
+        return "long   " + field.useName();
+      case Field.CHAR:
+      case Field.ANSICHAR:
+        return "char   " + field.useName() + "[" + (field.length + 1) + "]";
+      case Field.USERSTAMP:
+        return "char   " + field.useName() + "[51]";
+      case Field.BLOB:
+      case Field.TLOB:
+        return "TJLob  " + field.useName();
+      case Field.DATE:
+        return "char   " + field.useName() + "[9]";
+      case Field.TIME:
+        return "char   " + field.useName() + "[7]";
+      case Field.DATETIME:
+      case Field.TIMESTAMP:
+        return "char   " + field.useName() + "[15]";
+      case Field.FLOAT:
+      case Field.DOUBLE:
+      case Field.MONEY:
+        return "double " + field.useName();
     }
     return field.useName() + " <unsupported>";
   }
+
   static boolean isNull(Field field)
   {
     if (field.isNull == false)
@@ -434,6 +452,7 @@ public class Lite3 extends Generator
     }
     return false;
   }
+
   static String bindLength(Field field)
   {
     switch (field.type)
@@ -452,6 +471,7 @@ public class Lite3 extends Generator
     }
     return "[0], " + field.length;
   }
+
   static String bindType(Field field)
   {
     switch (field.type)

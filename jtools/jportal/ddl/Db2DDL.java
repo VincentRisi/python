@@ -7,20 +7,25 @@ import java.io.PrintWriter;
 
 import static jtools.jportal.Writer.format;
 
+import jportal.jtools.*;
+
 public class Db2DDL extends Generator
 {
+  public static boolean hasData;
+
   /**
-  * Generates the SQL for DB2 Table creation.
-  */
+   * Generates the SQL for DB2 Table creation.
+   */
   public static String description()
   {
     return "Generate DB2 DDL";
   }
+
   public static String documentation()
   {
     return "Generate DB2 DDL.";
   }
-  public static boolean hasData;
+
   public static void generate(Database database, String output, PrintWriter outLog)
   {
     try
@@ -66,11 +71,13 @@ public class Db2DDL extends Generator
       outLog.println("Generate DB2 SQL IO Error");
     }
   }
+
   static String bSO(int i)
   {
     String x = "" + (101 + i);
     return x.substring(1);
   }
+
   static void generate(Table table, PrintWriter outData)
   {
     String tableOwner = "";
@@ -113,14 +120,12 @@ public class Db2DDL extends Generator
             outData.println();
             outData.print("  IN " + option.substring(11));
             continue;
-          }
-          else if (option.toLowerCase().indexOf("distribute") == 0)
+          } else if (option.toLowerCase().indexOf("distribute") == 0)
           {
             outData.println();
             outData.print("  " + option);
             continue;
-          }
-          else if (option.toLowerCase().indexOf("partition") == 0)
+          } else if (option.toLowerCase().indexOf("partition") == 0)
           {
             outData.println();
             outData.print("  " + option);
@@ -177,13 +182,13 @@ public class Db2DDL extends Generator
         {
           String fieldName = key.fields.elementAt(0);
           int no = table.getFieldIndex(fieldName);
-          if (no != -1) 
+          if (no != -1)
           {
             Field field = table.fields.elementAt(no);
             if (field.type == Field.BIGIDENTITY
-              || field.type == Field.BIGSEQUENCE
-              || field.type == Field.IDENTITY
-              || field.type == Field.SEQUENCE)
+                    || field.type == Field.BIGSEQUENCE
+                    || field.type == Field.IDENTITY
+                    || field.type == Field.SEQUENCE)
               PSH = true;
           }
         }
@@ -206,8 +211,7 @@ public class Db2DDL extends Generator
           outData.println("ALTER TABLE " + tableName);
           generatePrimary(table, key, outData);
           outData.println(";");
-        }
-        else if (key.isUnique)
+        } else if (key.isUnique)
         {
           outData.println("ALTER TABLE " + tableName);
           generateUnique(table, key, outData);
@@ -233,6 +237,7 @@ public class Db2DDL extends Generator
         hasData = true;
     }
   }
+
   static void generateData(Table table, PrintWriter outData)
   {
     for (int i = 0; i < table.procs.size(); i++)
@@ -242,6 +247,7 @@ public class Db2DDL extends Generator
         generate(proc, outData);
     }
   }
+
   static String makeMaxName(String data, int size)
   {
     if (data.length() <= size)
@@ -266,9 +272,10 @@ public class Db2DDL extends Generator
     }
     return data.substring(0, size);
   }
+
   /**
-  * Generates SQL code for DB2 Primary Key create
-  */
+   * Generates SQL code for DB2 Primary Key create
+   */
   static void generatePrimary(Table table, Key key, PrintWriter outData)
   {
     String comma = "( ";
@@ -292,9 +299,10 @@ public class Db2DDL extends Generator
       }
     }
   }
+
   /**
-  * Generates SQL code for DB2 Unique Key create
-  */
+   * Generates SQL code for DB2 Unique Key create
+   */
   static void generateUnique(Table table, Key key, PrintWriter outData)
   {
     String comma = "( ";
@@ -318,13 +326,15 @@ public class Db2DDL extends Generator
       }
     }
   }
+
   /**
-  * Generates SQL code for DB2 Index create
-  */
+   * Generates SQL code for DB2 Index create
+   */
   static void generateIndex(Table table, Key key, PrintWriter outData)
   {
     generateIndexPSH(table, key, outData, false);
   }
+
   static void generateIndexPSH(Table table, Key key, PrintWriter outData, boolean withPSH)
   {
     String tableOwner = "";
@@ -359,9 +369,10 @@ public class Db2DDL extends Generator
     outData.println(";");
     outData.println();
   }
+
   /**
-  * Generates foreign key SQL Code for DB2
-  */
+   * Generates foreign key SQL Code for DB2
+   */
   static void generate(Link link, PrintWriter outData, String tableName, String owner, int no)
   {
     outData.println("ALTER TABLE " + tableName);
@@ -390,9 +401,10 @@ public class Db2DDL extends Generator
     outData.println(";");
     outData.println();
   }
+
   /**
-  * Generates grants for DB2
-  */
+   * Generates grants for DB2
+   */
   static void generate(Grant grant, PrintWriter outData, String object)
   {
     for (int i = 0; i < grant.perms.size(); i++)
@@ -406,9 +418,10 @@ public class Db2DDL extends Generator
       }
     }
   }
+
   /**
-  * Generates views for DB2
-  */
+   * Generates views for DB2
+   */
   static void generate(View view, PrintWriter outData, String tableName, String tableOwner)
   {
     outData.println("DROP VIEW " + tableOwner + tableName + view.name + ";");
@@ -419,7 +432,7 @@ public class Db2DDL extends Generator
       String comma = "( ";
       for (int i = 0; i < view.aliases.size(); i++)
       {
-        String alias = (String)view.aliases.elementAt(i);
+        String alias = (String) view.aliases.elementAt(i);
         outData.println(comma + alias);
         comma = ", ";
       }
@@ -429,21 +442,22 @@ public class Db2DDL extends Generator
     outData.println("(");
     for (int i = 0; i < view.lines.size(); i++)
     {
-      String line = (String)view.lines.elementAt(i);
+      String line = (String) view.lines.elementAt(i);
       outData.println(line);
     }
     outData.println(");");
     outData.println();
     for (int i = 0; i < view.users.size(); i++)
     {
-      String user = (String)view.users.elementAt(i);
+      String user = (String) view.users.elementAt(i);
       outData.println("GRANT SELECT ON " + tableName + view.name + " TO " + user + ";");
     }
     outData.println();
   }
+
   /**
-  * Generates pass through data for DB2
-  */
+   * Generates pass through data for DB2
+   */
   static void generate(Proc proc, PrintWriter outData)
   {
     for (int i = 0; i < proc.lines.size(); i++)
@@ -453,9 +467,10 @@ public class Db2DDL extends Generator
     }
     outData.println();
   }
+
   /**
-  * Translates field type to DB2 SQL column types
-  */
+   * Translates field type to DB2 SQL column types
+   */
   static String varType(Field field)
   {
     switch (field.type)

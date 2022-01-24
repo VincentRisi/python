@@ -11,14 +11,16 @@
 /// ------------------------------------------------------------------
 
 package jtools.crackle;
+
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.Vector;
+
 /**
-*
-*/
+ *
+ */
 public class Module implements Serializable
 {
   //public class Import
@@ -26,6 +28,7 @@ public class Module implements Serializable
   //  Module module;
   //}
   private static final long serialVersionUID = 1L;
+  public static int j2Hash = 1;
   public String sourceName;
   public String name;
   public String version;
@@ -45,6 +48,7 @@ public class Module implements Serializable
   public int codeLine;
   public int codeStart;
   public int messageStart;
+
   public Module()
   {
     sourceName = "";
@@ -67,7 +71,7 @@ public class Module implements Serializable
     codeStart = 0;
     messageStart = 0;
   }
-  public static int j2Hash = 1;
+
   public static int hashCode(String data)
   {
     int h = 0;
@@ -77,27 +81,24 @@ public class Module implements Serializable
     {
       for (int i = 0; i < len; i++)
         h = 31 * h + val[i];
-    }
-    else if (j2Hash == 2) // this is taken from the code from String() - which is incorrectly commented
+    } else if (j2Hash == 2) // this is taken from the code from String() - which is incorrectly commented
     {
       for (int i = 0; i < len; i++)
         h = 31 * h + val[i];
-    }
-    else // this is taken from the code from String() in JDK 1.1.8
+    } else // this is taken from the code from String() in JDK 1.1.8
     {
       int off = 0;
-      if (len < 16) 
+      if (len < 16)
       {
-        for (int i = len ; i > 0; i--) 
+        for (int i = len; i > 0; i--)
         {
-           h = (h * 37) + val[off++];
+          h = (h * 37) + val[off++];
         }
-      } 
-      else 
+      } else
       {
         // only sample some characters
         int skip = len / 8;
-        for (int i = len ; i > 0; i -= skip, off += skip) 
+        for (int i = len; i > 0; i -= skip, off += skip)
         {
           h = (h * 39) + val[off];
         }
@@ -105,12 +106,14 @@ public class Module implements Serializable
     }
     return h;
   }
+
   public void hash(String data)
   {
     countOfHashes++;
     signature += (hashCode(data) * countOfHashes);
     signature = signature % 137731;
   }
+
   public boolean hasStruct(String name)
   {
     for (int i = 0; i < structures.size(); i++)
@@ -121,6 +124,7 @@ public class Module implements Serializable
     }
     return false;
   }
+
   public Structure getStruct(String name)
   {
     for (int i = 0; i < structures.size(); i++)
@@ -131,6 +135,7 @@ public class Module implements Serializable
     }
     return null;
   }
+
   public boolean doCompress()
   {
     boolean result = true;
@@ -145,6 +150,7 @@ public class Module implements Serializable
     }
     return result;
   }
+
   public boolean waitOnKids()
   {
     boolean result = false;
@@ -159,27 +165,30 @@ public class Module implements Serializable
     }
     return result;
   }
+
   public String toString()
   {
     return name;
   }
+
   public Module readRepository(String name, PrintWriter outLog) throws Exception
   {
-    outLog.println("Inputting "+name+".module.repo");
-    ObjectInputStream in = new ObjectInputStream(new FileInputStream(name+".module.repo"));
+    outLog.println("Inputting " + name + ".module.repo");
+    ObjectInputStream in = new ObjectInputStream(new FileInputStream(name + ".module.repo"));
     try
     {
-      Module next = (Module)in.readObject();
+      Module next = (Module) in.readObject();
       return next;
     }
     finally
     {
       in.close();
-    }  
+    }
   }
+
   public boolean hasImport(String in, PrintWriter outLog)
   {
-    for (int i=0; i<imports.size(); i++)
+    for (int i = 0; i < imports.size(); i++)
     {
       String name = (String) imports.elementAt(i);
       if (in.compareTo(name) == 0)
@@ -190,16 +199,18 @@ public class Module implements Serializable
         module = readRepository(in, outLog);
         if (module.hasImport(name, outLog) == true)
           return true;
-      } catch (Exception e)
+      }
+      catch (Exception e)
       {
         e.printStackTrace(outLog);
       }
     }
     return false;
   }
+
   public boolean hasMessage(Message in)
   {
-    for (int i=0; i<messages.size(); i++)
+    for (int i = 0; i < messages.size(); i++)
     {
       Message local = (Message) messages.elementAt(i);
       if (local.name.compareTo(in.name) == 0)
@@ -207,9 +218,10 @@ public class Module implements Serializable
     }
     return false;
   }
+
   public boolean hasTable(Table in)
   {
-    for (int i=0; i<tables.size(); i++)
+    for (int i = 0; i < tables.size(); i++)
     {
       Table local = (Table) tables.elementAt(i);
       if (local.name.compareTo(in.name) == 0)
@@ -217,9 +229,10 @@ public class Module implements Serializable
     }
     return false;
   }
+
   public boolean hasStructure(Structure in)
   {
-    for (int i=0; i<structures.size(); i++)
+    for (int i = 0; i < structures.size(); i++)
     {
       Structure local = (Structure) structures.elementAt(i);
       if (local.name.compareTo(in.name) == 0)
@@ -227,9 +240,10 @@ public class Module implements Serializable
     }
     return false;
   }
+
   public boolean hasEnumerator(Enumerator in)
   {
-    for (int i=0; i<enumerators.size(); i++)
+    for (int i = 0; i < enumerators.size(); i++)
     {
       Enumerator local = (Enumerator) enumerators.elementAt(i);
       if (local.name.compareTo(in.name) == 0)
@@ -237,9 +251,10 @@ public class Module implements Serializable
     }
     return false;
   }
+
   public boolean hasPrototype(Prototype in)
   {
-    for (int i=0; i<prototypes.size(); i++)
+    for (int i = 0; i < prototypes.size(); i++)
     {
       Prototype local = (Prototype) prototypes.elementAt(i);
       if (local.name.compareTo(in.name) == 0)
@@ -247,9 +262,10 @@ public class Module implements Serializable
     }
     return false;
   }
+
   public boolean hasPragma(String in)
   {
-    for (int i=0; i<pragmas.size(); i++)
+    for (int i = 0; i < pragmas.size(); i++)
     {
       String local = (String) pragmas.elementAt(i);
       if (local.compareTo(in) == 0)
@@ -257,66 +273,67 @@ public class Module implements Serializable
     }
     return false;
   }
+
   public Module expand(PrintWriter outLog)
   {
     Module module = this;
     if (imports.size() == 0)
       return module;
-    for (int i=0; i<imports.size(); i++)
+    for (int i = 0; i < imports.size(); i++)
     {
       try
       {
-        Module next = readRepository((String)imports.elementAt(i), outLog);
-        module = next.expand(outLog);  
+        Module next = readRepository((String) imports.elementAt(i), outLog);
+        module = next.expand(outLog);
       }
       catch (Exception e)
       {
         e.printStackTrace(outLog);
         continue;
       }
-      for (int j=0; j<module.messages.size(); j++)
+      for (int j = 0; j < module.messages.size(); j++)
       {
         Message other = (Message) module.messages.elementAt(j);
         if (hasMessage(other) == true)
           continue;
         messages.addElement(other);
       }
-      for (int j=0; j<module.tables.size(); j++)
+      for (int j = 0; j < module.tables.size(); j++)
       {
         Table other = (Table) module.tables.elementAt(j);
         if (hasTable(other) == true)
           continue;
         tables.addElement(other);
       }
-      for (int j=0; j<module.structures.size(); j++)
+      for (int j = 0; j < module.structures.size(); j++)
       {
         Structure other = (Structure) module.structures.elementAt(j);
         if (hasStructure(other) == true)
           continue;
         structures.addElement(other);
       }
-      for (int j=0; j<module.enumerators.size(); j++)
+      for (int j = 0; j < module.enumerators.size(); j++)
       {
         Enumerator other = (Enumerator) module.enumerators.elementAt(j);
         if (hasEnumerator(other) == true)
           continue;
         structures.addElement(other);
       }
-      for (int j=0; j<module.prototypes.size(); j++)
+      for (int j = 0; j < module.prototypes.size(); j++)
       {
         Prototype other = (Prototype) module.prototypes.elementAt(j);
         if (hasPrototype(other) == true)
           continue;
         prototypes.addElement(other);
       }
-      for (int j=0; j<module.pragmas.size(); j++)
+      for (int j = 0; j < module.pragmas.size(); j++)
       {
         String other = (String) module.pragmas.elementAt(j);
         if (hasPragma(other) == true)
           continue;
         pragmas.addElement(other);
       }
-      for (int j=0; j<module.code.size(); j++)
+      for (int j = 0; j < module.code.size(); j++)
       {
         String other = (String) module.code.elementAt(j);
         code.addElement(other);

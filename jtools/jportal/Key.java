@@ -18,27 +18,40 @@ import java.io.Serializable;
 import java.util.Vector;
 
 /**
-*  Keys and Indexes used for the database (if its not primary or unique then it is
-*  an index)
-*/
+ * Keys and Indexes used for the database (if its not primary or unique then it is
+ * an index)
+ */
 public class Key implements Serializable
 {
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 1L;
-  /** Name of index or key */
+  /**
+   * Name of index or key
+   */
   public String name;
-  /** List of fields used in the index or key */
+  /**
+   * List of fields used in the index or key
+   */
   public Vector<String> fields;
   public Vector<String> options;
-  /** Indicates the primary key */
+  /**
+   * Indicates the primary key
+   */
   public boolean isPrimary;
-  /** Indicates the index is unique (not defined if primary key) */
+  /**
+   * Indicates the index is unique (not defined if primary key)
+   */
   public boolean isUnique;
-  /** Indicates the index is clustered (not defined if primary key) */
+  /**
+   * Indicates the index is clustered (not defined if primary key)
+   */
   public boolean isClustered;
-  /** Contructs with default values */
+
+  /**
+   * Contructs with default values
+   */
   public Key()
   {
     name = "";
@@ -48,6 +61,7 @@ public class Key implements Serializable
     isUnique = false;
     isClustered = false;
   }
+
   public void reader(DataInputStream ids) throws IOException
   {
     name = ids.readUTF();
@@ -67,6 +81,7 @@ public class Key implements Serializable
     isUnique = ids.readBoolean();
     isClustered = ids.readBoolean();
   }
+
   public void writer(DataOutputStream ods) throws IOException
   {
     ods.writeUTF(name);
@@ -86,7 +101,10 @@ public class Key implements Serializable
     ods.writeBoolean(isUnique);
     ods.writeBoolean(isClustered);
   }
-  /** Checks if field is already used */
+
+  /**
+   * Checks if field is already used
+   */
   public boolean hasField(String s)
   {
     int i;

@@ -10,6 +10,7 @@
 ///    Vincent Risi
 /// ------------------------------------------------------------------
 package jtools.jportal;
+
 import java.io.PrintWriter;
 import java.util.Vector;
 
@@ -18,21 +19,25 @@ public abstract class Generator
   public static void generate(Database database, String output, PrintWriter outLog)
   {
   }
+
   public static String description()
   {
     return "This description should be implemented in the generator";
   }
+
   public static String documentation()
   {
     return "This documentation should be implemented in the generator";
   }
+
   public static Vector<Flag> flags()
   {
     return null;
   }
-  public static boolean toBoolean(Object value) 
+
+  public static boolean toBoolean(Object value)
   {
     String s = value.toString();
-	  return s.equalsIgnoreCase("true");
+    return s.equalsIgnoreCase("true");
   }
 }

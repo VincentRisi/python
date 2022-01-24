@@ -24,16 +24,8 @@ import java.util.Vector;
 
 import static jtools.jportal.Writer.format;
 
-public class MSSqlDDL extends Generator
+public class MSSqlDDL extends jportal.jtools.Generator
 {
-  public static String description()
-  {
-    return "Generate MSSql DDL";
-  }
-  public static String documentation()
-  {
-    return "Generate MSSql DDL";
-  }
   protected static Vector flagsVector;
   static boolean addTimestamp;
   static boolean useInsertTrigger;
@@ -41,6 +33,19 @@ public class MSSqlDDL extends Generator
   static boolean internalStamps;
   static boolean generate42;
   static boolean auditTrigger;
+  private static String tableOwner;
+  private static String tableSchema;
+
+  public static String description()
+  {
+    return "Generate MSSql DDL";
+  }
+
+  public static String documentation()
+  {
+    return "Generate MSSql DDL";
+  }
+
   private static void flagDefaults()
   {
     addTimestamp = false;
@@ -50,6 +55,7 @@ public class MSSqlDDL extends Generator
     auditTrigger = false;
     generate42 = false;
   }
+
   public static Vector flags()
   {
     if (flagsVector == null)
@@ -65,21 +71,21 @@ public class MSSqlDDL extends Generator
     }
     return flagsVector;
   }
+
   /**
-  * Sets generation flags.
-  */
+   * Sets generation flags.
+   */
   static void setFlags(Database database, PrintWriter outLog)
   {
     if (flagsVector != null)
     {
-      addTimestamp = toBoolean(((Flag)flagsVector.elementAt(0)).value);
-      useInsertTrigger = toBoolean(((Flag)flagsVector.elementAt(1)).value);
-      useUpdateTrigger = toBoolean(((Flag)flagsVector.elementAt(2)).value);
-      internalStamps = toBoolean(((Flag)flagsVector.elementAt(3)).value);
-      generate42 = toBoolean(((Flag)flagsVector.elementAt(4)).value);
-      auditTrigger = toBoolean(((Flag)flagsVector.elementAt(5)).value);
-    }
-    else
+      addTimestamp = toBoolean(((Flag) flagsVector.elementAt(0)).value);
+      useInsertTrigger = toBoolean(((Flag) flagsVector.elementAt(1)).value);
+      useUpdateTrigger = toBoolean(((Flag) flagsVector.elementAt(2)).value);
+      internalStamps = toBoolean(((Flag) flagsVector.elementAt(3)).value);
+      generate42 = toBoolean(((Flag) flagsVector.elementAt(4)).value);
+      auditTrigger = toBoolean(((Flag) flagsVector.elementAt(5)).value);
+    } else
       flagDefaults();
     for (int i = 0; i < database.flags.size(); i++)
     {
@@ -90,8 +96,7 @@ public class MSSqlDDL extends Generator
       {
         useInsertTrigger = true;
         useUpdateTrigger = true;
-      }
-      else if (flag.equalsIgnoreCase("use insert trigger"))
+      } else if (flag.equalsIgnoreCase("use insert trigger"))
         useInsertTrigger = true;
       else if (flag.equalsIgnoreCase("use update trigger"))
         useUpdateTrigger = true;
@@ -115,11 +120,10 @@ public class MSSqlDDL extends Generator
     if (auditTrigger)
       outLog.println(" (audit triggers)");
   }
-  private static String tableOwner;
-  private static String tableSchema;
+
   /**
-  * Generates the SQL for SQLServer Table creation.
-  */
+   * Generates the SQL for SQLServer Table creation.
+   */
   public static void generate(Database database, String output, PrintWriter outLog)
   {
     try
@@ -134,8 +138,7 @@ public class MSSqlDDL extends Generator
       {
         tableOwner = database.schema + ".";
         tableSchema = database.schema;
-      }
-      else
+      } else
       {
         tableOwner = "";
         tableSchema = "";
@@ -163,15 +166,17 @@ public class MSSqlDDL extends Generator
       outLog.println("Generate SQLServer SQL IO Error");
     }
   }
+
   static String useExtra(String name, String extra)
   {
-	String work = name + extra;
-	int last = name.length()-1;
-	if ((name.charAt(0) == '[' && name.charAt(last) == ']')
-   	||  (name.charAt(0) == '\"' && name.charAt(last) == '\"'))
-	  work = name.substring(0, last-1)+extra+name.substring(last);
-	return work;
+    String work = name + extra;
+    int last = name.length() - 1;
+    if ((name.charAt(0) == '[' && name.charAt(last) == ']')
+            || (name.charAt(0) == '\"' && name.charAt(last) == '\"'))
+      work = name.substring(0, last - 1) + extra + name.substring(last);
+    return work;
   }
+
   static void generateAuditTable(Table table, PrintWriter outData)
   {
     String auditName = tableOwner + useExtra(table.useLiteral(), "Audit");
@@ -193,6 +198,7 @@ public class MSSqlDDL extends Generator
     outData.println("GO");
     outData.println();
   }
+
   static void generateAuditTrigger(Table table, PrintWriter outData)
   {
     String triggerName = tableOwner + useExtra(table.useLiteral(), "AuditTrigger");
@@ -236,6 +242,7 @@ public class MSSqlDDL extends Generator
     outData.println("GO");
     outData.println();
   }
+
   static void generateTable(Table table, PrintWriter outData)
   {
     String tableName = tableOwner + table.useLiteral();
@@ -333,13 +340,11 @@ public class MSSqlDDL extends Generator
           {
             outData.println(comma + field.useLiteral() + " = (SELECT MAX(" + field.useLiteral() + ") FROM " + tableName + ")+1");
             comma = ", ";
-          }
-          else if (field.type == Field.USERSTAMP)
+          } else if (field.type == Field.USERSTAMP)
           {
             outData.println(comma + field.useLiteral() + " = USER_NAME()");
             comma = ", ";
-          }
-          else if (field.type == Field.TIMESTAMP)
+          } else if (field.type == Field.TIMESTAMP)
           {
             outData.println(comma + field.useLiteral() + " = GETDATE()");
             comma = ", ";
@@ -377,8 +382,7 @@ public class MSSqlDDL extends Generator
         {
           outData.println(comma + field.useLiteral() + " = USER_NAME()");
           comma = ", ";
-        }
-        else if (field.type == Field.TIMESTAMP)
+        } else if (field.type == Field.TIMESTAMP)
         {
           outData.println(comma + field.useLiteral() + " = GETDATE()");
           comma = ", ";
@@ -415,9 +419,10 @@ public class MSSqlDDL extends Generator
         generateData(proc, outData);
     }
   }
+
   /**
-  * Generates SQL code for SQL Server Index
-  */
+   * Generates SQL code for SQL Server Index
+   */
   static void generateKey(Key key, PrintWriter outData, String table)
   {
     String comma = "  ";
@@ -455,9 +460,10 @@ public class MSSqlDDL extends Generator
       outData.println();
     }
   }
+
   /**
-  * Generates SQL code for ORACLE Primary Key create
-  */
+   * Generates SQL code for ORACLE Primary Key create
+   */
   static void generatePrimary(Key key, String tableName, PrintWriter outData)
   {
     String comma = "    ";
@@ -469,13 +475,14 @@ public class MSSqlDDL extends Generator
     }
     outData.println("  )");
   }
+
   /**
-  * Generates SQL code for ORACLE Unique Key create
-  */
+   * Generates SQL code for ORACLE Unique Key create
+   */
   static void generateUnique(Key key, String tableName, PrintWriter outData)
   {
     String comma = "    ";
-    outData.println(", CONSTRAINT UK_"  + tableName + "_" + key.name + (key.isClustered ? " CLUSTERED UNIQUE (" : " UNIQUE (") );
+    outData.println(", CONSTRAINT UK_" + tableName + "_" + key.name + (key.isClustered ? " CLUSTERED UNIQUE (" : " UNIQUE ("));
     for (int i = 0; i < key.fields.size(); i++, comma = "  , ")
     {
       String name = key.fields.elementAt(i);
@@ -483,9 +490,10 @@ public class MSSqlDDL extends Generator
     }
     outData.println("  )");
   }
+
   /**
-  * Generates foreign key SQL Code appended to table
-  */
+   * Generates foreign key SQL Code appended to table
+   */
   static void generateLink(Link link, String table, PrintWriter outData)
   {
     String comma = "    ";
@@ -512,8 +520,7 @@ public class MSSqlDDL extends Generator
         outData.println(comma + name);
       }
       outData.println("  )");
-    }
-    else
+    } else
     {
       outData.println("  REFERENCES " + link.name);
     }
@@ -527,13 +534,14 @@ public class MSSqlDDL extends Generator
     }
     for (int i = 0; i < link.options.size(); i++)
     {
-      String option = (String)link.options.elementAt(i);
+      String option = (String) link.options.elementAt(i);
       outData.println("    " + option);
     }
   }
+
   /**
-  * Generates foreign key SQL Code for SQL Server
-  */
+   * Generates foreign key SQL Code for SQL Server
+   */
   static void generateSpLink(Link link, PrintWriter outData, String table)
   {
     outData.println("sp_foreignkey " + table + ", " + link.name);
@@ -545,9 +553,10 @@ public class MSSqlDDL extends Generator
     outData.println("GO");
     outData.println();
   }
+
   /**
-  * Generates grant SQL Code for SQL Server
-  */
+   * Generates grant SQL Code for SQL Server
+   */
   static void generateGrant(Grant grant, PrintWriter outData, String object)
   {
     for (int i = 0; i < grant.perms.size(); i++)
@@ -562,12 +571,13 @@ public class MSSqlDDL extends Generator
       }
     }
   }
+
   /**
-  * Generates view SQL Code for SQL Server
-  */
-  private static void generateView(View view, PrintWriter outData, String viewName) 
+   * Generates view SQL Code for SQL Server
+   */
+  private static void generateView(View view, PrintWriter outData, String viewName)
   {
-	outData.println("IF OBJECT_ID('" + viewName + "','V') IS NOT NULL");
+    outData.println("IF OBJECT_ID('" + viewName + "','V') IS NOT NULL");
     outData.println("    DROP VIEW " + viewName);
     outData.println("GO");
     outData.println();
@@ -576,7 +586,7 @@ public class MSSqlDDL extends Generator
     String comma = "  ";
     for (int i = 0; i < view.aliases.size(); i++)
     {
-      String alias = (String)view.aliases.elementAt(i);
+      String alias = (String) view.aliases.elementAt(i);
       outData.println(comma + alias);
       comma = ", ";
     }
@@ -584,7 +594,7 @@ public class MSSqlDDL extends Generator
     outData.println("(");
     for (int i = 0; i < view.lines.size(); i++)
     {
-      String line = (String)view.lines.elementAt(i);
+      String line = (String) view.lines.elementAt(i);
       outData.println(line);
     }
     outData.println(")");
@@ -592,7 +602,7 @@ public class MSSqlDDL extends Generator
     outData.println();
     for (int i = 0; i < view.users.size(); i++)
     {
-      String user = (String)view.users.elementAt(i);
+      String user = (String) view.users.elementAt(i);
       outData.println("GRANT SELECT ON " + viewName + " TO " + user);
     }
     if (view.users.size() > 0)
@@ -601,15 +611,18 @@ public class MSSqlDDL extends Generator
       outData.println();
     }
   }
+
   static void generateView(View view, PrintWriter outData, Table table)
   {
-	String viewName = tableOwner + useExtra(table.useLiteral(), view.name);
+    String viewName = tableOwner + useExtra(table.useLiteral(), view.name);
     generateView(view, outData, viewName);
   }
+
   static void generateView(View view, PrintWriter outData)
   {
     generateView(view, outData, view.name);
   }
+
   static void generateData(Proc proc, PrintWriter outData)
   {
     for (int i = 0; i < proc.lines.size(); i++)
@@ -622,9 +635,10 @@ public class MSSqlDDL extends Generator
     }
     outData.println();
   }
+
   /**
-  * Translates field type to SQLServer SQL column types
-  */
+   * Translates field type to SQLServer SQL column types
+   */
   static String varType(Field field, boolean typeOnly, boolean hasSequenceReturning)
   {
     switch (field.type)
@@ -668,13 +682,13 @@ public class MSSqlDDL extends Generator
       case Field.UTF8:
         int utf8len = (field.length) * 6;
         if (utf8len < 4000)
-           return format("%s NVARCHAR(%d)", field.useLiteral(), utf8len);
+          return format("%s NVARCHAR(%d)", field.useLiteral(), utf8len);
         else
-           return format("%s NVARCHAR(MAX)", field.useLiteral());
+          return format("%s NVARCHAR(MAX)", field.useLiteral());
       case Field.UNICODE:
         int unicodelen = (field.length + 1) * 4;
         if (unicodelen < 4000)
-           return format("%s NVARCHAR2(%d)", field.useLiteral(), unicodelen);
+          return format("%s NVARCHAR2(%d)", field.useLiteral(), unicodelen);
         else
           return format("%s NVARCHAR(MAX)", field.useLiteral());
       case Field.WCHAR:

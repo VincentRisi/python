@@ -19,6 +19,7 @@ import java.io.PrintWriter;
 
 public class PopHTTP extends Generator
 {
+  static final String operations = "'POST'GET'PUT'DELETE'OPTIONS'HEAD'PATCH'TRACE'";
   public static PrintWriter errLog = new PrintWriter(System.out);
 
   public static void generateCExterns(Module module, PrintWriter outData)
@@ -66,72 +67,72 @@ public class PopHTTP extends Generator
         outData.println("  void BuildData(DataBuilder &dBuild, char *name=\"+structure.name+\")");
         outData.println("  {");
         outData.println("    dBuild.name(name);");
-        outData.println("    dBuild.count("+structure.fields.size()+"); // requires _DATABUILD2_H_");
+        outData.println("    dBuild.count(" + structure.fields.size() + "); // requires _DATABUILD2_H_");
         for (int j = 0; j < structure.fields.size(); j++)
         {
           Field field = (Field) structure.fields.elementAt(j);
-          String name=field.name;
+          String name = field.name;
           switch (field.type.typeof)
           {
-          case Type.USERTYPE:
-            break;
-          case Type.CHAR:
-            outData.println("    dBuild.add(\""+name+"\", "+name+", sizeof(" + name + "), \"\");");
-            break;
-          case Type.BYTE:
-          case Type.BOOLEAN:
-          case Type.INT:
-          case Type.SHORT:
-          case Type.LONG:
-          case Type.FLOAT:
-          case Type.DOUBLE:
-            outData.println("    dBuild.add(\""+name+"\", "+name+", \"\");");
-            break;
-          case Type.VOID:
-            break;
-          case Type.STRING:
-            break;
-          case Type.WCHAR:
-            break;
-          default:
-            break;
+            case Type.USERTYPE:
+              break;
+            case Type.CHAR:
+              outData.println("    dBuild.add(\"" + name + "\", " + name + ", sizeof(" + name + "), \"\");");
+              break;
+            case Type.BYTE:
+            case Type.BOOLEAN:
+            case Type.INT:
+            case Type.SHORT:
+            case Type.LONG:
+            case Type.FLOAT:
+            case Type.DOUBLE:
+              outData.println("    dBuild.add(\"" + name + "\", " + name + ", \"\");");
+              break;
+            case Type.VOID:
+              break;
+            case Type.STRING:
+              break;
+            case Type.WCHAR:
+              break;
+            default:
+              break;
           }
         }
         outData.println("  }");
         outData.println("  void SetData(DataBuilder &dBuild, char *name=\"+structure.name+\")");
         outData.println("  {");
         outData.println("    dBuild.name(name);");
-        outData.println("    dBuild.count("+structure.fields.size()+"); // requires _DATABUILD2_H_");
+        outData.println("    dBuild.count(" + structure.fields.size() + "); // requires _DATABUILD2_H_");
         for (int j = 0; j < structure.fields.size(); j++)
         {
           Field field = (Field) structure.fields.elementAt(j);
-          String name=field.name;
+          String name = field.name;
           switch (field.type.typeof)
           {
-          case Type.USERTYPE:
-            break;
-          case Type.CHAR:
-            outData.println("    dBuild.set(\""+name+"\", "+name+", sizeof(" + name + "), \"\");");
-            break;
-          case Type.BYTE:
-          case Type.BOOLEAN:
-            outData.println("    dBuild.set(\""+name+"\", "+name+", sizeof(" + name + "), \"\");");
-            break;
-          case Type.INT:
-          case Type.SHORT:
-          case Type.LONG:
-          case Type.FLOAT:
-          case Type.DOUBLE:
-            outData.println("    dBuild.set(\""+name+"\", "+name+", sizeof(" + name + "), \"\");");
-            break;
-          case Type.VOID:
-            break;
-          case Type.STRING:
-            break;
-          case Type.WCHAR:
-            break;
-          default:
-            break;
+            case Type.USERTYPE:
+              break;
+            case Type.CHAR:
+              outData.println("    dBuild.set(\"" + name + "\", " + name + ", sizeof(" + name + "), \"\");");
+              break;
+            case Type.BYTE:
+            case Type.BOOLEAN:
+              outData.println("    dBuild.set(\"" + name + "\", " + name + ", sizeof(" + name + "), \"\");");
+              break;
+            case Type.INT:
+            case Type.SHORT:
+            case Type.LONG:
+            case Type.FLOAT:
+            case Type.DOUBLE:
+              outData.println("    dBuild.set(\"" + name + "\", " + name + ", sizeof(" + name + "), \"\");");
+              break;
+            case Type.VOID:
+              break;
+            case Type.STRING:
+              break;
+            case Type.WCHAR:
+              break;
+            default:
+              break;
           }
         }
         outData.println("  }");
@@ -192,8 +193,6 @@ public class PopHTTP extends Generator
     }
     outData.println(")");
   }
-  
-  static final String operations = "'POST'GET'PUT'DELETE'OPTIONS'HEAD'PATCH'TRACE'";
 
   public static OpenApi getOpenApi(Module module, Prototype prototype)
   {
@@ -203,9 +202,9 @@ public class PopHTTP extends Generator
       result = new OpenApi();
       String name = prototype.name;
       String lookup = format(" %s:", name);
-      for (int i=0; i<module.pragmas.size();i++)
+      for (int i = 0; i < module.pragmas.size(); i++)
       {
-        String pragma = ((String)module.pragmas.elementAt(i));
+        String pragma = ((String) module.pragmas.elementAt(i));
         if (pragma.contains(lookup) == true)
         {
           String parm = (pragma.substring(lookup.length())).trim();
@@ -235,7 +234,7 @@ public class PopHTTP extends Generator
           else if (typeof.compareTo("TRACE") == 0)
             result.typeof = OpenApi.TRACE;
           if (args.length > 2)
-            result.tags  = args[2];
+            result.tags = args[2];
           result.path = args[1];
           break;
         }

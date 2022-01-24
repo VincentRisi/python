@@ -23,12 +23,14 @@ public class Limit implements Serializable
   public int count;
   public String variable;
   public int size;
+
   public Limit()
   {
     this.count = 0;
     this.variable = null;
     this.size = 0;
   }
+
   public int fetchRowsSize()
   {
     int result = 0;
@@ -42,6 +44,7 @@ public class Limit implements Serializable
     }
     return result;
   }
+
   public String[] fetchRowsLines()
   {
     ArrayList<String> code;
@@ -51,8 +54,7 @@ public class Limit implements Serializable
       code.add(String.format("    strcat(q_.command, \"\\nFETCH FIRST %d ROWS ONLY\");", count));
       var strings = code.toArray(new String[1]);
       return strings;
-    }
-    else
+    } else
     {
       code.add("    strcat(q_.command, \"\\nFETCH FIRST \");");
       code.add(String.format("    strcat(q_.command, %s);", variable));
@@ -61,6 +63,7 @@ public class Limit implements Serializable
       return strings;
     }
   }
+
   public String[] fetchRowsLinesDBApi()
   {
     ArrayList<String> code;
@@ -70,8 +73,7 @@ public class Limit implements Serializable
       code.add(String.format("FETCH FIRST %d ROWS ONLY", count));
       var strings = code.toArray(new String[1]);
       return strings;
-    }
-    else
+    } else
     {
       code.add("FETCH FIRST ");
       code.add(String.format("{self.%s}", variable));
@@ -80,6 +82,7 @@ public class Limit implements Serializable
       return strings;
     }
   }
+
   public int topRowsSize()
   {
     int result = 0;
@@ -92,6 +95,7 @@ public class Limit implements Serializable
     }
     return result;
   }
+
   public String[] topRowsLines()
   {
     ArrayList<String> code;
@@ -101,8 +105,7 @@ public class Limit implements Serializable
       code.add(String.format("    strcat(q_.command, \"TOP %d \");", count));
       var strings = code.toArray(new String[1]);
       return strings;
-    }
-    else
+    } else
     {
       code.add("    strcat(q_.command, \"TOP \");");
       code.add(String.format("    strcat(q_.command, %s);", variable));
@@ -111,6 +114,7 @@ public class Limit implements Serializable
       return strings;
     }
   }
+
   public String[] topRowsLinesDBApi()
   {
     ArrayList<String> code;
@@ -120,8 +124,7 @@ public class Limit implements Serializable
       code.add(String.format("TOP %d ", count));
       var strings = code.toArray(new String[1]);
       return strings;
-    }
-    else
+    } else
     {
       code.add("TOP ");
       code.add(String.format("{self.%s}", variable));
@@ -129,6 +132,7 @@ public class Limit implements Serializable
       return strings;
     }
   }
+
   public int limitRowsSize()
   {
     int result = 0;
@@ -141,6 +145,7 @@ public class Limit implements Serializable
     }
     return result;
   }
+
   public String[] limitRowsLines()
   {
     ArrayList<String> code;
@@ -150,8 +155,7 @@ public class Limit implements Serializable
       code.add(String.format("    strcat(q_.command, \"\\nLIMIT %d \");", count));
       var strings = code.toArray(new String[1]);
       return strings;
-    }
-    else
+    } else
     {
       code.add("    strcat(q_.command, \"\\nLIMIT \");");
       code.add(String.format("    strcat(q_.command, %s);", variable));
@@ -160,6 +164,7 @@ public class Limit implements Serializable
       return strings;
     }
   }
+
   public String[] limitRowsLinesDBApi()
   {
     ArrayList<String> code;
@@ -169,8 +174,7 @@ public class Limit implements Serializable
       code.add(String.format("LIMIT %d ", count));
       var strings = code.toArray(new String[1]);
       return strings;
-    }
-    else
+    } else
     {
       code.add("LIMIT ");
       code.add(String.format("{self.%s} ", variable));

@@ -23,16 +23,18 @@ import java.io.PrintWriter;
 
 import static jtools.jportal.Writer.format;
 
-public class MySqlDDL extends Generator
+public class MySqlDDL extends jportal.jtools.Generator
 {
   public static String description()
   {
     return "Generate MySQL DDL";
   }
+
   public static String documentation()
   {
     return "Generate MySQL DDL.";
   }
+
   /**
    * Generates the SQL for MySQL Table creation.
    */
@@ -64,6 +66,7 @@ public class MySqlDDL extends Generator
       outLog.println("Generate My SQL IO Error");
     }
   }
+
   /**
    * @param database
    * @param table
@@ -155,8 +158,7 @@ public class MySqlDDL extends Generator
           outData.println("ALTER TABLE " + tableOwner + tablename);
           generatePrimary(table, key, outData);
           outData.println(";");
-        }
-        else if (key.isUnique)
+        } else if (key.isUnique)
         {
           outData.println("ALTER TABLE " + tableOwner + tablename);
           generateUnique(table, key, outData);
@@ -185,6 +187,7 @@ public class MySqlDDL extends Generator
         generateProc(proc, outData);
     }
   }
+
   /**
    * @param proc
    * @param outData
@@ -198,6 +201,7 @@ public class MySqlDDL extends Generator
     }
     outData.println();
   }
+
   /**
    * @param link
    * @param outData
@@ -235,6 +239,7 @@ public class MySqlDDL extends Generator
       outData.println("  ON DELETE CASCADE");
     }
   }
+
   /**
    * @param table
    * @param key
@@ -254,6 +259,7 @@ public class MySqlDDL extends Generator
     }
     outData.println("  )");
   }
+
   /**
    * @param table
    * @param key
@@ -282,6 +288,7 @@ public class MySqlDDL extends Generator
     }
     outData.println();
   }
+
   /**
    * @param i
    * @return
@@ -291,6 +298,7 @@ public class MySqlDDL extends Generator
     String x = "" + (101 + i);
     return x.substring(1);
   }
+
   /**
    * @param view
    * @param outData
@@ -304,7 +312,7 @@ public class MySqlDDL extends Generator
       String comma = "( ";
       for (int i = 0; i < view.aliases.size(); i++)
       {
-        String alias = (String)view.aliases.elementAt(i);
+        String alias = (String) view.aliases.elementAt(i);
         outData.println(comma + alias);
         comma = ", ";
       }
@@ -313,18 +321,19 @@ public class MySqlDDL extends Generator
     outData.println("AS (");
     for (int i = 0; i < view.lines.size(); i++)
     {
-      String line = (String)view.lines.elementAt(i);
+      String line = (String) view.lines.elementAt(i);
       outData.println(line);
     }
     outData.println(");");
     outData.println();
     for (int i = 0; i < view.users.size(); i++)
     {
-      String user = (String)view.users.elementAt(i);
+      String user = (String) view.users.elementAt(i);
       outData.println("GRANT SELECT ON " + tableOwner + tableName + view.name + " TO " + user + ";");
     }
     outData.println();
   }
+
   /**
    * @param table
    * @param key
@@ -359,6 +368,7 @@ public class MySqlDDL extends Generator
     outData.println(";");
     outData.println();
   }
+
   /**
    * @param grant
    * @param outData
@@ -378,6 +388,7 @@ public class MySqlDDL extends Generator
       }
     }
   }
+
   /**
    * @param field
    * @return

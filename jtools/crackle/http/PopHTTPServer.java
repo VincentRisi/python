@@ -26,6 +26,8 @@ import java.util.Vector;
 
 public class PopHTTPServer extends Generator
 {
+  private static String database;
+
   public static String description()
   {
     return "Generates HTTP Restful Server Code (AIX|LINUX|WINDOWS)";
@@ -50,12 +52,13 @@ public class PopHTTPServer extends Generator
         generate(module, "", outLog);
       }
       outLog.flush();
-    } catch (Exception e)
+    }
+    catch (Exception e)
     {
       e.printStackTrace();
     }
   }
-  private static String database;
+
   public static void generate(Module module, String output, PrintWriter outLog)
   {
     outLog.println(module.name + " version " + module.version);
@@ -99,14 +102,14 @@ public class PopHTTPServer extends Generator
           Prototype prototype = (Prototype) module.prototypes.elementAt(i);
           if (prototype.name.equals("SlackTimeHandler") == true)
           {
-              hasSlackHandler = true;
-              break;
+            hasSlackHandler = true;
+            break;
           }
         }
         String modName = module.name;
         String lowName = module.name.toLowerCase();
         writeln(
-            "// This code was generated, you may wish to copy it to another source once off and modify the other source.");
+                "// This code was generated, you may wish to copy it to another source once off and modify the other source.");
         writeln(format("#include \"%sserver_http.h\"", lowName));
         writeln("#include \"httpserver.h\"");
         writeln("#include \"getargs.h\"");
@@ -154,8 +157,7 @@ public class PopHTTPServer extends Generator
           writeln(1, "connect.Logon(server.binFileName, server.connectString);");
           writeln(1, "if (server.dbTimeout > 0)");
           writeln(2, "connect.SetTimeout(server.dbTimeout);");
-        }
-        else if (database.equals("cliapi"))
+        } else if (database.equals("cliapi"))
         {
           writeln(1, "tJConnector connect;");
           writeln(1, "connect.Logon(server.user, server.password, server.server);");
@@ -187,8 +189,8 @@ public class PopHTTPServer extends Generator
         writeln(2, "tLogFile logFile(server.LogFileName);");
         writeln(2, "logFile.SetLogLevel(server.logLevel);");
         writeln(2, format(
-            "logFile.lprintf(eLogInfo, \"Version: %%s Signature %%d %1$s(%%s)\", %1$sVersion, %1$sSignature, __DATE__);",
-            modName));
+                "logFile.lprintf(eLogInfo, \"Version: %%s Signature %%d %1$s(%%s)\", %1$sVersion, %1$sSignature, __DATE__);",
+                modName));
         writeln(2, "server.OpenSocket();");
         writeln(2, "server.CreateHandlers(logFile);");
         writeln(2, "return 0;");
@@ -205,18 +207,21 @@ public class PopHTTPServer extends Generator
         writeln(2, "return 1;");
         writeln(1, "}");
         writeln("}");
-      } finally
+      }
+      finally
       {
         writer.flush();
         outFile.close();
       }
-    } catch (IOException e1)
+    }
+    catch (IOException e1)
     {
       outLog.println("Generate Procs IO Error");
       System.out.println(e1);
       System.out.flush();
       e1.printStackTrace();
-    } catch (Throwable e)
+    }
+    catch (Throwable e)
     {
       System.out.println(e);
       System.out.flush();
@@ -249,8 +254,7 @@ public class PopHTTPServer extends Generator
         {
           writeln("#include \"popgen.h\"");
           writeln("#include \"dbportal.h\"");
-        }
-        else if (database.equals("cliapi"))
+        } else if (database.equals("cliapi"))
         {
           writeln("#include \"popgen.h\"");
           writeln("#include \"cliapi.h\"");
@@ -277,24 +281,28 @@ public class PopHTTPServer extends Generator
         writeln("};");
         writeln();
         writeln("#endif");
-      } finally
+      }
+      finally
       {
         writer.flush();
         outFile.close();
       }
-    } catch (IOException e1)
+    }
+    catch (IOException e1)
     {
       outLog.println("Generate Procs IO Error");
       System.out.println(e1);
       System.out.flush();
       e1.printStackTrace();
-    } catch (Throwable e)
+    }
+    catch (Throwable e)
     {
       System.out.println(e);
       System.out.flush();
       e.printStackTrace();
     }
   }
+
   private static boolean generateCServer(Module module, String output, PrintWriter outLog)
   {
     boolean hasCode = false;
@@ -310,7 +318,7 @@ public class PopHTTPServer extends Generator
         writeln("#include \"" + module.name.toLowerCase() + "server_http.h\"");
         writeln();
         writeln("t" + module.name + "Server_http::t" + module.name + "Server_http(t" + module.name + " &a" + module.name
-            + ")");
+                + ")");
         writeln(": " + module.name + "(a" + module.name + ")");
         writeln("{");
         writeln(1, "HTTPServer::restful = true;");
@@ -356,24 +364,23 @@ public class PopHTTPServer extends Generator
               }
               if (noInputs > 0)
               {
-              writeln(1, format("Splitter in_data(%d);", noInputs));
-              writeln(1, "in_data.read(input.c_str(), '|');");
-              writeln(1, "Value input_value;");
-              int no = 0;
-              for (int j = 0; j < prototype.inputs.size(); j++)
-              {
-                Action input = (Action) prototype.inputs.elementAt(j);
-                Field field = input.getParameter(prototype);
-                if (field == null)
-                  continue;
-                genSplitsPySet(field, no);
-                no++;
+                writeln(1, format("Splitter in_data(%d);", noInputs));
+                writeln(1, "in_data.read(input.c_str(), '|');");
+                writeln(1, "Value input_value;");
+                int no = 0;
+                for (int j = 0; j < prototype.inputs.size(); j++)
+                {
+                  Action input = (Action) prototype.inputs.elementAt(j);
+                  Field field = input.getParameter(prototype);
+                  if (field == null)
+                    continue;
+                  genSplitsPySet(field, no);
+                  no++;
+                }
+                writeln(1, "StreamWriterBuilder swb;");
+                writeln(1, "input = writeString(swb, input_value);");
               }
-              writeln(1, "StreamWriterBuilder swb;");
-              writeln(1, "input = writeString(swb, input_value);");
-              }
-            }
-            else
+            } else
               genValidateInputString(prototype);
             writeln(1, format("string scriptName = \"%s\";", prototype.name));
             writeln(1, format("if (%s.runPython)", module.name));
@@ -420,14 +427,14 @@ public class PopHTTPServer extends Generator
         writeln("}");
         writeln();
         writeln(0,
-            "void t" + module.name + "Server_http::ServiceClient(const char* name, string input, string &output)");
+                "void t" + module.name + "Server_http::ServiceClient(const char* name, string input, string &output)");
         writeln(0, "{");
         writeln(1, "try");
         writeln(1, "{");
         writeln(2, format("t%1$sEntry item = { name, (e%1$sFunc) 0 };", module.name));
         writeln(2, format(
-            "t%1$sEntry* found = (t%1$sEntry*)bsearch(&item, %1$sEntries, no_entries, sizeof(t%1$sEntry), _compare);",
-            module.name));
+                "t%1$sEntry* found = (t%1$sEntry*)bsearch(&item, %1$sEntries, no_entries, sizeof(t%1$sEntry), _compare);",
+                module.name));
         writeln(2, "if (found != 0) switch (found->function)");
         writeln(2, "{");
         for (int i = 0; i < vector.size(); i++)
@@ -440,22 +447,25 @@ public class PopHTTPServer extends Generator
         writeln(1, "catch (xCept &x)");
         writeln(1, "{");
         writeln(2,
-            format("%s.LogFile.lprintf(eLogError, \"\\n%%s\\n%%s\", input.c_str(), x.ErrorStr());", module.name));
+                format("%s.LogFile.lprintf(eLogError, \"\\n%%s\\n%%s\", input.c_str(), x.ErrorStr());", module.name));
         writeln(2, "throw;");
         writeln(1, "}");
         writeln(0, "}");
-      } finally
+      }
+      finally
       {
         writer.flush();
         outFile.close();
       }
-    } catch (IOException e1)
+    }
+    catch (IOException e1)
     {
       outLog.println("Generate Procs IO Error");
       System.out.println(e1);
       System.out.flush();
       e1.printStackTrace();
-    } catch (Throwable e)
+    }
+    catch (Throwable e)
     {
       System.out.println(e);
       System.out.flush();
@@ -468,59 +478,59 @@ public class PopHTTPServer extends Generator
   {
     switch (field.type.typeof)// == Type.CHAR)
     {
-    case Type.CHAR:
-    case Type.STRING:
-      writeln(1, format("char %s[256];", field.name));
-      writeln(1, format("in_data.toch(%s, 256, %d);", field.name, no));
-      break;
-    case Type.BYTE:
-    case Type.BOOLEAN:
-    case Type.SHORT:
-      writeln(1, format("int16 %s;", field.name));
-      writeln(1, format("in_data.tos(&%s, %d);", field.name, no));
-      break;
-    case Type.INT:
-      writeln(1, format("int32 %s;", field.name));
-      writeln(1, format("in_data.toi(&%s, %d);", field.name, no));
-      break;
-    case Type.LONG:
-      writeln(1, format("int64 %s;", field.name));
-      writeln(1, format("in_data.tol(&%s, %d);", field.name, no));
-      break;
-    case Type.FLOAT:
-    case Type.DOUBLE:
-      writeln(1, format("double %s;", field.name));
-      writeln(1, format("in_data.tof(&%s, %d);", field.name, no));
-      break;
+      case Type.CHAR:
+      case Type.STRING:
+        writeln(1, format("char %s[256];", field.name));
+        writeln(1, format("in_data.toch(%s, 256, %d);", field.name, no));
+        break;
+      case Type.BYTE:
+      case Type.BOOLEAN:
+      case Type.SHORT:
+        writeln(1, format("int16 %s;", field.name));
+        writeln(1, format("in_data.tos(&%s, %d);", field.name, no));
+        break;
+      case Type.INT:
+        writeln(1, format("int32 %s;", field.name));
+        writeln(1, format("in_data.toi(&%s, %d);", field.name, no));
+        break;
+      case Type.LONG:
+        writeln(1, format("int64 %s;", field.name));
+        writeln(1, format("in_data.tol(&%s, %d);", field.name, no));
+        break;
+      case Type.FLOAT:
+      case Type.DOUBLE:
+        writeln(1, format("double %s;", field.name));
+        writeln(1, format("in_data.tof(&%s, %d);", field.name, no));
+        break;
     }
     writeln(1, format("input_value[\"%1$s\"] = %1$s;", field.name));
-}
-  
+  }
+
   private static String getName(String string)
   {
     int i = string.indexOf('|');
     if (i == -1) return string;
-    return string.substring(i+1);
+    return string.substring(i + 1);
   }
 
   private static String getPath(String string)
   {
     int i = string.indexOf('|');
     if (i == -1) return string;
-    String path=string.substring(0, i);
-    for (;;)
+    String path = string.substring(0, i);
+    for (; ; )
     {
       int j = path.indexOf('{');
       if (j == -1)
         break;
       int k = path.indexOf('}');
-      if (k < j) 
+      if (k < j)
         break;
-      path = path.replace(path.substring(j, k+1),"?");
+      path = path.replace(path.substring(j, k + 1), "?");
     }
     return path;
   }
-  
+
   private static void generateCServer(Module module, Prototype prototype, int no)
   {
     int noInputs = 0;
@@ -598,7 +608,8 @@ public class PopHTTPServer extends Generator
             writeln(2, format("%s &rec = %s.arr[o%d];", name_of(module, field.type.name), field.name, i));
             makeValueRec("rec", 2);
             writeln(2, format("%s_array[o%d] = rec_out;", field.name, i));
-            writeln(1, "}");            writeln(1, format("output_value[\"%1$s\"] = %1$s_array;", field.name));
+            writeln(1, "}");
+            writeln(1, format("output_value[\"%1$s\"] = %1$s_array;", field.name));
           } else if (field.type.typeof == Type.CHAR)
           {
             writeln(1, "output_value[\"" + field.name + "\"] = " + field.name + ".arr;");
@@ -619,7 +630,7 @@ public class PopHTTPServer extends Generator
               writeln(1, "output_value[\"" + field.name + "\"] = " + field.name + "_out;");
             } else
             {
-            writeln(1, "output_value[\"" + field.name + "\"] = " + field.name + ";");
+              writeln(1, "output_value[\"" + field.name + "\"] = " + field.name + ";");
             }
             continue;
           }
@@ -631,7 +642,8 @@ public class PopHTTPServer extends Generator
             writeln(2, format("%s &rec = %s.arr[o%d];", name_of(module, field.type.name), field.name, i));
             makeValueRec("rec", 2);
             writeln(2, format("%s_outarray[o%d] = rec_out;", field.name, i));
-            writeln(1, "}");            writeln(1, format("output_value[\"%1$s\"] = %1$s_outarray;", field.name));
+            writeln(1, "}");
+            writeln(1, format("output_value[\"%1$s\"] = %1$s_outarray;", field.name));
           } else if (field.type.typeof == Type.CHAR)
           {
             writeln(1, "output_value[\"" + field.name + "\"] = " + field.name + ".arr;");
@@ -677,48 +689,50 @@ public class PopHTTPServer extends Generator
       no++;
     }
   }
+
   private static String inout(Field field)
   {
     if (field.isOutput)
-      return "&"+field.name;
+      return "&" + field.name;
     return field.name;
   }
+
   private static void genSplitsSet(Vector<Argument> input_args, Field field, int no)
   {
     switch (field.type.typeof)// == Type.CHAR)
     {
-    case Type.CHAR:
-    case Type.STRING:
-      writeln(1, format("char %s[256];", field.name));
-      writeln(1, format("in_data.toch(%s, 256, %d);", field.name, no));
-      input_args.addElement(new Argument(field, field.name));
-      break;
-    case Type.BYTE:
-    case Type.BOOLEAN:
-    case Type.SHORT:
-      writeln(1, format("int16 %s;", field.name));
-      writeln(1, format("in_data.tos(&%s, %d);", field.name, no));
-      input_args.addElement(new Argument(field, inout(field)));
-      break;
-    case Type.INT:
-      writeln(1, format("int32 %s;", field.name));
-      writeln(1, format("in_data.toi(&%s, %d);", field.name, no));
-      input_args.addElement(new Argument(field, inout(field)));
-      break;
-    case Type.LONG:
-      writeln(1, format("int64 %s;", field.name));
-      writeln(1, format("in_data.tol(&%s, %d);", field.name, no));
-      input_args.addElement(new Argument(field, inout(field)));
-      break;
-    case Type.FLOAT:
-    case Type.DOUBLE:
-      writeln(1, format("double %s;", field.name));
-      writeln(1, format("in_data.tof(&%s, %d);", field.name, no));
-      input_args.addElement(new Argument(field, inout(field)));
-      break;
+      case Type.CHAR:
+      case Type.STRING:
+        writeln(1, format("char %s[256];", field.name));
+        writeln(1, format("in_data.toch(%s, 256, %d);", field.name, no));
+        input_args.addElement(new Argument(field, field.name));
+        break;
+      case Type.BYTE:
+      case Type.BOOLEAN:
+      case Type.SHORT:
+        writeln(1, format("int16 %s;", field.name));
+        writeln(1, format("in_data.tos(&%s, %d);", field.name, no));
+        input_args.addElement(new Argument(field, inout(field)));
+        break;
+      case Type.INT:
+        writeln(1, format("int32 %s;", field.name));
+        writeln(1, format("in_data.toi(&%s, %d);", field.name, no));
+        input_args.addElement(new Argument(field, inout(field)));
+        break;
+      case Type.LONG:
+        writeln(1, format("int64 %s;", field.name));
+        writeln(1, format("in_data.tol(&%s, %d);", field.name, no));
+        input_args.addElement(new Argument(field, inout(field)));
+        break;
+      case Type.FLOAT:
+      case Type.DOUBLE:
+        writeln(1, format("double %s;", field.name));
+        writeln(1, format("in_data.tof(&%s, %d);", field.name, no));
+        input_args.addElement(new Argument(field, inout(field)));
+        break;
     }
   }
-  
+
   private static void genInput(Module module, Prototype prototype, Vector<Argument> input_args)
   {
     genValidateInputString(prototype);
@@ -755,7 +769,7 @@ public class PopHTTPServer extends Generator
         if (field == null)
           continue;
         if (ifor == true)
-           write(1, "if (");
+          write(1, "if (");
         else
         {
           writeln();
@@ -790,9 +804,9 @@ public class PopHTTPServer extends Generator
       input_args.addElement(new Argument(field, field.name));
     }
   }
-  
+
   private static void genInputByPtr(Vector<Argument> input_args, int i, Action input, Field field, Operation op,
-      String fieldTypeName)
+                                    String fieldTypeName)
   {
     if (input.hasSize() == false)
     {
@@ -992,21 +1006,21 @@ public class PopHTTPServer extends Generator
   {
     switch (field.type.typeof)
     {
-    case Type.CHAR:
-    case Type.STRING:
-      return ".asString()";
-    case Type.BYTE:
-    case Type.BOOLEAN:
-    case Type.INT:
-    case Type.SHORT:
-      return ".asInt()";
-    case Type.LONG:
-      return ".asInt64()";
-    case Type.FLOAT:
-    case Type.DOUBLE:
-      return ".asDouble()";
-    default:
-      break;
+      case Type.CHAR:
+      case Type.STRING:
+        return ".asString()";
+      case Type.BYTE:
+      case Type.BOOLEAN:
+      case Type.INT:
+      case Type.SHORT:
+        return ".asInt()";
+      case Type.LONG:
+        return ".asInt64()";
+      case Type.FLOAT:
+      case Type.DOUBLE:
+        return ".asDouble()";
+      default:
+        break;
     }
     return "";
   }

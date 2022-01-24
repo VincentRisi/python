@@ -11,6 +11,7 @@
 /// ------------------------------------------------------------------
 
 package jtools.crackle;
+
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -19,39 +20,32 @@ import java.util.Vector;
 
 public abstract class Generator extends Writer
 {
+  protected static Vector<Pragma> pragmaVector;
+  private static Properties moduleProperties;
+
+  {
+    pragmaVector = new Vector<Pragma>();
+  }
+
   public static void generate(Module module, String output, PrintWriter outLog)
   {
   }
+
   public static String description()
   {
     return "This description should be implemented in the generator";
   }
+
   public static String documentation()
   {
     return "This documentation should be implemented in the generator";
   }
-  public static class Pragma
-  {
-    public String name;
-    public boolean value;
-    public String description;
-    public Pragma(String name, boolean value, String description)
-    {
-      this.name = name;
-      this.value = value;
-      this.description = description;
-    }
-  }
-  protected static Vector<Pragma> pragmaVector;
-  {
-    pragmaVector = new Vector<Pragma>();
-  }
+
   public static Vector<Pragma> pragma()
   {
     return pragmaVector;
   }
 
-  private static Properties moduleProperties;
   public static void loadProperties(Module module, String path)
   {
     try
@@ -60,11 +54,13 @@ public abstract class Generator extends Writer
       InputStream input = new FileInputStream(propertiesName);
       moduleProperties = new Properties();
       moduleProperties.load(input);
-    } catch (Exception ex)
+    }
+    catch (Exception ex)
     {
       moduleProperties = null;
     }
   }
+
   public static String getProperty(String propName, String propDefault)
   {
     if (moduleProperties == null)
@@ -73,5 +69,19 @@ public abstract class Generator extends Writer
     if (propValue == null)
       return propDefault;
     return propValue;
+  }
+
+  public static class Pragma
+  {
+    public String name;
+    public boolean value;
+    public String description;
+
+    public Pragma(String name, boolean value, String description)
+    {
+      this.name = name;
+      this.value = value;
+      this.description = description;
+    }
   }
 }

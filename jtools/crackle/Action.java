@@ -21,20 +21,23 @@ import java.util.Vector;
 public class Action implements Serializable
 {
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 1L;
   public String name;
   public Vector operations;
+
   public Action()
   {
     name = "";
     operations = new Vector();
   }
+
   public void addOperation(Operation operation)
   {
     operations.addElement(operation);
   }
+
   public boolean hasParameter(Prototype prototype)
   {
     Field parameter;
@@ -45,6 +48,7 @@ public class Action implements Serializable
     }
     return false;
   }
+
   public Field getParameter(Prototype prototype)
   {
     Field parameter;
@@ -55,6 +59,7 @@ public class Action implements Serializable
     }
     return null;
   }
+
   public boolean hasSize()
   {
     for (int i = 0; i < operations.size(); i++)
@@ -64,6 +69,7 @@ public class Action implements Serializable
     }
     return false;
   }
+
   public String getSizeName()
   {
     for (int i = 0; i < operations.size(); i++)
@@ -73,6 +79,7 @@ public class Action implements Serializable
     }
     return "";
   }
+
   public Operation sizeOperation()
   {
     for (int i = 0; i < operations.size(); i++)

@@ -55,6 +55,7 @@ public class Table implements Serializable
   public boolean isStoredProc;
   public boolean isLiteral;
   public int start;
+
   public Table()
   {
     name = "";
@@ -91,10 +92,78 @@ public class Table implements Serializable
     isLiteral = false;
     start = 0;
   }
+
+  static boolean isIdentity(Field field)
+  {
+    return field.type == Field.BIGIDENTITY || field.type == Field.IDENTITY;
+  }
+
+  public static boolean isSequence(Field field)
+  {
+    return field.type == Field.BIGSEQUENCE || field.type == Field.SEQUENCE;
+  }
+
+  /**
+   * Translates field type to DB2 SQL column types
+   */
+  static String varType(Field field)
+  {
+    switch (field.type)
+    {
+      case Field.BYTE:
+        return "SMALLINT";
+      case Field.SHORT:
+        return "SMALLINT";
+      case Field.INT:
+      case Field.SEQUENCE:
+      case Field.IDENTITY:
+        return "INT";
+      case Field.LONG:
+      case Field.BIGSEQUENCE:
+      case Field.BIGIDENTITY:
+        return "BIGINT";
+      case Field.CHAR:
+        if (field.length > 32762)
+          return "CLOB(" + field.length + ")";
+        else
+          return "VARCHAR(" + field.length + ")";
+      case Field.ANSICHAR:
+        return "CHAR(" + field.length + ")";
+      case Field.DATE:
+        return "DATE";
+      case Field.DATETIME:
+        return "TIMESTAMP";
+      case Field.TIME:
+        return "TIME";
+      case Field.TIMESTAMP:
+      case Field.AUTOTIMESTAMP:
+        return "TIMESTAMP";
+      case Field.FLOAT:
+      case Field.DOUBLE:
+        if (field.scale != 0)
+          return "DECIMAL(" + field.precision + ", " + field.scale + ")";
+        else if (field.precision != 0)
+          return "DECIMAL(" + field.precision + ", 0)";
+        return "DOUBLE";
+      case Field.BLOB:
+        return "BLOB(" + field.length + ")";
+      case Field.TLOB:
+        return "CLOB(" + field.length + ")";
+      case Field.MONEY:
+        return "DECIMAL(18,2)";
+      case Field.USERSTAMP:
+        return "VARCHAR(50)";
+      case Field.XML:
+        return "XML";
+    }
+    return "unknown";
+  }
+
   public void reader(DataInputStream ids) throws IOException
   {
     reader(ids, null);
   }
+
   public void reader(DataInputStream ids, Vector useProcs) throws IOException
   {
     int signature = ids.readInt();
@@ -208,6 +277,7 @@ public class Table implements Serializable
     isLiteral = ids.readBoolean();
     start = ids.readInt();
   }
+
   public void writer(DataOutputStream ods) throws IOException
   {
     ods.writeInt(0xBABA00D);
@@ -309,49 +379,55 @@ public class Table implements Serializable
     ods.writeBoolean(isLiteral);
     ods.writeInt(start);
   }
-  /** If there is an literal uses that else returns name 
+
+  /**
+   * If there is an literal uses that else returns name
    * optional inString defaults to false
-   * returning escaped quotes or double quotes 
-   * */
+   * returning escaped quotes or double quotes
+   */
   public String useLiteral()
   {
     return useLiteral(false);
   }
+
   public String useLiteral(boolean inString)
   {
     if (isLiteral)
     {
       if (inString)
       {
-        char first = literalName.charAt(0); 
-        int no = literalName.length()-1;
+        char first = literalName.charAt(0);
+        int no = literalName.length() - 1;
         char last = literalName.charAt(no);
         if (no > 0 && first == last)
           if (first == '"' || first == '\'')
-            return "\\"+literalName.substring(0, no)+"\\"+last;
+            return "\\" + literalName.substring(0, no) + "\\" + last;
       }
       return literalName;
     }
     return name;
   }
+
   public String fixEscape()
   {
-	String result = useLiteral(false);
-	if (result.charAt(0) == '[')
-	  result = result.replace('[', '"').replace(']', '"');
-	else if (result.charAt(0) == '`')
-	  result = result.replace('`', '"');
-	return result;
+    String result = useLiteral(false);
+    if (result.charAt(0) == '[')
+      result = result.replace('[', '"').replace(']', '"');
+    else if (result.charAt(0) == '`')
+      result = result.replace('`', '"');
+    return result;
   }
+
   public String useExtra(String extra)
   {
-	String name = fixEscape(); 
+    String name = fixEscape();
     String work = name + extra;
-	int last = name.length()-1;
-	if (name.charAt(0) == '\"' && name.charAt(last) == '\"')
-	  work = name.substring(0, last-1)+extra+name.substring(last);
-	return work;
+    int last = name.length() - 1;
+    if (name.charAt(0) == '\"' && name.charAt(last) == '\"')
+      work = name.substring(0, last - 1) + extra + name.substring(last);
+    return work;
   }
+
   /**
    * If there is an alias uses that else returns name
    */
@@ -361,29 +437,32 @@ public class Table implements Serializable
       return alias;
     return name;
   }
+
   /**
    * Checks for the existence of a with
    */
   public boolean hasWith(String s)
   {
-	for (int i=0; i < withs.size(); i++)
-	{
-	  With with = withs.elementAt(i);
+    for (int i = 0; i < withs.size(); i++)
+    {
+      With with = withs.elementAt(i);
       if (with.name.equalsIgnoreCase(s))
-          return true;
-	}
-	return false;  
+        return true;
+    }
+    return false;
   }
+
   public With getWith(String s)
   {
-    for (int i=0; i < withs.size(); i++)
+    for (int i = 0; i < withs.size(); i++)
     {
       With with = withs.elementAt(i);
       if (with.name.equalsIgnoreCase(s))
         return with;
-		}
-		return null;  
+    }
+    return null;
   }
+
   /**
    * Checks for the existence of a field
    */
@@ -398,6 +477,7 @@ public class Table implements Serializable
     }
     return false;
   }
+
   public Field getField(String s)
   {
     int i;
@@ -409,6 +489,7 @@ public class Table implements Serializable
     }
     return null;
   }
+
   public int getFieldIndex(String s)
   {
     int i;
@@ -420,6 +501,7 @@ public class Table implements Serializable
     }
     return -1;
   }
+
   /**
    * Checks if table field is declared as null
    */
@@ -434,6 +516,7 @@ public class Table implements Serializable
     }
     return false;
   }
+
   /**
    * Checks for the existence of a proc
    */
@@ -447,6 +530,7 @@ public class Table implements Serializable
     }
     return false;
   }
+
   /**
    * Returns proc or null
    */
@@ -460,6 +544,7 @@ public class Table implements Serializable
     }
     return null;
   }
+
   /**
    * Checks for the existence of a proc
    */
@@ -473,6 +558,7 @@ public class Table implements Serializable
     }
     return false;
   }
+
   /**
    * Sets a field to be primary key
    */
@@ -489,12 +575,14 @@ public class Table implements Serializable
       }
     }
   }
+
   public String tableName()
   {
     if (database.schema.length() == 0)
       return useLiteral(true);
     return database.schema + "." + useLiteral(true);
   }
+
   /**
    * Builds a merge proc generated as part of standard record class
    */
@@ -515,7 +603,7 @@ public class Table implements Serializable
       proc.lines.addElement(new Line(comma + field.name));
       comma = ", ";
     }
-    proc.lines.addElement(new Line(" from with_" + proc.table.name +") as temp_" + proc.table.name));
+    proc.lines.addElement(new Line(" from with_" + proc.table.name + ") as temp_" + proc.table.name));
     front = " on (";
     for (i = 0; i < fields.size(); i++)
     {
@@ -523,7 +611,7 @@ public class Table implements Serializable
       if (field.isPrimaryKey == true)
       {
         proc.lines.addElement(new Line(front + name + "." + field.useLiteral(true)
-            + " = temp_" + proc.table.name + "." + field.useLiteral(true)));
+                + " = temp_" + proc.table.name + "." + field.useLiteral(true)));
         front = " and ";
       }
     }
@@ -537,7 +625,7 @@ public class Table implements Serializable
       if (field.isPrimaryKey == false)
       {
         proc.lines.addElement(new Line(comma + name + "." + field.useLiteral(true)
-            + " = temp_" + proc.table.name + "." + field.useLiteral(true)));
+                + " = temp_" + proc.table.name + "." + field.useLiteral(true)));
         comma = ", ";
       }
     }
@@ -563,14 +651,7 @@ public class Table implements Serializable
     }
     proc.lines.addElement(new Line(")"));
   }
-  static boolean isIdentity(Field field)
-  {
-    return field.type == Field.BIGIDENTITY || field.type == Field.IDENTITY;
-  }
-  public static boolean isSequence(Field field)
-  {
-    return field.type == Field.BIGSEQUENCE || field.type == Field.SEQUENCE;
-  }
+
   /**
    * Builds an insert proc generated as part of standard record class
    */
@@ -643,8 +724,7 @@ public class Table implements Serializable
       {
         proc.lines.addElement(new Line(line + " :" + field.useLiteral(true) + comma));
         continue;
-      }
-      else
+      } else
         proc.lines.addElement(new Line(line + " :" + field.useLiteral(true) + comma));
       line = "  ";
     }
@@ -652,6 +732,7 @@ public class Table implements Serializable
     if (proc.hasReturning)
       proc.lines.add(new Line("_ret.tail", true));
   }
+
   /**
    * Builds an insert proc generated as part of standard record class
    */
@@ -660,6 +741,7 @@ public class Table implements Serializable
     proc.isMultipleInput = true;
     buildInsert(proc);
   }
+
   /**
    * Builds an identity proc generated as part of standard record class
    */
@@ -680,6 +762,7 @@ public class Table implements Serializable
       proc.lines.addElement(new Line(line));
     }
   }
+
   /**
    * Builds an update proc generated as part of standard record class
    */
@@ -703,7 +786,7 @@ public class Table implements Serializable
       else
         line = ", ";
       j++;
-      proc.lines.addElement(new Line(line + field.useLiteral(true) + " = :"+ field.useLiteral(true)));
+      proc.lines.addElement(new Line(line + field.useLiteral(true) + " = :" + field.useLiteral(true)));
 
     }
     for (i = 0, j = 0; i < fields.size(); i++)
@@ -717,13 +800,14 @@ public class Table implements Serializable
         else
           line = "   and ";
         j++;
-        line = line + field.useLiteral(true) + " = :"+ field.useLiteral(true);
+        line = line + field.useLiteral(true) + " = :" + field.useLiteral(true);
         proc.lines.addElement(new Line(line));
       }
     }
     if (proc.hasReturning)
       proc.lines.add(new Line("_ret.tail", true));
   }
+
   /**
    * Builds an update proc generated as part of standard record class
    */
@@ -853,6 +937,7 @@ public class Table implements Serializable
     if (proc.hasReturning)
       proc.lines.add(new Line("_ret.tail", true));
   }
+
   private void AddTimeStampUserStamp(Proc proc)
   {
     int k;
@@ -885,6 +970,7 @@ public class Table implements Serializable
       }
     }
   }
+
   /**
    * Builds an update proc generated as part of standard record class
    */
@@ -893,6 +979,7 @@ public class Table implements Serializable
     proc.isMultipleInput = true;
     buildUpdate(proc);
   }
+
   /**
    * Builds a delete by primary key proc
    */
@@ -921,6 +1008,7 @@ public class Table implements Serializable
     if (proc.hasReturning)
       proc.lines.add(new Line("_ret.tail", true));
   }
+
   /**
    * Builds a delete all rows proc
    */
@@ -932,6 +1020,7 @@ public class Table implements Serializable
     if (proc.hasReturning)
       proc.lines.add(new Line("_ret.tail", true));
   }
+
   /**
    * Builds a count rows proc
    */
@@ -947,6 +1036,7 @@ public class Table implements Serializable
     proc.outputs.addElement(noOf);
     proc.lines.addElement(new Line("select count(*) noOf from " + name));
   }
+
   /**
    * Builds a check for primary key existance proc
    */
@@ -979,6 +1069,7 @@ public class Table implements Serializable
       }
     }
   }
+
   /**
    * Builds a select on primary key proc
    */
@@ -1026,6 +1117,7 @@ public class Table implements Serializable
     else if (readonly)
       proc.lines.addElement(new Line(" for read only"));
   }
+
   /**
    * Builds a select on primary key proc
    */
@@ -1048,6 +1140,7 @@ public class Table implements Serializable
     }
     proc.lines.addElement(new Line(" from " + name));
   }
+
   /**
    * Builds a select all rows proc
    */
@@ -1073,6 +1166,7 @@ public class Table implements Serializable
     selectFor(proc, update, readonly);
     selectOrderBy(proc, inOrder, descending);
   }
+
   private void selectOrderBy(Proc proc, boolean inOrder, boolean descending)
   {
     int i, n;
@@ -1103,6 +1197,7 @@ public class Table implements Serializable
       proc.lines.addElement(new Line(line + fieldName + tail));
     }
   }
+
   private void selectFor(Proc proc, boolean update, boolean readonly)
   {
     if (update)
@@ -1110,6 +1205,7 @@ public class Table implements Serializable
     else if (readonly)
       proc.lines.addElement(new Line(" for read only"));
   }
+
   public void buildDeleteBy(Proc proc, PrintWriter outLog)
   {
     String name = tableName();
@@ -1145,8 +1241,9 @@ public class Table implements Serializable
       throw new Error("Error generating buildDeleteBy");
     }
   }
+
   public void buildSelectBy(Proc proc, boolean forUpdate, boolean forReadOnly, boolean inOrder, boolean descending,
-      PrintWriter outLog)
+                            PrintWriter outLog)
   {
     String name = tableName();
     int i, j, k;
@@ -1212,6 +1309,7 @@ public class Table implements Serializable
     }
     selectOrderBy(proc, inOrder, descending);
   }
+
   public void buildSelectFrom(Proc proc, Table table, PrintWriter outLog)
   {
     String name = tableName();
@@ -1298,10 +1396,12 @@ public class Table implements Serializable
       }
     }
   }
+
   public String toString()
   {
     return name;
   }
+
   private String set(String a, String b, String what, PrintWriter outLog)
   {
     if (a.length() == 0)
@@ -1310,6 +1410,7 @@ public class Table implements Serializable
       outLog.println("Import " + what + " name :" + a + " not the same as :" + b);
     return a;
   }
+
   private boolean set(boolean a, boolean b, String what, PrintWriter outLog)
   {
     if (a == false)
@@ -1318,6 +1419,7 @@ public class Table implements Serializable
       outLog.println("Import " + what + " is already true and is not set to false.");
     return a;
   }
+
   private void copy(Table addin, PrintWriter outLog)
   {
     name = addin.name;
@@ -1346,6 +1448,7 @@ public class Table implements Serializable
     hasIdentity = addin.hasIdentity;
     start = addin.start;
   }
+
   private void merge(Table addin, PrintWriter outLog)
   {
     alias = set(alias, addin.alias, "alias", outLog);
@@ -1363,6 +1466,7 @@ public class Table implements Serializable
     hasStdProcs = set(hasStdProcs, addin.hasStdProcs, "hasStdProcs", outLog);
     hasIdentity = set(hasIdentity, addin.hasIdentity, "hasIdentity", outLog);
   }
+
   public Table add(Table addin, PrintWriter outLog)
   {
     Table table = new Table();
@@ -1370,6 +1474,7 @@ public class Table implements Serializable
     table.merge(addin, outLog);
     return table;
   }
+
   public boolean hasOption(String value)
   {
     for (int i = 0; i < options.size(); i++)
@@ -1379,60 +1484,5 @@ public class Table implements Serializable
         return true;
     }
     return false;
-  }
-  /**
-   * Translates field type to DB2 SQL column types
-   */
-  static String varType(Field field)
-  {
-    switch (field.type)
-    {
-    case Field.BYTE:
-      return "SMALLINT";
-    case Field.SHORT:
-      return "SMALLINT";
-    case Field.INT:
-    case Field.SEQUENCE:
-    case Field.IDENTITY:
-      return "INT";
-    case Field.LONG:
-    case Field.BIGSEQUENCE:
-    case Field.BIGIDENTITY:
-      return "BIGINT";
-    case Field.CHAR:
-      if (field.length > 32762)
-        return "CLOB(" + field.length + ")";
-      else
-        return "VARCHAR(" + field.length + ")";
-    case Field.ANSICHAR:
-      return "CHAR(" + field.length + ")";
-    case Field.DATE:
-      return "DATE";
-    case Field.DATETIME:
-      return "TIMESTAMP";
-    case Field.TIME:
-      return "TIME";
-    case Field.TIMESTAMP:
-    case Field.AUTOTIMESTAMP:
-      return "TIMESTAMP";
-    case Field.FLOAT:
-    case Field.DOUBLE:
-      if (field.scale != 0)
-        return "DECIMAL(" + field.precision + ", " + field.scale + ")";
-      else if (field.precision != 0)
-        return "DECIMAL(" + field.precision + ", 0)";
-      return "DOUBLE";
-    case Field.BLOB:
-      return "BLOB(" + field.length + ")";
-    case Field.TLOB:
-      return "CLOB(" + field.length + ")";
-    case Field.MONEY:
-      return "DECIMAL(18,2)";
-    case Field.USERSTAMP:
-      return "VARCHAR(50)";
-    case Field.XML:
-      return "XML";
-    }
-    return "unknown";
   }
 }

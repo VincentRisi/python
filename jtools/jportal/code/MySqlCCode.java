@@ -21,8 +21,10 @@ import java.util.Vector;
 import static jtools.jportal.code.TJCStructs.*;
 import static jtools.jportal.code.Writer.*;
 
-public class MySqlC extends Generator
+public class MySqlCCode extends jtools.jportal.Generator
 {
+  static public PlaceHolder placeHolder;
+
   public static String description()
   {
     return "Generate MySql C Code";
@@ -100,6 +102,7 @@ public class MySqlC extends Generator
       writer.flush();
     }
   }
+
   static void generateInterface(Table table)
   {
     for (int i = 0; i < table.procs.size(); i++)
@@ -110,6 +113,7 @@ public class MySqlC extends Generator
       generateInterface(table, proc);
     }
   }
+
   /**
    * Emits class method for processing the database activity
    */
@@ -169,8 +173,6 @@ public class MySqlC extends Generator
       generateImplementation(table, proc);
     }
   }
-
-  static public PlaceHolder placeHolder;
 
   static void generateCommand(Proc proc)
   {

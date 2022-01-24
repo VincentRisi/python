@@ -23,8 +23,11 @@ import java.io.PrintWriter;
 
 import static jtools.jportal.Writer.*;
 
-public class OracleDDL extends Generator
+public class OracleDDL extends jportal.jtools.Generator
 {
+  private static boolean addExit = false;
+  private static boolean dropTablespace = false;
+
   /**
    * Generates the SQL for ORACLE Table creation.
    */
@@ -32,12 +35,12 @@ public class OracleDDL extends Generator
   {
     return "Generate Oracle DDL";
   }
+
   public static String documentation()
   {
     return "Generate Oracle DDL.";
   }
-  private static boolean addExit = false;
-  private static boolean dropTablespace = false;
+
   private static void setFlags(Database database, PrintWriter outLog)
   {
     for (int findex = 0; findex < database.flags.size(); findex++)
@@ -53,6 +56,7 @@ public class OracleDDL extends Generator
     if (addExit == false)
       outLog.println("-- No addExit flag detected.");
   }
+
   public static void generate(Database database, String output, PrintWriter outLog)
   {
     try
@@ -119,7 +123,7 @@ public class OracleDDL extends Generator
         if (len == 14)
           return format("to_date('%s', 'YYYYMMDDHH24MISS')", field.defaultValue);
         if (len >= 19)
-           return format("to_date('%s', 'YYYY-MM-DD HH24:MI:SS')", field.defaultValue.substring(0,19));
+          return format("to_date('%s', 'YYYY-MM-DD HH24:MI:SS')", field.defaultValue.substring(0, 19));
         break;
       case Field.TIME:
         if (len == 6)
@@ -176,10 +180,9 @@ public class OracleDDL extends Generator
             writeln();
             if (n > 0)
             {
-              write(option.substring(0, n-1));
+              write(option.substring(0, n - 1));
               table.options.addElement(option.substring(n));
-            }
-            else
+            } else
               write(option);
           }
         }

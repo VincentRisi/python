@@ -15,19 +15,18 @@ package jtools.crackle;
 import java.io.Serializable;
 
 /**
-*
-*/
+ *
+ */
 public class Operation implements Serializable
 {
-  private static final long serialVersionUID = 1L;
   public static final byte
-      SIZE = 1
-  ,   DYNAMIC = 2
-  ;
+          SIZE = 1, DYNAMIC = 2;
+  private static final long serialVersionUID = 1L;
   public String name;
   public byte code;
   public boolean isConstant;
   public Field field;
+
   public Operation()
   {
     code = 0;

@@ -18,9 +18,16 @@ import java.util.Vector;
 import static jtools.jportal.code.Writer.*;
 import static jtools.jportal.code.TJCStructs.*;
 
-public class OciC extends Generator
+public class OciCCode extends jtools.jportal.Generator
 {
   protected static PrintWriter outLog;
+  static protected Vector<Flag> flagsVector;
+  static boolean aix;
+  static boolean lowercase;
+  static boolean xmlValue;
+  static private PlaceHolder placeHolder;
+  static private byte paramStyle = PlaceHolder.COLON;
+  static private int questionsSeen;
 
   static public String description()
   {
@@ -31,9 +38,6 @@ public class OciC extends Generator
   {
     return "Generate OCI C++ Code";
   }
-
-  static private PlaceHolder placeHolder;
-  static private byte paramStyle = PlaceHolder.COLON;
 
   /**
    * Generates the procedure classes for each table present.
@@ -60,11 +64,6 @@ public class OciC extends Generator
     }
   }
 
-  static protected Vector<Flag> flagsVector;
-  static boolean aix;
-  static boolean lowercase;
-  static boolean xmlValue;
-
   static private void flagDefaults()
   {
     aix = false;
@@ -79,11 +78,11 @@ public class OciC extends Generator
       flagsVector = new Vector<>();
       flagDefaults();
       flagsVector.addElement(new Flag("aix", aix,
-                                      "Generate for AIX"));
+              "Generate for AIX"));
       flagsVector.addElement(new Flag("lowercase", lowercase,
-                                      "Generate lowercase"));
+              "Generate lowercase"));
       flagsVector.addElement(new Flag("xmlValue", xmlValue,
-                                      "Generate lowercase"));
+              "Generate lowercase"));
     }
     return flagsVector;
   }
@@ -94,8 +93,7 @@ public class OciC extends Generator
     {
       aix = toBoolean((flagsVector.elementAt(0)));
       lowercase = toBoolean((flagsVector.elementAt(1)));
-    }
-    else
+    } else
       flagDefaults();
     for (int i = 0; i < database.flags.size(); i++)
     {
@@ -197,8 +195,7 @@ public class OciC extends Generator
       writeln(1, "{q_.FileAndLine(aFile,aLine);}");
       writeln("};");
       writeln();
-    }
-    else
+    } else
     {
       if (proc.isStd || proc.isStdExtended())
         dataStruct = "D" + table.useName();
@@ -413,8 +410,7 @@ public class OciC extends Generator
           strcat = "strcat(q_.command, ";
           if (begin == false)
             writeln(terminate);
-        }
-        else if (begin == false)
+        } else if (begin == false)
           writeln(terminate);
         begin = false;
         if (line.charAt(0) != '"')
@@ -485,8 +481,8 @@ public class OciC extends Generator
     {
       Field field = proc.inputs.elementAt(j);
       if (((field.type == Field.SEQUENCE || field.type == Field.BIGSEQUENCE) && proc.isInsert)
-          || field.type == Field.IDENTITY || field.type == Field.TIMESTAMP
-          || field.type == Field.USERSTAMP)
+              || field.type == Field.IDENTITY || field.type == Field.TIMESTAMP
+              || field.type == Field.USERSTAMP)
         continue;
       writeln(1, "" + cppCopy(field));
     }
@@ -515,8 +511,7 @@ public class OciC extends Generator
     {
       writeln(1, format("q_.Open(q_.command, %d);", proc.inputs.size() + 1));
       doReturning = true;
-    }
-    else if (proc.outputs.size() > 0)
+    } else if (proc.outputs.size() > 0)
       writeln(1, "q_.Open(q_.command, NOBINDS, NODEFINES, NOROWS, ROWSIZE);");
     else if (proc.inputs.size() > 0)
       writeln(1, "q_.Open(q_.command, " + proc.inputs.size() + ");");
@@ -539,8 +534,7 @@ public class OciC extends Generator
       {
         TYPEOF = "Blob";
         hasBlob = true;
-      }
-      else if (field.type == Field.UNICODE)
+      } else if (field.type == Field.UNICODE)
         TYPEOF = "Unicode";
       else if (field.type == Field.UTF8)
         TYPEOF = "Utf8";
@@ -551,8 +545,7 @@ public class OciC extends Generator
       Field field = proc.outputs.elementAt(0);
       int pos = proc.inputs.size();
       writeln(1, format("q_.Bind(\":%s\", %d, %s);", field.name, pos, cppBind(field)));
-    }
-    else
+    } else
     {
       for (int j = 0; j < proc.outputs.size(); j++)
       {
@@ -582,8 +575,8 @@ public class OciC extends Generator
         {
           Field field = proc.inputs.elementAt(j);
           if (((field.type == Field.SEQUENCE || field.type == Field.BIGSEQUENCE) && proc.isInsert)
-              || field.type == Field.IDENTITY || field.type == Field.TIMESTAMP
-              || field.type == Field.USERSTAMP)
+                  || field.type == Field.IDENTITY || field.type == Field.TIMESTAMP
+                  || field.type == Field.USERSTAMP)
             continue;
           writeln(1, "" + cppCopy(field));
         }
@@ -630,8 +623,8 @@ public class OciC extends Generator
     {
       Field field = proc.inputs.elementAt(j);
       if (((field.type == Field.SEQUENCE || field.type == Field.BIGSEQUENCE) && proc.isInsert)
-          || field.type == Field.IDENTITY || field.type == Field.TIMESTAMP
-          || field.type == Field.USERSTAMP)
+              || field.type == Field.IDENTITY || field.type == Field.TIMESTAMP
+              || field.type == Field.USERSTAMP)
         continue;
       writeln(pad + comma + cppParm(field));
       comma = ", ";
@@ -645,8 +638,8 @@ public class OciC extends Generator
     {
       Field field = proc.inputs.elementAt(j);
       if (((field.type == Field.SEQUENCE || field.type == Field.BIGSEQUENCE) && proc.isInsert)
-          || field.type == Field.IDENTITY || field.type == Field.TIMESTAMP
-          || field.type == Field.USERSTAMP)
+              || field.type == Field.IDENTITY || field.type == Field.TIMESTAMP
+              || field.type == Field.USERSTAMP)
         continue;
       writeln(pad + comma + cppParm(field));
       comma = ", ";
@@ -658,8 +651,6 @@ public class OciC extends Generator
       comma = ", ";
     }
   }
-
-  static private int questionsSeen;
 
   static private String question(Proc proc, String line)
   {
@@ -688,26 +679,25 @@ public class OciC extends Generator
   static private String cppLength(Field field)
   {
     return switch (field.type)
-    {
-      case Field.BOOLEAN, Field.BYTE, Field.SHORT -> "sizeof(int16)";
-      case Field.INT, Field.SEQUENCE, Field.IDENTITY -> "sizeof(int32)";
-      case Field.LONG, Field.BIGSEQUENCE, Field.BIGIDENTITY -> "sizeof(int64)";
-      case Field.CHAR, Field.ANSICHAR -> format("%d", field.length + 1);
-      case Field.UTF8 ->  format("%d", field.length * 3 + 1);
-      case Field.UNICODE -> format("%d", field.length * 2 + 4);
-      case Field.USERSTAMP -> "64";
-      case Field.BLOB, Field.TLOB, Field.IMAGE -> format("%d", field.length);
-      case Field.DATE, Field.TIME, Field.DATETIME, Field.TIMESTAMP -> "8";
-      case Field.MONEY -> "21";
-      case Field.FLOAT, Field.DOUBLE ->
-      {
-        if (field.precision > 15)
-          yield "" + (field.precision + 3);
-        else
-          yield "sizeof(double)";
-      }
-      default -> "0";
-    };
+            {
+              case Field.BOOLEAN, Field.BYTE, Field.SHORT -> "sizeof(int16)";
+              case Field.INT, Field.SEQUENCE, Field.IDENTITY -> "sizeof(int32)";
+              case Field.LONG, Field.BIGSEQUENCE, Field.BIGIDENTITY -> "sizeof(int64)";
+              case Field.CHAR, Field.ANSICHAR -> format("%d", field.length + 1);
+              case Field.UTF8 -> format("%d", field.length * 3 + 1);
+              case Field.UNICODE -> format("%d", field.length * 2 + 4);
+              case Field.USERSTAMP -> "64";
+              case Field.BLOB, Field.TLOB, Field.IMAGE -> format("%d", field.length);
+              case Field.DATE, Field.TIME, Field.DATETIME, Field.TIMESTAMP -> "8";
+              case Field.MONEY -> "21";
+              case Field.FLOAT, Field.DOUBLE -> {
+                if (field.precision > 15)
+                  yield "" + (field.precision + 3);
+                else
+                  yield "sizeof(double)";
+              }
+              default -> "0";
+            };
   }
 
   /**
@@ -716,16 +706,16 @@ public class OciC extends Generator
   static private String cppParm(Field field)
   {
     return switch (field.type)
-    {
-      case Field.BOOLEAN, Field.BYTE, Field.SHORT -> "int16  a" + field.useName();
-      case Field.INT, Field.SEQUENCE, Field.IDENTITY -> "int32  a" + field.useName();
-      case Field.LONG, Field.BIGSEQUENCE, Field.BIGIDENTITY -> "int64  a" + field.useName();
-      case Field.CHAR, Field.ANSICHAR, Field.USERSTAMP, Field.DATE, Field.TIME, Field.DATETIME, Field.TIMESTAMP, Field.MONEY -> "const char*  a" + field.useName();
-      case Field.UTF8, Field.UNICODE -> "const unsigned char*  a" + field.useName();
-      case Field.BLOB, Field.TLOB, Field.IMAGE -> format("TJBLob<%d>  a%s", field.length, field.useName());
-      case Field.FLOAT, Field.DOUBLE -> "double a" + field.useName();
-        default -> field.useName() + " <unsupported>";
-    };
+            {
+              case Field.BOOLEAN, Field.BYTE, Field.SHORT -> "int16  a" + field.useName();
+              case Field.INT, Field.SEQUENCE, Field.IDENTITY -> "int32  a" + field.useName();
+              case Field.LONG, Field.BIGSEQUENCE, Field.BIGIDENTITY -> "int64  a" + field.useName();
+              case Field.CHAR, Field.ANSICHAR, Field.USERSTAMP, Field.DATE, Field.TIME, Field.DATETIME, Field.TIMESTAMP, Field.MONEY -> "const char*  a" + field.useName();
+              case Field.UTF8, Field.UNICODE -> "const unsigned char*  a" + field.useName();
+              case Field.BLOB, Field.TLOB, Field.IMAGE -> format("TJBLob<%d>  a%s", field.length, field.useName());
+              case Field.FLOAT, Field.DOUBLE -> "double a" + field.useName();
+              default -> field.useName() + " <unsupported>";
+            };
   }
 
   /**
@@ -734,16 +724,15 @@ public class OciC extends Generator
   static private String cppCopy(Field field)
   {
     return switch (field.type)
-    {
-      case Field.BOOLEAN, Field.BYTE, Field.SHORT, Field.INT, Field.LONG, Field.FLOAT, Field.DOUBLE, Field.SEQUENCE, Field.BIGSEQUENCE, Field.BLOB, Field.TLOB, Field.IMAGE ->
-          field.useName() + " = a" + field.useName() + ";";
-      case Field.CHAR, Field.UTF8, Field.UNICODE, Field.DATE, Field.TIME, Field.DATETIME, Field.MONEY -> "memcpy(" + field.useName() + ", a" + field.useName()
-          + ", sizeof(" + field.useName() + ")-1);";
-      case Field.ANSICHAR -> "memcpy(" + field.useName() + ", a" + field.useName()
-          + ", sizeof(" + field.useName() + "));";
-      case Field.USERSTAMP, Field.IDENTITY, Field.TIMESTAMP -> "// " + field.useName() + " -- generated";
-        default -> field.useName() + " <unsupported>";
-    };
+            {
+              case Field.BOOLEAN, Field.BYTE, Field.SHORT, Field.INT, Field.LONG, Field.FLOAT, Field.DOUBLE, Field.SEQUENCE, Field.BIGSEQUENCE, Field.BLOB, Field.TLOB, Field.IMAGE -> field.useName() + " = a" + field.useName() + ";";
+              case Field.CHAR, Field.UTF8, Field.UNICODE, Field.DATE, Field.TIME, Field.DATETIME, Field.MONEY -> "memcpy(" + field.useName() + ", a" + field.useName()
+                      + ", sizeof(" + field.useName() + ")-1);";
+              case Field.ANSICHAR -> "memcpy(" + field.useName() + ", a" + field.useName()
+                      + ", sizeof(" + field.useName() + "));";
+              case Field.USERSTAMP, Field.IDENTITY, Field.TIMESTAMP -> "// " + field.useName() + " -- generated";
+              default -> field.useName() + " <unsupported>";
+            };
   }
 
   /**
@@ -763,59 +752,48 @@ public class OciC extends Generator
   static private String cppBind(Field field)
   {
     return switch (field.type)
-    {
-      case Field.BOOLEAN, Field.BYTE, Field.SHORT, Field.INT, Field.LONG, Field.FLOAT, Field.DOUBLE, Field.SEQUENCE, Field.BIGSEQUENCE -> field.useName();
-      case Field.CHAR, Field.ANSICHAR, Field.MONEY -> format("%s, %d", field.useName(), field.length + 1);
-      case Field.UTF8 -> format("%s, %d", field.useName(), field.length * 3 + 1);
-      case Field.UNICODE -> format("%s, %d", field.useName(), field.length * 2 + 4);
-      case Field.BLOB, Field.TLOB, Field.IMAGE -> format("%s.getData(), %d", field.useName(), field.length);
-      case Field.USERSTAMP -> "q_.UserStamp(" + field.useName() + "), 51";
-      case Field.DATE -> "q_.Date(" + field.useName() + "_OCIDate, " + field.useName() + ")";
-      case Field.TIME -> "q_.Time(" + field.useName() + "_OCIDate, " + field.useName() + ")";
-      case Field.DATETIME -> "q_.DateTime(" + field.useName() + "_OCIDate, " + field.useName() + ")";
-      case Field.TIMESTAMP -> "q_.TimeStamp(" + field.useName() + "_OCIDate, " + field.useName() + ")";
-        default -> field.useName() + ", <unsupported>";
-    };
+            {
+              case Field.BOOLEAN, Field.BYTE, Field.SHORT, Field.INT, Field.LONG, Field.FLOAT, Field.DOUBLE, Field.SEQUENCE, Field.BIGSEQUENCE -> field.useName();
+              case Field.CHAR, Field.ANSICHAR, Field.MONEY -> format("%s, %d", field.useName(), field.length + 1);
+              case Field.UTF8 -> format("%s, %d", field.useName(), field.length * 3 + 1);
+              case Field.UNICODE -> format("%s, %d", field.useName(), field.length * 2 + 4);
+              case Field.BLOB, Field.TLOB, Field.IMAGE -> format("%s.getData(), %d", field.useName(), field.length);
+              case Field.USERSTAMP -> "q_.UserStamp(" + field.useName() + "), 51";
+              case Field.DATE -> "q_.Date(" + field.useName() + "_OCIDate, " + field.useName() + ")";
+              case Field.TIME -> "q_.Time(" + field.useName() + "_OCIDate, " + field.useName() + ")";
+              case Field.DATETIME -> "q_.DateTime(" + field.useName() + "_OCIDate, " + field.useName() + ")";
+              case Field.TIMESTAMP -> "q_.TimeStamp(" + field.useName() + "_OCIDate, " + field.useName() + ")";
+              default -> field.useName() + ", <unsupported>";
+            };
   }
 
   static private String cppBind(Field field, String tableName, boolean isInsert)
   {
     return switch (field.type)
-    {
-      case Field.BOOLEAN, Field.BYTE, Field.SHORT, Field.INT, Field.LONG
-      , Field.FLOAT, Field.DOUBLE ->
-        field.useName();
-      case Field.SEQUENCE, Field.BIGSEQUENCE ->
-      {
-        if (isInsert)
-          yield "q_.Sequence(" + field.useName() + ", \"" + tableName + "Seq\")";
-        else
-          yield field.useName();
-      }
-      case Field.CHAR, Field.ANSICHAR, Field.MONEY ->
-        format("%s, %d", field.useName(), field.length + 1);
-      case Field.UTF8 ->
-        format("%s, %d", field.useName(), field.length * 3 + 1);
-      case Field.UNICODE ->
-        format("%s, %d", field.useName(), field.length * 2 + 4);
-      case Field.BLOB, Field.TLOB, Field.IMAGE ->
-        format("%s.getData(), %d", field.useName(), field.length);
-      case Field.USERSTAMP ->
-        "q_.UserStamp(" + field.useName() + "), 51";
-      case Field.DATE ->
-        "q_.Date(" + field.useName() + "_OCIDate, " + field.useName()
-               + ")";
-      case Field.TIME ->
-        "q_.Time(" + field.useName() + "_OCIDate, " + field.useName()
-               + ")";
-      case Field.DATETIME ->
-        "q_.DateTime(" + field.useName() + "_OCIDate, " + field.useName()
-               + ")";
-      case Field.TIMESTAMP ->
-        "q_.TimeStamp(" + field.useName() + "_OCIDate, " + field.useName()
-               + ")";
-    default -> field.useName() + ", <unsupported>";
-    };
+            {
+              case Field.BOOLEAN, Field.BYTE, Field.SHORT, Field.INT, Field.LONG
+                      , Field.FLOAT, Field.DOUBLE -> field.useName();
+              case Field.SEQUENCE, Field.BIGSEQUENCE -> {
+                if (isInsert)
+                  yield "q_.Sequence(" + field.useName() + ", \"" + tableName + "Seq\")";
+                else
+                  yield field.useName();
+              }
+              case Field.CHAR, Field.ANSICHAR, Field.MONEY -> format("%s, %d", field.useName(), field.length + 1);
+              case Field.UTF8 -> format("%s, %d", field.useName(), field.length * 3 + 1);
+              case Field.UNICODE -> format("%s, %d", field.useName(), field.length * 2 + 4);
+              case Field.BLOB, Field.TLOB, Field.IMAGE -> format("%s.getData(), %d", field.useName(), field.length);
+              case Field.USERSTAMP -> "q_.UserStamp(" + field.useName() + "), 51";
+              case Field.DATE -> "q_.Date(" + field.useName() + "_OCIDate, " + field.useName()
+                      + ")";
+              case Field.TIME -> "q_.Time(" + field.useName() + "_OCIDate, " + field.useName()
+                      + ")";
+              case Field.DATETIME -> "q_.DateTime(" + field.useName() + "_OCIDate, " + field.useName()
+                      + ")";
+              case Field.TIMESTAMP -> "q_.TimeStamp(" + field.useName() + "_OCIDate, " + field.useName()
+                      + ")";
+              default -> field.useName() + ", <unsupported>";
+            };
   }
 
   /**
@@ -824,19 +802,19 @@ public class OciC extends Generator
   static private String cppBindArray(Field field, String tableName)
   {
     return switch (field.type)
-    {
-      case Field.BOOLEAN, Field.BYTE, Field.SHORT -> "(int16*)  (q_.data+" + field.useName().toUpperCase() + "_POS)";
-      case Field.INT, Field.SEQUENCE, Field.IDENTITY -> "(int32*)    (q_.data+" + field.useName().toUpperCase() + "_POS)";
-      case Field.LONG, Field.BIGSEQUENCE, Field.BIGIDENTITY -> "(int64*)   (q_.data+" + field.useName().toUpperCase() + "_POS)";
-      case Field.CHAR, Field.ANSICHAR, Field.MONEY -> format("(char*) q_.data + %s_POS, %d", field.useName().toUpperCase(), field.length + 1);
-      case Field.UTF8 -> format("(char*) q_.data + %s_POS, %d", field.useName().toUpperCase(), field.length * 3 + 1);
-      case Field.USERSTAMP -> "(char*)   (q_.data+" + field.useName().toUpperCase() + "_POS), 51";
-      case Field.UNICODE -> format("(char*) q_.data + %s_POS, %d", field.useName().toUpperCase(), field.length * 2 + 4);
-      case Field.BLOB, Field.TLOB, Field.IMAGE -> "(char*)&" + field.useName() + ", sizeof(" + field.useName() + ".data)";
-      case Field.DATE, Field.TIME, Field.DATETIME, Field.TIMESTAMP -> "(TJOCIDate*)(q_.data+" + field.useName().toUpperCase() + "_POS)";
-      case Field.FLOAT, Field.DOUBLE -> "(double*) (q_.data+" + field.useName().toUpperCase() + "_POS)";
-        default -> field.useName() + " <unsupported>";
-    };
+            {
+              case Field.BOOLEAN, Field.BYTE, Field.SHORT -> "(int16*)  (q_.data+" + field.useName().toUpperCase() + "_POS)";
+              case Field.INT, Field.SEQUENCE, Field.IDENTITY -> "(int32*)    (q_.data+" + field.useName().toUpperCase() + "_POS)";
+              case Field.LONG, Field.BIGSEQUENCE, Field.BIGIDENTITY -> "(int64*)   (q_.data+" + field.useName().toUpperCase() + "_POS)";
+              case Field.CHAR, Field.ANSICHAR, Field.MONEY -> format("(char*) q_.data + %s_POS, %d", field.useName().toUpperCase(), field.length + 1);
+              case Field.UTF8 -> format("(char*) q_.data + %s_POS, %d", field.useName().toUpperCase(), field.length * 3 + 1);
+              case Field.USERSTAMP -> "(char*)   (q_.data+" + field.useName().toUpperCase() + "_POS), 51";
+              case Field.UNICODE -> format("(char*) q_.data + %s_POS, %d", field.useName().toUpperCase(), field.length * 2 + 4);
+              case Field.BLOB, Field.TLOB, Field.IMAGE -> "(char*)&" + field.useName() + ", sizeof(" + field.useName() + ".data)";
+              case Field.DATE, Field.TIME, Field.DATETIME, Field.TIMESTAMP -> "(TJOCIDate*)(q_.data+" + field.useName().toUpperCase() + "_POS)";
+              case Field.FLOAT, Field.DOUBLE -> "(double*) (q_.data+" + field.useName().toUpperCase() + "_POS)";
+              default -> field.useName() + " <unsupported>";
+            };
   }
 
   /**
@@ -845,19 +823,19 @@ public class OciC extends Generator
   static private String cppDefine(Field field)
   {
     return switch (field.type)
-    {
-      case Field.BOOLEAN, Field.BYTE, Field.SHORT -> "(int16*)  (q_.data+" + field.useName().toUpperCase() + "_POS)";
-      case Field.INT, Field.SEQUENCE, Field.IDENTITY -> "(int32*)    (q_.data+" + field.useName().toUpperCase() + "_POS)";
-      case Field.LONG, Field.BIGSEQUENCE, Field.BIGIDENTITY -> "(int64*)   (q_.data+" + field.useName().toUpperCase() + "_POS)";
-      case Field.CHAR, Field.ANSICHAR, Field.MONEY -> "(char*)   (q_.data+" + field.useName().toUpperCase() + "_POS), " + (field.length + 1);
-      case Field.UTF8 -> format("(unsigned char*) q_.data + %s_POS, %d", field.useName().toUpperCase(), field.length * 3 + 1);
-      case Field.USERSTAMP -> "(char*)   (q_.data+" + field.useName().toUpperCase() + "_POS), 51";
-      case Field.UNICODE -> format("(unsigned char*) q_.data + %s_POS, %d", field.useName().toUpperCase(), field.length * 2 + 4);
-      case Field.BLOB, Field.TLOB, Field.IMAGE -> format("(char*) (q_.data+%s_POS), %d", field.useName().toUpperCase(), field.length);
-      case Field.DATE, Field.TIME, Field.DATETIME, Field.TIMESTAMP -> "(TJOCIDate*)(q_.data+" + field.useName().toUpperCase() + "_POS)";
-      case Field.FLOAT, Field.DOUBLE -> "(double*) (q_.data+" + field.useName().toUpperCase() + "_POS)";
-        default -> field.useName() + " <unsupported>";
-    };
+            {
+              case Field.BOOLEAN, Field.BYTE, Field.SHORT -> "(int16*)  (q_.data+" + field.useName().toUpperCase() + "_POS)";
+              case Field.INT, Field.SEQUENCE, Field.IDENTITY -> "(int32*)    (q_.data+" + field.useName().toUpperCase() + "_POS)";
+              case Field.LONG, Field.BIGSEQUENCE, Field.BIGIDENTITY -> "(int64*)   (q_.data+" + field.useName().toUpperCase() + "_POS)";
+              case Field.CHAR, Field.ANSICHAR, Field.MONEY -> "(char*)   (q_.data+" + field.useName().toUpperCase() + "_POS), " + (field.length + 1);
+              case Field.UTF8 -> format("(unsigned char*) q_.data + %s_POS, %d", field.useName().toUpperCase(), field.length * 3 + 1);
+              case Field.USERSTAMP -> "(char*)   (q_.data+" + field.useName().toUpperCase() + "_POS), 51";
+              case Field.UNICODE -> format("(unsigned char*) q_.data + %s_POS, %d", field.useName().toUpperCase(), field.length * 2 + 4);
+              case Field.BLOB, Field.TLOB, Field.IMAGE -> format("(char*) (q_.data+%s_POS), %d", field.useName().toUpperCase(), field.length);
+              case Field.DATE, Field.TIME, Field.DATETIME, Field.TIMESTAMP -> "(TJOCIDate*)(q_.data+" + field.useName().toUpperCase() + "_POS)";
+              case Field.FLOAT, Field.DOUBLE -> "(double*) (q_.data+" + field.useName().toUpperCase() + "_POS)";
+              default -> field.useName() + " <unsupported>";
+            };
   }
 
   /**
@@ -866,26 +844,24 @@ public class OciC extends Generator
   static private String cppGet(Field field)
   {
     return switch (field.type)
-    {
-      case Field.BOOLEAN, Field.BYTE, Field.SHORT, Field.INT, Field.SEQUENCE, Field.IDENTITY
-          , Field.LONG, Field.BIGSEQUENCE, Field.BIGIDENTITY ->
-          format("%s ,q_.data + %s_POS", field.useName(), field.useName().toUpperCase());
-      case Field.FLOAT, Field.DOUBLE ->
-      {
-        if (field.precision > 15)
-          yield field.useName() + "," + " q_.data+" + field.useName().toUpperCase() + "_POS, " + (field.precision + 3);
-        yield field.useName() + "," + " q_.data+" + field.useName().toUpperCase() + "_POS";
-      }
-      case Field.CHAR, Field.ANSICHAR, Field.MONEY -> field.useName() + "," + " q_.data+" + field.useName().toUpperCase() + "_POS, " + (field.length + 1);
-      case Field.UTF8 -> field.useName() + "," + " (unsigned char *) q_.data+" + field.useName().toUpperCase() + "_POS, " + (field.length * 3 + 1);
-      case Field.UNICODE -> field.useName() + "," + " (unsigned char *) q_.data+" + field.useName().toUpperCase() + "_POS, " + (field.length * 2 + 4);
-      case Field.USERSTAMP -> field.useName() + ", " + " q_.data+" + field.useName().toUpperCase() + "_POS, 51";
-      case Field.BLOB, Field.TLOB, Field.IMAGE -> format("%s.getData(), (unsigned char *) q_.data+%s_POS, %d", field.useName(), field.useName().toUpperCase(), field.length+4);
-      case Field.DATE -> "TJDate(" + field.useName() + "), " + " q_.data+" + field.useName().toUpperCase() + "_POS";
-      case Field.TIME -> "TJTime(" + field.useName() + "), " + " q_.data+" + field.useName().toUpperCase() + "_POS";
-      case Field.DATETIME, Field.TIMESTAMP -> "TJDateTime(" + field.useName() + "), "+ " q_.data+" + field.useName().toUpperCase() + "_POS";
-        default -> field.useName() + " <unsupported>";
-    };
+            {
+              case Field.BOOLEAN, Field.BYTE, Field.SHORT, Field.INT, Field.SEQUENCE, Field.IDENTITY
+                      , Field.LONG, Field.BIGSEQUENCE, Field.BIGIDENTITY -> format("%s ,q_.data + %s_POS", field.useName(), field.useName().toUpperCase());
+              case Field.FLOAT, Field.DOUBLE -> {
+                if (field.precision > 15)
+                  yield field.useName() + "," + " q_.data+" + field.useName().toUpperCase() + "_POS, " + (field.precision + 3);
+                yield field.useName() + "," + " q_.data+" + field.useName().toUpperCase() + "_POS";
+              }
+              case Field.CHAR, Field.ANSICHAR, Field.MONEY -> field.useName() + "," + " q_.data+" + field.useName().toUpperCase() + "_POS, " + (field.length + 1);
+              case Field.UTF8 -> field.useName() + "," + " (unsigned char *) q_.data+" + field.useName().toUpperCase() + "_POS, " + (field.length * 3 + 1);
+              case Field.UNICODE -> field.useName() + "," + " (unsigned char *) q_.data+" + field.useName().toUpperCase() + "_POS, " + (field.length * 2 + 4);
+              case Field.USERSTAMP -> field.useName() + ", " + " q_.data+" + field.useName().toUpperCase() + "_POS, 51";
+              case Field.BLOB, Field.TLOB, Field.IMAGE -> format("%s.getData(), (unsigned char *) q_.data+%s_POS, %d", field.useName(), field.useName().toUpperCase(), field.length + 4);
+              case Field.DATE -> "TJDate(" + field.useName() + "), " + " q_.data+" + field.useName().toUpperCase() + "_POS";
+              case Field.TIME -> "TJTime(" + field.useName() + "), " + " q_.data+" + field.useName().toUpperCase() + "_POS";
+              case Field.DATETIME, Field.TIMESTAMP -> "TJDateTime(" + field.useName() + "), " + " q_.data+" + field.useName().toUpperCase() + "_POS";
+              default -> field.useName() + " <unsupported>";
+            };
   }
 
   /**
@@ -894,25 +870,25 @@ public class OciC extends Generator
   static private String cppPut(Field field)
   {
     return switch (field.type)
-    {
-      case Field.BOOLEAN, Field.BYTE, Field.SHORT, Field.INT, Field.SEQUENCE, Field.IDENTITY, Field.LONG, Field.BIGSEQUENCE, Field.BIGIDENTITY, Field.FLOAT, Field.DOUBLE, Field.BLOB, Field.TLOB, Field.IMAGE -> "q_.data+" + field.useName().toUpperCase() + "_POS,"
-          + field.useName();
-      case Field.CHAR, Field.ANSICHAR, Field.MONEY -> "q_.data+" + field.useName().toUpperCase() + "_POS,"
-          + field.useName() + ", " + (field.length + 1);
-      case Field.UTF8 -> "q_.data+" + field.useName().toUpperCase() + "_POS,"
-          + field.useName() + ", " + (field.length * 3 + 1);
-      case Field.UNICODE -> "q_.data+" + field.useName().toUpperCase() + "_POS,"
-          + field.useName() + ", " + (field.length * 2 + 4);
-      case Field.USERSTAMP -> "q_.data+" + field.useName().toUpperCase() + "_POS,"
-          + field.useName() + ", 51";
-      case Field.DATE -> "q_.data+" + field.useName().toUpperCase() + "_POS,"
-          + "TJDate(" + field.useName() + ")";
-      case Field.TIME -> "q_.data+" + field.useName().toUpperCase() + "_POS,"
-          + "TJTime(" + field.useName() + ")";
-      case Field.DATETIME, Field.TIMESTAMP -> "q_.data+" + field.useName().toUpperCase() + "_POS,"
-          + "TJDateTime(" + field.useName() + ")";
-        default -> field.useName() + " <unsupported>";
-    };
+            {
+              case Field.BOOLEAN, Field.BYTE, Field.SHORT, Field.INT, Field.SEQUENCE, Field.IDENTITY, Field.LONG, Field.BIGSEQUENCE, Field.BIGIDENTITY, Field.FLOAT, Field.DOUBLE, Field.BLOB, Field.TLOB, Field.IMAGE -> "q_.data+" + field.useName().toUpperCase() + "_POS,"
+                      + field.useName();
+              case Field.CHAR, Field.ANSICHAR, Field.MONEY -> "q_.data+" + field.useName().toUpperCase() + "_POS,"
+                      + field.useName() + ", " + (field.length + 1);
+              case Field.UTF8 -> "q_.data+" + field.useName().toUpperCase() + "_POS,"
+                      + field.useName() + ", " + (field.length * 3 + 1);
+              case Field.UNICODE -> "q_.data+" + field.useName().toUpperCase() + "_POS,"
+                      + field.useName() + ", " + (field.length * 2 + 4);
+              case Field.USERSTAMP -> "q_.data+" + field.useName().toUpperCase() + "_POS,"
+                      + field.useName() + ", 51";
+              case Field.DATE -> "q_.data+" + field.useName().toUpperCase() + "_POS,"
+                      + "TJDate(" + field.useName() + ")";
+              case Field.TIME -> "q_.data+" + field.useName().toUpperCase() + "_POS,"
+                      + "TJTime(" + field.useName() + ")";
+              case Field.DATETIME, Field.TIMESTAMP -> "q_.data+" + field.useName().toUpperCase() + "_POS,"
+                      + "TJDateTime(" + field.useName() + ")";
+              default -> field.useName() + " <unsupported>";
+            };
   }
 
   static boolean isLob(Field field)
@@ -929,7 +905,7 @@ public class OciC extends Generator
       case Field.BOOLEAN:
       case Field.FLOAT:
       case Field.DOUBLE:
-      //case Field.MONEY:
+        //case Field.MONEY:
       case Field.BYTE:
       case Field.SHORT:
       case Field.INT:

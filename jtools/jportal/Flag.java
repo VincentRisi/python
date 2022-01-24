@@ -19,12 +19,13 @@ import java.io.Serializable;
 public class Flag implements Serializable
 {
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 1L;
   public String name;
   public Object value;
   public String description;
+
   public Flag(String name, Object value, String description)
   {
     this.name = name;

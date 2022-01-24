@@ -31,6 +31,13 @@ import java.util.Map;
 
 public class PopHTTPSwagger extends Generator
 {
+  private static final Map<String, String> done = new HashMap<String, String>();
+  private static PrintWriter outLog;
+  private static String urlPrefix = "..";
+  private static String defSqlSub = "/yaml2";
+  private static String description;
+  private static String lastPath = "";
+
   public static String description()
   {
     return "Generates HTTP Swagger Restful 2.0 YAML (AIX|LINUX|WINDOWS)";
@@ -40,8 +47,6 @@ public class PopHTTPSwagger extends Generator
   {
     return "Generates HTTP Swagger Restful 2.0 YAML (AIX|LINUX|WINDOWS)";
   }
-
-  private static PrintWriter outLog;
 
   public static void main(String[] args)
   {
@@ -57,14 +62,13 @@ public class PopHTTPSwagger extends Generator
         generate(module, "", outLog);
       }
       outLog.flush();
-    } catch (Exception e)
+    }
+    catch (Exception e)
     {
       e.printStackTrace();
     }
   }
-  private static String urlPrefix = "..";
-  private static String defSqlSub = "/yaml2";
-  private static String description;
+
   public static void generate(Module module, String output, PrintWriter inOutLog)
   {
     outLog = inOutLog;
@@ -73,6 +77,7 @@ public class PopHTTPSwagger extends Generator
     getSwaggerPragmas(module);
     generateSwagger(module, output, outLog);
   }
+
   private static void getSwaggerPragmas(Module module)
   {
     for (int i = 0; i < module.pragmas.size(); i++)
@@ -130,18 +135,21 @@ public class PopHTTPSwagger extends Generator
         generateDefinitions(module);
         generatePaths(module);
         writeln("#...");
-      } finally
+      }
+      finally
       {
         writer.flush();
         outFile.close();
       }
-    } catch (IOException e1)
+    }
+    catch (IOException e1)
     {
       outLog.println("Generate Procs IO Error");
       System.out.println(e1);
       System.out.flush();
       e1.printStackTrace();
-    } catch (Throwable e)
+    }
+    catch (Throwable e)
     {
       System.out.println(e);
       System.out.flush();
@@ -166,8 +174,6 @@ public class PopHTTPSwagger extends Generator
     }
   }
 
-  private static final Map<String, String> done = new HashMap<String, String>();
-  
   private static boolean fileExists(String fileName)
   {
     try
@@ -222,33 +228,32 @@ public class PopHTTPSwagger extends Generator
         {
           switch (state)
           {
-          case 0:
-            if (line.contains(structName) == true)
-            {
-              state = 1;
-              writeln(line);
-            }
-            break;
-          case 1:
-            if (line.compareTo("...") == 0 || line.charAt(2) != ' ')
-              state = 2;
-            else
-              writeln(line);
-            break;
+            case 0:
+              if (line.contains(structName) == true)
+              {
+                state = 1;
+                writeln(line);
+              }
+              break;
+            case 1:
+              if (line.compareTo("...") == 0 || line.charAt(2) != ' ')
+                state = 2;
+              else
+                writeln(line);
+              break;
           }
           if (state == 2)
             break;
         }
         reader.close();
         input.close();
-      } catch (IOException e)
+      }
+      catch (IOException e)
       {
         outLog.println(format("%s - IOException", yaml2File));
       }
     }
   }
-
-  private static String lastPath = "";
 
   private static void generateRequest(Module module, Prototype prototype)
   {
@@ -260,7 +265,7 @@ public class PopHTTPSwagger extends Generator
     if (path.indexOf('/') == -1)
       doInBody = true;
     if (lastPath.compareTo(path) != 0)
-    {  
+    {
       lastPath = path;
       writeln(1, format("/%s:", path));
     }
@@ -412,63 +417,63 @@ public class PopHTTPSwagger extends Generator
   {
     switch (field.type.typeof)
     {
-    case Type.USERTYPE:
-      if (field.type.reference == Type.BYREFPTR)
-      {
-        if (op != null)
+      case Type.USERTYPE:
+        if (field.type.reference == Type.BYREFPTR)
         {
-          writeln(ind, "type: array");
-          writeln(ind, "items:");
-          writeln(ind + 1, format("$ref: '#/definitions/%s'", field.type.name));
+          if (op != null)
+          {
+            writeln(ind, "type: array");
+            writeln(ind, "items:");
+            writeln(ind + 1, format("$ref: '#/definitions/%s'", field.type.name));
+          } else
+            writeln(ind, format("$ref: '#/definitions/%s'", field.type.name));
+        } else if (field.type.reference == Type.BYPTR)
+        {
+          if (op != null)
+          {
+            writeln(ind, "type: array");
+            writeln(ind, "items:");
+            writeln(ind + 1, format("$ref: '#/definitions/%s'", field.type.name));
+          } else
+            writeln(ind, format("$ref: '#/definitions/%s'", field.type.name));
         } else
           writeln(ind, format("$ref: '#/definitions/%s'", field.type.name));
-      } else if (field.type.reference == Type.BYPTR)
-      {
-        if (op != null)
+        break;
+      case Type.CHAR:
+      case Type.WCHAR:
+      case Type.STRING:
+        writeln(ind, "type: string");
+        if (field.type.arraySizes.size() > 0)
         {
-          writeln(ind, "type: array");
-          writeln(ind, "items:");
-          writeln(ind + 1, format("$ref: '#/definitions/%s'", field.type.name));
-        } else
-          writeln(ind, format("$ref: '#/definitions/%s'", field.type.name));
-      } else
-        writeln(ind, format("$ref: '#/definitions/%s'", field.type.name));
-      break;
-    case Type.CHAR:
-    case Type.WCHAR:
-    case Type.STRING:
-      writeln(ind, "type: string");
-      if (field.type.arraySizes.size() > 0)
-      {
-        Integer integer = (Integer) field.type.arraySizes.elementAt(0);
-        writeln(ind, format("maxLength: %d", integer.intValue() - 1));
-      }
-      break;
-    case Type.BYTE:
-      writeln(ind, "type: integer");
-      writeln(ind, "format: int8");
-      break;
-    case Type.BOOLEAN:
-    case Type.INT:
-      writeln(ind, "type: integer");
-      writeln(ind, "format: int32");
-      break;
-    case Type.SHORT:
-      writeln(ind, "type: integer");
-      writeln(ind, "format: int16");
-      break;
-    case Type.LONG:
-      writeln(ind, "type: integer");
-      writeln(ind, "format: int64");
-      break;
-    case Type.FLOAT:
-    case Type.DOUBLE:
-      writeln(ind, "type: number");
-      writeln(ind, "format: double");
-      break;
-    case Type.VOID:
-    default:
-      break;
+          Integer integer = (Integer) field.type.arraySizes.elementAt(0);
+          writeln(ind, format("maxLength: %d", integer.intValue() - 1));
+        }
+        break;
+      case Type.BYTE:
+        writeln(ind, "type: integer");
+        writeln(ind, "format: int8");
+        break;
+      case Type.BOOLEAN:
+      case Type.INT:
+        writeln(ind, "type: integer");
+        writeln(ind, "format: int32");
+        break;
+      case Type.SHORT:
+        writeln(ind, "type: integer");
+        writeln(ind, "format: int16");
+        break;
+      case Type.LONG:
+        writeln(ind, "type: integer");
+        writeln(ind, "format: int64");
+        break;
+      case Type.FLOAT:
+      case Type.DOUBLE:
+        writeln(ind, "type: number");
+        writeln(ind, "format: double");
+        break;
+      case Type.VOID:
+      default:
+        break;
     }
   }
 
@@ -493,46 +498,46 @@ public class PopHTTPSwagger extends Generator
             writeln(ind, format("%s:", field.name));
             switch (field.type.typeof)
             {
-            case Type.CHAR:
-            case Type.WCHAR:
-            case Type.STRING:
-              writeln(ind + 1, "type: string");
-              if (field.type.arraySizes.size() > 0)
-              {
-                Integer integer = (Integer) field.type.arraySizes.elementAt(0);
-                writeln(ind + 1, format("maxLength: %d", integer.intValue() - 1));
-              }
-              break;
-            case Type.BYTE:
-              writeln(ind + 1, "type: integer");
-              writeln(ind + 1, "format: int8");
-              break;
-            case Type.BOOLEAN:
-            case Type.INT:
-              writeln(ind + 1, "type: integer");
-              writeln(ind + 1, "format: int32");
-              break;
-            case Type.SHORT:
-              writeln(ind + 1, "type: integer");
-              writeln(ind + 1, "format: int16");
-              break;
-            case Type.LONG:
-              writeln(ind + 1, "type: integer");
-              writeln(ind + 1, "format: int64");
-              break;
-            case Type.FLOAT:
-            case Type.DOUBLE:
-              writeln(ind + 1, "type: number");
-              writeln(ind + 1, "format: double");
-              break;
-            case Type.USERTYPE:
-              writeln(ind + 1, format("$ref: '#/definitions/%s'", field.type.name));
-              break;
-            case Type.VOID:
-              writeln(ind + 1, "$ type: void");
-              break;
-            default:
-              break;
+              case Type.CHAR:
+              case Type.WCHAR:
+              case Type.STRING:
+                writeln(ind + 1, "type: string");
+                if (field.type.arraySizes.size() > 0)
+                {
+                  Integer integer = (Integer) field.type.arraySizes.elementAt(0);
+                  writeln(ind + 1, format("maxLength: %d", integer.intValue() - 1));
+                }
+                break;
+              case Type.BYTE:
+                writeln(ind + 1, "type: integer");
+                writeln(ind + 1, "format: int8");
+                break;
+              case Type.BOOLEAN:
+              case Type.INT:
+                writeln(ind + 1, "type: integer");
+                writeln(ind + 1, "format: int32");
+                break;
+              case Type.SHORT:
+                writeln(ind + 1, "type: integer");
+                writeln(ind + 1, "format: int16");
+                break;
+              case Type.LONG:
+                writeln(ind + 1, "type: integer");
+                writeln(ind + 1, "format: int64");
+                break;
+              case Type.FLOAT:
+              case Type.DOUBLE:
+                writeln(ind + 1, "type: number");
+                writeln(ind + 1, "format: double");
+                break;
+              case Type.USERTYPE:
+                writeln(ind + 1, format("$ref: '#/definitions/%s'", field.type.name));
+                break;
+              case Type.VOID:
+                writeln(ind + 1, "$ type: void");
+                break;
+              default:
+                break;
             }
           }
           boolean required_header = false;
@@ -541,28 +546,29 @@ public class PopHTTPSwagger extends Generator
             Field field = (Field) structure.fields.elementAt(j);
             switch (field.type.typeof)
             {
-            case Type.BYTE:
-            case Type.BOOLEAN:
-            case Type.INT:
-            case Type.SHORT:
-            case Type.LONG:
-            case Type.FLOAT:
-            case Type.DOUBLE:
-              if (required_header == false)
-              {
-                writeln(2, "required:");
-                required_header = true;
-              }
-              writeln(3, format("- %s", field.name));
-              break;
-            default:
-              break;
+              case Type.BYTE:
+              case Type.BOOLEAN:
+              case Type.INT:
+              case Type.SHORT:
+              case Type.LONG:
+              case Type.FLOAT:
+              case Type.DOUBLE:
+                if (required_header == false)
+                {
+                  writeln(2, "required:");
+                  required_header = true;
+                }
+                writeln(3, format("- %s", field.name));
+                break;
+              default:
+                break;
             }
           }
           continue;
         }
       }
-    } catch (Throwable e)
+    }
+    catch (Throwable e)
     {
       System.out.println(e);
       System.out.flush();
@@ -591,28 +597,28 @@ public class PopHTTPSwagger extends Generator
           String name = field.name;
           switch (field.type.typeof)
           {
-          case Type.USERTYPE:
-            break;
-          case Type.CHAR:
-            writeln(2, "dBuild.add(\"" + name + "\", " + name + ", sizeof(" + name + "), \"\");");
-            break;
-          case Type.BYTE:
-          case Type.BOOLEAN:
-          case Type.INT:
-          case Type.SHORT:
-          case Type.LONG:
-          case Type.FLOAT:
-          case Type.DOUBLE:
-            writeln(2, "dBuild.add(\"" + name + "\", " + name + ", \"\");");
-            break;
-          case Type.VOID:
-            break;
-          case Type.STRING:
-            break;
-          case Type.WCHAR:
-            break;
-          default:
-            break;
+            case Type.USERTYPE:
+              break;
+            case Type.CHAR:
+              writeln(2, "dBuild.add(\"" + name + "\", " + name + ", sizeof(" + name + "), \"\");");
+              break;
+            case Type.BYTE:
+            case Type.BOOLEAN:
+            case Type.INT:
+            case Type.SHORT:
+            case Type.LONG:
+            case Type.FLOAT:
+            case Type.DOUBLE:
+              writeln(2, "dBuild.add(\"" + name + "\", " + name + ", \"\");");
+              break;
+            case Type.VOID:
+              break;
+            case Type.STRING:
+              break;
+            case Type.WCHAR:
+              break;
+            default:
+              break;
           }
         }
         writeln(1, "}");
@@ -626,30 +632,30 @@ public class PopHTTPSwagger extends Generator
           String name = field.name;
           switch (field.type.typeof)
           {
-          case Type.USERTYPE:
-            break;
-          case Type.CHAR:
-            writeln(2, "dBuild.set(\"" + name + "\", " + name + ", sizeof(" + name + "), \"\");");
-            break;
-          case Type.BYTE:
-          case Type.BOOLEAN:
-            writeln(2, "dBuild.set(\"" + name + "\", " + name + ", sizeof(" + name + "), \"\");");
-            break;
-          case Type.INT:
-          case Type.SHORT:
-          case Type.LONG:
-          case Type.FLOAT:
-          case Type.DOUBLE:
-            writeln(2, "dBuild.set(\"" + name + "\", " + name + ", sizeof(" + name + "), \"\");");
-            break;
-          case Type.VOID:
-            break;
-          case Type.STRING:
-            break;
-          case Type.WCHAR:
-            break;
-          default:
-            break;
+            case Type.USERTYPE:
+              break;
+            case Type.CHAR:
+              writeln(2, "dBuild.set(\"" + name + "\", " + name + ", sizeof(" + name + "), \"\");");
+              break;
+            case Type.BYTE:
+            case Type.BOOLEAN:
+              writeln(2, "dBuild.set(\"" + name + "\", " + name + ", sizeof(" + name + "), \"\");");
+              break;
+            case Type.INT:
+            case Type.SHORT:
+            case Type.LONG:
+            case Type.FLOAT:
+            case Type.DOUBLE:
+              writeln(2, "dBuild.set(\"" + name + "\", " + name + ", sizeof(" + name + "), \"\");");
+              break;
+            case Type.VOID:
+              break;
+            case Type.STRING:
+              break;
+            case Type.WCHAR:
+              break;
+            default:
+              break;
           }
         }
         writeln(1, "}");

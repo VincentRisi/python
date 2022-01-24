@@ -18,94 +18,101 @@ import java.io.Serializable;
 import java.util.Vector;
 
 /**
-* This holds the field definition. It also supplies methods for the
-* Java format and various SQL formats.
-*/
+ * This holds the field definition. It also supplies methods for the
+ * Java format and various SQL formats.
+ */
 public class Field implements Serializable
 {
+  public static final byte
+          BLOB = 1, BOOLEAN = 2, BYTE = 3, CHAR = 4, DATE = 5, DATETIME = 6, DOUBLE = 7, DYNAMIC = 8, FLOAT = 9, IDENTITY = 10, INT = 11, LONG = 12, MONEY = 13, SEQUENCE = 14, SHORT = 15, STATUS = 16, TIME = 17, TIMESTAMP = 18, TLOB = 19, USERSTAMP = 20, ANSICHAR = 21, UID = 22, XML = 23, BIGSEQUENCE = 24, BIGIDENTITY = 25, AUTOTIMESTAMP = 26, WCHAR = 27, WANSICHAR = 28, UTF8 = 29, BIGXML = 30, IMAGE = 31, UNICODE = 32;
+  public static final int DEFAULT_XML = 4096;
+  public static final int DEFAULT_BIG_XML = 4194304;
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 1L;
-  /** Name to use in the database */
+  /**
+   * Name to use in the database
+   */
   public String name;
-  /** Name to use in the database for a literal*/
+  /**
+   * Name to use in the database for a literal
+   */
   public String literalName;
-  /** Name to use in the class if not present (normal case) then name is used */
+  /**
+   * Name to use in the class if not present (normal case) then name is used
+   */
   public String alias;
-  /** Default value to apply for the field on insert if not specified */
+  /**
+   * Default value to apply for the field on insert if not specified
+   */
   public String defaultValue;
-  /** Check Constraint to applied to field by the database */
+  /**
+   * Check Constraint to applied to field by the database
+   */
   public String checkValue;
-  /** Type of field */
+  /**
+   * Type of field
+   */
   public byte type;
-  /** Length of field */
+  /**
+   * Length of field
+   */
   public int length;
-  /** No of digits in a numeric field */
+  /**
+   * No of digits in a numeric field
+   */
   public int precision;
-  /** No of digits after the decimal point|comma */
+  /**
+   * No of digits after the decimal point|comma
+   */
   public int scale;
   public int bindPos;
   public int definePos;
-  /** Array of comments associated with the field */
+  /**
+   * Array of comments associated with the field
+   */
   public Vector<String> comments;
   public Vector<Enum> enums;
   public Vector<String> valueList;
   public String enumLink;
-  /** Indicates field is used in the primary key */
+  /**
+   * Indicates field is used in the primary key
+   */
   public boolean isPrimaryKey;
-  /** Indicates the field is a Sequence */
+  /**
+   * Indicates the field is a Sequence
+   */
   public boolean isSequence;
-  /** Indicates the field can be NULL on the database */
+  /**
+   * Indicates the field can be NULL on the database
+   */
   public boolean isNull;
-  /** Indicates the field can is a Literal */
+  /**
+   * Indicates the field can is a Literal
+   */
   public boolean isLiteral;
-  /** Indicates the field is a calculated column on the database */
+  /**
+   * Indicates the field is a calculated column on the database
+   */
   public boolean isCalc;
-  /** Indicates the field is INPUT */
+  /**
+   * Indicates the field is INPUT
+   */
   public boolean isIn;
-  /** Indicates the field is OUTPUT */
+  /**
+   * Indicates the field is OUTPUT
+   */
   public boolean isOut;
-  /** Indicates the field is EXT */
+  /**
+   * Indicates the field is EXT
+   */
   public boolean isExtStd;
   public boolean isExtStdOut;
-  public static final byte
-    BLOB = 1
-  , BOOLEAN = 2
-  , BYTE = 3
-  , CHAR = 4
-  , DATE = 5
-  , DATETIME = 6
-  , DOUBLE = 7
-  , DYNAMIC = 8
-  , FLOAT = 9
-  , IDENTITY = 10
-  , INT = 11
-  , LONG = 12
-  , MONEY = 13
-  , SEQUENCE = 14
-  , SHORT = 15
-  , STATUS = 16
-  , TIME = 17
-  , TIMESTAMP = 18
-  , TLOB = 19
-  , USERSTAMP = 20
-  , ANSICHAR = 21
-  , UID = 22
-  , XML = 23
-  , BIGSEQUENCE = 24
-  , BIGIDENTITY = 25
-  , AUTOTIMESTAMP = 26
-  , WCHAR = 27
-  , WANSICHAR = 28
-  , UTF8 = 29
-  , BIGXML = 30
-  , IMAGE = 31
-  , UNICODE = 32
-  ;
-  public static final int DEFAULT_XML = 4096;
-  public static final int DEFAULT_BIG_XML = 4194304;
-  /** constructor ensures fields have correct default values */
+
+  /**
+   * constructor ensures fields have correct default values
+   */
   public Field()
   {
     name = "";
@@ -133,6 +140,7 @@ public class Field implements Serializable
     isExtStdOut = false;
     isOut = false;
   }
+
   public void reader(DataInputStream ids) throws IOException
   {
     name = ids.readUTF();
@@ -176,6 +184,7 @@ public class Field implements Serializable
     isExtStdOut = ids.readBoolean();
     isOut = ids.readBoolean();
   }
+
   public void writer(DataOutputStream ods) throws IOException
   {
     ods.writeUTF(name);
@@ -218,14 +227,20 @@ public class Field implements Serializable
     ods.writeBoolean(isExtStdOut);
     ods.writeBoolean(isOut);
   }
-  /** If there is an alias uses that else returns name */
+
+  /**
+   * If there is an alias uses that else returns name
+   */
   public String useName()
   {
     if (alias.length() > 0)
       return alias;
     return name;
   }
-  /** If there is an alias uses that else returns name */
+
+  /**
+   * If there is an alias uses that else returns name
+   */
   public String useLowerName()
   {
     String n = useName();
@@ -236,7 +251,10 @@ public class Field implements Serializable
     }
     return f.toLowerCase() + n.substring(1);
   }
-  /** If there is an alias uses that else returns name */
+
+  /**
+   * If there is an alias uses that else returns name
+   */
   public String useUpperName()
   {
     String n = useName();
@@ -247,10 +265,11 @@ public class Field implements Serializable
     }
     return f.toUpperCase() + n.substring(1);
   }
+
   public String replaceAll(
-    String haystack,              // String to search in
-    String needle,                // Substring to find
-    String replacement)
+          String haystack,              // String to search in
+          String needle,                // Substring to find
+          String replacement)
   {         // Substring to replace with
     int i = haystack.lastIndexOf(needle);
     if (i != -1)
@@ -265,6 +284,7 @@ public class Field implements Serializable
     }
     return haystack;
   }
+
   /**
    * Check for empty string as null type fields.
    */
@@ -273,7 +293,8 @@ public class Field implements Serializable
     if (isNull == false) return false;
     switch (type)
     {
-      case ANSICHAR: if (length == 1) break;
+      case ANSICHAR:
+        if (length == 1) break;
       case CHAR:
       case DATE:
       case DATETIME:
@@ -282,6 +303,7 @@ public class Field implements Serializable
     }
     return false;
   }
+
   /**
    * Check for empty string as null type fields.
    */
@@ -290,13 +312,15 @@ public class Field implements Serializable
     if (isNull == false) return false;
     switch (type)
     {
-      case ANSICHAR: if (length == 1) break;
+      case ANSICHAR:
+        if (length == 1) break;
       case CHAR:
       case TLOB:
         return true;
     }
     return false;
   }
+
   /**
    * Check for empty string as null type fields.
    */
@@ -305,48 +329,55 @@ public class Field implements Serializable
     if (isNull == false) return false;
     return type == ANSICHAR && length == 1;
   }
+
   public boolean isEmptyOrAnsiAsNull()
   {
     return isEmptyAsNull() || ansiIsNull();
   }
+
   public boolean isCharEmptyOrAnsiAsNull()
   {
     return isCharEmptyAsNull() || ansiIsNull();
   }
-  /** If there is an literal uses that else returns name 
+
+  /**
+   * If there is an literal uses that else returns name
    * optional inString defaults to false
-   * returning escaped quotes or double quotes 
-   * */
+   * returning escaped quotes or double quotes
+   */
   public String useLiteral()
   {
     return useLiteral(false);
   }
+
   public String useLiteral(boolean inString)
   {
     if (isLiteral)
     {
       if (inString)
       {
-        char first = literalName.charAt(0); 
-        int no = literalName.length()-1;
+        char first = literalName.charAt(0);
+        int no = literalName.length() - 1;
         char last = literalName.charAt(no);
         if (no > 0 && first == last)
           if (first == '"' || first == '\'')
-            return "\\"+literalName.substring(0, no)+"\\"+last;
+            return "\\" + literalName.substring(0, no) + "\\" + last;
       }
       return literalName;
     }
     return name;
   }
+
   public String fixEscape()
   {
-	String result = useLiteral(false);
-	if (result.charAt(0) == '[')
-	  result = result.replace('[', '"').replace(']', '"');
-	else if (result.charAt(0) == '`')
-	  result = result.replace('`', '"');
-	return result;
+    String result = useLiteral(false);
+    if (result.charAt(0) == '[')
+      result = result.replace('[', '"').replace(']', '"');
+    else if (result.charAt(0) == '`')
+      result = result.replace('`', '"');
+    return result;
   }
+
   public boolean isEnum()
   {
     return enums.size() > 0;

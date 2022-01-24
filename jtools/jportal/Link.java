@@ -18,15 +18,17 @@ import java.io.Serializable;
 import java.util.Vector;
 
 /**
-* Foreign keys used in database
-*/
+ * Foreign keys used in database
+ */
 public class Link implements Serializable
 {
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 1L;
-  /** Name of foreign table */
+  /**
+   * Name of foreign table
+   */
   public String name;
   public String linkName;
   public Vector<String> fields;
@@ -36,6 +38,7 @@ public class Link implements Serializable
   public boolean isUpdateCascade;
   public boolean isProc;
   public boolean isDProc;
+
   public Link()
   {
     name = "";
@@ -48,6 +51,7 @@ public class Link implements Serializable
     isProc = false;
     isDProc = false;
   }
+
   public void reader(DataInputStream ids) throws IOException
   {
     name = ids.readUTF();
@@ -66,6 +70,7 @@ public class Link implements Serializable
     }
     isDeleteCascade = ids.readBoolean();
   }
+
   public void writer(DataOutputStream ods) throws IOException
   {
     ods.writeUTF(name);
@@ -83,6 +88,7 @@ public class Link implements Serializable
     }
     ods.writeBoolean(isDeleteCascade);
   }
+
   public boolean hasField(String s)
   {
     int i;
@@ -94,7 +100,10 @@ public class Link implements Serializable
     }
     return false;
   }
-  /** If there is an alias uses that else returns name */
+
+  /**
+   * If there is an alias uses that else returns name
+   */
   public String useName()
   {
     String n = name;
@@ -103,9 +112,9 @@ public class Link implements Serializable
   }
 
   public String replaceAll(
-    String haystack,              // String to search in
-    String needle,                // Substring to find
-    String replacement)
+          String haystack,              // String to search in
+          String needle,                // Substring to find
+          String replacement)
   {         // Substring to replace with
 
     int i = haystack.lastIndexOf(needle);

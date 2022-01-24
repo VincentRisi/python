@@ -35,6 +35,14 @@ import java.util.Vector;
 
 public class PopHTTPPython extends Generator
 {
+  private static final Map<String, String> done = new HashMap<String, String>();
+  private static PrintWriter outLog;
+  private static Properties properties;
+  private static String urlPrefix = "..";
+  private static String defSqlSub = "/yaml2";
+  private static String compSqlSub = "/yaml3";
+  private static String description;
+
   public static String description()
   {
     return "Generates HTTP Python Test Code (AIX|LINUX|WINDOWS)";
@@ -44,8 +52,6 @@ public class PopHTTPPython extends Generator
   {
     return "Generates HTTP Python Test Code (AIX|LINUX|WINDOWS)";
   }
-
-  private static PrintWriter outLog;
 
   public static void main(String[] args)
   {
@@ -61,17 +67,12 @@ public class PopHTTPPython extends Generator
         generate(module, "", outLog);
       }
       outLog.flush();
-    } catch (Exception e)
+    }
+    catch (Exception e)
     {
       e.printStackTrace();
     }
   }
-
-  private static Properties properties;
-  private static String urlPrefix = "..";
-  private static String defSqlSub = "/yaml2";
-  private static String compSqlSub = "/yaml3";
-  private static String description;
 
   public static void generate(Module module, String output, PrintWriter inOutLog)
   {
@@ -83,7 +84,7 @@ public class PopHTTPPython extends Generator
       InputStream input = new FileInputStream(propertiesName);
       properties = new Properties();
       properties.load(input);
-    } 
+    }
     catch (Exception ex)
     {
       properties = null;
@@ -176,18 +177,21 @@ public class PopHTTPPython extends Generator
         writeln("set_error(tError)");
         writeln();
         generatePaths(module);
-      } finally
+      }
+      finally
       {
         writer.flush();
         outFile.close();
       }
-    } catch (IOException e1)
+    }
+    catch (IOException e1)
     {
       outLog.println("Generate Procs IO Error");
       System.out.println(e1);
       System.out.flush();
       e1.printStackTrace();
-    } catch (Throwable e)
+    }
+    catch (Throwable e)
     {
       System.out.println(e);
       System.out.flush();
@@ -212,30 +216,30 @@ public class PopHTTPPython extends Generator
             Field field = (Field) structure.fields.elementAt(j);
             switch (field.type.typeof)
             {
-            case Type.CHAR:
-            case Type.WCHAR:
-            case Type.STRING:
-              writeln(1, format("%s: str", field.name));
-              break;
-            case Type.BYTE:
-            case Type.BOOLEAN:
-            case Type.INT:
-            case Type.SHORT:
-            case Type.LONG:
-              writeln(1, format("%s: int", field.name));
-              break;
-            case Type.FLOAT:
-            case Type.DOUBLE:
-              writeln(1, format("%s: float", field.name));
-              break;
-            case Type.USERTYPE:
-              writeln(1, format("# %s: %s' # USERTYPE", field.name, field.type.name));
-              break;
-            case Type.VOID:
-              writeln(1, format("# %s: void' # VOID", field.name));
-              break;
-            default:
-              break;
+              case Type.CHAR:
+              case Type.WCHAR:
+              case Type.STRING:
+                writeln(1, format("%s: str", field.name));
+                break;
+              case Type.BYTE:
+              case Type.BOOLEAN:
+              case Type.INT:
+              case Type.SHORT:
+              case Type.LONG:
+                writeln(1, format("%s: int", field.name));
+                break;
+              case Type.FLOAT:
+              case Type.DOUBLE:
+                writeln(1, format("%s: float", field.name));
+                break;
+              case Type.USERTYPE:
+                writeln(1, format("# %s: %s' # USERTYPE", field.name, field.type.name));
+                break;
+              case Type.VOID:
+                writeln(1, format("# %s: void' # VOID", field.name));
+                break;
+              default:
+                break;
             }
           }
           writeln(1, "def __init__(self):");
@@ -244,42 +248,43 @@ public class PopHTTPPython extends Generator
             Field field = (Field) structure.fields.elementAt(j);
             switch (field.type.typeof)
             {
-            case Type.CHAR:
-            case Type.WCHAR:
-            case Type.STRING:
-              writeln(2, format("self.%s = ''", field.name));
-              break;
-            case Type.BYTE:
-            case Type.BOOLEAN:
-            case Type.INT:
-            case Type.SHORT:
-            case Type.LONG:
-              writeln(2, format("self.%s = 0", field.name));
-              break;
-            case Type.FLOAT:
-            case Type.DOUBLE:
-              writeln(2, format("self.%s = 0.0", field.name));
-              break;
-            case Type.USERTYPE:
-              writeln(2, format("# %s: %s' # USERTYPE", field.name, field.type.name));
-              break;
-            case Type.VOID:
-              writeln(2, format("# %s: void' # VOID", field.name));
-              break;
-            default:
-              break;
+              case Type.CHAR:
+              case Type.WCHAR:
+              case Type.STRING:
+                writeln(2, format("self.%s = ''", field.name));
+                break;
+              case Type.BYTE:
+              case Type.BOOLEAN:
+              case Type.INT:
+              case Type.SHORT:
+              case Type.LONG:
+                writeln(2, format("self.%s = 0", field.name));
+                break;
+              case Type.FLOAT:
+              case Type.DOUBLE:
+                writeln(2, format("self.%s = 0.0", field.name));
+                break;
+              case Type.USERTYPE:
+                writeln(2, format("# %s: %s' # USERTYPE", field.name, field.type.name));
+                break;
+              case Type.VOID:
+                writeln(2, format("# %s: void' # VOID", field.name));
+                break;
+              default:
+                break;
             }
           }
         }
       }
-    } catch (Throwable e)
+    }
+    catch (Throwable e)
     {
       System.out.println(e);
       System.out.flush();
       e.printStackTrace();
     }
   }
-  
+
   private static void generateDefinitions(Module module)
   {
     writeln(0, "class tError:");
@@ -306,7 +311,7 @@ public class PopHTTPPython extends Generator
       String yaml2File;
       yaml2File = format("%s%s/%s.yaml", urlPrefix, defSqlSub, table);
       done.put(structName, table);
-      Vector<String> sets = new Vector<String> ();
+      Vector<String> sets = new Vector<String>();
       try
       {
         Reader input = new FileReader(yaml2File);
@@ -320,62 +325,59 @@ public class PopHTTPPython extends Generator
           {
             switch (state)
             {
-            case 0:
-              if (line.contains(structName) == true)
-              {
-                writeln(0, format("class%s", structName));
-                state = 1;
-              }
-              break;
-            case 1:
-              if (line.contains("properties:") == true)
-                state = 2;
-              break;
-            case 2:
-              if (line.compareTo("...") == 0 || line.charAt(2) != ' ')
-              {
-                state = 9;
-                break;
-              }
-              if (line.contains("required:") == true)
-              {
-                state = 9;
-                break;
-              }
-              if (line.charAt(4) == ' ' && line.charAt(6) != ' ')
-              {
-                fieldName = line.substring(6, line.length()-1);
-                state = 3;
-                break;
-              }
-              break;
-            case 3:
-              if (line.contains("type:") == true)
-              {
-                if (line.contains("string") == true)
+              case 0:
+                if (line.contains(structName) == true)
                 {
-                  writeln(1, format("%s: str", fieldName));
-                  sets.addElement(format("self.%s = ''", fieldName));
+                  writeln(0, format("class%s", structName));
+                  state = 1;
                 }
-                else if (line.contains("integer") == true)
-                {
-                  writeln(1, format("%s: int", fieldName));
-                  sets.addElement(format("self.%s = 0", fieldName));
-                }
-                else if (line.contains("float") == true)
-                {
-                  writeln(1, format("%s: float", fieldName));
-                  sets.addElement(format("self.%s = 0.0", fieldName));
-                }
-                else if (line.contains("number") == true)
-                {
-                  writeln(1, format("%s: float", fieldName));
-                  sets.addElement(format("self.%s = 0.0", fieldName));
-                }
-                state = 2;
                 break;
-              }
-              break;
+              case 1:
+                if (line.contains("properties:") == true)
+                  state = 2;
+                break;
+              case 2:
+                if (line.compareTo("...") == 0 || line.charAt(2) != ' ')
+                {
+                  state = 9;
+                  break;
+                }
+                if (line.contains("required:") == true)
+                {
+                  state = 9;
+                  break;
+                }
+                if (line.charAt(4) == ' ' && line.charAt(6) != ' ')
+                {
+                  fieldName = line.substring(6, line.length() - 1);
+                  state = 3;
+                  break;
+                }
+                break;
+              case 3:
+                if (line.contains("type:") == true)
+                {
+                  if (line.contains("string") == true)
+                  {
+                    writeln(1, format("%s: str", fieldName));
+                    sets.addElement(format("self.%s = ''", fieldName));
+                  } else if (line.contains("integer") == true)
+                  {
+                    writeln(1, format("%s: int", fieldName));
+                    sets.addElement(format("self.%s = 0", fieldName));
+                  } else if (line.contains("float") == true)
+                  {
+                    writeln(1, format("%s: float", fieldName));
+                    sets.addElement(format("self.%s = 0.0", fieldName));
+                  } else if (line.contains("number") == true)
+                  {
+                    writeln(1, format("%s: float", fieldName));
+                    sets.addElement(format("self.%s = 0.0", fieldName));
+                  }
+                  state = 2;
+                  break;
+                }
+                break;
             }
             if (state == 9)
               break;
@@ -392,19 +394,19 @@ public class PopHTTPPython extends Generator
             }
             writeln();
           }
-        } 
+        }
         catch (IOException e)
         {
           outLog.println(format("%s - IOException", yaml2File));
         }
-      } 
+      }
       catch (FileNotFoundException e)
       {
         outLog.println(format("%s %s - FileNotFound", yaml2File, structure.name));
       }
     }
   }
-  
+
   private static void generateComponents(Module module)
   {
     writeln(0, "class tError:");
@@ -431,7 +433,7 @@ public class PopHTTPPython extends Generator
       String yaml3File;
       yaml3File = format("%s%s/%s.yaml", urlPrefix, compSqlSub, table);
       done.put(structName, table);
-      Vector<String> sets = new Vector<String> ();
+      Vector<String> sets = new Vector<String>();
       try
       {
         Reader input = new FileReader(yaml3File);
@@ -445,62 +447,59 @@ public class PopHTTPPython extends Generator
           {
             switch (state)
             {
-            case 0:
-              if (line.contains(structName) == true)
-              {
-                writeln(0, format("class%s", structName));
-                state = 1;
-              }
-              break;
-            case 1:
-              if (line.contains("properties:") == true)
-                state = 2;
-              break;
-            case 2:
-              if (line.compareTo("...") == 0 || line.charAt(4) != ' ')
-              {
-                state = 9;
-                break;
-              }
-              if (line.contains("required:") == true)
-              {
-                state = 9;
-                break;
-              }
-              if (line.charAt(6) == ' ' && line.charAt(8) != ' ')
-              {
-                fieldName = line.substring(6, line.length()-1);
-                state = 3;
-                break;
-              }
-              break;
-            case 3:
-              if (line.contains("type:") == true)
-              {
-                if (line.contains("string") == true)
+              case 0:
+                if (line.contains(structName) == true)
                 {
-                  writeln(1, format("%s: str", fieldName));
-                  sets.addElement(format("self.%s = ''", fieldName));
+                  writeln(0, format("class%s", structName));
+                  state = 1;
                 }
-                else if (line.contains("integer") == true)
-                {
-                  writeln(1, format("%s: int", fieldName));
-                  sets.addElement(format("self.%s = 0", fieldName));
-                }
-                else if (line.contains("float") == true)
-                {
-                  writeln(1, format("%s: float", fieldName));
-                  sets.addElement(format("self.%s = 0.0", fieldName));
-                }
-                else if (line.contains("number") == true)
-                {
-                  writeln(1, format("%s: float", fieldName));
-                  sets.addElement(format("self.%s = 0.0", fieldName));
-                }
-                state = 2;
                 break;
-              }
-              break;
+              case 1:
+                if (line.contains("properties:") == true)
+                  state = 2;
+                break;
+              case 2:
+                if (line.compareTo("...") == 0 || line.charAt(4) != ' ')
+                {
+                  state = 9;
+                  break;
+                }
+                if (line.contains("required:") == true)
+                {
+                  state = 9;
+                  break;
+                }
+                if (line.charAt(6) == ' ' && line.charAt(8) != ' ')
+                {
+                  fieldName = line.substring(6, line.length() - 1);
+                  state = 3;
+                  break;
+                }
+                break;
+              case 3:
+                if (line.contains("type:") == true)
+                {
+                  if (line.contains("string") == true)
+                  {
+                    writeln(1, format("%s: str", fieldName));
+                    sets.addElement(format("self.%s = ''", fieldName));
+                  } else if (line.contains("integer") == true)
+                  {
+                    writeln(1, format("%s: int", fieldName));
+                    sets.addElement(format("self.%s = 0", fieldName));
+                  } else if (line.contains("float") == true)
+                  {
+                    writeln(1, format("%s: float", fieldName));
+                    sets.addElement(format("self.%s = 0.0", fieldName));
+                  } else if (line.contains("number") == true)
+                  {
+                    writeln(1, format("%s: float", fieldName));
+                    sets.addElement(format("self.%s = 0.0", fieldName));
+                  }
+                  state = 2;
+                  break;
+                }
+                break;
             }
             if (state == 9)
               break;
@@ -517,12 +516,12 @@ public class PopHTTPPython extends Generator
             }
             writeln();
           }
-        } 
+        }
         catch (IOException e)
         {
           outLog.println(format("%s - IOException", yaml3File));
         }
-      } 
+      }
       catch (FileNotFoundException e)
       {
         outLog.println(format("%s %s - FileNotFound", yaml3File, structure.name));
@@ -542,8 +541,6 @@ public class PopHTTPPython extends Generator
     }
   }
 
-  private static final Map<String, String> done = new HashMap<String, String>();
-
   private static void generateRequest(Module module, Prototype prototype)
   {
     boolean doInBody = false;
@@ -556,67 +553,63 @@ public class PopHTTPPython extends Generator
     else
       generateInOther(module, prototype, path);
   }
-  
+
   private static void swaggerParameter(Operation op, Field field, Vector<String> setters)
   {
     String name = field.name;
     switch (field.type.typeof)
     {
-    case Type.USERTYPE:
-      if (field.type.reference == Type.BYREFPTR)
-      {
-        if (op != null)
+      case Type.USERTYPE:
+        if (field.type.reference == Type.BYREFPTR)
         {
-          writeln(1, format("%s: [%s]", name, field.type.name));
-          setters.addElement(format("self.%s = []", name));
-        }
-        else
+          if (op != null)
+          {
+            writeln(1, format("%s: [%s]", name, field.type.name));
+            setters.addElement(format("self.%s = []", name));
+          } else
+          {
+            writeln(1, format("%s: %s", name, field.type.name));
+            setters.addElement(format("self.%s = %s()", name, field.type.name));
+          }
+        } else if (field.type.reference == Type.BYPTR)
+        {
+          if (op != null)
+          {
+            writeln(1, format("%s: [%s]", name, field.type.name));
+            setters.addElement(format("self.%s = []", name));
+          } else
+          {
+            writeln(1, format("%s: %s", name, field.type.name));
+            setters.addElement(format("self.%s = %s()", name, field.type.name));
+          }
+        } else
         {
           writeln(1, format("%s: %s", name, field.type.name));
           setters.addElement(format("self.%s = %s()", name, field.type.name));
         }
-      } 
-      else if (field.type.reference == Type.BYPTR)
-      {
-        if (op != null)
-        {
-          writeln(1, format("%s: [%s]", name, field.type.name));
-          setters.addElement(format("self.%s = []", name));
-        }
-        else
-        {
-          writeln(1, format("%s: %s", name, field.type.name));
-          setters.addElement(format("self.%s = %s()", name, field.type.name));
-        }
-      } 
-      else
-      {
-        writeln(1, format("%s: %s", name, field.type.name));
-        setters.addElement(format("self.%s = %s()", name, field.type.name));
-      }
-      break;
-    case Type.CHAR:
-    case Type.WCHAR:
-    case Type.STRING:
-      writeln(1, format("%s: str", name));
-      setters.addElement(format("self.%s = ''", name));
-      break;
-    case Type.BYTE:
-    case Type.BOOLEAN:
-    case Type.INT:
-    case Type.SHORT:
-    case Type.LONG:
-      writeln(1, format("%s: int", name));
-      setters.addElement(format("self.%s = 0", name));
-      break;
-    case Type.FLOAT:
-    case Type.DOUBLE:
-      writeln(1, format("%s: float", name));
-      setters.addElement(format("self.%s = 0.0", name));
-      break;
-    case Type.VOID:
-    default:
-      break;
+        break;
+      case Type.CHAR:
+      case Type.WCHAR:
+      case Type.STRING:
+        writeln(1, format("%s: str", name));
+        setters.addElement(format("self.%s = ''", name));
+        break;
+      case Type.BYTE:
+      case Type.BOOLEAN:
+      case Type.INT:
+      case Type.SHORT:
+      case Type.LONG:
+        writeln(1, format("%s: int", name));
+        setters.addElement(format("self.%s = 0", name));
+        break;
+      case Type.FLOAT:
+      case Type.DOUBLE:
+        writeln(1, format("%s: float", name));
+        setters.addElement(format("self.%s = 0.0", name));
+        break;
+      case Type.VOID:
+      default:
+        break;
     }
   }
 
@@ -647,7 +640,7 @@ public class PopHTTPPython extends Generator
       }
     }
     writeln(1, format("def %s(self, host, port):", operation));
-    writeln(2, format("path = '%s'", openApi.path ));
+    writeln(2, format("path = '%s'", openApi.path));
     writeln(2, format("data = make_data(self)"));
     writeln(2, format("url = make_url(host, port)"));
     writeln(2, format("response = requests.%s(f'{url}/{path}', data=data, headers=headers)", operation));
@@ -690,8 +683,7 @@ public class PopHTTPPython extends Generator
       writeln(2, format("url = make_url(host, port)"));
       writeln(2, format("response = requests.%s(f'{url}/{path}', params=params, headers=headers)", operation));
       writeln(2, "return response");
-    }
-    else
+    } else
     {
       writeln(2, "params = {}");
       writeln(2, format("path = '%s'", path));
@@ -701,7 +693,7 @@ public class PopHTTPPython extends Generator
     }
     writeln();
   }
-  
+
   private static void generateResponses(Module module, Prototype prototype)
   {
     boolean returnCode = false;
@@ -734,7 +726,7 @@ public class PopHTTPPython extends Generator
         swaggerParameter(op, field, setters);
       }
       writeln(1, "def __init__(self):");
-      for (int i=0; i<setters.size(); i++)
+      for (int i = 0; i < setters.size(); i++)
         writeln(2, setters.elementAt(i));
       writeln(1, "def load(self, response):");
       writeln(2, "load_response(self, response)");

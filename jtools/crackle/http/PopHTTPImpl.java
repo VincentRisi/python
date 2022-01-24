@@ -20,6 +20,21 @@ import java.util.Vector;
 
 public class PopHTTPImpl extends Generator
 {
+  private static final PrintWriter outLog = new PrintWriter(System.out);
+  private static boolean hasPython = false;
+  private static boolean hasShutDownCode = false;
+  /**
+   * Generates - C Header for Server - C Server JSON code
+   */
+  private static String database;
+
+  /*
+   * Static constructor
+   */
+  {
+    setupPragmaVector();
+  }
+
   public static String description()
   {
     return "Generates JSON Server Implementation Code";
@@ -28,12 +43,6 @@ public class PopHTTPImpl extends Generator
   public static String documentation()
   {
     return "Generates JSON Server Implementation Code";
-  }
-  /*
-   * Static constructor
-   */
-  {
-    setupPragmaVector();
   }
 
   private static void setupPragmaVector()
@@ -44,16 +53,11 @@ public class PopHTTPImpl extends Generator
     }
   }
 
-  private static boolean hasPython = false;
-
   private static void setPragmas(Module module)
   {
     // Ensure these are in the same order as above
     setupPragmaVector();
   }
-
-  private static boolean hasShutDownCode = false;
-  private static final PrintWriter outLog = new PrintWriter(System.out);
 
   /**
    * Reads input from stored repository
@@ -72,16 +76,13 @@ public class PopHTTPImpl extends Generator
         generate(module, "", outLog);
       }
       outLog.flush();
-    } catch (Exception e)
+    }
+    catch (Exception e)
     {
       e.printStackTrace();
     }
   }
 
-  /**
-   * Generates - C Header for Server - C Server JSON code
-   */
-  private static String database;
   public static void generate(Module module, String output, PrintWriter outLog)
   {
     logger = outLog;
@@ -141,18 +142,21 @@ public class PopHTTPImpl extends Generator
           writeln();
         }
         writeln("#endif");
-      } finally
+      }
+      finally
       {
         writer.flush();
         outFile.close();
       }
-    } catch (IOException e1)
+    }
+    catch (IOException e1)
     {
       logln("Generate Procs IO Error");
       System.out.println(e1);
       System.out.flush();
       e1.printStackTrace();
-    } catch (Throwable e)
+    }
+    catch (Throwable e)
     {
       System.out.println(e);
       System.out.flush();
@@ -187,18 +191,21 @@ public class PopHTTPImpl extends Generator
           writeln("};");
           writeln();
         }
-      } finally
+      }
+      finally
       {
         writer.flush();
         outFile.close();
       }
-    } catch (IOException e1)
+    }
+    catch (IOException e1)
     {
       logln("Generate Procs IO Error");
       System.out.println(e1);
       System.out.flush();
       e1.printStackTrace();
-    } catch (Throwable e)
+    }
+    catch (Throwable e)
     {
       System.out.println(e);
       System.out.flush();
@@ -243,32 +250,29 @@ public class PopHTTPImpl extends Generator
           writeln("#define DATABASE_DBPORTAL");
           writeln("#include \"popgen.h\"");
           writeln("#include \"dbportal.h\"");
-        }
-        else if (database.equals("cliapi"))
+        } else if (database.equals("cliapi"))
         {
           writeln("#define DATABASE_CLIAPI");
           writeln("#include \"padgen.h\"");
           writeln("#include \"cliapi.h\"");
-        }
-        else if (database.equals("ociapi"))
+        } else if (database.equals("ociapi"))
         {
           writeln("#define DATABASE_OCIAPI");
           writeln("#include \"padgen.h\"");
           writeln("#include \"ociapi.h\"");
-        }
-        else
+        } else
         {
           writeln("#define DATABASE_NONE");
         }
         writeln();
-        PopGen.generateCTableAndEnums(module, writer, true);    
+        PopGen.generateCTableAndEnums(module, writer, true);
         for (int i = 0; i < module.prototypes.size(); i++)
         {
           Prototype prototype = (Prototype) module.prototypes.elementAt(i);
           if (prototype.name.equals("SlackTimeHandler") == true)
           {
-              hasSlackHandler = true;
-              break;
+            hasSlackHandler = true;
+            break;
           }
         }
         if (module.code.size() > 0)
@@ -283,7 +287,7 @@ public class PopHTTPImpl extends Generator
             // #include go to header - unless flagged as CODE
             if (codeLine.indexOf("#include") >= 0 && codeLine.indexOf("CODE:") < 0)
               outputIt = true;
-            // #other code goes to header if flagged as BOTH or HEADER
+              // #other code goes to header if flagged as BOTH or HEADER
             else if (codeLine.indexOf("HEADER:") >= 0 || codeLine.indexOf("BOTH:") >= 0)
               outputIt = true;
             if (outputIt == true)
@@ -422,8 +426,7 @@ public class PopHTTPImpl extends Generator
               writeln(1, "void ShutDownCode()");
               writeln(1, "{");
               hasShutDownCode = true;
-            } 
-            else
+            } else
               write(1, codeLine);
           }
           if (closeEndif == true)
@@ -497,18 +500,21 @@ public class PopHTTPImpl extends Generator
         writeln("#  endif");
         writeln();
         writeln("#endif");
-      } finally
+      }
+      finally
       {
         writer.flush();
         outFile.close();
       }
-    } catch (IOException e1)
+    }
+    catch (IOException e1)
     {
       logln("Generate Procs IO Error");
       System.out.println(e1);
       System.out.flush();
       e1.printStackTrace();
-    } catch (Throwable e)
+    }
+    catch (Throwable e)
     {
       System.out.println(e);
       System.out.flush();
@@ -633,18 +639,21 @@ public class PopHTTPImpl extends Generator
           writeln("}");
           writeln();
         }
-      } finally
+      }
+      finally
       {
         writer.flush();
         outFile.close();
       }
-    } catch (IOException e1)
+    }
+    catch (IOException e1)
     {
       logln("Generate Procs IO Error");
       System.out.println(e1);
       System.out.flush();
       e1.printStackTrace();
-    } catch (Throwable e)
+    }
+    catch (Throwable e)
     {
       System.out.println(e);
       System.out.flush();
@@ -712,7 +721,7 @@ public class PopHTTPImpl extends Generator
     writeln(2, "sstr >> output_value;");
     if (hasResult)
       writeln(2, "returnCode = output_value[\"returnCode\"].asInt();");
-    for (int i=0; i < prototype.outputs.size(); i++) 
+    for (int i = 0; i < prototype.outputs.size(); i++)
     {
       Action action = (Action) prototype.outputs.elementAt(i);
       Field field = action.getParameter(prototype);
@@ -725,14 +734,13 @@ public class PopHTTPImpl extends Generator
         {
           if (hasSize)
           {
-            writeln(2, "//o BYREFPTR CHAR "+field.name);
+            writeln(2, "//o BYREFPTR CHAR " + field.name);
             Operation op = action.sizeOperation();
             writeln(2, format("string %1$s_string = output_value[\"%1$s\"].asString();", field.name));
             writeln(2, format("%s = (char*) calloc(*%s + 1, 1);", field.name, op.name));
             writeln(2, format("memcpy(%1$s, %1$s_string.c_str(), *%2$s);", field.name, op.name));
-          }
-          else
-            writeln(2, "//o BYREFPTR CHAR no size "+field.name);
+          } else
+            writeln(2, "//o BYREFPTR CHAR no size " + field.name);
 
           continue;
         }
@@ -740,49 +748,46 @@ public class PopHTTPImpl extends Generator
         {
           if (hasSize)
           {
-            writeln(2, "//o BYREFPTR USERTYPE "+field.name);
+            writeln(2, "//o BYREFPTR USERTYPE " + field.name);
             Operation op = action.sizeOperation();
             writeln(2, format("%1$s = (%2$s*)calloc(*%3$s, sizeof(%2$s));", field.name, field.type.name, op.name));
-            writeln(2, format("Value Recs_array = output_value[\"Recs\"];")); 
+            writeln(2, format("Value Recs_array = output_value[\"Recs\"];"));
             writeln(2, format("for (int i = 0; i < *%s; i++)", op.name));
             writeln(2, "{");
             writeln(3, format("Value %1$s_value = %1$s_array[i];", field.name));
             writeln(3, format("builder.setValue(%s_value);", field.name));
             writeln(3, format("%s[i].SetData(builder);", field.name));
             writeln(2, "}");
-          }
-          else
-            writeln(2, "//o BYREFPTR USERTYPE no size "+field.name);
+          } else
+            writeln(2, "//o BYREFPTR USERTYPE no size " + field.name);
           continue;
         }
-        writeln(2, "//o BYREFPTR STDTYPE "+field.name);
-      } 
-      else if (field.type.reference == Type.BYPTR)
+        writeln(2, "//o BYREFPTR STDTYPE " + field.name);
+      } else if (field.type.reference == Type.BYPTR)
       {
         if (field.type.typeof == Type.CHAR)
         {
-          writeln(1, "//o BYPTR CHAR "+field.name);
+          writeln(1, "//o BYPTR CHAR " + field.name);
           continue;
         }
         if (field.type.typeof == Type.USERTYPE)
         {
-          writeln(2, "//o BYPTR USERTYPE "+field.name);
+          writeln(2, "//o BYPTR USERTYPE " + field.name);
           writeln(2, format("Value %1$s_value = output_value[\"%1$s\"];", field.name));
           writeln(2, format("builder.setValue(%s_value);", field.name));
           writeln(2, format("%s->SetData(builder);", field.name));
           continue;
         }
-        writeln(2, "//o BYPTR STDTYPE "+field.name);
+        writeln(2, "//o BYPTR STDTYPE " + field.name);
         writeln(2, format("*%s = output_value[\"%s\"]%s;", field.name, field.name, asType(field)));
-      } 
-      else
+      } else
       {
-        writeln(2, "//o no ref "+field.name);
+        writeln(2, "//o no ref " + field.name);
       }
     }
     if (hasResult)
       writeln(2, "return returnCode;");
-}
+  }
 
   private static void generateForPythonInputs(Prototype prototype)
   {
@@ -799,29 +804,25 @@ public class PopHTTPImpl extends Generator
         {
           if (field.type.typeof == Type.CHAR)
           {
-            writeln(2, "//i BYPTR CHAR no size "+field.name);
+            writeln(2, "//i BYPTR CHAR no size " + field.name);
             writeln(2, format("input_value[\"%s\"] = %s;", field.name, field.name));
-          }
-          else if (field.type.typeof == Type.USERTYPE)
+          } else if (field.type.typeof == Type.USERTYPE)
           {
-            writeln(2, "//i BYPTR USERTYPE no size "+field.name);
+            writeln(2, "//i BYPTR USERTYPE no size " + field.name);
             writeln(2, format("%s->BuildData(builder);", field.name));
             writeln(2, format("string %s_result;", field.name));
             writeln(2, format("input_value[\"%s\"] = builder.getRecord(%s_result);", field.name, field.name));
-          }
-          else
+          } else
           {
-            writeln(2, "//i BYPTR STDTYPE no size "+field.name);
+            writeln(2, "//i BYPTR STDTYPE no size " + field.name);
             writeln(2, format("input_value[\"%s\"] = *%s;", field.name, field.name));
           }
-        }
-        else // has size
+        } else // has size
         {
           if (field.type.typeof == Type.CHAR)
           {
             writeln(2, format("//i BYPTR CHAR has size %s;", field.name));
-          }
-          else if (field.type.typeof == Type.USERTYPE)
+          } else if (field.type.typeof == Type.USERTYPE)
           {
             writeln(2, format("//i BYPTR USERTYPE has size %s;", field.name));
             Operation op = action.sizeOperation();
@@ -832,18 +833,15 @@ public class PopHTTPImpl extends Generator
             writeln(3, "" + field.name + "_array[i] = " + field.name + "_out;");
             writeln(2, "}");
             writeln(2, format("input_value[\"%s\"] = %s_array;", field.name, field.name));
-          }
-          else
+          } else
           {
             writeln(2, format("//i BYPTR STD has size %s;", field.name));
           }
         }
-      } 
-      else if (field.type.reference == Type.BYREFPTR)
+      } else if (field.type.reference == Type.BYREFPTR)
       {
         writeln(2, format("//i BYREFPTR %s;", field.name));
-      }
-      else
+      } else
       {
         writeln(2, format("//i STDTYPE %s;", field.name));
         writeln(2, format("input_value[\"%s\"] = %s;", field.name, field.name));
@@ -865,21 +863,21 @@ public class PopHTTPImpl extends Generator
   {
     switch (field.type.typeof)
     {
-    case Type.CHAR:
-    case Type.STRING:
-      return ".asString()";
-    case Type.BYTE:
-    case Type.BOOLEAN:
-    case Type.INT:
-    case Type.SHORT:
-      return ".asInt()";
-    case Type.LONG:
-      return ".asInt64()";
-    case Type.FLOAT:
-    case Type.DOUBLE:
-      return ".asDouble()";
-    default:
-      break;
+      case Type.CHAR:
+      case Type.STRING:
+        return ".asString()";
+      case Type.BYTE:
+      case Type.BOOLEAN:
+      case Type.INT:
+      case Type.SHORT:
+        return ".asInt()";
+      case Type.LONG:
+        return ".asInt64()";
+      case Type.FLOAT:
+      case Type.DOUBLE:
+        return ".asDouble()";
+      default:
+        break;
     }
     return "";
   }

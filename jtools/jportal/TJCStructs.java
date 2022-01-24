@@ -21,6 +21,9 @@ import static bbd.jportal.Writer.*;
 
 public class TJCStructs //extends Writer
 {
+  static Vector<String> nullVector = new Vector<String>();
+  static String structName = "";
+
   static void generateSnips(Table table, String output, PrintWriter outLog, boolean checkBindO) throws Exception
   {
     outLog.println("Code: " + output + table.useName().toLowerCase() + "_snips.h");
@@ -80,8 +83,7 @@ public class TJCStructs //extends Writer
     {
       writeln(1, "if (q.Fetch())");
       writeln(2, "*rec = *q.DRec();");
-    }
-    else if (proc.hasReturning && proc.isInsert && proc.outputs.size() == 1 && checkBindO)
+    } else if (proc.hasReturning && proc.isInsert && proc.outputs.size() == 1 && checkBindO)
       writeln(1, "*rec = *q.DRec();");
     else if (proc.hasModifieds())
       writeln(1, "*rec = *q.DRec();");
@@ -151,9 +153,6 @@ public class TJCStructs //extends Writer
     writeln(2, "SnipAddList(outRecs, *noOf, *q.ORec(), (int32)q.NOROWS);");
     writeln("}");
   }
-
-  static Vector<String> nullVector = new Vector<String>();
-  static String structName = "";
 
   static void generateStdOutputRec(Table table)
   {

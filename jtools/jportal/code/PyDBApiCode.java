@@ -19,9 +19,17 @@ import java.util.Vector;
 import static jtools.jportal.code.PlaceHolder.*;
 import static jtools.jportal.code.Writer.*;
 
-public class PyDBApiC extends Generator
+import jportal.jtools.*;
+
+public class PyDBApi extends Generator
 {
   private static PrintWriter outLog;
+  static private Properties properties;
+  static private byte paramStyle = QUESTION;
+  static private byte dbVendor = DB2;
+  static private boolean useEnum = false;
+  static private boolean enumImport = false;
+
   /**
    * DBApi param styles
    * ============ ==============================================================
@@ -38,26 +46,25 @@ public class PyDBApiC extends Generator
   {
     return "Generate DBApi Code for Python";
   }
+
   public static String documentation()
   {
     return "Generate DBApi Code for Python";
   }
+
   /**
    * Padding function
    */
   static private String padder(String s, int length)
   {
-    for (int i = s.length(); i < length-1; i++)
+    for (int i = s.length(); i < length - 1; i++)
       s = s + " ";
     return s + " ";
   }
-  static private Properties properties;
-  static private byte paramStyle = QUESTION;
-  static private byte dbVendor = DB2;
-  static private boolean useEnum = false;
+
   /**
-  * Generates the procedure classes for each table present.
-  */
+   * Generates the procedure classes for each table present.
+   */
   static private void setParamStyle(String flag)
   {
     switch (flag.toLowerCase())
@@ -69,18 +76,20 @@ public class PyDBApiC extends Generator
       case "pyformat" -> paramStyle = PYFORMAT;
     }
   }
+
   static private void setVendor(String vendor)
   {
     switch (vendor.toLowerCase())
     {
-      case "db2" ->  dbVendor = DB2;
-      case "oracle" ->  dbVendor = ORACLE;
-      case "mssql" ->  dbVendor = MSSQL;
+      case "db2" -> dbVendor = DB2;
+      case "oracle" -> dbVendor = ORACLE;
+      case "mssql" -> dbVendor = MSSQL;
       case "postgre" -> dbVendor = POSTGRE;
       case "mysql" -> dbVendor = MYSQL;
       case "lite3" -> dbVendor = LITE3;
     }
   }
+
   static public void generate(Database database, String output, PrintWriter outLog)
   {
     try
@@ -97,7 +106,7 @@ public class PyDBApiC extends Generator
       {
         properties = null;
       }
-      for (int i=database.flags.size()-1; i>=0; i--)
+      for (int i = database.flags.size() - 1; i >= 0; i--)
       {
         String flag = database.flags.elementAt(i);
         flag = flag.toLowerCase();
@@ -113,7 +122,7 @@ public class PyDBApiC extends Generator
           setVendor(flag.substring(7));
         if (dropParameter)
           database.flags.remove(i);
-        if (flag.equalsIgnoreCase("useenum")|| flag.equalsIgnoreCase("use enum"))
+        if (flag.equalsIgnoreCase("useenum") || flag.equalsIgnoreCase("use enum"))
           useEnum = true;
 
       }
@@ -146,24 +155,27 @@ public class PyDBApiC extends Generator
 
     }
   }
+
   static private String getProperty(String propName, String propDefault)
   {
-    if (properties == null) 
+    if (properties == null)
       return propDefault;
     String propValue = properties.getProperty(propName);
-    if (propValue == null) 
+    if (propValue == null)
       return propDefault;
     return propName + "=" + propValue;
   }
+
   static private boolean getProperty(String propName, boolean propDefault)
   {
-    if (properties == null) 
+    if (properties == null)
       return propDefault;
     String propValue = properties.getProperty(propName);
-    if (propValue == null) 
+    if (propValue == null)
       return propDefault;
     return propValue.equalsIgnoreCase("true");
   }
+
   /**
    * Build of standard and user defined procedures
    */
@@ -189,117 +201,121 @@ public class PyDBApiC extends Generator
       writer.flush();
     }
   }
+
   static private String _commanull(Field field)
   {
-    if (field.isNull) return(", null=True");    
+    if (field.isNull) return (", null=True");
     return "";
   }
+
   static private String _null(Field field)
   {
-    if (field.isNull) return("null=True");    
+    if (field.isNull) return ("null=True");
     return "";
   }
+
   static private void generateAnnotates(Vector allFields)
   {
     for (int i = 0; i < allFields.size(); i++)
     {
       Field field = (Field) allFields.elementAt(i);
-      write(1, format("%s: ",field.useName()));
+      write(1, format("%s: ", field.useName()));
       switch (field.type)
       {
-      case Field.ANSICHAR:
-        writeln(format("Char(%d%s)", field.length+1, _commanull(field)));
-        break;
-      case Field.AUTOTIMESTAMP:
-        writeln(format("TimeStamp(%s)", _null(field)));
-        break;
-      case Field.BIGIDENTITY:
-      case Field.BIGSEQUENCE:
-      case Field.LONG:
-        writeln(format("LongInt(%d%s)", field.length, _commanull(field)));
-        break;
-      case Field.BIGXML:
-        writeln(format("XMLTYPE(%d%s)", field.length+1, _commanull(field)));
-        break;
-      case Field.BLOB:
-        writeln(format("Blob(%d%s)", field.length+1, _commanull(field)));
-        break;
-      case Field.BOOLEAN:
-        writeln(format("Boolean(%d%s)", field.length, _commanull(field)));
-        break;
-      case Field.BYTE:
-        writeln(format("TinyInt(%d%s)", field.length, _commanull(field)));
-        break;
-      case Field.CHAR:
-        writeln(format("Char(%d%s)", field.length+1, _commanull(field)));
-        break;
-      case Field.DATE:
-        writeln(format("Date(%s)", _null(field)));
-        break;
-      case Field.DATETIME:
-        writeln(format("DateTime(%s)", _null(field)));
-        break;
-      case Field.DOUBLE:
-      case Field.FLOAT:
-        writeln(format("Float(%d, %d%s)", field.precision, field.scale, _commanull(field)));
-        break;
-      case Field.DYNAMIC:
-        writeln(format("Unhandled('Dynamic', %d%s)", field.length, _commanull(field)));
-        break;
-      case Field.IDENTITY:
-      case Field.INT:
-      case Field.SEQUENCE:
-        writeln(format("Int(%s%s)", field.length, _commanull(field)));
-        break;
-      case Field.IMAGE:
-        writeln(format("Image(%s%s)", field.length+1, _commanull(field)));
-        break;
-      case Field.MONEY:
-        writeln(format("Char(%s%s)", field.length+1, _commanull(field)));
-        break;
-      case Field.SHORT:
-        writeln(format("SmallInt(%s%s)", field.length, _commanull(field)));
-        break;
-      case Field.STATUS:
-        writeln(format("Status(%s%s)", field.length, _commanull(field)));
-        break;
-      case Field.TIME:
-        writeln(format("Time(%s)", _null(field)));
-        break;
-      case Field.TIMESTAMP:
-        writeln(format("TimeStamp(%s)", _null(field)));
-        break;
-      case Field.TLOB:
-        writeln(format("Clob(%s%s)", field.length+1, _commanull(field)));
-        break;
-      case Field.UID:
-        writeln(format("Unhandled('UID', %s%s)", field.length, _commanull(field)));
-        break;
-      case Field.USERSTAMP:
-        writeln(format("UserStamp(%s%s)", field.length+1, _commanull(field)));
-        break;
-      case Field.UTF8:
-        writeln(format("Unhandled('UTF8', %s%s)", field.length+1, _commanull(field)));
-        break;
-      case Field.WANSICHAR:
-        writeln(format("Unhandled('WANSICHAR', %s%s)", field.length+1, _commanull(field)));
-        break;
-      case Field.WCHAR:
-        writeln(format("Unhandled('WCHAR', %s%s)", field.length+1, _commanull(field)));
-        break;
-      case Field.XML:
-        writeln(format("XMLTYPE(%s%s)", field.length+1, _commanull(field)));
-        break;
+        case Field.ANSICHAR:
+          writeln(format("Char(%d%s)", field.length + 1, _commanull(field)));
+          break;
+        case Field.AUTOTIMESTAMP:
+          writeln(format("TimeStamp(%s)", _null(field)));
+          break;
+        case Field.BIGIDENTITY:
+        case Field.BIGSEQUENCE:
+        case Field.LONG:
+          writeln(format("LongInt(%d%s)", field.length, _commanull(field)));
+          break;
+        case Field.BIGXML:
+          writeln(format("XMLTYPE(%d%s)", field.length + 1, _commanull(field)));
+          break;
+        case Field.BLOB:
+          writeln(format("Blob(%d%s)", field.length + 1, _commanull(field)));
+          break;
+        case Field.BOOLEAN:
+          writeln(format("Boolean(%d%s)", field.length, _commanull(field)));
+          break;
+        case Field.BYTE:
+          writeln(format("TinyInt(%d%s)", field.length, _commanull(field)));
+          break;
+        case Field.CHAR:
+          writeln(format("Char(%d%s)", field.length + 1, _commanull(field)));
+          break;
+        case Field.DATE:
+          writeln(format("Date(%s)", _null(field)));
+          break;
+        case Field.DATETIME:
+          writeln(format("DateTime(%s)", _null(field)));
+          break;
+        case Field.DOUBLE:
+        case Field.FLOAT:
+          writeln(format("Float(%d, %d%s)", field.precision, field.scale, _commanull(field)));
+          break;
+        case Field.DYNAMIC:
+          writeln(format("Unhandled('Dynamic', %d%s)", field.length, _commanull(field)));
+          break;
+        case Field.IDENTITY:
+        case Field.INT:
+        case Field.SEQUENCE:
+          writeln(format("Int(%s%s)", field.length, _commanull(field)));
+          break;
+        case Field.IMAGE:
+          writeln(format("Image(%s%s)", field.length + 1, _commanull(field)));
+          break;
+        case Field.MONEY:
+          writeln(format("Char(%s%s)", field.length + 1, _commanull(field)));
+          break;
+        case Field.SHORT:
+          writeln(format("SmallInt(%s%s)", field.length, _commanull(field)));
+          break;
+        case Field.STATUS:
+          writeln(format("Status(%s%s)", field.length, _commanull(field)));
+          break;
+        case Field.TIME:
+          writeln(format("Time(%s)", _null(field)));
+          break;
+        case Field.TIMESTAMP:
+          writeln(format("TimeStamp(%s)", _null(field)));
+          break;
+        case Field.TLOB:
+          writeln(format("Clob(%s%s)", field.length + 1, _commanull(field)));
+          break;
+        case Field.UID:
+          writeln(format("Unhandled('UID', %s%s)", field.length, _commanull(field)));
+          break;
+        case Field.USERSTAMP:
+          writeln(format("UserStamp(%s%s)", field.length + 1, _commanull(field)));
+          break;
+        case Field.UTF8:
+          writeln(format("Unhandled('UTF8', %s%s)", field.length + 1, _commanull(field)));
+          break;
+        case Field.WANSICHAR:
+          writeln(format("Unhandled('WANSICHAR', %s%s)", field.length + 1, _commanull(field)));
+          break;
+        case Field.WCHAR:
+          writeln(format("Unhandled('WCHAR', %s%s)", field.length + 1, _commanull(field)));
+          break;
+        case Field.XML:
+          writeln(format("XMLTYPE(%s%s)", field.length + 1, _commanull(field)));
+          break;
       }
     }
   }
+
   static private void generateDataFields(Vector allFields, String superName, String tableName)
   {
     String recName = superName.length() > 0 ? superName : tableName;
     write(1, "__slots__ = [");
     for (int i = 0; i < allFields.size(); i++)
     {
-      Field field = (Field)allFields.elementAt(i);
+      Field field = (Field) allFields.elementAt(i);
       if (i != 0)
       {
         writeln(",");
@@ -311,7 +327,7 @@ public class PyDBApiC extends Generator
     writeln(1, "def __init__(self):");
     for (int i = 0; i < allFields.size(); i++)
     {
-      Field field = (Field)allFields.elementAt(i);
+      Field field = (Field) allFields.elementAt(i);
       if (isNull(field) == true)
         writeln(2, "self." + field.useName() + " = None");
       else
@@ -320,6 +336,7 @@ public class PyDBApiC extends Generator
     writeln(1, "def _fields(self):");
     writeln(2, "return D" + recName + ".__slots__");
   }
+
   static private void generateStdOutputRec(Table table)
   {
     writeln("class D" + table.useName() + "():");
@@ -328,6 +345,7 @@ public class PyDBApiC extends Generator
     generateDataFields(table.fields, "", table.useName());
     writeln();
   }
+
   static private void generateUserOutputRecs(Table table)
   {
     for (int i = 0; i < table.procs.size(); i++)
@@ -365,6 +383,7 @@ public class PyDBApiC extends Generator
       writeln();
     }
   }
+
   static private void generateEnums(Table table)
   {
     for (int i = 0; i < table.fields.size(); i++)
@@ -373,6 +392,7 @@ public class PyDBApiC extends Generator
       generateEnums(table.useName() + field.useName(), field);
     }
   }
+
   static private void generateEnums(Database database)
   {
     for (int i = 0; i < database.declares.size(); i++)
@@ -381,6 +401,7 @@ public class PyDBApiC extends Generator
       generateEnums(database.name + field.useName(), field);
     }
   }
+
   static private void generateEnums(String baseName, Field field)
   {
     if (field.enums.size() > 0)
@@ -389,8 +410,7 @@ public class PyDBApiC extends Generator
         generateEnumsAsEnum(baseName, field);
       else
         generateEnumsAsDict(baseName, field);
-    }
-    else if (field.valueList.size() > 0)
+    } else if (field.valueList.size() > 0)
     {
       writeln("class " + baseName + ":");
       for (int j = 0; j < field.valueList.size(); j++)
@@ -401,7 +421,7 @@ public class PyDBApiC extends Generator
       writeln();
     }
   }
-  static private boolean enumImport = false;
+
   static private void generateEnumsAsEnum(String baseName, Field field)
   {
     if (enumImport == false)
@@ -419,7 +439,8 @@ public class PyDBApiC extends Generator
     writeln(1, "def __str__(self):");
     writeln(2, "return str(self.value)");
     writeln();
-}
+  }
+
   static private void generateEnumsAsDict(String baseName, Field field)
   {
     if (field.enums.size() > 0)
@@ -438,6 +459,7 @@ public class PyDBApiC extends Generator
       writeln();
     }
   }
+
   static private void generateCode(Table table)
   {
     for (int i = 0; i < table.procs.size(); i++)
@@ -448,18 +470,16 @@ public class PyDBApiC extends Generator
       PlaceHolder holder = new PlaceHolder(proc, paramStyle, "");
       Vector pairs = holder.getPairs();
       String parent = "";
-      String current="";
+      String current = "";
       if (proc.hasNoData() == true)
       {
         parent = "object";
         current = table.useName() + proc.upperFirst();
-      }
-      else if (proc.isStd == true || proc.isStdExtended() == true)
+      } else if (proc.isStd == true || proc.isStdExtended() == true)
       {
         parent = "D" + table.useName();
         current = table.useName() + proc.upperFirst();
-      }
-      else
+      } else
       {
         parent = "D" + table.useName() + proc.upperFirst();
         current = table.useName() + proc.upperFirst();
@@ -472,23 +492,22 @@ public class PyDBApiC extends Generator
         if (proc.hasReturning && (proc.isInsert || proc.isUpdate))
         {
           String returningName = "";
-          for (int p=0; p<table.fields.size(); p++)
+          for (int p = 0; p < table.fields.size(); p++)
           {
             Field field = table.fields.elementAt(p);
             if (proc.isInsert && (field.type == Field.SEQUENCE || field.type == Field.BIGSEQUENCE))
               returningName = field.useName();
             else if (field.type == Field.TIMESTAMP)
-              timestampName = field.useName();  
+              timestampName = field.useName();
           }
           writeln(1, "def __init__(self, ret):");
           writeln(2, parent + ".__init__(self)");
           writeln(2, "self._ret = ret('" + table.name + "', '" + returningName + "')");
           if (timestampName.length() > 0)
             writeln(2, format("self.%s = dbapi_util.get_timestamp()", timestampName));
-        }
-        else if (proc.isInsert || proc.isUpdate)
+        } else if (proc.isInsert || proc.isUpdate)
         {
-          for (int p=0; p<proc.inputs.size(); p++)
+          for (int p = 0; p < proc.inputs.size(); p++)
           {
             Field field = proc.inputs.elementAt(p);
             if (proc.isInsert && (field.type == Field.SEQUENCE || field.type == Field.BIGSEQUENCE))
@@ -533,15 +552,15 @@ public class PyDBApiC extends Generator
             writeln(2, "# " + field.name + " is an output");
             continue;
           }
-          writeln(2, "record." + field.name + " = self."+ field.name);  
+          writeln(2, "record." + field.name + " = self." + field.name);
         }
         for (int j = 0; j < proc.dynamics.size(); j++)
         {
           String name = proc.dynamics.elementAt(j);
-          writeln(2, "record." + name + " = self."+ name);  
+          writeln(2, "record." + name + " = self." + name);
         }
       }
-      writeln(1, "def execute(self, connect): # "+ proc.lowerFirst());
+      writeln(1, "def execute(self, connect): # " + proc.lowerFirst());
       String command = "_command";
       generateCommand(proc, command, holder);
       writeln(2, "cursor = connect.cursor()");
@@ -552,13 +571,12 @@ public class PyDBApiC extends Generator
         {
           if (j > 0)
             writeln(",");
-          PlaceHolderPairs pair = (PlaceHolderPairs)pairs.elementAt(j);
+          PlaceHolderPairs pair = (PlaceHolderPairs) pairs.elementAt(j);
           Field field = pair.field;
           write(3, "self." + field.useName());
         }
         writeln("])");
-      }
-      else
+      } else
       {
         writeln(2, "cursor.execute(" + command + ")");
       }
@@ -572,11 +590,12 @@ public class PyDBApiC extends Generator
       writeln();
     }
   }
+
   static private void checkPythonSingle(Table table, Proc proc, String current, boolean hasInputs)
   {
     if (proc.hasReturning && proc.isInsert == true)
     {
-      for (int p=0; p<table.fields.size(); p++)
+      for (int p = 0; p < table.fields.size(); p++)
       {
         Field field = table.fields.elementAt(p);
         if (proc.isInsert && (field.type == Field.SEQUENCE || field.type == Field.BIGSEQUENCE))
@@ -590,6 +609,7 @@ public class PyDBApiC extends Generator
     }
     generatePythonSingle(table, proc, current, hasInputs);
   }
+
   static private void generatePythonSingle(Table table, Proc proc, String current, boolean hasInputs)
   {
     writeln(2, "record = " + current + "()");
@@ -601,6 +621,7 @@ public class PyDBApiC extends Generator
     writeln(2, "record._get_output(result)");
     writeln(2, "return record");
   }
+
   static private void generatePythonMultiple(Table table, Proc proc, String current, boolean hasInputs)
   {
     writeln(2, "records = []");
@@ -612,25 +633,27 @@ public class PyDBApiC extends Generator
     writeln(3, "records.append(record)");
     writeln(2, "return records");
   }
+
   static private void generatePythonAction(Table table, Proc proc, boolean hasInputs)
   {
   }
+
   static private void generateCommand(Proc proc, String name, PlaceHolder holder)
   {
     Vector<String> lines = holder.getLines();
     //String added = "";
-    writeln(2, name+" = f'''\\");
+    writeln(2, name + " = f'''\\");
     for (int i = 0; i < lines.size(); i++)
     {
       String string = lines.elementAt(i);
-      if (i ==0 & holder.limit != null & dbVendor == MSSQL)
+      if (i == 0 & holder.limit != null & dbVendor == MSSQL)
       {
         if (string.toLowerCase().startsWith("\"select"))
         {
           String[] code = holder.limit.topRowsLinesDBApi();
           writeln("SELECT ");
-          string = string.replaceAll("\"","").substring(7);
-          for (String line: code)
+          string = string.replaceAll("\"", "").substring(7);
+          for (String line : code)
             writeln(line);
           if (string.length() > 0)
             writeln(string);
@@ -638,7 +661,7 @@ public class PyDBApiC extends Generator
         }
       }
       if (string.charAt(0) == '"')
-        writeln(string.replaceAll("\"",""));
+        writeln(string.replaceAll("\"", ""));
       else
       {
         String l = string.trim();
@@ -653,22 +676,23 @@ public class PyDBApiC extends Generator
       String[] code = {};
       switch (dbVendor)
       {
-        case ORACLE, DB2 -> code=holder.limit.fetchRowsLinesDBApi();
-        case MYSQL, POSTGRE, LITE3 -> code=holder.limit.limitRowsLinesDBApi();
-  }
-      for (String line: code)
+        case ORACLE, DB2 -> code = holder.limit.fetchRowsLinesDBApi();
+        case MYSQL, POSTGRE, LITE3 -> code = holder.limit.limitRowsLinesDBApi();
+      }
+      for (String line : code)
         writeln(line);
     }
     writeln("'''");
   }
+
   static private boolean isNull(Field field)
   {
     if (field.isNull == false)
       return false;
     return switch (field.type)
-    {
-      case Field.BOOLEAN, Field.FLOAT, Field.DOUBLE, Field.MONEY, Field.BYTE, Field.SHORT, Field.INT, Field.LONG, Field.IDENTITY, Field.SEQUENCE, Field.BIGIDENTITY, Field.BIGSEQUENCE, Field.BLOB, Field.DATE, Field.DATETIME, Field.TIMESTAMP, Field.TIME -> true;
-      default -> false;
-    };
+            {
+              case Field.BOOLEAN, Field.FLOAT, Field.DOUBLE, Field.MONEY, Field.BYTE, Field.SHORT, Field.INT, Field.LONG, Field.IDENTITY, Field.SEQUENCE, Field.BIGIDENTITY, Field.BIGSEQUENCE, Field.BLOB, Field.DATE, Field.DATETIME, Field.TIMESTAMP, Field.TIME -> true;
+              default -> false;
+            };
   }
 }

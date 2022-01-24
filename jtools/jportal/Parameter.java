@@ -20,34 +20,36 @@ import java.util.Vector;
 public class Parameter implements Serializable
 {
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 1L;
-  public Table  table;
-  public Proc   reader;
-  public Proc   insert;
-  public Proc   delete;
-  public Proc   update;
+  public Table table;
+  public Proc reader;
+  public Proc insert;
+  public Proc delete;
+  public Proc update;
   public String title;
-  public Proc   cache;
+  public Proc cache;
   public Vector<Field> supplied;
   public Vector<Field> shows;
   public Vector<String> cacheExtras;
   public boolean isViewOnly;
+
   public Parameter()
   {
-    table       = null;
-    reader      = null;
-    insert      = null;
-    delete      = null;
-    update      = null;
-    title       = "";
-    cache       = null;
-    supplied    = new Vector<Field>();
-    shows       = new Vector<Field>();
+    table = null;
+    reader = null;
+    insert = null;
+    delete = null;
+    update = null;
+    title = "";
+    cache = null;
+    supplied = new Vector<Field>();
+    shows = new Vector<Field>();
     cacheExtras = new Vector<String>();
-    isViewOnly  = false;
+    isViewOnly = false;
   }
+
   public void reader(DataInputStream ids) throws IOException
   {
     boolean isUsed = ids.readBoolean();
@@ -97,27 +99,28 @@ public class Parameter implements Serializable
         cache = p;
     }
     int noOf = ids.readInt();
-    for (int i=0; i<noOf; i++)
+    for (int i = 0; i < noOf; i++)
     {
       String s = ids.readUTF();
       if (table.hasField(s))
         supplied.addElement(table.getField(s));
     }
     noOf = ids.readInt();
-    for (int i=0; i<noOf; i++)
+    for (int i = 0; i < noOf; i++)
     {
       String s = ids.readUTF();
       if (table.hasField(s))
         shows.addElement(table.getField(s));
     }
     noOf = ids.readInt();
-    for (int i=0; i<noOf; i++)
+    for (int i = 0; i < noOf; i++)
     {
       String s = ids.readUTF();
       cacheExtras.addElement(s);
     }
     isViewOnly = ids.readBoolean();
   }
+
   public void writer(DataOutputStream ods) throws IOException
   {
     ods.writeBoolean(reader != null);
@@ -137,19 +140,19 @@ public class Parameter implements Serializable
     if (cache != null)
       ods.writeUTF(cache.name);
     ods.writeInt(supplied.size());
-    for (int i=0; i<supplied.size(); i++)
+    for (int i = 0; i < supplied.size(); i++)
     {
       Field f = supplied.elementAt(i);
       ods.writeUTF(f.name);
     }
     ods.writeInt(shows.size());
-    for (int i=0; i<shows.size(); i++)
+    for (int i = 0; i < shows.size(); i++)
     {
       Field f = shows.elementAt(i);
       ods.writeUTF(f.name);
     }
     ods.writeInt(cacheExtras.size());
-    for (int i=0; i<cacheExtras.size(); i++)
+    for (int i = 0; i < cacheExtras.size(); i++)
     {
       String s = cacheExtras.elementAt(i);
       ods.writeUTF(s);

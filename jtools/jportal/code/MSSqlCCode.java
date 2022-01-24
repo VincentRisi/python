@@ -1,5 +1,5 @@
 /// ------------------------------------------------------------------
-/// Copyright (c) 1996, 2007 Vincent Risi in Association 
+/// Copyright (c) 1996, 2018 Vincent Risi in Association 
 ///                          with Barone Budge and Dominick 
 /// All rights reserved. 
 /// This program and the accompanying materials are made available 
@@ -14,33 +14,34 @@
 package jtools.jportal.code;
 
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Vector;
 
-import static jtools.jportal.code.Writer.*;
 import static jtools.jportal.code.TJCStructs.*;
+import static jtools.jportal.code.Writer.*;
 
-public class CliC extends Generator
+public class MSSqlCCode extends jtools.jportal.Generator
 {
   protected static PrintWriter outLog;
+  static PlaceHolder placeHolder;
 
   public static String description()
   {
-    return "Generate CLI C++ Code for DB2";
+    return "Generate MSSql C++ Code ODBC";
   }
 
   public static String documentation()
   {
-    return "Generate CLI C++ Code for DB2";
+    return "Generate MSSql C++ Code ODBC";
   }
 
-  static PlaceHolder placeHolder;
   /**
    * Generates the procedure classes for each table present.
    */
   public static void generate(Database database, String output, PrintWriter outLog)
   {
-    CliCCode.outLog = outLog;
+    MSSqlCCode.outLog = outLog;
     for (int i = 0; i < database.tables.size(); i++)
     {
       try
@@ -57,12 +58,15 @@ public class CliC extends Generator
     }
   }
 
+  /**
+   * Build of standard and user defined procedures
+   */
   static void generate(Table table, String output) throws Exception
   {
     outLog.println("Code: " + fileName(output, table.useName().toLowerCase(), ".sh"));
-    try (PrintWriter outData = new PrintWriter(new FileOutputStream(fileName(output, table.useName().toLowerCase(), ".sh"))))
+    try (OutputStream outFile = new FileOutputStream(fileName(output, table.useName().toLowerCase(), ".sh")))
     {
-      writer = outData;
+      writer = new PrintWriter(outFile);
       indent_size = 4;
       writeln("// This code was generated, do not modify it, modify it at source and regenerate it.");
       writeln("#ifndef _" + table.useName().toLowerCase() + "SH");
@@ -70,7 +74,7 @@ public class CliC extends Generator
       writeln();
       writeln("#include <stddef.h>");
       writeln("#include \"padgen.h\"");
-      writeln("#include \"cliapi.h\"");
+      writeln("#include \"mssapi.h\"");
       writeln("#include \"swapbytes.h\"");
       writeln();
       if (table.hasStdProcs)
@@ -81,10 +85,9 @@ public class CliC extends Generator
       writer.flush();
     }
     outLog.println("Code: " + fileName(output, table.useName().toLowerCase(), ".cpp"));
-    try (PrintWriter outData = new PrintWriter(new FileOutputStream(fileName(output, table.useName().toLowerCase(), ".cpp"))))
+    try (OutputStream outFile = new FileOutputStream(fileName(output, table.useName().toLowerCase(), ".cpp")))
     {
-      writer = outData;
-      indent_size = 4;
+      writer = new PrintWriter(outFile);
       writeln("// This code was generated, do not modify it, modify it at source and regenerate it.");
       writeln();
       writeln("#include \"" + fileName("", table.useName().toLowerCase(), ".sh") + "\"");
@@ -107,7 +110,7 @@ public class CliC extends Generator
       generateInterface(table, proc);
     }
   }
-  
+
   /**
    * Emits class method for processing the database activity
    */
@@ -118,21 +121,20 @@ public class CliC extends Generator
       for (int i = 0; i < proc.comments.size(); i++)
       {
         String comment = proc.comments.elementAt(i);
-        writeln(1, "//" + comment);
+        writeln("  //" + comment);
       }
     if (proc.hasNoData())
     {
       writeln("struct T" + table.useName() + proc.upperFirst());
       writeln("{");
-      writeln(1, "TJQuery q_;");
-      writeln(1, "void Exec();");
-      writeln(1, "T" + table.useName() + proc.upperFirst() + "(TJConnector &conn, char *aFile=__FILE__, long aLine=__LINE__)");
-      writeln(1, ": q_(conn)");
-      writeln(1, "{q_.FileAndLine(aFile,aLine);}");
+      writeln("  TJQuery q_;");
+      writeln("  void Exec();");
+      writeln("  T" + table.useName() + proc.upperFirst() + "(TJConnector &conn, char *aFile=__FILE__, long aLine=__LINE__)");
+      writeln("  : q_(conn)");
+      writeln("  {q_.FileAndLine(aFile,aLine);}");
       writeln("};");
       writeln();
-    }
-    else
+    } else
     {
       if (proc.isStdExtended() || proc.isStd)
         dataStruct = "D" + table.useName();
@@ -145,8 +147,9 @@ public class CliC extends Generator
       writeln();
     }
   }
+
   /**
-   * 
+   *
    */
   static void generateImplementation(Table table)
   {
@@ -161,14 +164,16 @@ public class CliC extends Generator
         generateImplementation(table, proc);
     }
   }
+
   static String useNull(Field field)
   {
-    if (isNull(field) 
-    || (field.type == Field.CHAR && field.isNull == true) 
-|| (field.type == Field.ANSICHAR && field.isNull == true))
+    if (isNull(field)
+            || (field.type == Field.CHAR && field.isNull == true)
+            || (field.type == Field.ANSICHAR && field.isNull == true))
       return ", " + field.useName() + "IsNull);";
     return ");";
   }
+
   static void generateMultipleImplementation(Table table, Proc proc)
   {
     placeHolder = new PlaceHolder(proc, PlaceHolder.QUESTION, "");
@@ -182,33 +187,33 @@ public class CliC extends Generator
     writeln("void T" + fullName + "::Exec(int32 noOf, " + dataStruct + " *Recs)");
     writeln("{");
     generateCommand(proc);
-    writeln(1, "q_.OpenArray(q_.command, NOBINDS, NONULLS, noOf, ROWSIZE);");
+    writeln("  q_.OpenArray(q_.command, NOBINDS, NONULLS, noOf, ROWSIZE);");
     for (int i = 0, n = 0; i < proc.inputs.size(); i++)
     {
       Field field = proc.inputs.elementAt(i);
-      writeln(1, "" + cppArrayPointer(field));
+      writeln("  " + cppArrayPointer(field));
       if (isNull(field))
-        writeln(1, "SQLINTEGER* " + field.useName() + "IsNull = &q_.indicators[noOf*" + n++ + "];");
+        writeln("  SQLINTEGER* " + field.useName() + "IsNull = &q_.indicators[noOf*" + n++ + "];");
       else if (field.type == Field.CHAR && field.isNull == true)
-        writeln(1, "SQLINTEGER* " + field.useName() + "IsNull = &q_.indicators[noOf*" + n++ + "];");
+        writeln("  SQLINTEGER* " + field.useName() + "IsNull = &q_.indicators[noOf*" + n++ + "];");
       else if (field.type == Field.ANSICHAR && field.isNull == true)
-        writeln(1, "SQLINTEGER* " + field.useName() + "IsNull = &q_.indicators[noOf*" + n++ + "];");
+        writeln("  SQLINTEGER* " + field.useName() + "IsNull = &q_.indicators[noOf*" + n++ + "];");
 
     }
-    writeln(1, "for (int i=0; i<noOf; i++)");
-    writeln(1, "{");
+    writeln("  for (int i=0; i<noOf; i++)");
+    writeln("  {");
     for (int i = 0; i < proc.inputs.size(); i++)
     {
       Field field = proc.inputs.elementAt(i);
-      writeln(2, "" + cppArrayCopy(field));
+      writeln("    " + cppArrayCopy(field));
       if (isNull(field))
-        writeln(2, "" + field.useName() + "IsNull[i] = Recs[i]." + field.useName() + "IsNull;");
+        writeln("    " + field.useName() + "IsNull[i] = Recs[i]." + field.useName() + "IsNull;");
       else if (field.type == Field.CHAR && field.isNull == true)
-        writeln(2, "" + field.useName() + "IsNull[i] = strlen(Recs[i]." + field.useName() + ") == 0 ? JP_NULL : SQL_NTS;");
+        writeln("    " + field.useName() + "IsNull[i] = strlen(Recs[i]." + field.useName() + ") == 0 ? JP_NULL : SQL_NTS;");
       else if (field.type == Field.ANSICHAR && field.isNull == true)
-        writeln(2, "" + field.useName() + "IsNull[i] = strlen(Recs[i]." + field.useName() + ") == 0 ? JP_NULL : SQL_NTS;");
+        writeln("    " + field.useName() + "IsNull[i] = strlen(Recs[i]." + field.useName() + ") == 0 ? JP_NULL : SQL_NTS;");
     }
-    writeln(1, "}");
+    writeln("  }");
     for (int i = 0; i < placeHolder.pairs.size(); i++)
     {
       PlaceHolderPairs pair = placeHolder.pairs.elementAt(i);
@@ -217,60 +222,61 @@ public class CliC extends Generator
       switch (field.type)
       {
         case Field.ANSICHAR:
-          writeln(1, "q_.BindAnsiCharArray(" + i + ", " + field.useName() + ", " + size + useNull(field));
+          writeln("  q_.BindAnsiCharArray(" + i + ", " + field.useName() + ", " + size + useNull(field));
           break;
         case Field.CHAR:
         case Field.TLOB:
         case Field.XML:
         case Field.USERSTAMP:
-          writeln(1, "q_.BindCharArray(" + i + ", " + field.useName() + ", " + size + useNull(field));
+          writeln("  q_.BindCharArray(" + i + ", " + field.useName() + ", " + size + useNull(field));
           break;
         //case Field.BIGXML:
         //  break;
         case Field.LONG:
         case Field.BIGSEQUENCE:
         case Field.BIGIDENTITY:
-          writeln(1, "q_.BindInt64Array(" + i + ", " + field.useName() + useNull(field));
+          writeln("  q_.BindInt64Array(" + i + ", " + field.useName() + useNull(field));
           break;
         case Field.INT:
         case Field.SEQUENCE:
         case Field.IDENTITY:
-          writeln(1, "q_.BindInt32Array(" + i + ", " + field.useName() + useNull(field));
+          writeln("  q_.BindInt32Array(" + i + ", " + field.useName() + useNull(field));
           break;
         case Field.BOOLEAN:
         case Field.BYTE:
         case Field.SHORT:
-          writeln(1, "q_.BindInt16Array(" + i + ", " + field.useName() + useNull(field));
+          writeln("  q_.BindInt16Array(" + i + ", " + field.useName() + useNull(field));
           break;
         case Field.FLOAT:
         case Field.DOUBLE:
           if (field.precision <= 15)
-            writeln(1, "q_.BindDoubleArray(" + i + ", " + field.useName() + ", " + (field.precision) + ", " + (field.scale) + useNull(field));
+            writeln("  q_.BindDoubleArray(" + i + ", " + field.useName() + ", " + (field.precision) + ", " + (field.scale) + useNull(field));
           else
-            writeln(1, "q_.BindMoneyArray(" + i + ", " + field.useName() + ", " + (field.precision) + ", " + (field.scale) + useNull(field));
+            writeln("  q_.BindMoneyArray(" + i + ", " + field.useName() + ", " + (field.precision) + ", " + (field.scale) + useNull(field));
           break;
         case Field.MONEY:
-          writeln(1, "q_.BindMoneyArray(" + i + ", " + field.useName() + ", 18, 2" + useNull(field));
+          writeln("  q_.BindMoneyArray(" + i + ", " + field.useName() + ", 18, 2" + useNull(field));
           break;
         case Field.DATE:
-          writeln(1, "q_.BindDateArray(" + i + ", " + field.useName() + useNull(field));
+          writeln("  q_.BindDateArray(" + i + ", " + field.useName() + useNull(field));
           break;
         case Field.TIME:
-          writeln(1, "q_.BindTimeArray(" + i + ", " + field.useName() + useNull(field));
+          writeln("  q_.BindTimeArray(" + i + ", " + field.useName() + useNull(field));
           break;
         case Field.DATETIME:
         case Field.TIMESTAMP:
-          writeln(1, "q_.BindDateTimeArray(" + i + ", " + field.useName() + useNull(field));
+          writeln("  q_.BindDateTimeArray(" + i + ", " + field.useName() + useNull(field));
           break;
         case Field.AUTOTIMESTAMP:
-          writeln(1, "//q_.BindDateTimeArray(" + i + ", " + field.useName() + useNull(field));
+          writeln("  //q_.BindDateTimeArray(" + i + ", " + field.useName() + useNull(field));
           break;
       }
     }
-    writeln(1, "q_.Exec();");
+    writeln("  q_.Exec();");
     writeln("}");
     writeln();
   }
+
   /**
    * Emits class method for processing the database activity
    */
@@ -278,10 +284,12 @@ public class CliC extends Generator
   {
     return field.type == Field.BIGIDENTITY || field.type == Field.IDENTITY;
   }
+
   static boolean isSequence(Field field)
   {
     return field.type == Field.BIGSEQUENCE || field.type == Field.SEQUENCE;
   }
+
   static void generateImplementation(Table table, Proc proc)
   {
     placeHolder = new PlaceHolder(proc, PlaceHolder.QUESTION, "");
@@ -290,17 +298,17 @@ public class CliC extends Generator
     writeln("{");
     generateCommand(proc);
     if (proc.outputs.size() > 0)
-      writeln(1, "q_.Open(q_.command, NOBINDS, NODEFINES, NOROWS, ROWSIZE);");
+      writeln("  q_.Open(q_.command, NOBINDS, NODEFINES, NOROWS, ROWSIZE);");
     else if (proc.inputs.size() > 0)
-      writeln(1, "q_.Open(q_.command, " + proc.inputs.size() + ");");
+      writeln("  q_.Open(q_.command, " + proc.inputs.size() + ");");
     else
-      writeln(1, "q_.Open(q_.command);");
+      writeln("  q_.Open(q_.command);");
     for (int j = 0; j < proc.inputs.size(); j++)
     {
       Field field = proc.inputs.elementAt(j);
       generateCppBind(field);
     }
-    Vector<Field> blobs = new Vector<>();
+    Vector blobs = new Vector();
     for (int j = 0; j < placeHolder.pairs.size(); j++)
     {
       PlaceHolderPairs pair = placeHolder.pairs.elementAt(j);
@@ -309,7 +317,7 @@ public class CliC extends Generator
       String bind = "Bind";
       if (field.type == Field.BLOB) bind += "Blob";
       //else if (field.type == Field.BIGXML) bind += "BigXML";
-      writeln(1, "q_." + bind + "(" + padder("" + j + ",", 4) + cppBind(field, tablename, proc.isInsert) + padder(", " + cppDirection(field), 4) + ((isNull(field)) ? ", &" + field.useName() + "IsNull" : "") + charFieldFlag(field) + ");");
+      writeln("  q_." + bind + "(" + padder("" + j + ",", 4) + cppBind(field, tablename, proc.isInsert) + padder(", " + cppDirection(field), 4) + ((isNull(field)) ? ", &" + field.useName() + "IsNull" : "") + charFieldFlag(field) + ");");
       if (field.type == Field.BLOB)
         blobs.addElement(field);
     }
@@ -319,13 +327,13 @@ public class CliC extends Generator
       String define = "Define";
       if (field.type == Field.BLOB) define += "Blob";
       //else if (field.type == Field.BIGXML) define += "BigXML";
-      writeln(1, "q_." + define +"(" + padder("" + j + ",", 4) + cppDefine(field) + ");");
+      writeln("  q_." + define + "(" + padder("" + j + ",", 4) + cppDefine(field) + ");");
     }
-    writeln(1, "q_.Exec();");
+    writeln("  q_.Exec();");
     for (int j = 0; j < blobs.size(); j++)
     {
-      Field field = blobs.elementAt(j);
-      writeln(1, "SwapBytes(" + field.useName() + ".len); // fixup len in data on intel type boxes");
+      Field field = (Field) blobs.elementAt(j);
+      writeln("  SwapBytes(" + field.useName() + ".len); // fixup len in data on intel type boxes");
     }
     writeln("}");
     writeln();
@@ -350,19 +358,19 @@ public class CliC extends Generator
         {
           Field field = proc.inputs.elementAt(j);
           if ((isSequence(field) && proc.isInsert)
-          || isIdentity(field)
-          || field.type == Field.TIMESTAMP
-          || field.type == Field.AUTOTIMESTAMP
-          || field.type == Field.USERSTAMP)
+                  || isIdentity(field)
+                  || field.type == Field.TIMESTAMP
+                  || field.type == Field.AUTOTIMESTAMP
+                  || field.type == Field.USERSTAMP)
             continue;
-          writeln(1, "" + cppCopy(field));
+          writeln("  " + cppCopy(field));
         }
         for (int j = 0; j < proc.dynamics.size(); j++)
         {
           String s = proc.dynamics.elementAt(j);
-          writeln(1, "strncpy(" + s + ", a" + s + ", sizeof(" + s + ")-1);");
+          writeln("  strncpy(" + s + ", a" + s + ", sizeof(" + s + ")-1);");
         }
-        writeln(1, "Exec();");
+        writeln("  Exec();");
         writeln("}");
         writeln();
       }
@@ -370,30 +378,32 @@ public class CliC extends Generator
     {
       writeln("bool T" + fullName + "::Fetch()");
       writeln("{");
-      writeln(1, "if (q_.Fetch() == false)");
-      writeln(2, "return false;");
+      writeln("  if (q_.Fetch() == false)");
+      writeln("    return false;");
       for (int j = 0; j < proc.outputs.size(); j++)
       {
         Field field = proc.outputs.elementAt(j);
-        writeln(1, "q_.Get(" + cppGet(field) + ");");
+        writeln("  q_.Get(" + cppGet(field) + ");");
         if (isNull(field))
-          writeln(1, "q_.GetNull(" + field.useName() + "IsNull, " + j + ");");
+          writeln("  q_.GetNull(" + field.useName() + "IsNull, " + j + ");");
       }
-      writeln(1, "return true;");
+      writeln("  return true;");
       writeln("}");
       writeln();
     }
   }
+
   static String check(String value)
   {
     return value;
   }
+
   static void generateCommand(Proc proc)
   {
     boolean isReturning = false;
     boolean isBulkSequence = false;
     String front = "", back = "", sequencer = "";
-    Vector<String> lines = placeHolder.getLines();
+    Vector lines = placeHolder.getLines();
     int size = 1;
     if (proc.isInsert == true && proc.hasReturning == true && proc.outputs.size() == 1)
     {
@@ -417,7 +427,7 @@ public class CliC extends Generator
     }
     for (int i = 0; i < lines.size(); i++)
     {
-      String l = lines.elementAt(i);
+      String l = (String) lines.elementAt(i);
       if (l.charAt(0) == '"')
         size += (l.length() + 2);
       else
@@ -429,62 +439,57 @@ public class CliC extends Generator
           if (var.compareTo(s) == 0)
           {
             Integer n = proc.dynamicSizes.elementAt(j);
-            size += (n + 2);
+            size += (n.intValue() + 2);
           }
         }
       }
     }
-    writeln(1, "if (q_.command == 0)");
-    writeln(2, "q_.command = new char [" + size + "];");
-    writeln(1, "memset(q_.command, 0, " + size + ");");
-    if (isReturning == true || isBulkSequence == true)
-    {
-      writeln(1, "struct cpp_ret");
-      writeln(1, "{");
-      writeln(2, "char* head; char *output; char *sequence; char* tail;");
-      writeln(2, "cpp_ret()");
-      writeln(2, "{");
-      writeln(3, "head = output = sequence = tail = \"\";");
-      writeln(2, "}");
-      writeln(2, "char* checkUse(char* data)");
-      writeln(2, "{");
-      writeln(3, "return data;");
-      writeln(2, "}");
-      writeln(1, "} _ret;");
-      writeln(1, "_ret.sequence = \"" + sequencer + ",\";");
-    }
+    writeln("  if (q_.command == 0)");
+    writeln("    q_.command = new char [" + size + "];");
+    writeln("  memset(q_.command, 0, " + size + ");");
     if (isReturning == true)
     {
-      writeln(1, "_ret.head = \"" + front + "\";");
-      writeln(1, "_ret.tail = \"" + back + "\";");
+      writeln("  struct cpp_ret {char* head; char *output; char *sequence; char* tail; cpp_ret(){head = output = sequence = tail = \"\";}} _ret;");
+      writeln("  _ret.sequence = \"" + sequencer + ",\";");
+      writeln("  _ret.head = \"" + front + "\";");
+      writeln("  _ret.tail = \"" + back + "\";");
     }
-    String strcat = "strcat(q_.command, ";
+    if (isBulkSequence == true)
+    {
+      writeln("  struct cpp_ret {char* head; char *output; char *sequence; char* tail; cpp_ret(){head = output = sequence = tail = \"\";}} _ret;");
+      writeln("  _ret.sequence = \"" + sequencer + ",\";");
+    }
+    String strcat = "  strcat(q_.command, ";
     String terminate = "";
     if (lines.size() > 0)
     {
       for (int i = 0; i < lines.size(); i++)
       {
-        String l = lines.elementAt(i);
+        String l = (String) lines.elementAt(i);
         if (l.charAt(0) != '"')
         {
           terminate = ");";
-          strcat = "strcat(q_.command, ";
-        }
-        if (i != 0)
+          strcat = "  strcat(q_.command, ";
+          if (i != 0)
+            writeln(terminate);
+        } else if (i != 0)
           writeln(terminate);
         if (l.charAt(0) != '"')
-          write(1, strcat + check(l));
+          write(strcat + check(l));
         else
-          write(1, strcat + l);
+          write(strcat + l);
         if (l.charAt(0) == '"')
         {
           terminate = "\"\\n\"";
-          strcat = "    ";
+          strcat = "                     ";
         }
       }
       writeln(");");
     }
+    //if (isReturning == true)
+    //  writeln("  strcat(q_.command, \"" + back + "\");");
   }
+
   /**
    * generate Holding variables
    */
@@ -492,13 +497,24 @@ public class CliC extends Generator
   {
     switch (field.type)
     {
-      case Field.DATE -> writeln(1, "DATE_STRUCT " + field.useName() + "_CLIDate;");
-      case Field.TIME -> writeln(1, "TIME_STRUCT " + field.useName() + "_CLITime;");
-      case Field.DATETIME -> writeln(1, "TIMESTAMP_STRUCT " + field.useName() + "_CLIDateTime;");
-      case Field.TIMESTAMP -> writeln(1, "TIMESTAMP_STRUCT " + field.useName() + "_CLITimeStamp;");
-      case Field.AUTOTIMESTAMP -> writeln(1, "//TIMESTAMP_STRUCT " + field.useName() + "_CLITimeStamp;");
+      case Field.DATE:
+        writeln("  DATE_STRUCT " + field.useName() + "_CLIDate;");
+        break;
+      case Field.TIME:
+        writeln("  TIME_STRUCT " + field.useName() + "_CLITime;");
+        break;
+      case Field.DATETIME:
+        writeln("  TIMESTAMP_STRUCT " + field.useName() + "_CLIDateTime;");
+        break;
+      case Field.TIMESTAMP:
+        writeln("  TIMESTAMP_STRUCT " + field.useName() + "_CLITimeStamp;");
+        break;
+      case Field.AUTOTIMESTAMP:
+        writeln("  //TIMESTAMP_STRUCT " + field.useName() + "_CLITimeStamp;");
+        break;
     }
   }
+
   static void generateWithParms(Proc proc, String pad)
   {
     String comma = "  ";
@@ -506,7 +522,7 @@ public class CliC extends Generator
     {
       Field field = proc.inputs.elementAt(j);
       if ((isSequence(field) && proc.isInsert) || isIdentity(field)
-        || field.type == Field.TIMESTAMP || field.type == Field.AUTOTIMESTAMP || field.type == Field.USERSTAMP)
+              || field.type == Field.TIMESTAMP || field.type == Field.AUTOTIMESTAMP || field.type == Field.USERSTAMP)
         continue;
       writeln(pad + comma + "const " + cppParm(field));
       comma = ", ";
@@ -518,6 +534,7 @@ public class CliC extends Generator
       comma = ", ";
     }
   }
+
   static void generateInterface(Table table, Proc proc, String dataStruct)
   {
     placeHolder = new PlaceHolder(proc, PlaceHolder.QUESTION, "");
@@ -525,45 +542,45 @@ public class CliC extends Generator
     boolean standardExec = true;
     if (proc.outputs.size() > 0)
     {
-      writeln(1, "enum");
+      writeln("  enum");
       Field field = proc.outputs.elementAt(0);
       String thisOne = field.useName().toUpperCase() + "_OFFSET";
       String lastOne = thisOne;
       String lastSize = cppLength(field);
       writeln(front + padder(thisOne, 24) + "= 0");
+      front = "  , ";
       for (int j = 1; j < proc.outputs.size(); j++)
       {
         field = proc.outputs.elementAt(j);
         thisOne = field.useName().toUpperCase() + "_OFFSET";
-        writeln(1, ", " + padder(thisOne, 24) + "= (" + lastOne + "+" + lastSize + ")");
+        writeln("  , " + padder(thisOne, 24) + "= (" + lastOne + "+" + lastSize + ")");
         lastOne = thisOne;
         lastSize = cppLength(field);
       }
-      writeln(1, ", " + padder("ROWSIZE", 24) + "= (" + lastOne + "+" + lastSize + ")");
+      writeln("  , " + padder("ROWSIZE", 24) + "= (" + lastOne + "+" + lastSize + ")");
       if (proc.isSingle)
-        writeln(1, ", " + padder("NOROWS", 24) + "= 1");
+        writeln("  , " + padder("NOROWS", 24) + "= 1");
       else if (proc.noRows > 0)
-        writeln(1, ", " + padder("NOROWS", 24) + "= " + proc.noRows);
+        writeln("  , " + padder("NOROWS", 24) + "= " + proc.noRows);
       else
-        writeln(1, ", " + padder("NOROWS", 24) + "= (24*1024 / ROWSIZE) + 1");
-      writeln(1, ", " + padder("NOBINDS", 24) + "= " + placeHolder.pairs.size());
-      writeln(1, ", " + padder("NODEFINES", 24) + "= " + proc.outputs.size());
+        writeln("  , " + padder("NOROWS", 24) + "= (24*1024 / ROWSIZE) + 1");
+      writeln("  , " + padder("NOBINDS", 24) + "= " + placeHolder.pairs.size());
+      writeln("  , " + padder("NODEFINES", 24) + "= " + proc.outputs.size());
       field = proc.outputs.elementAt(0);
       thisOne = field.useName().toUpperCase();
-      writeln(1, ", " + padder(thisOne + "_POS", 24) + "= 0");
+      writeln("  , " + padder(thisOne + "_POS", 24) + "= 0");
       for (int j = 1; j < proc.outputs.size(); j++)
       {
         field = proc.outputs.elementAt(j);
         thisOne = field.useName().toUpperCase();
-        writeln(1, ", " + padder(thisOne + "_POS", 24) + "= " + padder(thisOne + "_OFFSET", 24) + "* NOROWS");
+        writeln("  , " + padder(thisOne + "_POS", 24) + "= " + padder(thisOne + "_OFFSET", 24) + "* NOROWS");
       }
-      writeln(1, "};");
-    }
-    else if (proc.isMultipleInput)
+      writeln("  };");
+    } else if (proc.isMultipleInput)
     {
       int noNulls = 0;
       standardExec = false;
-      writeln(1, "enum");
+      writeln("  enum");
       Field field = proc.inputs.elementAt(0);
       if (isNull(field) || (field.type == Field.CHAR && field.isNull == true) || (field.type == Field.ANSICHAR && field.isNull == true))
         noNulls++;
@@ -581,22 +598,22 @@ public class CliC extends Generator
           noNulls++;
         thisOne = field.useName().toUpperCase() + "_OFFSET";
         thisSize = field.useName().toUpperCase() + "_SIZE";
-        writeln(1, ", " + padder(thisOne, 24) + "= (" + lastOne + "+" + lastSize + ")");
-        writeln(1, ", " + padder(thisSize, 24) + "= " + cppLength(field));
+        writeln("  , " + padder(thisOne, 24) + "= (" + lastOne + "+" + lastSize + ")");
+        writeln("  , " + padder(thisSize, 24) + "= " + cppLength(field));
         lastOne = thisOne;
         lastSize = thisSize;
       }
-      writeln(1, ", " + padder("ROWSIZE", 24) + "= (" + lastOne + "+" + lastSize + ")");
-      writeln(1, ", " + padder("NOBINDS", 24) + "= " + placeHolder.pairs.size());
-      writeln(1, ", " + padder("NONULLS", 24) + "= " + noNulls);
-      writeln(1, "};");
-      writeln(1, "void Exec(int32 noOf, " + dataStruct + "* Recs);");
+      writeln("  , " + padder("ROWSIZE", 24) + "= (" + lastOne + "+" + lastSize + ")");
+      writeln("  , " + padder("NOBINDS", 24) + "= " + placeHolder.pairs.size());
+      writeln("  , " + padder("NONULLS", 24) + "= " + noNulls);
+      writeln("  };");
+      writeln("  void Exec(int32 noOf, " + dataStruct + "* Recs);");
     }
-    writeln(1, "TJQuery q_;");
+    writeln("  TJQuery q_;");
     if (standardExec == true)
     {
-      writeln(1, "void Exec();");
-      writeln(1, "void Exec(" + dataStruct + "& Rec) {*DRec() = Rec;Exec();}");
+      writeln("  void Exec();");
+      writeln("  void Exec(" + dataStruct + "& Rec) {*DRec() = Rec;Exec();}");
       boolean skipExecWithParms = false;
       for (int j = 0; j < proc.inputs.size(); j++)
       {
@@ -610,36 +627,197 @@ public class CliC extends Generator
       if (skipExecWithParms == false)
         if ((proc.inputs.size() > 0) || proc.dynamics.size() > 0)
         {
-          writeln(1, "void Exec(");
+          writeln("  void Exec(");
           generateWithParms(proc, "  ");
-          writeln(1, ");");
+          writeln("  );");
         }
     }
     if (proc.outputs.size() > 0)
-      writeln(1, "bool Fetch();");
-    writeln(1, "T" + table.useName() + proc.upperFirst() + "(TJConnector &conn, char *aFile=__FILE__, long aLine=__LINE__)");
-    writeln(1, ": q_(conn)");
-    writeln(1, "{Clear();q_.FileAndLine(aFile,aLine);}");
-    writeln(1, "" + dataStruct + "* DRec() {return this;}");
+      writeln("  bool Fetch();");
+    writeln("  T" + table.useName() + proc.upperFirst() + "(TJConnector &conn, char *aFile=__FILE__, long aLine=__LINE__)");
+    writeln("  : q_(conn)");
+    writeln("  {Clear();q_.FileAndLine(aFile,aLine);}");
+    writeln("  " + dataStruct + "* DRec() {return this;}");
     if (proc.outputs.size() > 0)
-      writeln(1, "O" + dataStruct.substring(1) + "* ORec() {return this;}");
+      writeln("  O" + dataStruct.substring(1) + "* ORec() {return this;}");
     if (proc.isStdExtended() == false && proc.extendsStd == true)
     {
-      writeln(1, "D" + table.useName() + "* DStd() {return (D" + table.useName() + "*)this;}");
+      writeln("  D" + table.useName() + "* DStd() {return (D" + table.useName() + "*)this;}");
       if (proc.outputs.size() > 0)
-        writeln(1, "O" + table.useName() + "* OStd() {return (O" + table.useName() + "*)this;}");
+        writeln("  O" + table.useName() + "* OStd() {return (O" + table.useName() + "*)this;}");
     }
   }
+
   static String padder(String s, int length)
   {
     for (int i = s.length(); i < length - 1; i++)
       s = s + " ";
     return s + " ";
   }
+
+  public static void generateEnumOrdinals(Table table)
+  {
+    for (int i = 0; i < table.fields.size(); i++)
+    {
+      Field field = table.fields.elementAt(i);
+      if (field.enums.size() > 0)
+      {
+        writeln("enum e" + table.useName() + field.useName());
+        String start = "{";
+        for (int j = 0; j < field.enums.size(); j++)
+        {
+          Enum element = field.enums.elementAt(j);
+          String evalue = "" + element.value;
+          if (field.type == Field.ANSICHAR && field.length == 1)
+            evalue = "'" + (char) element.value + "'";
+          writeln(start + " " + table.useName() + field.useName() + element.name + " = " + evalue);
+          start = ",";
+        }
+        writeln("};");
+        writeln();
+        writeln("inline char *" + table.useName() + field.useName() + "Lookup(int no)");
+        writeln("{");
+        writeln("  switch(no)");
+        writeln("  {");
+        for (int j = 0; j < field.enums.size(); j++)
+        {
+          Enum element = field.enums.elementAt(j);
+          String evalue = "" + element.value;
+          if (field.type == Field.ANSICHAR && field.length == 1)
+            evalue = "'" + (char) element.value + "'";
+          writeln("  case " + evalue + ": return \"" + element.name + "\";");
+        }
+        writeln("  default: return \"<unknown value>\";");
+        writeln("  }");
+        writeln("}");
+        writeln();
+      } else if (field.valueList.size() > 0)
+      {
+        writeln("enum e" + table.useName() + field.useName());
+        String start = "{";
+        for (int j = 0; j < field.valueList.size(); j++)
+        {
+          String element = field.valueList.elementAt(j);
+          writeln(start + " " + table.useName() + field.useName() + element);
+          start = ",";
+        }
+        writeln("};");
+        writeln();
+        writeln("inline const char *" + table.useName() + field.useName() + "Lookup(int no)");
+        writeln("{");
+        writeln("  switch(no)");
+        writeln("  {");
+        for (int j = 0; j < field.valueList.size(); j++)
+        {
+          String element = field.valueList.elementAt(j);
+          writeln("  case " + j + ": return \"" + element + "\";");
+        }
+        writeln("  default: return \"<unknown value>\";");
+        writeln("  }");
+        writeln("}");
+        writeln();
+      }
+    }
+  }
+
   static String fileName(String output, String node, String ext)
   {
     return output + node + ext;
   }
+
+  private static String charPadding(int no, int fillerNo)
+  {
+    int n = 8 - (no % 8);
+    if (n != 8)
+      return "IDL2_CHAR_PAD(" + fillerNo + "," + n + ");";
+    return "";
+  }
+
+  private static String generatePadding(Field field, int fillerNo)
+  {
+    switch (field.type)
+    {
+      case Field.BOOLEAN:
+      case Field.BYTE:
+      case Field.SHORT:
+        return "IDL2_INT16_PAD(" + fillerNo + ");";
+      case Field.INT:
+      case Field.SEQUENCE:
+      case Field.IDENTITY:
+        return "IDL2_INT32_PAD(" + fillerNo + ");";
+      case Field.CHAR:
+      case Field.ANSICHAR:
+      case Field.USERSTAMP:
+      case Field.XML:
+      case Field.TLOB:
+      case Field.DATE:
+      case Field.TIME:
+      case Field.DATETIME:
+      case Field.TIMESTAMP:
+      case Field.AUTOTIMESTAMP:
+        return charPadding(field.length + 1, fillerNo);
+      case Field.DOUBLE:
+      case Field.FLOAT:
+        if (field.precision > 15)
+          return charPadding(field.precision + 3, fillerNo);
+        break;
+      case Field.MONEY:
+        return charPadding(21, fillerNo);
+      //case Field.BIGXML:
+      //  break;
+    }
+    return "";
+  }
+
+  public static String generatePadding(int fillerNo)
+  {
+    return "IDL2_INT16_PAD(" + fillerNo + ");";
+  }
+
+  static int getLength(Field field)
+  {
+    switch (field.type)
+    {
+      case Field.BOOLEAN:
+      case Field.BYTE:
+      case Field.SHORT:
+        return 2;
+      case Field.INT:
+      case Field.SEQUENCE:
+      case Field.IDENTITY:
+        return 4;
+      case Field.LONG:
+      case Field.BIGSEQUENCE:
+      case Field.BIGIDENTITY:
+        return 8;
+      case Field.CHAR:
+      case Field.ANSICHAR:
+      case Field.USERSTAMP:
+      case Field.TLOB:
+      case Field.XML:
+        return field.length + 1;
+      //case Field.BIGXML:
+      case Field.BLOB:
+        return 8;
+      case Field.DATE:
+        return 9;
+      case Field.TIME:
+        return 7;
+      case Field.DATETIME:
+      case Field.TIMESTAMP:
+      case Field.AUTOTIMESTAMP:
+        return 15;
+      case Field.FLOAT:
+      case Field.DOUBLE:
+        if (field.precision > 15)
+          return field.precision + 3; // allow for - . and null terminator
+        return 8;
+      case Field.MONEY:
+        return 21;
+    }
+    return 4;
+  }
+
   static String charFieldFlag(Field field)
   {
     if (field.type != Field.CHAR && field.type != Field.ANSICHAR && field.type != Field.TLOB && field.type != Field.XML)
@@ -653,17 +831,67 @@ public class CliC extends Generator
         return ", 1, 0";
     return ", 0, 0";
   }
+
   static boolean isNull(Field field)
   {
     if (field.isNull == false)
       return false;
-    return switch (field.type)
-            {
-              case Field.BOOLEAN, Field.FLOAT, Field.DOUBLE, Field.MONEY, Field.BYTE, Field.SHORT, Field.INT, Field.LONG, Field.IDENTITY, Field.SEQUENCE, Field.BIGIDENTITY, Field.BIGSEQUENCE, Field.BLOB, Field.DATE, Field.DATETIME, Field.TIMESTAMP, Field.AUTOTIMESTAMP, Field.TIME ->
-                      //case Field.XML:
-                      true;
-              default -> false;
-            };
+    switch (field.type)
+    {
+      case Field.BOOLEAN:
+      case Field.FLOAT:
+      case Field.DOUBLE:
+      case Field.MONEY:
+      case Field.BYTE:
+      case Field.SHORT:
+      case Field.INT:
+      case Field.LONG:
+      case Field.IDENTITY:
+      case Field.SEQUENCE:
+      case Field.BIGIDENTITY:
+      case Field.BIGSEQUENCE:
+      case Field.BLOB:
+      case Field.DATE:
+      case Field.DATETIME:
+      case Field.TIMESTAMP:
+      case Field.AUTOTIMESTAMP:
+      case Field.TIME:
+        //case Field.XML:
+        return true;
+    }
+    return false;
+  }
+
+  static boolean notString(Field field)
+  {
+    switch (field.type)
+    {
+      case Field.BOOLEAN:
+      case Field.BYTE:
+      case Field.SHORT:
+      case Field.INT:
+      case Field.LONG:
+      case Field.IDENTITY:
+      case Field.SEQUENCE:
+      case Field.BIGIDENTITY:
+      case Field.BIGSEQUENCE:
+      case Field.BLOB:
+        return true;
+      case Field.FLOAT:
+      case Field.DOUBLE:
+        return field.precision <= 15;
+    }
+    return false;
+  }
+
+  static boolean isStruct(Field field)
+  {
+    return field.type == Field.BLOB;
+  }
+
+  static boolean isLob(Field field)
+  {
+    return field.type == Field.BLOB;
   }
 
   static String cppLength(Field field)
@@ -711,6 +939,7 @@ public class CliC extends Generator
     }
     return "0";
   }
+
   static String cppDirection(Field field)
   {
     if (field.isIn && field.isOut)
@@ -719,6 +948,7 @@ public class CliC extends Generator
       return "SQL_PARAM_OUTPUT";
     return "SQL_PARAM_INPUT";
   }
+
   static String cppArrayPointer(Field field)
   {
     String offset = field.useName().toUpperCase() + "_OFFSET";
@@ -729,7 +959,6 @@ public class CliC extends Generator
       case Field.SHORT:
         return "int16 *" + field.useName() + " = (int16 *)(q_.data + " + offset + " * noOf);";
       case Field.INT:
-      case Field.SEQUENCE:
         return "int32 *" + field.useName() + " = (int32 *)(q_.data + " + offset + " * noOf);";
       case Field.LONG:
       case Field.BIGSEQUENCE:
@@ -741,10 +970,14 @@ public class CliC extends Generator
           return "char *" + field.useName() + " = (char *)(q_.data + " + offset + " * noOf);";
         return "double *" + field.useName() + " = (double *)(q_.data + " + offset + " * noOf);";
       case Field.MONEY:
+        return "char *" + field.useName() + " = (char *)(q_.data + " + offset + " * noOf);";
+      case Field.SEQUENCE:
+        return "int32 *" + field.useName() + " = (int32 *)(q_.data + " + offset + " * noOf);";
       case Field.TLOB:
       case Field.XML:
       case Field.CHAR:
       case Field.ANSICHAR:
+        return "char *" + field.useName() + " = (char *)(q_.data + " + offset + " * noOf);";
       case Field.USERSTAMP:
         return "char *" + field.useName() + " = (char *)(q_.data + " + offset + " * noOf);";
       case Field.DATE:
@@ -762,6 +995,7 @@ public class CliC extends Generator
     }
     return "// not handled here";
   }
+
   static String cppBind(Field field, String tableName, boolean isInsert)
   {
     switch (field.type)
@@ -785,7 +1019,9 @@ public class CliC extends Generator
           return field.useName();
       case Field.TLOB:
       case Field.XML:
+        return field.useName() + ", " + (field.length);
       case Field.CHAR:
+        return field.useName() + ", " + (field.length);
       case Field.ANSICHAR:
         return field.useName() + ", " + (field.length);
       case Field.USERSTAMP:
@@ -797,6 +1033,7 @@ public class CliC extends Generator
       case Field.DATETIME:
         return "q_.DateTime(" + field.useName() + "_CLIDateTime, " + field.useName() + ")";
       case Field.TIMESTAMP:
+        return "q_.TimeStamp(" + field.useName() + "_CLITimeStamp, " + field.useName() + ")";
       case Field.AUTOTIMESTAMP:
         return "q_.TimeStamp(" + field.useName() + "_CLITimeStamp, " + field.useName() + ")";
       case Field.BLOB:
@@ -806,6 +1043,7 @@ public class CliC extends Generator
     }
     return field.useName() + ", <unsupported>";
   }
+
   /**
    * Translates field type to cpp data member type
    */
@@ -855,6 +1093,7 @@ public class CliC extends Generator
     }
     return field.useName() + " <unsupported>";
   }
+
   /**
    * Translates field type to cpp data member type
    */
@@ -888,7 +1127,7 @@ public class CliC extends Generator
         return padder(field.useName() + ",", 32) + " q_.data+" + field.useName().toUpperCase() + "_POS, 9";
       case Field.BLOB:
         return padder(field.useName() + ".len, " + field.useName() + ".data,", 32) +
-            " q_.data+" + field.useName().toUpperCase() + "_POS, sizeof(" + field.useName() + ")";
+                " q_.data+" + field.useName().toUpperCase() + "_POS, sizeof(" + field.useName() + ")";
       //case Field.BIGXML:
       //  return field.useName() + ".setBigXML(" + field.useName().toUpperCase() + "_POS, " + field.length + ")";
       case Field.DATE:
@@ -902,6 +1141,7 @@ public class CliC extends Generator
     }
     return field.useName() + " <unsupported>";
   }
+
   static String cppCopy(Field field)
   {
     switch (field.type)
@@ -913,7 +1153,6 @@ public class CliC extends Generator
       case Field.LONG:
       case Field.SEQUENCE:
       case Field.BIGSEQUENCE:
-      case Field.BLOB:
         return field.useName() + " = a" + field.useName() + ";";
       case Field.FLOAT:
       case Field.DOUBLE:
@@ -921,6 +1160,7 @@ public class CliC extends Generator
           return "strncpy(" + field.useName() + ", a" + field.useName() + ", sizeof(" + field.useName() + ")-1);";
         return field.useName() + " = a" + field.useName() + ";";
       case Field.MONEY:
+        return "strncpy(" + field.useName() + ", a" + field.useName() + ", sizeof(" + field.useName() + ")-1);";
       case Field.CHAR:
       case Field.TLOB:
       case Field.XML:
@@ -930,14 +1170,18 @@ public class CliC extends Generator
         return "strncpy(" + field.useName() + ", a" + field.useName() + ", sizeof(" + field.useName() + ")-1);";
       case Field.ANSICHAR:
         return "memcpy(" + field.useName() + ", a" + field.useName() + ", sizeof(" + field.useName() + "));";
+      case Field.BLOB:
+        return field.useName() + " = a" + field.useName() + ";";
       case Field.USERSTAMP:
       case Field.IDENTITY:
       case Field.TIMESTAMP:
+        return "// " + field.useName() + " -- generated";
       case Field.AUTOTIMESTAMP:
         return "// " + field.useName() + " -- generated";
     }
     return field.useName() + " <unsupported>";
   }
+
   static String cppArrayCopy(Field field)
   {
     String size = field.useName().toUpperCase() + "_SIZE";
@@ -949,9 +1193,8 @@ public class CliC extends Generator
       case Field.INT:
       case Field.LONG:
       case Field.SEQUENCE:
-      //case Field.IDENTITY:
+        //case Field.IDENTITY:
       case Field.BIGSEQUENCE:
-      case Field.BLOB:
         //case Field.BIGIDENTITY:
         return field.useName() + "[i] = Recs[i]." + field.useName() + ";";
       case Field.FLOAT:
@@ -960,6 +1203,7 @@ public class CliC extends Generator
           return "strncpy(&" + field.useName() + "[i*" + size + "], Recs[i]." + field.useName() + ", " + size + "-1);";
         return field.useName() + "[i] = Recs[i]." + field.useName() + ";";
       case Field.MONEY:
+        return "strncpy(&" + field.useName() + "[i*" + size + "], Recs[i]." + field.useName() + ", " + size + "-1);";
       case Field.CHAR:
       case Field.TLOB:
       case Field.XML:
@@ -972,7 +1216,10 @@ public class CliC extends Generator
         return "q_.DateTime(" + field.useName() + "[i], Recs[i]." + field.useName() + ");";
       case Field.ANSICHAR:
         return "memcpy(&" + field.useName() + "[i*" + size + "], a" + field.useName() + ", " + size + ");";
+      case Field.BLOB:
+        return field.useName() + "[i] = Recs[i]." + field.useName() + ";";
       case Field.USERSTAMP:
+        return field.useName() + " -- generated";
       case Field.IDENTITY:
         return field.useName() + " -- generated";
       case Field.TIMESTAMP:
@@ -982,6 +1229,7 @@ public class CliC extends Generator
     }
     return field.useName() + " <unsupported>";
   }
+
   /**
    * Translates field type to cpp data member type
    */
@@ -1005,21 +1253,25 @@ public class CliC extends Generator
       case Field.TLOB:
       case Field.XML:
       case Field.ANSICHAR:
+        return "char*  a" + field.useName();
       case Field.USERSTAMP:
+        return "char*  a" + field.useName();
       case Field.DATE:
+        return "char*  a" + field.useName();
       case Field.TIME:
+        return "char*  a" + field.useName();
       case Field.DATETIME:
       case Field.TIMESTAMP:
       case Field.AUTOTIMESTAMP:
-      case Field.MONEY:
         return "char*  a" + field.useName();
       case Field.FLOAT:
       case Field.DOUBLE:
         if (field.precision > 15)
           return "char*  a" + field.useName();
         return "double a" + field.useName();
+      case Field.MONEY:
+        return "char*  a" + field.useName();
     }
     return field.useName() + " <unsupported>";
   }
-
 }

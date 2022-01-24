@@ -16,17 +16,13 @@ import java.io.Serializable;
 import java.util.Vector;
 
 /**
-*
-*/
+ *
+ */
 public class Prototype implements Serializable
 {
-  private static final long serialVersionUID = 1L;
   public static final byte
-    RPCCALL    = 0
-  , PUBLIC     = 1
-  , PRIVATE    = 2
-  , PROTECTED  = 3
-  ;
+          RPCCALL = 0, PUBLIC = 1, PRIVATE = 2, PROTECTED = 3;
+  private static final long serialVersionUID = 1L;
   public String name;
   public String message;
   public Type type;
@@ -40,6 +36,7 @@ public class Prototype implements Serializable
   public int codeLine;
   public int start;
   public OpenApi openApi;
+
   public Prototype()
   {
     name = "";
@@ -56,14 +53,17 @@ public class Prototype implements Serializable
     start = 0;
     openApi = null;
   }
-	public int hashCode(String data)
-	{
-		return Module.hashCode(data);
-	}
+
+  public int hashCode(String data)
+  {
+    return Module.hashCode(data);
+  }
+
   public void addParameter(Field field)
   {
     parameters.addElement(field);
   }
+
   public void addInput(Action action)
   {
     inputs.addElement(action);
@@ -75,6 +75,7 @@ public class Prototype implements Serializable
       field.hasSize = action.hasSize();
     }
   }
+
   public void addOutput(Action action)
   {
     outputs.addElement(action);
@@ -86,50 +87,54 @@ public class Prototype implements Serializable
       field.hasSize = action.hasSize();
     }
   }
+
   public Field getParameter(String name)
   {
     for (int i = 0; i < parameters.size(); i++)
     {
       Field parameter = (Field) parameters.elementAt(i);
-      if ( parameter.name.compareTo(name) == 0 )
+      if (parameter.name.compareTo(name) == 0)
         return parameter;
     }
     return null;
   }
+
   public Action getInputAction(String name)
   {
-    for ( int i = 0; i < inputs.size(); i++)
+    for (int i = 0; i < inputs.size(); i++)
     {
-      Action action = (Action)inputs.elementAt(i);
-      if (action.name.compareTo(name) == 0 )
+      Action action = (Action) inputs.elementAt(i);
+      if (action.name.compareTo(name) == 0)
         return action;
     }
     return null;
   }
+
   public Action getOutputAction(String name)
   {
-    for ( int i = 0; i < outputs.size(); i++)
+    for (int i = 0; i < outputs.size(); i++)
     {
-      Action action = (Action)outputs.elementAt(i);
-      if (action.name.compareTo(name) == 0 )
+      Action action = (Action) outputs.elementAt(i);
+      if (action.name.compareTo(name) == 0)
         return action;
     }
     return null;
   }
+
   public boolean hasSize(String name)
   {
-    for ( int i = 0; i < inputs.size(); i++)
+    for (int i = 0; i < inputs.size(); i++)
     {
-      Action action = (Action)inputs.elementAt(i);
+      Action action = (Action) inputs.elementAt(i);
       if (action.name.compareTo(name) == 0)
       {
         if (action.hasSize())
           return true;
       }
     }
-    for ( int i = 0; i < outputs.size(); i++)
+    for (int i = 0; i < outputs.size(); i++)
     {
-      Action action = (Action)outputs.elementAt(i);
+      Action action = (Action) outputs.elementAt(i);
       if (action.name.compareTo(name) == 0)
       {
         if (action.hasSize())
@@ -138,11 +143,12 @@ public class Prototype implements Serializable
     }
     return false;
   }
+
   public boolean hasOutputSize(String name)
   {
-    for ( int i = 0; i < outputs.size(); i++)
+    for (int i = 0; i < outputs.size(); i++)
     {
-      Action action = (Action)outputs.elementAt(i);
+      Action action = (Action) outputs.elementAt(i);
       if (action.name.compareTo(name) == 0)
       {
         if (action.hasSize())
@@ -151,11 +157,12 @@ public class Prototype implements Serializable
     }
     return false;
   }
+
   public boolean hasInputSize(String name)
   {
-    for ( int i = 0; i < inputs.size(); i++)
+    for (int i = 0; i < inputs.size(); i++)
     {
-      Action action = (Action)inputs.elementAt(i);
+      Action action = (Action) inputs.elementAt(i);
       if (action.name.compareTo(name) == 0)
       {
         if (action.hasSize())
@@ -164,11 +171,12 @@ public class Prototype implements Serializable
     }
     return false;
   }
+
   public String getInputSizeName(String name)
   {
-    for ( int i = 0; i < inputs.size(); i++)
+    for (int i = 0; i < inputs.size(); i++)
     {
-      Action action = (Action)inputs.elementAt(i);
+      Action action = (Action) inputs.elementAt(i);
       if (action.name.compareTo(name) == 0)
       {
         if (action.hasSize())
@@ -177,20 +185,21 @@ public class Prototype implements Serializable
     }
     return "";
   }
+
   public String getSizeName(String name)
   {
-    for ( int i = 0; i < inputs.size(); i++)
+    for (int i = 0; i < inputs.size(); i++)
     {
-      Action action = (Action)inputs.elementAt(i);
+      Action action = (Action) inputs.elementAt(i);
       if (action.name.compareTo(name) == 0)
       {
         if (action.hasSize())
           return action.getSizeName();
       }
     }
-    for ( int i = 0; i < outputs.size(); i++)
+    for (int i = 0; i < outputs.size(); i++)
     {
-      Action action = (Action)outputs.elementAt(i);
+      Action action = (Action) outputs.elementAt(i);
       if (action.name.compareTo(name) == 0)
       {
         if (action.hasSize())
@@ -199,11 +208,12 @@ public class Prototype implements Serializable
     }
     return "";
   }
+
   public String getOutputSizeName(String name)
   {
-    for ( int i = 0; i < outputs.size(); i++)
+    for (int i = 0; i < outputs.size(); i++)
     {
-      Action action = (Action)outputs.elementAt(i);
+      Action action = (Action) outputs.elementAt(i);
       if (action.name.compareTo(name) == 0)
       {
         if (action.hasSize())
@@ -212,6 +222,7 @@ public class Prototype implements Serializable
     }
     return "";
   }
+
   public long signature(boolean longAsInt)
   {
     long result = 0;
@@ -235,29 +246,33 @@ public class Prototype implements Serializable
     for (int i = 0; i < outputs.size(); i++)
     {
       Action action = (Action) outputs.elementAt(i);
-			result += hashCode(action.name);
+      result += hashCode(action.name);
       result = result % 5432109;
     }
     return result;
   }
+
   public boolean needsSwap()
   {
     return (type.typeof == Type.SHORT
-         || type.typeof == Type.INT
-         || type.typeof == Type.LONG
-         || type.typeof == Type.FLOAT
-         || type.typeof == Type.DOUBLE);
+            || type.typeof == Type.INT
+            || type.typeof == Type.LONG
+            || type.typeof == Type.FLOAT
+            || type.typeof == Type.DOUBLE);
   }
+
   public boolean isRpcCall()
   {
     return codeType == RPCCALL;
   }
+
   public boolean isExtendedRpcCall()
   {
     if (codeType != PUBLIC)
       return false;
     return inputs.size() > 0 || outputs.size() > 0;
   }
+
   public boolean isPythonImpl()
   {
     if (python.size() > 0)
@@ -270,6 +285,7 @@ public class Prototype implements Serializable
     }
     return false;
   }
+
   public String toString()
   {
     return name;

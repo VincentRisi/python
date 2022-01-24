@@ -18,84 +18,102 @@ import java.io.Serializable;
 import java.util.Vector;
 
 /**
-* Views of table
-*/
+ * Views of table
+ */
 public class View implements Serializable
 {
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 1L;
-  /** Name of view */
+  /**
+   * Name of view
+   */
   public String name;
-  /** List of aliases from view */
+  /**
+   * List of aliases from view
+   */
   public Vector aliases;
-  /** SQL Code for view */
+  /**
+   * SQL Code for view
+   */
   public Vector lines;
-  /** Users of the view */
+  /**
+   * Users of the view
+   */
   public Vector users;
-  /** Code starts at line */
+  /**
+   * Code starts at line
+   */
   public int start;
-  /** Constructs the view with proper defaults */
+
+  /**
+   * Constructs the view with proper defaults
+   */
   public View()
   {
-    name      = "";
-    aliases   = new Vector();
-    lines     = new Vector();
-    users     = new Vector();
-    start     = 0;
+    name = "";
+    aliases = new Vector();
+    lines = new Vector();
+    users = new Vector();
+    start = 0;
   }
+
   public void reader(DataInputStream ids) throws IOException
   {
     name = ids.readUTF();
     int noOf = ids.readInt();
-    for (int i=0; i<noOf; i++)
+    for (int i = 0; i < noOf; i++)
     {
       String value = ids.readUTF();
       aliases.addElement(value);
     }
     noOf = ids.readInt();
-    for (int i=0; i<noOf; i++)
+    for (int i = 0; i < noOf; i++)
     {
       String value = ids.readUTF();
       lines.addElement(value);
     }
     noOf = ids.readInt();
-    for (int i=0; i<noOf; i++)
+    for (int i = 0; i < noOf; i++)
     {
       String value = ids.readUTF();
       users.addElement(value);
     }
     start = ids.readInt();
   }
+
   public void writer(DataOutputStream ods) throws IOException
   {
     ods.writeUTF(name);
     ods.writeInt(aliases.size());
-    for (int i=0; i<aliases.size(); i++)
+    for (int i = 0; i < aliases.size(); i++)
     {
       String value = (String) aliases.elementAt(i);
       ods.writeUTF(value);
     }
     ods.writeInt(lines.size());
-    for (int i=0; i<lines.size(); i++)
+    for (int i = 0; i < lines.size(); i++)
     {
       String value = (String) lines.elementAt(i);
       ods.writeUTF(value);
     }
     ods.writeInt(users.size());
-    for (int i=0; i<users.size(); i++)
+    for (int i = 0; i < users.size(); i++)
     {
       String value = (String) users.elementAt(i);
       ods.writeUTF(value);
     }
     ods.writeInt(start);
   }
-  /** Checks if view has alias */
+
+  /**
+   * Checks if view has alias
+   */
   public boolean hasAlias(String s)
   {
     int i;
-    for (i=0; i<aliases.size(); i++)
+    for (i = 0; i < aliases.size(); i++)
     {
       String alias = (String) aliases.elementAt(i);
       if (alias.equalsIgnoreCase(s))
@@ -103,11 +121,14 @@ public class View implements Serializable
     }
     return false;
   }
-  /** Checks if view has user */
+
+  /**
+   * Checks if view has user
+   */
   public boolean hasUser(String s)
   {
     int i;
-    for (i=0; i<users.size(); i++)
+    for (i = 0; i < users.size(); i++)
     {
       String name = (String) users.elementAt(i);
       if (name.equalsIgnoreCase(s))
@@ -115,6 +136,7 @@ public class View implements Serializable
     }
     return false;
   }
+
   public String toString()
   {
     return name;

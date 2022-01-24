@@ -16,17 +16,13 @@ import java.io.Serializable;
 import java.util.Vector;
 
 /**
-*
-*/
+ *
+ */
 public class Structure implements Serializable
 {
-  private static final long serialVersionUID = 1L;
   public static final byte
-    NORMAL     = 0
-  , PUBLIC     = 1
-  , PRIVATE    = 2
-  , PROTECTED  = 3
-  ;
+          NORMAL = 0, PUBLIC = 1, PRIVATE = 2, PROTECTED = 3;
+  private static final long serialVersionUID = 1L;
   public String name;
   public String header;
   public Vector categories;
@@ -36,6 +32,7 @@ public class Structure implements Serializable
   public Vector python;
   public int codeLine;
   public int start;
+
   public Structure()
   {
     name = "";
@@ -48,6 +45,7 @@ public class Structure implements Serializable
     codeLine = 0;
     start = 0;
   }
+
   public boolean hasSwap()
   {
     for (int i = 0; i < fields.size(); i++)
@@ -58,6 +56,7 @@ public class Structure implements Serializable
     }
     return false;
   }
+
   public int dotNetSize()
   {
     int result = 0;
@@ -68,6 +67,7 @@ public class Structure implements Serializable
     }
     return result;
   }
+
   public String toString()
   {
     return name;

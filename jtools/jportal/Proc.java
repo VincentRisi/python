@@ -18,85 +18,158 @@ import java.io.Serializable;
 import java.util.Vector;
 
 /**
-* The hearts and souls. Holds the procedures for accessing the table.
-*/
+ * The hearts and souls. Holds the procedures for accessing the table.
+ */
 public class Proc implements Serializable
 {
   /**
    *
    */
   private static final long serialVersionUID = 1L;
-  /** parent table */
+  /**
+   * parent table
+   */
   public Table table;
-  /** name of procedure */
+  /**
+   * name of procedure
+   */
   public String name;
-  /** name of rows on multiples */
+  /**
+   * name of rows on multiples
+   */
   public int noRows;
-  /** List of input fields */
+  /**
+   * List of input fields
+   */
   public Vector<Field> inputs;
-  /** List of output fields */
+  /**
+   * List of output fields
+   */
   public Vector<Field> outputs;
-  /** List of dynamic SQL code fields */
+  /**
+   * List of dynamic SQL code fields
+   */
   public Vector<String> dynamics;
-  /** List of dynamic SQL code field sizes */
+  /**
+   * List of dynamic SQL code field sizes
+   */
   public Vector<Integer> dynamicSizes;
-  /** List of dynamic SQL code field sizes */
+  /**
+   * List of dynamic SQL code field sizes
+   */
   public Vector<Boolean> dynamicStrung;
-  /** SQL code for accessing the table*/
+  /**
+   * SQL code for accessing the table
+   */
   public Vector<String> placeHolders;
-  /** SQL code for accessing the table*/
+  /**
+   * SQL code for accessing the table
+   */
   public Vector<Line> lines;
-  /** The reasons and debates for the procedure */
+  /**
+   * The reasons and debates for the procedure
+   */
   public Vector<String> comments;
-  /** Generate options for procedure */
+  /**
+   * Generate options for procedure
+   */
   public Vector<String> options;
-  /** SelectBy DeleteBy std proc fields   */
+  /**
+   * SelectBy DeleteBy std proc fields
+   */
   public Vector<String> fields;
-  /** SelectFor update fields   */
+  /**
+   * SelectFor update fields
+   */
   public Vector<String> updateFields;
-  /** Select in order fields */
+  /**
+   * Select in order fields
+   */
   public Vector<String> orderFields;
-  /** Select in order fields */
+  /**
+   * Select in order fields
+   */
   public Vector<String> withs;
-  /** Indicates the procedure uses stored procedure logic Code */
+  /**
+   * Indicates the procedure uses stored procedure logic Code
+   */
   public boolean isProc;
-  /** Indicates the procedure uses stored procedure logic Code */
+  /**
+   * Indicates the procedure uses stored procedure logic Code
+   */
   public boolean isSProc;
-  /** If the procedure is only to produce passthru SQL Code */
+  /**
+   * If the procedure is only to produce passthru SQL Code
+   */
   public boolean isData;
-  /** If the procedure is only to produce passthru SQL Code */
+  /**
+   * If the procedure is only to produce passthru SQL Code
+   */
   public boolean isIdlCode;
-  /** Indicates the procedure is internal SQL code */
+  /**
+   * Indicates the procedure is internal SQL code
+   */
   public boolean isSql;
-  /** Indicates a single result is expected */
+  /**
+   * Indicates a single result is expected
+   */
   public boolean isSingle;
-  /** Indicates a update Proc */
+  /**
+   * Indicates a update Proc
+   */
   public boolean isUpdate;
-  /** Indicates an action no result is expected */
+  /**
+   * Indicates an action no result is expected
+   */
   public boolean isAction;
-  /** Indicates procedure is a Standard procedure */
+  /**
+   * Indicates procedure is a Standard procedure
+   */
   public boolean isStd;
-  /** Indicates the procedure uses the Standard Table definition */
+  /**
+   * Indicates the procedure uses the Standard Table definition
+   */
   public boolean useStd;
-  /** Indicates the procedures extends the Standard Table definition */
+  /**
+   * Indicates the procedures extends the Standard Table definition
+   */
   public boolean extendsStd;
-  /** Indicates the procedures uses the Primary key */
+  /**
+   * Indicates the procedures uses the Primary key
+   */
   public boolean useKey;
-  /** Indicates the procedure has an Image field */
+  /**
+   * Indicates the procedure has an Image field
+   */
   public boolean hasImage;
-  /** Indicates a single result is expected */
+  /**
+   * Indicates a single result is expected
+   */
   public boolean isMultipleInput;
-  /** Indicates the procedure is the Insert procedure */
+  /**
+   * Indicates the procedure is the Insert procedure
+   */
   public boolean isInsert;
-  /**  */
+  /**
+   *
+   */
   public boolean isMerge;
-  /**  */
+  /**
+   *
+   */
   public boolean hasReturning;
-  /**  */
+  /**
+   *
+   */
   public boolean hasUpdates;
-  /** Code starts at line */
+  /**
+   * Code starts at line
+   */
   public int start;
-  /** Constructs with default values */
+
+  /**
+   * Constructs with default values
+   */
   public Proc()
   {
     name = "";
@@ -134,19 +207,23 @@ public class Proc implements Serializable
     hasUpdates = false;
     start = 0;
   }
+
   public void addLine(Line line)
   {
     lines.addElement(line);
   }
+
   public void addLine(String data, boolean isVar)
   {
-      Line value = new Line(data, isVar);
-      addLine(value);
+    Line value = new Line(data, isVar);
+    addLine(value);
   }
+
   public void addLine(String line)
   {
     addLine(line, false);
   }
+
   public void reader(DataInputStream ids) throws IOException
   {
     name = ids.readUTF();
@@ -240,6 +317,7 @@ public class Proc implements Serializable
     hasUpdates = ids.readBoolean();
     start = ids.readInt();
   }
+
   public void writer(DataOutputStream ods) throws IOException
   {
     ods.writeUTF(name);
@@ -329,7 +407,10 @@ public class Proc implements Serializable
     ods.writeBoolean(hasUpdates);
     ods.writeInt(start);
   }
-  /** Folds the first character of name to an upper case character */
+
+  /**
+   * Folds the first character of name to an upper case character
+   */
   public String upperFirst()
   {
     if (name.length() < 1)
@@ -340,7 +421,10 @@ public class Proc implements Serializable
     String f = name.substring(0, 1);
     return f.toUpperCase() + name.substring(1);
   }
-  /** Folds the first character of name to an upper case character */
+
+  /**
+   * Folds the first character of name to an upper case character
+   */
   public String upperFirstOnly()
   {
     if (name.length() < 1)
@@ -351,7 +435,10 @@ public class Proc implements Serializable
     String f = name.substring(0, 1);
     return f.toUpperCase();
   }
-  /** Folds the first character of name to an lower case character */
+
+  /**
+   * Folds the first character of name to an lower case character
+   */
   public String lowerFirst()
   {
     if (name.length() < 1)
@@ -362,7 +449,10 @@ public class Proc implements Serializable
     String f = name.substring(0, 1);
     return f.toLowerCase() + name.substring(1);
   }
-  /** Checks for for name in input list */
+
+  /**
+   * Checks for for name in input list
+   */
   public boolean hasInput(String s)
   {
     for (int i = 0; i < inputs.size(); i++)
@@ -373,6 +463,7 @@ public class Proc implements Serializable
     }
     return false;
   }
+
   public Field getInput(String s)
   {
     for (int i = 0; i < inputs.size(); i++)
@@ -383,20 +474,24 @@ public class Proc implements Serializable
     }
     return null;
   }
+
   public boolean hasModifieds()
   {
     for (int i = 0; i < inputs.size(); i++)
     {
       Field field = inputs.elementAt(i);
       if ((field.type == Field.SEQUENCE && isInsert == true)
-      || (field.type == Field.BIGSEQUENCE && isInsert == true)
-      || field.type == Field.USERSTAMP
-      || field.type == Field.TIMESTAMP)
+              || (field.type == Field.BIGSEQUENCE && isInsert == true)
+              || field.type == Field.USERSTAMP
+              || field.type == Field.TIMESTAMP)
         return true;
     }
     return false;
   }
-  /** Checks for for name in input list */
+
+  /**
+   * Checks for for name in input list
+   */
   public int indexOf(String s)
   {
     for (int i = 0; i < inputs.size(); i++)
@@ -407,7 +502,10 @@ public class Proc implements Serializable
     }
     return -1;
   }
-  /** Checks for for name in output list */
+
+  /**
+   * Checks for for name in output list
+   */
   public boolean hasOutput(String s)
   {
     for (int i = 0; i < outputs.size(); i++)
@@ -418,7 +516,10 @@ public class Proc implements Serializable
     }
     return false;
   }
-  /** Checks for for name in output list */
+
+  /**
+   * Checks for for name in output list
+   */
   public Field getOutput(String s)
   {
     for (int i = 0; i < outputs.size(); i++)
@@ -429,7 +530,10 @@ public class Proc implements Serializable
     }
     return null;
   }
-  /** Checks for for name in dynamics list */
+
+  /**
+   * Checks for for name in dynamics list
+   */
   public boolean hasDynamic(String s)
   {
     for (int i = 0; i < dynamics.size(); i++)
@@ -440,7 +544,10 @@ public class Proc implements Serializable
     }
     return false;
   }
-  /** Checks for for name in dynamics list */
+
+  /**
+   * Checks for for name in dynamics list
+   */
   public int getDynamicSize(String s)
   {
     for (int i = 0; i < dynamics.size(); i++)
@@ -454,6 +561,7 @@ public class Proc implements Serializable
     }
     return 256;
   }
+
   /**
    * Checks if a strung dynamic
    */
@@ -470,14 +578,20 @@ public class Proc implements Serializable
     }
     return false;
   }
-  /** Checks if proc uses data */
+
+  /**
+   * Checks if proc uses data
+   */
   public boolean hasNoData()
   {
     return inputs.size() == 0
             && outputs.size() == 0
             && dynamics.size() == 0;
   }
-  /** Checks if proc has unique input ie. not already in output*/
+
+  /**
+   * Checks if proc has unique input ie. not already in output
+   */
   public boolean hasDiscreteInput()
   {
     if (dynamics.size() > 0)
@@ -491,7 +605,10 @@ public class Proc implements Serializable
     }
     return false;
   }
-  /** */
+
+  /**
+   *
+   */
   public void checkPlaceHolders()
   {
     for (int i = 0; i < lines.size(); i++)
@@ -525,10 +642,12 @@ public class Proc implements Serializable
       }
     }
   }
+
   public String toString()
   {
     return name;
   }
+
   public boolean hasOption(String value)
   {
     for (int i = 0; i < options.size(); i++)
@@ -539,6 +658,7 @@ public class Proc implements Serializable
     }
     return false;
   }
+
   public boolean hasFields(String value)
   {
     for (int i = 0; i < fields.size(); i++)
@@ -549,6 +669,7 @@ public class Proc implements Serializable
     }
     return false;
   }
+
   public boolean hasOrders(String value)
   {
     for (int i = 0; i < orderFields.size(); i++)
@@ -559,6 +680,7 @@ public class Proc implements Serializable
     }
     return false;
   }
+
   public boolean hasUpdateFields(String value)
   {
     for (int i = 0; i < updateFields.size(); i++)
@@ -569,6 +691,7 @@ public class Proc implements Serializable
     }
     return false;
   }
+
   public boolean isStdExtended()
   {
     if (isStd == true) return true;

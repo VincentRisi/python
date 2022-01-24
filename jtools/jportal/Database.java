@@ -24,7 +24,7 @@ import java.util.Vector;
 public class Database implements Serializable
 {
   /**
-   * 
+   *
    */
   private static final long serialVersionUID = 1L;
   public String name;
@@ -41,6 +41,7 @@ public class Database implements Serializable
   public Vector<View> views;
   public Vector<String> imports;
   public Vector<Field> declares;
+
   public Database()
   {
     server = "";
@@ -58,6 +59,37 @@ public class Database implements Serializable
     imports = new Vector<String>();
     declares = new Vector<Field>();
   }
+
+  public static Database readRepository(String name, PrintWriter outLog)
+          throws Exception
+  {
+    outLog.println("Inputting " + name + ".repository");
+    ObjectInputStream in = new ObjectInputStream(new FileInputStream(name + ".repository"));
+    try
+    {
+      Database database = (Database) in.readObject();
+      return database;
+    }
+    finally
+    {
+      in.close();
+    }
+  }
+
+  private static void addinSequence(Vector<Sequence> sequences, Sequence addin, PrintWriter outLog)
+  {
+    for (int i = 0; i < sequences.size(); i++)
+    {
+      Sequence sequence = sequences.elementAt(i);
+      if (sequence.name.equalsIgnoreCase(addin.name))
+      {
+        outLog.println("Import sequence name :" + addin.name + " already exists");
+        return;
+      }
+    }
+    sequences.addElement(addin);
+  }
+
   /**
    * Check for the existance of a table
    */
@@ -72,6 +104,7 @@ public class Database implements Serializable
     }
     return false;
   }
+
   /**
    * Return repository name root
    */
@@ -81,21 +114,7 @@ public class Database implements Serializable
       return output;
     return name;
   }
-  public static Database readRepository(String name, PrintWriter outLog)
-      throws Exception
-  {
-    outLog.println("Inputting " + name + ".repository");
-    ObjectInputStream in = new ObjectInputStream(new FileInputStream(name + ".repository"));
-    try
-    {
-      Database database = (Database) in.readObject();
-      return database;
-    }
-    finally
-    {
-      in.close();
-    }
-  }
+
   private void addinTable(Vector<Table> tables, Table addin, PrintWriter outLog)
   {
     for (int i = 0; i < tables.size(); i++)
@@ -111,6 +130,7 @@ public class Database implements Serializable
     }
     tables.addElement(addin);
   }
+
   private void addinView(Vector<View> views, View addin, PrintWriter outLog)
   {
     for (int i = 0; i < views.size(); i++)
@@ -124,19 +144,7 @@ public class Database implements Serializable
     }
     views.addElement(addin);
   }
-  private static void addinSequence(Vector<Sequence> sequences, Sequence addin, PrintWriter outLog)
-  {
-    for (int i = 0; i < sequences.size(); i++)
-    {
-      Sequence sequence = sequences.elementAt(i);
-      if (sequence.name.equalsIgnoreCase(addin.name))
-      {
-        outLog.println("Import sequence name :" + addin.name + " already exists");
-        return;
-      }
-    }
-    sequences.addElement(addin);
-  }
+
   private String set(String a, String b, String what, PrintWriter outLog)
   {
     if (a.length() == 0)
@@ -145,6 +153,7 @@ public class Database implements Serializable
       outLog.println("Import " + what + " name :" + a + " not the same as :" + b);
     return a;
   }
+
   public void add(Database database, PrintWriter outLog)
   {
     name = set(name, database.name, "name", outLog);
@@ -200,6 +209,7 @@ public class Database implements Serializable
       }
     }
   }
+
   public Database doImports(PrintWriter outLog)
   {
     if (imports.size() > 0)
@@ -210,19 +220,21 @@ public class Database implements Serializable
     }
     return this;
   }
+
   public boolean hasDeclare(String fieldName)
   {
-    for (int i=0; i < declares.size(); i++)
+    for (int i = 0; i < declares.size(); i++)
     {
       Field field = declares.elementAt(i);
       if (fieldName.equalsIgnoreCase(field.name) == true)
         return true;
     }
-    return false;  
+    return false;
   }
+
   public Field getDeclare(String fieldName)
   {
-    for (int i=0; i < declares.size(); i++)
+    for (int i = 0; i < declares.size(); i++)
     {
       Field field = declares.elementAt(i);
       if (fieldName.equalsIgnoreCase(field.name) == true)
@@ -230,6 +242,7 @@ public class Database implements Serializable
     }
     return null;
   }
+
   public String packageMerge(String output)
   {
     Vector<String> ov = new Vector<String>();
@@ -275,7 +288,7 @@ public class Database implements Serializable
       return output;
     for (pi = 0; oi < ov.size(); pi++, oi++)
     {
-      if (pi > pv.size()-1)
+      if (pi > pv.size() - 1)
         break;
       pw = pv.elementAt(pi);
       String ow = ov.elementAt(oi);

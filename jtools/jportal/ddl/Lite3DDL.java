@@ -20,19 +20,25 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+
 import static jtools.jportal.Writer.*;
+
+import jportal.jtools.*;
 
 public class Lite3DDL extends Generator
 {
+  private static String tableOwner;
+
   public static String description()
   {
     return "Generate Lite3 DDL";
   }
+
   public static String documentation()
   {
     return "Generate Lite3 DDL.";
   }
-  private static String tableOwner;
+
   /**
    * Generates the SQL for Lite3 Table creation.
    */
@@ -65,13 +71,14 @@ public class Lite3DDL extends Generator
       outLog.println("Generate LITE3 SQL IO Error");
     }
   }
+
   /**
    * @param database
    * @param table
    */
   private static void generateTable(Database database, Table table)
   {
-	String tablename = tableOwner + table.fixEscape();
+    String tablename = tableOwner + table.fixEscape();
     if (table.fields.size() > 0)
     {
       writeln("DROP TABLE IF EXISTS " + tablename + ";");
@@ -138,6 +145,7 @@ public class Lite3DDL extends Generator
         generateProc(proc);
     }
   }
+
   /**
    * @param proc
    */
@@ -150,6 +158,7 @@ public class Lite3DDL extends Generator
     }
     writeln();
   }
+
   /**
    * @param table
    * @param key
@@ -165,6 +174,7 @@ public class Lite3DDL extends Generator
     }
     writeln(")");
   }
+
   /**
    * @param table
    * @param key
@@ -180,9 +190,10 @@ public class Lite3DDL extends Generator
     }
     writeln(")");
   }
+
   /**
-  * Generates foreign key SQL Code for DB2
-  */
+   * Generates foreign key SQL Code for DB2
+   */
   static void generateLink(Link link, String tableName, String owner, int no)
   {
     String comma = "( ";
@@ -209,11 +220,13 @@ public class Lite3DDL extends Generator
       write(" ON DELETE CASCADE");
     writeln();
   }
+
   static String bSO(int i)
   {
     String x = "" + (101 + i);
     return x.substring(1);
   }
+
   static String make18(String data)
   {
     if (data.length() <= 18)
@@ -238,19 +251,21 @@ public class Lite3DDL extends Generator
     }
     return data.substring(0, 18);
   }
+
   /**
    * @param name
    * @param extra
    */
   static String useExtra(String name, String extra)
   {
-	String work = name + extra;
-	int last = name.length()-1;
-	if (name.charAt(0) == '\"' && name.charAt(last) == '\"')
-	  work = name.substring(0, last-1)+extra+name.substring(last);
-	return work;
+    String work = name + extra;
+    int last = name.length() - 1;
+    if (name.charAt(0) == '\"' && name.charAt(last) == '\"')
+      work = name.substring(0, last - 1) + extra + name.substring(last);
+    return work;
   }
- private static void generateView(View view, Table table, String tableOwner)
+
+  private static void generateView(View view, Table table, String tableOwner)
   {
     String viewname = tableOwner + useExtra(table.fixEscape(), view.name);
     writeln("DROP VIEW IF EXISTS " + viewname);
@@ -259,12 +274,13 @@ public class Lite3DDL extends Generator
     writeln("AS (");
     for (int i = 0; i < view.lines.size(); i++)
     {
-      String line = (String)view.lines.elementAt(i);
+      String line = (String) view.lines.elementAt(i);
       writeln(line);
     }
     writeln(");");
     writeln();
   }
+
   /**
    * @param table
    * @param key
@@ -277,7 +293,7 @@ public class Lite3DDL extends Generator
       keyname = table.name.toUpperCase() + "_" + keyname;
     writeln("DROP INDEX IF EXISTS " + tableOwner + table.name + keyname + ";");
     writeln("");
-    write("CREATE INDEX "  + tableOwner + table.name + keyname + " ON " + tableOwner + table.name);
+    write("CREATE INDEX " + tableOwner + table.name + keyname + " ON " + tableOwner + table.name);
     for (int i = 0; i < key.fields.size(); i++, comma = ", ")
     {
       String name = key.fields.elementAt(i);
@@ -286,6 +302,7 @@ public class Lite3DDL extends Generator
     writeln(");");
     writeln();
   }
+
   /**
    * @param field
    * @return
@@ -298,7 +315,7 @@ public class Lite3DDL extends Generator
     String primeKey = "";
     String autoInc = "";
     String defaultValue = "";
-      
+
     if (field.defaultValue.length() > 0)
       defaultValue = " DEFAULT " + field.defaultValue;
     if (field.isSequence && field.isPrimaryKey)

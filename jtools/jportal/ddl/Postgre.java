@@ -23,16 +23,27 @@ import java.io.PrintWriter;
 
 import static jtools.jportal.Writer.format;
 
+import jportal.jtools.*;
+
 public class PostgreDDL extends Generator
 {
+  /**
+   * @param database
+   * @param table
+   * @param outData
+   */
+  private static String tableOwner;
+
   public static String description()
   {
     return "Generate PostgreSQL DDL";
   }
+
   public static String documentation()
   {
     return "Generate PostgreSQL DDL.";
   }
+
   /**
    * Generates the SQL for PostgreSQL Table creation.
    */
@@ -64,12 +75,7 @@ public class PostgreDDL extends Generator
       outLog.println("Generate Posgre SQL IO Error");
     }
   }
-  /**
-   * @param database
-   * @param table
-   * @param outData
-   */
-  private static String tableOwner;
+
   private static void generateTable(Database database, Table table, PrintWriter outData)
   {
     if (database.schema.length() > 0)
@@ -152,8 +158,7 @@ public class PostgreDDL extends Generator
           outData.println("ALTER TABLE " + tableOwner + table.fixEscape());
           generatePrimary(table, key, outData);
           outData.println(";");
-        }
-        else if (key.isUnique)
+        } else if (key.isUnique)
         {
           outData.println("ALTER TABLE " + tableOwner + table.fixEscape());
           generateUnique(table, key, outData);
@@ -182,6 +187,7 @@ public class PostgreDDL extends Generator
         generateProc(proc, outData);
     }
   }
+
   /**
    * @param proc
    * @param outData
@@ -195,6 +201,7 @@ public class PostgreDDL extends Generator
     }
     outData.println();
   }
+
   /**
    * @param link
    * @param outData
@@ -225,6 +232,7 @@ public class PostgreDDL extends Generator
       outData.println("  ON UPDATE CASCADE");
     //outData.println("  MATCH FULL");
   }
+
   /**
    * @param table
    * @param key
@@ -244,6 +252,7 @@ public class PostgreDDL extends Generator
     }
     outData.println("  )");
   }
+
   /**
    * @param table
    * @param key
@@ -272,6 +281,7 @@ public class PostgreDDL extends Generator
     }
     outData.println();
   }
+
   /**
    * @param i
    * @return
@@ -281,6 +291,7 @@ public class PostgreDDL extends Generator
     String x = "" + (101 + i);
     return x.substring(1);
   }
+
   /**
    * @param view
    * @param outData
@@ -294,7 +305,7 @@ public class PostgreDDL extends Generator
       String comma = "( ";
       for (int i = 0; i < view.aliases.size(); i++)
       {
-        String alias = (String)view.aliases.elementAt(i);
+        String alias = (String) view.aliases.elementAt(i);
         outData.println(comma + alias);
         comma = ", ";
       }
@@ -303,18 +314,19 @@ public class PostgreDDL extends Generator
     outData.println("AS (");
     for (int i = 0; i < view.lines.size(); i++)
     {
-      String line = (String)view.lines.elementAt(i);
+      String line = (String) view.lines.elementAt(i);
       outData.println(line);
     }
     outData.println(");");
     outData.println();
     for (int i = 0; i < view.users.size(); i++)
     {
-      String user = (String)view.users.elementAt(i);
+      String user = (String) view.users.elementAt(i);
       outData.println("GRANT SELECT ON " + tableOwner + tableName + view.name + " TO " + user + ";");
     }
     outData.println();
   }
+
   /**
    * @param table
    * @param key
@@ -347,6 +359,7 @@ public class PostgreDDL extends Generator
     outData.println(";");
     outData.println();
   }
+
   /**
    * @param grant
    * @param outData
@@ -365,6 +378,7 @@ public class PostgreDDL extends Generator
       }
     }
   }
+
   /**
    * @param field
    * @return

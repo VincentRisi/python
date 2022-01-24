@@ -20,61 +20,42 @@ import java.io.*;
 import java.util.Vector;
 
 import static jtools.jportal.code.Writer.*;
-public class Swagger extends Generator
+
+import jportal.jtools.*;
+
+public class OpenApiCode extends Generator
 {
+  static String structName = "";
+
   public static String description()
   {
-    return "Generate Swagger Schema";
+    return "Generate OpenApi Schema";
   }
+
   public static String documentation()
   {
-    return "Generate Swagger Schema";
+    return "Generate OpenApi Schema";
   }
+
   static String padder(String s, int length)
   {
-    for (int i = s.length(); i < length-1; i++)
+    for (int i = s.length(); i < length - 1; i++)
       s = s + " ";
     return s + " ";
   }
-  //private static PrintWriter outData;
-  //private static String format(String fmt, Object... objects)
-  //{
-  //  return String.format(fmt,  objects);
-  //}
-  //private static void println(int no, String value)
-  //{
-  //  outData.println(indent(no)+value);
-  //}
-  //private static void println(String value)
-  //{
-  //  println(0, value);
-  //}
-  //private static void println()
-  //{
-  //  outData.println();
-  //}
-  //private static String indent_string = "                                                                                             ";
-  //static int indent_size = 2;
-  //static String indent(int no)
-  //{
-  //   int max = indent_string.length();
-  //   int to = no * indent_size;
-  //   if (to > max)
-  //     to = max;
-  //   return indent_string.substring(0,  to);
-  //}
+
   /**
-  * Generates the procedure classes for each table present.
-  */
+   * Generates the procedure classes for each table present.
+   */
   public static void generate(Database database, String output, PrintWriter outLog)
   {
-    for (int i=0; i<database.tables.size(); i++)
+    for (int i = 0; i < database.tables.size(); i++)
     {
       Table table = database.tables.elementAt(i);
       generateTable(table, output, outLog);
     }
   }
-  static String structName = "";
+
   private static void generateTable(Table table, String output, PrintWriter outLog)
   {
     try
@@ -88,8 +69,8 @@ public class Swagger extends Generator
         writeln("%YAML 1.2");
         writeln("---");
         writeln("# This code was generated, do not modify it, modify it at source and regenerate it.");
-        writeln("definitions:");
-        //writeln(1, "schemas:");
+        writeln("components:");
+        writeln(1, "schemas:");
         try
         {
           if (table.hasStdProcs)
@@ -113,6 +94,7 @@ public class Swagger extends Generator
       outLog.println("Generate Procs IO Error");
     }
   }
+
   private static void generateUserOutputRecs(Table table)
   {
     for (int i = 0; i < table.procs.size(); i++)
@@ -128,14 +110,14 @@ public class Swagger extends Generator
       Vector fields = proc.outputs;
       for (int j = 0; j < fields.size(); j++)
       {
-        Field field = (Field)fields.elementAt(j);
+        Field field = (Field) fields.elementAt(j);
         if (field.type == Field.BLOB)
           canExtend = false;
       }
       fields = proc.inputs;
       for (int j = 0; j < fields.size(); j++)
       {
-        Field field = (Field)fields.elementAt(j);
+        Field field = (Field) fields.elementAt(j);
         if (field.type == Field.BLOB)
           canExtend = false;
       }
@@ -148,128 +130,131 @@ public class Swagger extends Generator
         work = " : public " + typeChar + table.useName() + proc.upperFirst();
         //baseClass = typeChar + table.useName() + proc.upperFirst();
         structName = typeChar + table.useName() + proc.upperFirst();
-        writeln(1, structName + ":");
-        writeln(2, "type: object");
-        writeln(2, "properties:");
+        writeln(2, structName + ":");
+        writeln(3, "type: object");
+        writeln(3, "properties:");
         if (fields.size() > 0)
-          writeln(3, "# outputs");
+          writeln(4, "# outputs");
         for (int j = 0; j < fields.size(); j++)
         {
-          Field field = (Field)fields.elementAt(j);
-          writeln(3, field.useName() + ":");
-          fieldType(field, 4);
+          Field field = (Field) fields.elementAt(j);
+          writeln(4, field.useName() + ":");
+          fieldType(field, 5);
           if (isNull(field))
           {
-            writeln(3, field.useName() + "IsNull:");
-            writeln(4, "type: "+"integer");
-            writeln(4, "format: int16");
+            writeln(4, field.useName() + "IsNull:");
+            writeln(5, "type: " + "integer");
+            writeln(5, "format: int16");
           }
         }
-        writeln(2, "required:");
-        fieldsRequired(fields, 3);
+        writeln(3, "required:");
+        fieldsRequired(fields, 4);
       }
       if (proc.hasDiscreteInput())
       {
         structName = "D" + table.useName() + proc.upperFirst();
-        writeln(1, structName + ":");
-        writeln(2, "type: object");
-        writeln(2, "properties:");
+        writeln(2, structName + ":");
+        writeln(3, "type: object");
+        writeln(3, "properties:");
         Vector inputs = proc.inputs;
         if (inputs.size() > 0)
-          writeln(3, "# inputs");
+          writeln(4, "# inputs");
         for (int j = 0; j < inputs.size(); j++)
         {
-          Field field = (Field)inputs.elementAt(j);
+          Field field = (Field) inputs.elementAt(j);
           //if (proc.hasOutput(field.name))
           //  continue;
-          writeln(3, field.useName() + ":");
-          fieldType(field, 4);
+          writeln(4, field.useName() + ":");
+          fieldType(field, 5);
           if (isNull(field))
           {
-            writeln(3, field.useName() + "IsNull:");
-            writeln(4, "type: "+"integer");
-            writeln(4, "format: int16");
+            writeln(4, field.useName() + "IsNull:");
+            writeln(5, "type: " + "integer");
+            writeln(5, "format: int16");
           }
         }
         Vector outputs = proc.outputs;
         if (outputs.size() > 0)
-          writeln(3, "# outputs");
+          writeln(4, "# outputs");
         for (int j = 0; j < fields.size(); j++)
         {
-          Field field = (Field)fields.elementAt(j);
+          Field field = (Field) fields.elementAt(j);
           if (proc.hasInput(field.name))
             continue;
-          writeln(3, field.useName() + ":");
-          fieldType(field, 4);
+          writeln(4, field.useName() + ":");
+          fieldType(field, 5);
           if (isNull(field))
           {
-            writeln(3, field.useName() + "IsNull:");
-            writeln(4, "type: "+"integer");
-            writeln(4, "format: int16");
+            writeln(4, field.useName() + "IsNull:");
+            writeln(5, "type: " + "integer");
+            writeln(5, "format: int16");
           }
         }
         if (proc.dynamics.size() > 0)
-          writeln(3, "# dynamics");
+          writeln(4, "# dynamics");
         for (int j = 0; j < proc.dynamics.size(); j++)
         {
           String s = proc.dynamics.elementAt(j);
           Integer n = proc.dynamicSizes.elementAt(j);
-          writeln(3, s + ":");
-          writeln(4, "type: string");
-          writeln(4, "maxLength: "+n.intValue());
+          writeln(4, s + ":");
+          writeln(5, "type: string");
+          writeln(5, "maxLength: " + n.intValue());
         }
-        writeln(2, "required:");
-        fieldsRequired(inputs, 3);
+        writeln(3, "required:");
+        fieldsRequired(inputs, 4);
         for (int j = 0; j < fields.size(); j++)
         {
-          Field field = (Field)fields.elementAt(j);
+          Field field = (Field) fields.elementAt(j);
           if (proc.hasInput(field.name))
             continue;
-          writeln(3, "- " + field.useName());
+          writeln(4, "- " + field.useName());
           if (isNull(field))
-            writeln(3, "- " + field.useName() + "IsNull");
+            writeln(4, "- " + field.useName() + "IsNull");
         }
         for (int j = 0; j < proc.dynamics.size(); j++)
         {
           String s = proc.dynamics.elementAt(j);
-          writeln(3, "- " + s);
+          writeln(4, "- " + s);
         }
       }
     }
   }
+
   private static void generateStdOutputRec(Table table)
   {
     structName = "D" + table.useName();
-    writeln(1, structName + ":");
-    writeln(2, "type: object");
-    writeln(2, "properties:");
-    writeln(3, "# table fields");
+    writeln(2, structName + ":");
+    writeln(3, "type: object");
+    writeln(3, "properties:");
+    writeln(4, "# table fields");
     Vector fields = table.fields;
     for (int i = 0; i < fields.size(); i++)
     {
-      Field field = (Field)fields.elementAt(i);
-      writeln(3, field.useName() + ":");
-      fieldType(field, 4);
+      Field field = (Field) fields.elementAt(i);
+      writeln(4, field.useName() + ":");
+      fieldType(field, 5);
       if (isNull(field))
       {
-        writeln(3, field.useName() + "IsNull:");
-        writeln(4, "type: "+"integer");
-        writeln(4, "format: int16");
+        writeln(4, field.useName() + "IsNull:");
+        writeln(5, "type: " + "integer");
+        writeln(5, "format: int16");
       }
     }
-    writeln(2, "required:");
-    fieldsRequired(fields, 3);
+    writeln(3, "required:");
+    fieldsRequired(fields, 4);
   }
+
   private static void fieldsRequired(Vector fields, int ind)
   {
     for (int i = 0; i < fields.size(); i++)
     {
-      Field field = (Field)fields.elementAt(i);
+      Field field = (Field) fields.elementAt(i);
       writeln(ind, "- " + field.useName());
       if (isNull(field))
         writeln(ind, "- " + field.useName() + "IsNull");
     }
   }
+
   static boolean isNull(Field field)
   {
     if (field.isNull == false)
@@ -294,11 +279,12 @@ public class Swagger extends Generator
       case Field.TIMESTAMP:
       case Field.AUTOTIMESTAMP:
       case Field.TIME:
-      //case Field.XML:
+        //case Field.XML:
         return true;
     }
     return false;
   }
+
   static void fieldType(Field field, int ind)
   {
     switch (field.type)
@@ -306,19 +292,19 @@ public class Swagger extends Generator
       case Field.BOOLEAN:
       case Field.BYTE:
       case Field.SHORT:
-        writeln(ind, "type: "+"integer");
+        writeln(ind, "type: " + "integer");
         writeln(ind, "format: int16");
         break;
       case Field.INT:
       case Field.IDENTITY:
       case Field.SEQUENCE:
-        writeln(ind, "type: "+"integer");
+        writeln(ind, "type: " + "integer");
         writeln(ind, "format: int32");
         break;
       case Field.LONG:
       case Field.BIGIDENTITY:
       case Field.BIGSEQUENCE:
-        writeln(ind, "type: "+"integer");
+        writeln(ind, "type: " + "integer");
         writeln(ind, "format: int64");
         break;
       case Field.CHAR:
@@ -331,31 +317,31 @@ public class Swagger extends Generator
       case Field.DATETIME:
       case Field.TIMESTAMP:
       case Field.AUTOTIMESTAMP:
-        writeln(ind, "type: "+"string");
+        writeln(ind, "type: " + "string");
         writeln(ind, format("maxLength: %d", field.length));
         break;
       case Field.BLOB:
-      case Field.IMAGE:  
-        writeln(ind, "type: "+"string");
+      case Field.IMAGE:
+        writeln(ind, "type: " + "string");
         writeln(ind, format("maxLength: %d", field.length));
         break;
       case Field.FLOAT:
       case Field.DOUBLE:
         if (field.precision > 15)
         {
-          writeln(ind, "type: "+"string");
-          writeln(ind, format("maxLength: %d", field.precision+2));
+          writeln(ind, "type: " + "string");
+          writeln(ind, format("maxLength: %d", field.precision + 2));
           break;
         }
-        writeln(ind, "type: "+"number");
+        writeln(ind, "type: " + "number");
         writeln(ind, "format: double");
         break;
       case Field.MONEY:
-        writeln(ind, "type: "+"string");
+        writeln(ind, "type: " + "string");
         writeln(ind, format("maxLength: %d", 20));
         break;
       default:
-        writeln(ind, "type: "+field.type);
+        writeln(ind, "type: " + field.type);
         break;
     }
   }

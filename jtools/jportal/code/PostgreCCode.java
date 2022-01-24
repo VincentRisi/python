@@ -22,12 +22,13 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Properties;
 import java.util.Vector;
+
 import static jtools.jportal.code.Writer.*;
 
-public class PostgreC extends Generator
+import jportal.jtools.*;
+
+public class PostgreCCode extends Generator
 {
-  private static Properties properties;
-  private static PrintWriter outLog;
   static PlaceHolder placeHolder;
   static boolean useTStyle = true;
   /**
@@ -35,14 +36,19 @@ public class PostgreC extends Generator
    */
   static Vector nullVector = new Vector();
   static String structName = "";
+  private static Properties properties;
+  private static PrintWriter outLog;
+
   public static String description()
   {
     return "Generate tStyle C++ Code for PostgreSQL";
   }
+
   public static String documentation()
   {
     return "Generate tStyle C++ Code for PostgreSQL";
   }
+
   /**
    * Generates the procedure classes for each table present.
    */
@@ -59,12 +65,12 @@ public class PostgreC extends Generator
     {
       properties = null;
     }
-    for (int i=0; i<database.flags.size(); i++)
+    for (int i = 0; i < database.flags.size(); i++)
     {
-       String flag = database.flags.elementAt(i);
-       flag = flag.toLowerCase();
-       if (flag.equalsIgnoreCase("usetstyle")|| flag.equalsIgnoreCase("use tstyle"))
-         useTStyle = true;
+      String flag = database.flags.elementAt(i);
+      flag = flag.toLowerCase();
+      if (flag.equalsIgnoreCase("usetstyle") || flag.equalsIgnoreCase("use tstyle"))
+        useTStyle = true;
     }
     useTStyle = getProperty("usetstyle", useTStyle);
     for (int i = 0; i < database.tables.size(); i++)
@@ -73,6 +79,7 @@ public class PostgreC extends Generator
       generate(table, output, outLog);
     }
   }
+
   /**
    * Build of standard and user defined procedures
    */
@@ -108,36 +115,41 @@ public class PostgreC extends Generator
           generateOtherStructs(table);
           writeln("#endif");
           writer.flush();
-        } finally
+        }
+        finally
         {
           writer.flush();
         }
         outFile.close();
         outLog.println("Code: " + fileName(output, table.useName().toLowerCase(), ".cpp"));
         outFile = new FileOutputStream(
-            fileName(output, table.useName().toLowerCase(), ".cpp"));
+                fileName(output, table.useName().toLowerCase(), ".cpp"));
         writer = new PrintWriter(outFile);
         try
         {
           writeln("// This code was generated, do not modify it, modify it at source and regenerate it.");
           writeln();
           writeln("#include \"" + fileName("", table.useName().toLowerCase(), ".sh")
-              + "\"");
+                  + "\"");
           writeln();
           generateImplementation(table, stdExtend);
-        } finally
+        }
+        finally
         {
           writer.flush();
         }
-      } finally
+      }
+      finally
       {
         outFile.close();
       }
-    } catch (IOException e1)
+    }
+    catch (IOException e1)
     {
       outLog.println("Generate Procs IO Error");
     }
   }
+
   static boolean generateMainStruct(Table table)
   {
     for (int i = 0; i < table.comments.size(); i++)
@@ -153,7 +165,7 @@ public class PostgreC extends Generator
     Vector fields = table.fields;
     for (int i = 0; i < fields.size(); i++)
     {
-      Field field = (Field)fields.elementAt(i);
+      Field field = (Field) fields.elementAt(i);
       if (field.type == Field.BLOB)
         canExtend = false;
       writeln(1, padder(cppVar(field) + ";", 48) + generatePadding(field, filler++));
@@ -174,6 +186,7 @@ public class PostgreC extends Generator
     writeln();
     return canExtend;
   }
+
   static void generateOtherStructs(Table table)
   {
     for (int i = 0; i < table.procs.size(); i++)
@@ -252,15 +265,16 @@ public class PostgreC extends Generator
       writeln();
     }
   }
+
   static void generateCommand(Proc proc)
   {
     Vector lines = placeHolder.getLines();
     int size = 1;
     for (int i = 0; i < lines.size(); i++)
     {
-      String l = (String)lines.elementAt(i);
+      String l = (String) lines.elementAt(i);
       if (l.charAt(0) == '"')
-        size += (l.length()+2);
+        size += (l.length() + 2);
       else
       {
         String var = l.trim();
@@ -270,7 +284,7 @@ public class PostgreC extends Generator
           if (var.compareTo(s) == 0)
           {
             Integer n = proc.dynamicSizes.elementAt(j);
-            size += (n.intValue()+2);
+            size += (n.intValue() + 2);
           }
         }
       }
@@ -284,14 +298,13 @@ public class PostgreC extends Generator
     {
       for (int i = 0; i < lines.size(); i++)
       {
-        String l = (String)lines.elementAt(i);
+        String l = (String) lines.elementAt(i);
         if (l.charAt(0) != '"')
         {
           terminate = ");";
           strcat = "  strcat(q_->command, ";
           writeln(terminate);
-        }
-        else if (i != 0)
+        } else if (i != 0)
           writeln(terminate);
         write(1, strcat + l);
         if (l.charAt(0) == '"')
@@ -303,6 +316,7 @@ public class PostgreC extends Generator
       writeln(");");
     }
   }
+
   /**
    * generate Holding variables
    */
@@ -342,6 +356,7 @@ public class PostgreC extends Generator
         break;
     }
   }
+
   public static void generateEnumOrdinals(Table table)
   {
     for (int i = 0; i < table.fields.size(); i++)
@@ -356,7 +371,7 @@ public class PostgreC extends Generator
           Enum element = field.enums.elementAt(j);
           String evalue = "" + element.value;
           if (field.type == Field.ANSICHAR && field.length == 1)
-            evalue = "'" + (char)element.value + "'";
+            evalue = "'" + (char) element.value + "'";
           writeln(start + " " + table.useName() + field.useName() + element.name + " = " + evalue);
           start = ",";
         }
@@ -371,8 +386,8 @@ public class PostgreC extends Generator
           Enum element = field.enums.elementAt(j);
           String evalue = "" + element.value;
           if (field.type == Field.ANSICHAR && field.length == 1)
-            evalue = "'" + (char)element.value + "'";
-          writeln(1, "case "+ evalue+": return \""+element.name+"\";");
+            evalue = "'" + (char) element.value + "'";
+          writeln(1, "case " + evalue + ": return \"" + element.name + "\";");
         }
         writeln(1, "default: return \"<unknown value>\";");
         writeln(1, "}");
@@ -380,8 +395,9 @@ public class PostgreC extends Generator
       }
     }
   }
+
   /**
-   * 
+   *
    */
   static void generateImplementation(Table table, boolean stdExtend)
   {
@@ -394,7 +410,7 @@ public class PostgreC extends Generator
         generateImplementation(table, proc);
     }
     structName = format("t%s", table.name);
-    if  (stdExtend == true)
+    if (stdExtend == true)
       generateHeaderImplementation("", table.fields, table.name, nullVector, null);
     else
       generateDataBuildImplementation("", table.fields, table.name, nullVector, null);
@@ -407,8 +423,9 @@ public class PostgreC extends Generator
       if (proc.isStd || proc.isStdExtended() || proc.hasNoData())
         continue;
       generateImplementation(table, proc);
+    }
   }
-  }
+
   /**
    * Emits class method for processing the database activity
    */
@@ -434,12 +451,12 @@ public class PostgreC extends Generator
     {
       PlaceHolderPairs pair = placeHolder.pairs.elementAt(j);
       Field field = pair.field;
-      writeln(1, "q_->Bind"+(field.type == Field.BLOB ? "Blob" : "")+"("
-          + padder("" + j + ",", 4)
-          + cppBind(field, table.name, proc.isInsert)
-          + ((isNull(field)) ? ", &" + field.useName() + "IsNull" : "")
-          + ((field.type == Field.ANSICHAR) ? ", 1" : "")
-          + ");");
+      writeln(1, "q_->Bind" + (field.type == Field.BLOB ? "Blob" : "") + "("
+              + padder("" + j + ",", 4)
+              + cppBind(field, table.name, proc.isInsert)
+              + ((isNull(field)) ? ", &" + field.useName() + "IsNull" : "")
+              + ((field.type == Field.ANSICHAR) ? ", 1" : "")
+              + ");");
     }
     writeln(1, "q_->Exec();");
     writeln("}");
@@ -466,8 +483,8 @@ public class PostgreC extends Generator
         {
           Field field = proc.inputs.elementAt(j);
           if ((field.type == Field.SEQUENCE && proc.isInsert)
-              || field.type == Field.IDENTITY || field.type == Field.TIMESTAMP
-              || field.type == Field.USERSTAMP)
+                  || field.type == Field.IDENTITY || field.type == Field.TIMESTAMP
+                  || field.type == Field.USERSTAMP)
             continue;
           writeln(1, cppCopy(field));
         }
@@ -475,7 +492,7 @@ public class PostgreC extends Generator
         {
           String s = proc.dynamics.elementAt(j);
           writeln(1, "strncpy(" + s + ", a" + s + ", sizeof(" + s
-              + ")-1);");
+                  + ")-1);");
         }
         //if (standard)
         //  writeln(1, format("%sExec();", proc.upperFirst()));
@@ -494,9 +511,9 @@ public class PostgreC extends Generator
       for (int j = 0; j < proc.outputs.size(); j++)
       {
         Field field = proc.outputs.elementAt(j);
-        writeln(1, "q_->Get("+ j + ", " + cppGet(field) + ");");
+        writeln(1, "q_->Get(" + j + ", " + cppGet(field) + ");");
         if (isNull(field))
-          writeln(1, "q_->GetNull(" + j + ", " +field.useName() + "IsNull);");
+          writeln(1, "q_->GetNull(" + j + ", " + field.useName() + "IsNull);");
       }
       writeln(1, "return true;");
       writeln("}");
@@ -506,19 +523,19 @@ public class PostgreC extends Generator
         writeln("{");
         if (standard)
         {
-           writeln(1, format("%sExec();", proc.upperFirst()));
-           writeln(1, format("return %sFetch();", proc.upperFirst()));
-        }
-        else
+          writeln(1, format("%sExec();", proc.upperFirst()));
+          writeln(1, format("return %sFetch();", proc.upperFirst()));
+        } else
         {
-           writeln(1, "Exec();");
-           writeln(1, "return Fetch();");
+          writeln(1, "Exec();");
+          writeln(1, "return Fetch();");
         }
         writeln("}");
       }
       writeln();
     }
   }
+
   private static String generatePadding(Field field, int fillerNo)
   {
     switch (field.type)
@@ -552,10 +569,12 @@ public class PostgreC extends Generator
     }
     return "";
   }
+
   public static String generatePadding(int fillerNo)
   {
     return "IDL2_INT16_PAD(" + fillerNo + ");";
   }
+
   /**
    * Build of output data rec for standard procedures
    */
@@ -570,18 +589,20 @@ public class PostgreC extends Generator
         if (hasQuery == false)
         {
           writeln(1, "PgQuery *q_;");
-          hasQuery = true;                    
+          hasQuery = true;
         }
         generateMainStructInterface(table, proc);
       }
     }
   }
+
   static void generateMainStructInterface(Table table, Proc proc)
   {
     String dataStruct;
     dataStruct = "t" + table.useName();
     generateMainInterface(table, proc, dataStruct);
   }
+
   static void generateMainInterface(Table table, Proc proc, String dataStruct)
   {
     writeln(1, format("void %sExec();", proc.upperFirst()));
@@ -611,6 +632,7 @@ public class PostgreC extends Generator
         writeln(1, format("bool %sSingle();", proc.upperFirst()));
     }
   }
+
   static void generateOtherInterface(Table table, Proc proc)
   {
     String dataStruct;
@@ -620,6 +642,7 @@ public class PostgreC extends Generator
       dataStruct = "t" + table.useName() + proc.upperFirst();
     generateOtherInterface(table, proc, dataStruct);
   }
+
   static void generateOtherInterface(Table table, Proc proc, String dataStruct)
   {
     writeln(1, "PgQuery *q_;");
@@ -650,6 +673,7 @@ public class PostgreC extends Generator
         writeln(1, "bool Single();");
     }
   }
+
   static void generateWithParms(Proc proc, int tab)
   {
     String comma = "  ";
@@ -657,8 +681,8 @@ public class PostgreC extends Generator
     {
       Field field = proc.inputs.elementAt(j);
       if ((field.type == Field.SEQUENCE && proc.isInsert)
-          || field.type == Field.IDENTITY || field.type == Field.TIMESTAMP
-          || field.type == Field.USERSTAMP)
+              || field.type == Field.IDENTITY || field.type == Field.TIMESTAMP
+              || field.type == Field.USERSTAMP)
         continue;
       writeln(tab, comma + "const " + cppParm(field));
       comma = ", ";
@@ -670,6 +694,7 @@ public class PostgreC extends Generator
       comma = ", ";
     }
   }
+
   private static void generateDataBuildInterface(String baseClass, Vector inputs, String useName, Vector dynamics, Proc proc)
   {
     writeln("#if defined(_DATABUILD_H_)");
@@ -682,6 +707,7 @@ public class PostgreC extends Generator
     writeln("public:");
     writeln("#endif");
   }
+
   private static void generateDataBuildImplementation(String baseClass, Vector inputs, String useName, Vector dynamics, Proc proc)
   {
     writeln("#if defined(_DATABUILD_H_)");
@@ -690,14 +716,13 @@ public class PostgreC extends Generator
     {
       for (int j = 0; j < inputs.size(); j++)
       {
-        Field field = (Field)inputs.elementAt(j);
+        Field field = (Field) inputs.elementAt(j);
         if (proc != null && proc.hasOutput(field.name))
           continue;
         inputNo++;
       }
       writeln(format("int %s::NoBuildFields() {return %s::NoBuildFields()+%d;}", structName, baseClass, (inputNo + dynamics.size())));
-    }
-    else
+    } else
       writeln(format("int %s::NoBuildFields() {return %d;}", structName, (inputNo + dynamics.size())));
     writeln(format("void %s::_buildAdds(DataBuilder &dBuild)", structName));
     writeln("{");
@@ -705,7 +730,7 @@ public class PostgreC extends Generator
       writeln(1, baseClass + "::_buildAdds(dBuild);");
     for (int j = 0; j < inputs.size(); j++)
     {
-      Field field = (Field)inputs.elementAt(j);
+      Field field = (Field) inputs.elementAt(j);
       if (proc != null && proc.hasOutput(field.name))
         continue;
       if (field.type == Field.BLOB)
@@ -715,7 +740,7 @@ public class PostgreC extends Generator
     }
     for (int j = 0; j < dynamics.size(); j++)
     {
-      String str = (String)dynamics.elementAt(j);
+      String str = (String) dynamics.elementAt(j);
       writeln(1, "dBuild.add(\"" + str + "\", " + str + ");");
     }
     writeln("}");
@@ -730,7 +755,7 @@ public class PostgreC extends Generator
       writeln(1, baseClass + "::_buildSets(dBuild);");
     for (int j = 0; j < inputs.size(); j++)
     {
-      Field field = (Field)inputs.elementAt(j);
+      Field field = (Field) inputs.elementAt(j);
       if (proc != null && proc.hasOutput(field.name))
         continue;
       if (field.type == Field.BLOB)
@@ -740,7 +765,7 @@ public class PostgreC extends Generator
     }
     for (int j = 0; j < dynamics.size(); j++)
     {
-      String str = (String)dynamics.elementAt(j);
+      String str = (String) dynamics.elementAt(j);
       writeln(1, "dBuild.set(\"" + str + "\", " + str + ", sizeof(" + str + "));");
     }
     writeln("}");
@@ -752,6 +777,7 @@ public class PostgreC extends Generator
     writeln("#endif");
     writeln();
   }
+
   private static void generateHeaderInterface(String baseClass, Vector inputs, String useName, Vector dynamics, Proc proc)
   {
     writeln("#if defined(_TBUFFER_H_)");
@@ -766,26 +792,27 @@ public class PostgreC extends Generator
     writeln(1, "void _fromXML(TBAmp &XRec, TXMLRecord &msg);");
     writeln("public:");
     writeln("#endif");
-    
+
     generateDataBuildInterface(baseClass, inputs, useName, dynamics, proc);
   }
+
   private static void generateHeaderImplementation(String baseClass, Vector inputs, String useName, Vector dynamics, Proc proc)
   {
     writeln("#if defined(_TBUFFER_H_)");
     writeln(format("void %s::_toXML(TBAmp &XRec)", structName));
     writeln("{");
     if (baseClass.length() > 0)
-      writeln(1,  baseClass + "::_toXML(XRec);");
+      writeln(1, baseClass + "::_toXML(XRec);");
     for (int j = 0; j < inputs.size(); j++)
     {
-      Field field = (Field)inputs.elementAt(j);
+      Field field = (Field) inputs.elementAt(j);
       if (proc != null && proc.hasOutput(field.name))
         continue;
       writeln(1, toXMLTFormat(field));
     }
     for (int j = 0; j < dynamics.size(); j++)
     {
-      String str = (String)dynamics.elementAt(j);
+      String str = (String) dynamics.elementAt(j);
       String front = "XRec.append(\"  <" + str + ">\");";
       String back = "XRec.append(\"</" + str + ">\");";
       writeln(1, front + "XRec.ampappend(" + str + ");" + back);
@@ -807,7 +834,7 @@ public class PostgreC extends Generator
       writeln(1, baseClass + "::_fromXML(XRec, msg);");
     for (int j = 0; j < inputs.size(); j++)
     {
-      Field field = (Field)inputs.elementAt(j);
+      Field field = (Field) inputs.elementAt(j);
       if (proc != null && proc.hasOutput(field.name))
         continue;
       write(1, "msg.GetValue(\"" + field.useName() + "/value\", work);");
@@ -815,7 +842,7 @@ public class PostgreC extends Generator
     }
     for (int j = 0; j < dynamics.size(); j++)
     {
-      String str = (String)dynamics.elementAt(j);
+      String str = (String) dynamics.elementAt(j);
       write(1, "msg.GetValue(\"" + str + "/value\", work);");
       writeln("memcpy(" + str + ", work.data, sizeof(" + str + ")-1);");
     }
@@ -831,15 +858,16 @@ public class PostgreC extends Generator
     writeln();
     generateDataBuildImplementation(baseClass, inputs, useName, dynamics, proc);
   }
+
   private static void generateSwapsInterface(String baseClass, Vector fields, Proc proc)
   {
     writeln(1, "void Clear();");
-    writeln(1, format("%s (PgConnector &conn)", structName));  
+    writeln(1, format("%s (PgConnector &conn)", structName));
     writeln(1, "{");
     writeln(2, "Clear();");
     writeln(2, "q_ = new PgQuery(conn);");
     writeln(1, "}");
-    writeln(1, format("~%s ()", structName));  
+    writeln(1, format("~%s ()", structName));
     writeln(1, "{");
     writeln(2, "delete q_;");
     writeln(1, "}");
@@ -847,7 +875,8 @@ public class PostgreC extends Generator
     writeln(1, "void Swaps();");
     writeln("#endif");
   }
-private static void generateSwapsImplementation(String baseClass, Vector fields, Proc proc)
+
+  private static void generateSwapsImplementation(String baseClass, Vector fields, Proc proc)
   {
     writeln(format("void %s::Clear()", structName));
     writeln("{");
@@ -855,7 +884,7 @@ private static void generateSwapsImplementation(String baseClass, Vector fields,
       writeln(1, baseClass + "::Clear();");
     for (int j = 0; j < fields.size(); j++)
     {
-      Field field = (Field)fields.elementAt(j);
+      Field field = (Field) fields.elementAt(j);
       if (proc != null && proc.hasOutput(field.name))
         continue;
       writeln(1, cppInit(field));
@@ -877,7 +906,7 @@ private static void generateSwapsImplementation(String baseClass, Vector fields,
       writeln(1, baseClass + "::Swaps();");
     for (int j = 0; j < fields.size(); j++)
     {
-      Field field = (Field)fields.elementAt(j);
+      Field field = (Field) fields.elementAt(j);
       if (proc != null && proc.hasOutput(field.name))
         continue;
       if (notString(field) == false)
@@ -893,10 +922,12 @@ private static void generateSwapsImplementation(String baseClass, Vector fields,
     writeln("#endif");
     writeln();
   }
+
   static String fileName(String output, String node, String ext)
   {
     return output + node + ext;
   }
+
   static String fromXMLDOFormat(Field field)
   {
     switch (field.type)
@@ -931,6 +962,7 @@ private static void generateSwapsImplementation(String baseClass, Vector fields,
     }
     return "// " + field.useName() + " <unsupported>";
   }
+
   static String fromXMLTFormat(Field field)
   {
     switch (field.type)
@@ -965,53 +997,56 @@ private static void generateSwapsImplementation(String baseClass, Vector fields,
     }
     return "// " + field.useName() + " <unsupported>";
   }
+
   static int getLength(Field field)
   {
     switch (field.type)
     {
-    case Field.BOOLEAN:
-    case Field.BYTE:
-    case Field.SHORT:
-      return 2;
-    case Field.INT:
-    case Field.SEQUENCE:
-    case Field.IDENTITY:
-      return 4;
-    case Field.LONG:
-      return 8;
-    case Field.CHAR:
-    case Field.ANSICHAR:
-    case Field.USERSTAMP:
-    case Field.TLOB:
-      return field.length + 1;
-    case Field.BLOB:
-      return 8;
-    case Field.DATE:
-      return 9;
-    case Field.TIME:
-      return 7;
-    case Field.DATETIME:
-    case Field.TIMESTAMP:
-      return 15;
-    case Field.FLOAT:
-    case Field.DOUBLE:
-      if (field.precision > 15)
-        return field.precision + 3; // allow for - . and null terminator
-      return 8;
-    case Field.MONEY:
-      return 21;
-  }
+      case Field.BOOLEAN:
+      case Field.BYTE:
+      case Field.SHORT:
+        return 2;
+      case Field.INT:
+      case Field.SEQUENCE:
+      case Field.IDENTITY:
+        return 4;
+      case Field.LONG:
+        return 8;
+      case Field.CHAR:
+      case Field.ANSICHAR:
+      case Field.USERSTAMP:
+      case Field.TLOB:
+        return field.length + 1;
+      case Field.BLOB:
+        return 8;
+      case Field.DATE:
+        return 9;
+      case Field.TIME:
+        return 7;
+      case Field.DATETIME:
+      case Field.TIMESTAMP:
+        return 15;
+      case Field.FLOAT:
+      case Field.DOUBLE:
+        if (field.precision > 15)
+          return field.precision + 3; // allow for - . and null terminator
+        return 8;
+      case Field.MONEY:
+        return 21;
+    }
     return 4;
   }
+
   private static boolean getProperty(String propName, boolean propDefault)
   {
-    if (properties == null) 
+    if (properties == null)
       return propDefault;
     String propValue = properties.getProperty(propName);
-    if (propValue == null) 
+    if (propValue == null)
       return propDefault;
     return propValue.equalsIgnoreCase("true");
   }
+
   private static String charPadding(int no, int fillerNo)
   {
     int n = 8 - (no % 8);
@@ -1019,6 +1054,7 @@ private static void generateSwapsImplementation(String baseClass, Vector fields,
       return "IDL2_CHAR_PAD(" + fillerNo + "," + n + ");";
     return "";
   }
+
   /**
    * Translates field type to cpp data member type
    */
@@ -1026,51 +1062,52 @@ private static void generateSwapsImplementation(String baseClass, Vector fields,
   {
     switch (field.type)
     {
-    case Field.BOOLEAN:
-    case Field.BYTE:
-    case Field.SHORT:
-      return field.useName() + ", " + field.useName() + "_INT16";
-    case Field.INT:
-      return field.useName() + ", " + field.useName() + "_INT32";
-    case Field.LONG:
-      return field.useName() + ", " + field.useName() + "_INT64";
-    case Field.FLOAT:
-    case Field.DOUBLE:
-      if (field.precision > 15)
-        return field.useName() + ", " + (field.precision) + ", " + (field.scale);
-      return field.useName() + ", " + field.useName() + "_DOUBLE, " + (field.precision) + ", " + (field.scale);
-    case Field.MONEY:
-      return field.useName() + ", 18, 2";
-    case Field.SEQUENCE:
-      if (isInsert)
-        return "q_->Sequence(" + field.useName() + ", \"" + tableName + "_" + field.useName() + "_seq\"), " + field.useName() + "_INT32";
-      else
+      case Field.BOOLEAN:
+      case Field.BYTE:
+      case Field.SHORT:
+        return field.useName() + ", " + field.useName() + "_INT16";
+      case Field.INT:
         return field.useName() + ", " + field.useName() + "_INT32";
-    case Field.TLOB:
-      return field.useName() + ", " + (field.length);
-    case Field.CHAR:
-      return field.useName() + ", " + (field.length);
-    case Field.ANSICHAR:
-      return field.useName() + ", " + (field.length);
-    case Field.USERSTAMP:
-      return "q_->UserStamp(" + field.useName() + ", sizeof(" + field.useName() + ")), 50";
-    case Field.DATE:
-      return "q_->Date(" + field.useName() + "_PGDate, " + field.useName()
-          + ")";
-    case Field.TIME:
-      return "q_->Time(" + field.useName() + "_PGTime, " + field.useName()
-          + ")";
-    case Field.DATETIME:
-      return "q_->DateTime(" + field.useName() + "_PGDateTime, " + field.useName()
-          + ")";
-    case Field.TIMESTAMP:
-      return "q_->TimeStamp(" + field.useName() + "_PGTimeStamp, " + field.useName()
-          + ")";
-    case Field.BLOB:
-      return "(char*)&" + field.useName() + ", sizeof("+ field.useName() + ".data)";
-  }
+      case Field.LONG:
+        return field.useName() + ", " + field.useName() + "_INT64";
+      case Field.FLOAT:
+      case Field.DOUBLE:
+        if (field.precision > 15)
+          return field.useName() + ", " + (field.precision) + ", " + (field.scale);
+        return field.useName() + ", " + field.useName() + "_DOUBLE, " + (field.precision) + ", " + (field.scale);
+      case Field.MONEY:
+        return field.useName() + ", 18, 2";
+      case Field.SEQUENCE:
+        if (isInsert)
+          return "q_->Sequence(" + field.useName() + ", \"" + tableName + "_" + field.useName() + "_seq\"), " + field.useName() + "_INT32";
+        else
+          return field.useName() + ", " + field.useName() + "_INT32";
+      case Field.TLOB:
+        return field.useName() + ", " + (field.length);
+      case Field.CHAR:
+        return field.useName() + ", " + (field.length);
+      case Field.ANSICHAR:
+        return field.useName() + ", " + (field.length);
+      case Field.USERSTAMP:
+        return "q_->UserStamp(" + field.useName() + ", sizeof(" + field.useName() + ")), 50";
+      case Field.DATE:
+        return "q_->Date(" + field.useName() + "_PGDate, " + field.useName()
+                + ")";
+      case Field.TIME:
+        return "q_->Time(" + field.useName() + "_PGTime, " + field.useName()
+                + ")";
+      case Field.DATETIME:
+        return "q_->DateTime(" + field.useName() + "_PGDateTime, " + field.useName()
+                + ")";
+      case Field.TIMESTAMP:
+        return "q_->TimeStamp(" + field.useName() + "_PGTimeStamp, " + field.useName()
+                + ")";
+      case Field.BLOB:
+        return "(char*)&" + field.useName() + ", sizeof(" + field.useName() + ".data)";
+    }
     return field.useName() + ", <unsupported>";
   }
+
   /**
    * Translates field type to cpp data member type
    */
@@ -1090,10 +1127,10 @@ private static void generateSwapsImplementation(String baseClass, Vector fields,
         return "(int64*)   (q_->data+" + field.useName().toUpperCase() + "_POS)";
       case Field.CHAR:
         return "(char*)   (q_->data+" + field.useName().toUpperCase() + "_POS), "
-            + (field.length + 1);
+                + (field.length + 1);
       case Field.ANSICHAR:
         return "(char*)   (q_->data+" + field.useName().toUpperCase() + "_POS), "
-            + (field.length + 1) + ", 1";
+                + (field.length + 1) + ", 1";
       case Field.USERSTAMP:
         return "(char*)   (q_->data+" + field.useName().toUpperCase() + "_POS), 51";
       case Field.DATE:
@@ -1110,10 +1147,11 @@ private static void generateSwapsImplementation(String baseClass, Vector fields,
         return "(double*) (q_->data+" + field.useName().toUpperCase() + "_POS)";
       case Field.MONEY:
         return "(char*)   (q_->data+" + field.useName().toUpperCase() + "_POS), "
-            + (field.precision + 3);
+                + (field.precision + 3);
     }
     return field.useName() + " <unsupported>";
   }
+
   /**
    * Translates field type to cpp data member type
    */
@@ -1121,41 +1159,42 @@ private static void generateSwapsImplementation(String baseClass, Vector fields,
   {
     switch (field.type)
     {
-    case Field.BOOLEAN:
-    case Field.BYTE:
-    case Field.SHORT:
-    case Field.INT:
-    case Field.LONG:
-    case Field.SEQUENCE:
-      return field.useName() + " = a" + field.useName() + ";";
-    case Field.FLOAT:
-    case Field.DOUBLE:
-      if (field.precision > 15)
+      case Field.BOOLEAN:
+      case Field.BYTE:
+      case Field.SHORT:
+      case Field.INT:
+      case Field.LONG:
+      case Field.SEQUENCE:
+        return field.useName() + " = a" + field.useName() + ";";
+      case Field.FLOAT:
+      case Field.DOUBLE:
+        if (field.precision > 15)
+          return "strncpy(" + field.useName() + ", a" + field.useName()
+                  + ", sizeof(" + field.useName() + ")-1);";
+        return field.useName() + " = a" + field.useName() + ";";
+      case Field.MONEY:
         return "strncpy(" + field.useName() + ", a" + field.useName()
-            + ", sizeof(" + field.useName() + ")-1);";
-      return field.useName() + " = a" + field.useName() + ";";
-    case Field.MONEY:
-      return "strncpy(" + field.useName() + ", a" + field.useName()
-          + ", sizeof(" + field.useName() + ")-1);";
-    case Field.CHAR:
-    case Field.TLOB:
-    case Field.DATE:
-    case Field.TIME:
-    case Field.DATETIME:
-      return "strncpy(" + field.useName() + ", a" + field.useName()
-          + ", sizeof(" + field.useName() + ")-1);";
-    case Field.ANSICHAR:
-      return "memcpy(" + field.useName() + ", a" + field.useName()
-          + ", sizeof(" + field.useName() + "));";
-    case Field.BLOB:
-      return field.useName() + " = a" + field.useName() + ";";
-    case Field.USERSTAMP:
-    case Field.IDENTITY:
-    case Field.TIMESTAMP:
-      return "// " + field.useName() + " -- generated";
+                + ", sizeof(" + field.useName() + ")-1);";
+      case Field.CHAR:
+      case Field.TLOB:
+      case Field.DATE:
+      case Field.TIME:
+      case Field.DATETIME:
+        return "strncpy(" + field.useName() + ", a" + field.useName()
+                + ", sizeof(" + field.useName() + ")-1);";
+      case Field.ANSICHAR:
+        return "memcpy(" + field.useName() + ", a" + field.useName()
+                + ", sizeof(" + field.useName() + "));";
+      case Field.BLOB:
+        return field.useName() + " = a" + field.useName() + ";";
+      case Field.USERSTAMP:
+      case Field.IDENTITY:
+      case Field.TIMESTAMP:
+        return "// " + field.useName() + " -- generated";
     }
     return field.useName() + " <unsupported>";
   }
+
   /**
    * Translates field type to cpp data member type
    */
@@ -1176,10 +1215,10 @@ private static void generateSwapsImplementation(String baseClass, Vector fields,
       case Field.CHAR:
       case Field.TLOB:
         return "(char*)  (q_->data+" + field.useName().toUpperCase() + "_POS), "
-            + (field.length + 1);
+                + (field.length + 1);
       case Field.ANSICHAR:
         return "(char*)  (q_->data+" + field.useName().toUpperCase() + "_POS), "
-            + (field.length + 1) + ", 1";
+                + (field.length + 1) + ", 1";
       case Field.USERSTAMP:
         return "(char*)  (q_->data+" + field.useName().toUpperCase() + "_POS), 51";
       case Field.BLOB:
@@ -1201,6 +1240,7 @@ private static void generateSwapsImplementation(String baseClass, Vector fields,
     }
     return field.useName() + " <unsupported>";
   }
+
   /**
    * Translates field type to cpp data member type
    */
@@ -1208,39 +1248,40 @@ private static void generateSwapsImplementation(String baseClass, Vector fields,
   {
     switch (field.type)
     {
-    case Field.BOOLEAN:
-    case Field.BYTE:
-    case Field.SHORT:
-    case Field.INT:
-    case Field.SEQUENCE:
-    case Field.IDENTITY:
-    case Field.LONG:
-      return field.useName();
-    case Field.FLOAT:
-    case Field.DOUBLE:
-      if (field.precision > 15)
-        return field.useName() + ", " + (field.precision + 3);
-      return field.useName();
-    case Field.MONEY:
-      return field.useName() + ", 21";
-    case Field.CHAR:
-    case Field.ANSICHAR:
-    case Field.TLOB:
-      return field.useName() + ", " + (field.length + 1);
-    case Field.USERSTAMP:
-      return field.useName() + ", 51";
-    case Field.BLOB:
-      return field.useName() + ".len, " + field.useName()+".data, sizeof(" + field.useName() + ")";
-    case Field.DATE:
-      return "PgDate(" + field.useName() + ")";
-    case Field.TIME:
-      return "PgTime(" + field.useName() + ")";
-    case Field.DATETIME:
-    case Field.TIMESTAMP:
-      return "PgDateTime(" + field.useName() + ")";
+      case Field.BOOLEAN:
+      case Field.BYTE:
+      case Field.SHORT:
+      case Field.INT:
+      case Field.SEQUENCE:
+      case Field.IDENTITY:
+      case Field.LONG:
+        return field.useName();
+      case Field.FLOAT:
+      case Field.DOUBLE:
+        if (field.precision > 15)
+          return field.useName() + ", " + (field.precision + 3);
+        return field.useName();
+      case Field.MONEY:
+        return field.useName() + ", 21";
+      case Field.CHAR:
+      case Field.ANSICHAR:
+      case Field.TLOB:
+        return field.useName() + ", " + (field.length + 1);
+      case Field.USERSTAMP:
+        return field.useName() + ", 51";
+      case Field.BLOB:
+        return field.useName() + ".len, " + field.useName() + ".data, sizeof(" + field.useName() + ")";
+      case Field.DATE:
+        return "PgDate(" + field.useName() + ")";
+      case Field.TIME:
+        return "PgTime(" + field.useName() + ")";
+      case Field.DATETIME:
+      case Field.TIMESTAMP:
+        return "PgDateTime(" + field.useName() + ")";
     }
     return field.useName() + " <unsupported>";
   }
+
   static String cppInit(Field field)
   {
     switch (field.type)
@@ -1252,7 +1293,7 @@ private static void generateSwapsImplementation(String baseClass, Vector fields,
       case Field.SEQUENCE:
       case Field.IDENTITY:
       case Field.LONG:
-        return field.useName()+" = 0;";
+        return field.useName() + " = 0;";
       //return "long   " + field.useName();
       case Field.CHAR:
       case Field.ANSICHAR:
@@ -1268,7 +1309,7 @@ private static void generateSwapsImplementation(String baseClass, Vector fields,
       case Field.FLOAT:
       case Field.DOUBLE:
         if (field.precision <= 15)
-          return field.useName()+" = 0.0;";
+          return field.useName() + " = 0.0;";
         return "memset(" + field.useName() + ", 0, sizeof(" + field.useName() + "));";
       case Field.MONEY:
         return "memset(" + field.useName() + ", 0, sizeof(" + field.useName() + "));";
@@ -1280,39 +1321,39 @@ private static void generateSwapsImplementation(String baseClass, Vector fields,
   {
     switch (field.type)
     {
-    case Field.BOOLEAN:
-    case Field.BYTE:
-    case Field.SHORT:
-      return "sizeof(int16)";
-    case Field.INT:
-    case Field.SEQUENCE:
-    case Field.IDENTITY:
-      return "sizeof(int32)";
-    case Field.LONG:
-      return "sizeof(int64)";
-    case Field.CHAR:
-    case Field.ANSICHAR:
-    case Field.TLOB:
-      return "" + (field.length + 1);
-    case Field.BLOB:
-      return "sizeof(PgBlob<" + field.length + ">)";
-    case Field.USERSTAMP:
-      return "51";
-    case Field.DATE:
-      return "sizeof(PgTDate)";
-    case Field.TIME:
-      return "sizeof(PgTTime)";
-    case Field.DATETIME:
-    case Field.TIMESTAMP:
-      return "sizeof(PgTDateTime)";
-    case Field.FLOAT:
-    case Field.DOUBLE:
-      if (field.precision > 15)
-        return "" + (field.precision + 3);
-      return "sizeof(double)";
-    case Field.MONEY:
-      return "21";
-  }
+      case Field.BOOLEAN:
+      case Field.BYTE:
+      case Field.SHORT:
+        return "sizeof(int16)";
+      case Field.INT:
+      case Field.SEQUENCE:
+      case Field.IDENTITY:
+        return "sizeof(int32)";
+      case Field.LONG:
+        return "sizeof(int64)";
+      case Field.CHAR:
+      case Field.ANSICHAR:
+      case Field.TLOB:
+        return "" + (field.length + 1);
+      case Field.BLOB:
+        return "sizeof(PgBlob<" + field.length + ">)";
+      case Field.USERSTAMP:
+        return "51";
+      case Field.DATE:
+        return "sizeof(PgTDate)";
+      case Field.TIME:
+        return "sizeof(PgTTime)";
+      case Field.DATETIME:
+      case Field.TIMESTAMP:
+        return "sizeof(PgTDateTime)";
+      case Field.FLOAT:
+      case Field.DOUBLE:
+        if (field.precision > 15)
+          return "" + (field.precision + 3);
+        return "sizeof(double)";
+      case Field.MONEY:
+        return "21";
+    }
     return "0";
   }
 
@@ -1323,39 +1364,40 @@ private static void generateSwapsImplementation(String baseClass, Vector fields,
   {
     switch (field.type)
     {
-    case Field.BOOLEAN:
-    case Field.BYTE:
-    case Field.SHORT:
-      return "int16  a" + field.useName();
-    case Field.INT:
-    case Field.SEQUENCE:
-    case Field.IDENTITY:
-      return "int32   a" + field.useName();
-    case Field.LONG:
-      return "int64  a" + field.useName();
-    case Field.CHAR:
-    case Field.TLOB:
-    case Field.ANSICHAR:
-      return "char*  a" + field.useName();
-    case Field.USERSTAMP:
-      return "char*  a" + field.useName();
-    case Field.DATE:
-      return "char*  a" + field.useName();
-    case Field.TIME:
-      return "char*  a" + field.useName();
-    case Field.DATETIME:
-    case Field.TIMESTAMP:
-      return "char*  a" + field.useName();
-    case Field.FLOAT:
-    case Field.DOUBLE:
-      if (field.precision > 15)
+      case Field.BOOLEAN:
+      case Field.BYTE:
+      case Field.SHORT:
+        return "int16  a" + field.useName();
+      case Field.INT:
+      case Field.SEQUENCE:
+      case Field.IDENTITY:
+        return "int32   a" + field.useName();
+      case Field.LONG:
+        return "int64  a" + field.useName();
+      case Field.CHAR:
+      case Field.TLOB:
+      case Field.ANSICHAR:
         return "char*  a" + field.useName();
-      return "double a" + field.useName();
-    case Field.MONEY:
-      return "char*  a" + field.useName();
+      case Field.USERSTAMP:
+        return "char*  a" + field.useName();
+      case Field.DATE:
+        return "char*  a" + field.useName();
+      case Field.TIME:
+        return "char*  a" + field.useName();
+      case Field.DATETIME:
+      case Field.TIMESTAMP:
+        return "char*  a" + field.useName();
+      case Field.FLOAT:
+      case Field.DOUBLE:
+        if (field.precision > 15)
+          return "char*  a" + field.useName();
+        return "double a" + field.useName();
+      case Field.MONEY:
+        return "char*  a" + field.useName();
     }
     return field.useName() + " <unsupported>";
   }
+
   /**
    * Translates field type to cpp data member type
    */
@@ -1363,46 +1405,48 @@ private static void generateSwapsImplementation(String baseClass, Vector fields,
   {
     switch (field.type)
     {
-    case Field.BOOLEAN:
-    case Field.BYTE:
-    case Field.SHORT:
-      return "int16  " + field.useName();
-    case Field.INT:
-    case Field.IDENTITY:
-    case Field.SEQUENCE:
-      return "int32  " + field.useName();
-    case Field.LONG:
-      return "int64  " + field.useName();
+      case Field.BOOLEAN:
+      case Field.BYTE:
+      case Field.SHORT:
+        return "int16  " + field.useName();
+      case Field.INT:
+      case Field.IDENTITY:
+      case Field.SEQUENCE:
+        return "int32  " + field.useName();
+      case Field.LONG:
+        return "int64  " + field.useName();
       //return "long   " + field.useName();
-    case Field.CHAR:
-    case Field.ANSICHAR:
-    case Field.TLOB:
-      return "char   " + field.useName() + "[" + (field.length + 1) + "]";
-    case Field.USERSTAMP:
-      return "char   " + field.useName() + "[" + (field.length + 1) + "]";
-    case Field.BLOB:
-      return "PgBlob<" + field.length + "> " + field.useName();
-    case Field.DATE:
-      return "char   " + field.useName() + "[9]";
-    case Field.TIME:
-      return "char   " + field.useName() + "[7]";
-    case Field.DATETIME:
-    case Field.TIMESTAMP:
-      return "char   " + field.useName() + "[15]";
-    case Field.FLOAT:
-    case Field.DOUBLE:
-      if (field.precision > 15)
-        return "char   " + field.useName() + "[" + (field.precision+3) + "]";
-      return "double " + field.useName();
-    case Field.MONEY:
-      return "char   " + field.useName() + "[21]";
-  }
+      case Field.CHAR:
+      case Field.ANSICHAR:
+      case Field.TLOB:
+        return "char   " + field.useName() + "[" + (field.length + 1) + "]";
+      case Field.USERSTAMP:
+        return "char   " + field.useName() + "[" + (field.length + 1) + "]";
+      case Field.BLOB:
+        return "PgBlob<" + field.length + "> " + field.useName();
+      case Field.DATE:
+        return "char   " + field.useName() + "[9]";
+      case Field.TIME:
+        return "char   " + field.useName() + "[7]";
+      case Field.DATETIME:
+      case Field.TIMESTAMP:
+        return "char   " + field.useName() + "[15]";
+      case Field.FLOAT:
+      case Field.DOUBLE:
+        if (field.precision > 15)
+          return "char   " + field.useName() + "[" + (field.precision + 3) + "]";
+        return "double " + field.useName();
+      case Field.MONEY:
+        return "char   " + field.useName() + "[21]";
+    }
     return field.useName() + " <unsupported>";
   }
+
   static boolean isLob(Field field)
   {
     return field.type == Field.BLOB;
   }
+
   static boolean isNull(Field field)
   {
     if (field.isNull == false)
@@ -1428,109 +1472,116 @@ private static void generateSwapsImplementation(String baseClass, Vector fields,
     }
     return false;
   }
+
   static boolean isStruct(Field field)
   {
     return field.type == Field.BLOB;
   }
+
   static boolean notString(Field field)
   {
     switch (field.type)
     {
-    case Field.BOOLEAN:
-    case Field.BYTE:
-    case Field.SHORT:
-    case Field.INT:
-    case Field.LONG:
-    case Field.IDENTITY:
-    case Field.SEQUENCE:
-    case Field.BLOB:
-      return true;
-    case Field.FLOAT:
-    case Field.DOUBLE:
-      return field.precision <= 15;
-  }
+      case Field.BOOLEAN:
+      case Field.BYTE:
+      case Field.SHORT:
+      case Field.INT:
+      case Field.LONG:
+      case Field.IDENTITY:
+      case Field.SEQUENCE:
+      case Field.BLOB:
+        return true;
+      case Field.FLOAT:
+      case Field.DOUBLE:
+        return field.precision <= 15;
+    }
     return false;
   }
+
   private static String nullAdd(Field field)
   {
     if (isNull(field))
-      return ", "+field.useName()+"IsNull";
+      return ", " + field.useName() + "IsNull";
     return "";
   }
+
   private static String nullSet(Field field)
   {
     if (isNull(field))
       return ", " + field.useName() + "IsNull";
     return "";
   }
+
   static String padder(String s, int length)
   {
     for (int i = s.length(); i < length - 1; i++)
       s = s + " ";
     return s + " ";
   }
+
   static String toXMLDOFormat(Field field)
   {
     String front = "XRec.append(\"  <" + field.useName() + ">\");";
     String back = "XRec.append(\"</" + field.useName() + ">\");";
     switch (field.type)
     {
-    case Field.CHAR:
-    case Field.ANSICHAR:
-    case Field.USERSTAMP:
-    case Field.TLOB:
-    case Field.DATE:
-    case Field.TIME:
-    case Field.DATETIME:
-    case Field.TIMESTAMP:
-      return front+"XRec.ampappend("+field.useName()+");"+back;
-    case Field.BOOLEAN:
-    case Field.BYTE:
-    case Field.SHORT:
-    case Field.INT:
-      return front + "XRec.ampappend(JP_XML_FORMAT((int32)" + field.useName() + ").result);" + back;
-    case Field.LONG:
-      return front + "XRec.ampappend(JP_XML_FORMAT((int64)" + field.useName() + ").result);" + back;
-    case Field.FLOAT:
-    case Field.DOUBLE:
-      if (field.precision > 15)
+      case Field.CHAR:
+      case Field.ANSICHAR:
+      case Field.USERSTAMP:
+      case Field.TLOB:
+      case Field.DATE:
+      case Field.TIME:
+      case Field.DATETIME:
+      case Field.TIMESTAMP:
         return front + "XRec.ampappend(" + field.useName() + ");" + back;
-      return front + "XRec.ampappend(JP_XML_FORMAT((double)" + field.useName() + ").result);" + back;
-    case Field.MONEY:
-      return front + "XRec.ampappend(" + field.useName() + ");" + back;
+      case Field.BOOLEAN:
+      case Field.BYTE:
+      case Field.SHORT:
+      case Field.INT:
+        return front + "XRec.ampappend(JP_XML_FORMAT((int32)" + field.useName() + ").result);" + back;
+      case Field.LONG:
+        return front + "XRec.ampappend(JP_XML_FORMAT((int64)" + field.useName() + ").result);" + back;
+      case Field.FLOAT:
+      case Field.DOUBLE:
+        if (field.precision > 15)
+          return front + "XRec.ampappend(" + field.useName() + ");" + back;
+        return front + "XRec.ampappend(JP_XML_FORMAT((double)" + field.useName() + ").result);" + back;
+      case Field.MONEY:
+        return front + "XRec.ampappend(" + field.useName() + ");" + back;
     }
-    return "// "+field.useName() + " <unsupported>";
+    return "// " + field.useName() + " <unsupported>";
   }
+
   static String toXMLTFormat(Field field)
   {
     String front = "XRec.append(\"  <" + field.useName() + " value='\");";
     String back = "XRec.append(\"'/>\");";
     switch (field.type)
     {
-    case Field.CHAR:
-    case Field.ANSICHAR:
-    case Field.USERSTAMP:
-    case Field.TLOB:
-    case Field.DATE:
-    case Field.TIME:
-    case Field.DATETIME:
-    case Field.TIMESTAMP:
-      return front+"XRec.ampappend("+field.useName()+");"+back;
-    case Field.BOOLEAN:
-    case Field.BYTE:
-    case Field.SHORT:
-    case Field.INT:
-      return front + "XRec.ampappend(JP_XML_FORMAT((int32)" + field.useName() + ").result);" + back;
-    case Field.LONG:
-      return front + "XRec.ampappend(JP_XML_FORMAT((int64)" + field.useName() + ").result);" + back;
-    case Field.FLOAT:
-    case Field.DOUBLE:
-      if (field.precision > 15)
+      case Field.CHAR:
+      case Field.ANSICHAR:
+      case Field.USERSTAMP:
+      case Field.TLOB:
+      case Field.DATE:
+      case Field.TIME:
+      case Field.DATETIME:
+      case Field.TIMESTAMP:
         return front + "XRec.ampappend(" + field.useName() + ");" + back;
-      return front + "XRec.ampappend(JP_XML_FORMAT((double)" + field.useName() + ").result);" + back;
-    case Field.MONEY:
-      return front + "XRec.ampappend(" + field.useName() + ");" + back;
+      case Field.BOOLEAN:
+      case Field.BYTE:
+      case Field.SHORT:
+      case Field.INT:
+        return front + "XRec.ampappend(JP_XML_FORMAT((int32)" + field.useName() + ").result);" + back;
+      case Field.LONG:
+        return front + "XRec.ampappend(JP_XML_FORMAT((int64)" + field.useName() + ").result);" + back;
+      case Field.FLOAT:
+      case Field.DOUBLE:
+        if (field.precision > 15)
+          return front + "XRec.ampappend(" + field.useName() + ");" + back;
+        return front + "XRec.ampappend(JP_XML_FORMAT((double)" + field.useName() + ").result);" + back;
+      case Field.MONEY:
+        return front + "XRec.ampappend(" + field.useName() + ");" + back;
     }
-    return "// "+field.useName() + " <unsupported>";
+    return "// " + field.useName() + " <unsupported>";
   }
 }
