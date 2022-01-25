@@ -22,7 +22,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Vector;
 
-import static vlab.jportal.Writer.format;
+import static vlab.jportal.Writer.*;
+import vlab.jportal.*;
 
 public class MSSqlDDL extends vlab.jportal.Generator
 {

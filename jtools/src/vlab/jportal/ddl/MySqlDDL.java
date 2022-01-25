@@ -21,7 +21,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 
-import static vlab.jportal.Writer.format;
+import static vlab.jportal.Writer.*;
+import vlab.jportal.*;
 
 public class MySqlDDL extends vlab.jportal.Generator
 {

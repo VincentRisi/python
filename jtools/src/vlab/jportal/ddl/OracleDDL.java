@@ -22,8 +22,9 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 
 import static vlab.jportal.Writer.*;
+import vlab.jportal.*;
 
-public class OracleDDL extends vlab.jportal.Generator
+public class OracleDDL extends Generator
 {
   private static boolean addExit = false;
   private static boolean dropTablespace = false;

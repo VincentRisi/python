@@ -19,7 +19,7 @@ package vlab.jportal.code;
 import java.io.*;
 import java.util.Vector;
 
-import static vlab.jportal.code.Writer.*;
+import static vlab.jportal.Writer.*;
 
 import vlab.jportal.*;
 

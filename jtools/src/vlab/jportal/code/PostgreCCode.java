@@ -23,7 +23,7 @@ import java.io.PrintWriter;
 import java.util.Properties;
 import java.util.Vector;
 
-import static vlab.jportal.code.Writer.*;
+import static vlab.jportal.Writer.*;
 
 import vlab.jportal.*;
 
@@ -368,7 +368,7 @@ public class PostgreCCode extends Generator
         String start = "{";
         for (int j = 0; j < field.enums.size(); j++)
         {
-          Enum element = field.enums.elementAt(j);
+          Enumerator element = field.enums.elementAt(j);
           String evalue = "" + element.value;
           if (field.type == Field.ANSICHAR && field.length == 1)
             evalue = "'" + (char) element.value + "'";
@@ -383,7 +383,7 @@ public class PostgreCCode extends Generator
         writeln(1, "{");
         for (int j = 0; j < field.enums.size(); j++)
         {
-          Enum element = field.enums.elementAt(j);
+          Enumerator element = field.enums.elementAt(j);
           String evalue = "" + element.value;
           if (field.type == Field.ANSICHAR && field.length == 1)
             evalue = "'" + (char) element.value + "'";

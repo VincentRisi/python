@@ -19,7 +19,8 @@ package vlab.jportal.code;
 import java.io.*;
 import java.util.Vector;
 
-import static vlab.jportal.code.Writer.*;
+import static vlab.jportal.Writer.*;
+import vlab.jportal.*;
 
 public class SwaggerCode extends vlab.jportal.Generator
 {
@@ -34,33 +35,6 @@ public class SwaggerCode extends vlab.jportal.Generator
   {
     return "Generate Swagger Schema";
   }
-  //private static PrintWriter outData;
-  //private static String format(String fmt, Object... objects)
-  //{
-  //  return String.format(fmt,  objects);
-  //}
-  //private static void println(int no, String value)
-  //{
-  //  outData.println(indent(no)+value);
-  //}
-  //private static void println(String value)
-  //{
-  //  println(0, value);
-  //}
-  //private static void println()
-  //{
-  //  outData.println();
-  //}
-  //private static String indent_string = "                                                                                             ";
-  //static int indent_size = 2;
-  //static String indent(int no)
-  //{
-  //   int max = indent_string.length();
-  //   int to = no * indent_size;
-  //   if (to > max)
-  //     to = max;
-  //   return indent_string.substring(0,  to);
-  //}
 
   static String padder(String s, int length)
   {
