@@ -1,32 +1,5 @@
 import sys, json
 
-if sys.version[:2] == '3.':
-    import xmldict3 as xmldict
-elif sys.version[:2] == '2.':
-    import xmldict2 as xmldict
-
-def xmlparse(s):
-    '''
-	This is the original parser using xmlrecord.cpp
-	returns a python dictionary representing the data
-	in tag.stag.sstag.../attr notation. xpath like.
-	Uses %[0-9]+ notation for duplicate tags
-    '''
-    return xmldict._xmlparse(s)
-
-def xmlbuild(s):
-    '''
-	This is the original builder using xmlrecord.cpp
-	returns a string representing the xml. Drops %[0-9]+
-	for duplicate tags.
-    '''
-    xml = xmldict._xmlbuild(s)
-    return xml
-
-def testExc():
-   if sys.version[:2] == '3.':
-       xmldict._testExc()
-
 def printClass(c, name='top'):
     if hasattr(c, '__slots__'):
         items = c.__slots__

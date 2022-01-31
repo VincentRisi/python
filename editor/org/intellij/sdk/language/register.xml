@@ -1,0 +1,21 @@
+<extensions defaultExtensionNs="com.intellij">
+  <fileType name="Idl2 File"
+            implementationClass="org.intellij.sdk.language.Idl2FileType"
+            fieldName="INSTANCE"
+            language="Idl2"
+            extensions="idl2"/>
+</extensions>
+
+<extensions defaultExtensionNs="com.intellij">
+  <lang.syntaxHighlighterFactory language="Idl2"
+              implementationClass="org.intellij.sdk.language.Idl2SyntaxHighlighterFactory"/>
+</extensions>
+
+<extensions defaultExtensionNs="com.intellij">
+  <colorSettingsPage implementation="org.intellij.sdk.language.Idl2ColorSettingsPage"/>
+</extensions>
+
+<extensions defaultExtensionNs="com.intellij">
+  <lang.parserDefinition language="Idl2"
+          implementationClass="org.intellij.sdk.language.Idl2ParserDefinition"/>
+</extensions>

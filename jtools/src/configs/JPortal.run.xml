@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="JPortal" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="vlab.jportal.Compiler" />
+    <module name="jtools" />
+    <option name="PROGRAM_PARAMETERS" value="-R $PROJECT_DIR$ -f {root}/src/inputs.list -o {root}/out/sql/yaml2 code.SwaggerCode -o {root}/out/sql/yaml3 code.OpenApiCode -o {root}/out/sql/py/dbapi -F param=named code.PyDBApiCode -o {root}/out/sql/clish code.CliCCode -o {root}/out/sql/msssh code.MSSqlCCode -o {root}/out/sql/myssh code.MySqlCCode -o {root}/out/sql/ocish code.OciCCode -o {root}/out/sql/ii code.IdlPyCode" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -59,30 +59,6 @@ public class PopHTTPImpl extends Generator
     setupPragmaVector();
   }
 
-  /**
-   * Reads input from stored repository
-   */
-  public static void main(String[] args)
-  {
-    try
-    {
-      logger = outLog;
-      for (int i = 0; i < args.length; i++)
-      {
-        logln(args[i] + ": Generate ... ");
-        ObjectInputStream in = new ObjectInputStream(new FileInputStream(args[i]));
-        Module module = (Module) in.readObject();
-        in.close();
-        generate(module, "", outLog);
-      }
-      outLog.flush();
-    }
-    catch (Exception e)
-    {
-      e.printStackTrace();
-    }
-  }
-
   public static void generate(Module module, String output, PrintWriter outLog)
   {
     logger = outLog;

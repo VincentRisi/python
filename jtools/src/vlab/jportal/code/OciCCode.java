@@ -216,7 +216,7 @@ public class OciCCode extends Generator
 
   static private String padder(String value, int size)
   {
-    return format("%-*s ", size, value);
+    return format("%s ", value);
   }
 
   static private void generateArrayInterface(Table table, Proc proc, String dataStruct)

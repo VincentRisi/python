@@ -14,15 +14,12 @@ package vlab.crackle.http;
 
 import vlab.crackle.*;
 import vlab.crackle.Module;
-import vlab.crackle.http.PopHTTP;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Reader;
@@ -46,27 +43,6 @@ public class PopHTTPOpenApi extends Generator
   public static String documentation()
   {
     return "Generates HTTP OpenApi Restful 3.0.0 YAML (AIX|LINUX|WINDOWS)";
-  }
-
-  public static void main(String[] args)
-  {
-    try
-    {
-      outLog = new PrintWriter(System.out);
-      for (int i = 0; i < args.length; i++)
-      {
-        outLog.println(args[i] + ": Generate ... ");
-        ObjectInputStream in = new ObjectInputStream(new FileInputStream(args[i]));
-        Module module = (Module) in.readObject();
-        in.close();
-        generate(module, "", outLog);
-      }
-      outLog.flush();
-    }
-    catch (Exception e)
-    {
-      e.printStackTrace();
-    }
   }
 
   public static void generate(Module module, String output, PrintWriter inOutLog)

@@ -48,27 +48,6 @@ public class PopHTTPSwagger extends Generator
     return "Generates HTTP Swagger Restful 2.0 YAML (AIX|LINUX|WINDOWS)";
   }
 
-  public static void main(String[] args)
-  {
-    try
-    {
-      outLog = new PrintWriter(System.out);
-      for (int i = 0; i < args.length; i++)
-      {
-        outLog.println(args[i] + ": Generate ... ");
-        ObjectInputStream in = new ObjectInputStream(new FileInputStream(args[i]));
-        Module module = (Module) in.readObject();
-        in.close();
-        generate(module, "", outLog);
-      }
-      outLog.flush();
-    }
-    catch (Exception e)
-    {
-      e.printStackTrace();
-    }
-  }
-
   public static void generate(Module module, String output, PrintWriter inOutLog)
   {
     outLog = inOutLog;

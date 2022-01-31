@@ -38,27 +38,6 @@ public class PopHTTPServer extends Generator
     return "Generates HTTP Restful Server Code (AIX|LINUX|WINDOWS)";
   }
 
-  public static void main(String[] args)
-  {
-    try
-    {
-      PrintWriter outLog = new PrintWriter(System.out);
-      for (int i = 0; i < args.length; i++)
-      {
-        outLog.println(args[i] + ": Generate ... ");
-        ObjectInputStream in = new ObjectInputStream(new FileInputStream(args[i]));
-        Module module = (Module) in.readObject();
-        in.close();
-        generate(module, "", outLog);
-      }
-      outLog.flush();
-    }
-    catch (Exception e)
-    {
-      e.printStackTrace();
-    }
-  }
-
   public static void generate(Module module, String output, PrintWriter outLog)
   {
     outLog.println(module.name + " version " + module.version);
@@ -108,8 +87,7 @@ public class PopHTTPServer extends Generator
         }
         String modName = module.name;
         String lowName = module.name.toLowerCase();
-        writeln(
-                "// This code was generated, you may wish to copy it to another source once off and modify the other source.");
+        writeln("// This code was generated, you may wish to copy it to another source once off and modify the other source.");
         writeln(format("#include \"%sserver_http.h\"", lowName));
         writeln("#include \"httpserver.h\"");
         writeln("#include \"getargs.h\"");
@@ -1034,17 +1012,5 @@ public class PopHTTPServer extends Generator
     writeln(no, "builder.getRecord(" + name + "_result);");
     writeln(no, "stringstream " + name + "_str(" + name + "_result);");
     writeln(no, "" + name + "_str >> " + name + "_out;");
-  }
-}
-
-class Argument3
-{
-  String useAs;
-  Field field;
-
-  Argument3(Field field, String useAs)
-  {
-    this.field = field;
-    this.useAs = useAs;
   }
 }

@@ -67,10 +67,10 @@ public class Compiler
   {
     if (rootDir.length() == 0)
       return name;
-    if (name.startsWith("{root}"))
-      return rootDir + name.substring(6);
-    if (name.startsWith("${root}"))
-      return rootDir + name.substring(7);
+    if (name.contains("${root}"))
+       return name.replace("${root}", rootDir);
+    if (name.contains("{root}"))
+       return name.replace("{root}", rootDir);
     return name;
   }
 

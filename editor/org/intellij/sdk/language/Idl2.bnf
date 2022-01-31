@@ -1,0 +1,20 @@
+{
+  parserClass="org.intellij.sdk.language.parser.Idl2Parser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Idl2"
+  psiImplClassSuffix="Impl"
+  psiPackage="org.intellij.sdk.language.psi"
+  psiImplPackage="org.intellij.sdk.language.psi.impl"
+
+  elementTypeHolderClass="org.intellij.sdk.language.psi.Idl2Types"
+  elementTypeClass="org.intellij.sdk.language.psi.Idl2ElementType"
+  tokenTypeClass="org.intellij.sdk.language.psi.Idl2TokenType"
+}
+
+idl2File ::= item_*
+
+private item_ ::= (property|COMMENT|CRLF)
+
+property ::= (KEY? SEPARATOR VALUE?) | KEY
