@@ -1,4 +1,4 @@
-DATABASE MCPE FLAGS "param=named"
+DATABASE MCPE 
 PACKAGE  vlab.accuity
 OUTPUT   accuityuseroverride
 SERVER   DN29

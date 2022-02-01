@@ -1,4 +1,3 @@
-import yaml, json
 
 class Class: pass
 module = Class()
@@ -52,7 +51,8 @@ def dict_to_class(cls, data):
            setattr(cls, tag, data[tag])
     return cls
 
-def yaml_test(infile):
+def yaml_test1(infile):
+    import yaml
     load = yaml.load
     Loader = yaml.Loader
     with open(infile, 'rt') as ifile:
@@ -63,7 +63,19 @@ def yaml_test(infile):
     printClass(module, 'accuity')
     return 0
 
+def yaml_test2(infile):
+    import strictyaml as yaml
+    load = yaml.load
+    with open(infile, 'rt') as ifile:
+        data = ifile.read()
+    oa_dict = load(data)
+    module = Class()
+    module = dict_to_class(module, oa_dict.data)
+    printClass(module, 'accuity')
+    return 0
+
 def json_test(infile):
+    import json
     load = json.loads
     #Loader = yaml.Loader
     with open(infile, 'rt') as ifile:
@@ -74,7 +86,7 @@ def json_test(infile):
     printClass(module, 'accuity')
     return 0
 
-yaml_test(r'D:\vlab\python\jtools\out\idl2\http\accuity_openapi.yaml')
+yaml_test2(r'D:\vlab\python\jtools\out\idl2\http\accuity_openapi.yaml')
 #yaml_test(r'D:\vlab\python\jtools\out\idl2\http\accuity_swagger.yaml')
 #json_test(r'D:\vlab\python\jtools\out\idl2\http\accuity_openapi.json')
 #json_test(r'D:\vlab\python\jtools\out\idl2\http\accuity_swagger.json')

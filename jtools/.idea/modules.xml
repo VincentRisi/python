@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/jtools.iml" filepath="$PROJECT_DIR$/jtools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pytools/pytools.iml" filepath="$PROJECT_DIR$/../pytools/pytools.iml" />
     </modules>
   </component>
 </project>
