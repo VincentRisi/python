@@ -1,10 +1,10 @@
-DATABASE MCPE 
+DATABASE VLAB 
 PACKAGE  vlab.accuity
 OUTPUT   accuityroutingatt
-SERVER   DN29
-SCHEMA   NPUD00
-USERID   npu
-PASSWORD npudev
+SERVER   LV01
+SCHEMA   DBUD00
+USERID   dbu
+PASSWORD dbudev
 
 TABLE AccuityRoutingAtt
   Id                    int

@@ -23,8 +23,8 @@ import java.io.PrintWriter;
 import java.util.Properties;
 import java.util.Vector;
 
+import static vlab.jportal.TJCStructs.*;
 import static vlab.jportal.Writer.*;
-
 import vlab.jportal.*;
 
 public class PostgreCCode extends Generator
@@ -54,6 +54,7 @@ public class PostgreCCode extends Generator
    */
   public static void generate(Database database, String output, PrintWriter outLog)
   {
+    PostgreCCode.outLog = outLog;
     try
     {
       String propertiesName = format("%s%s.properties", output, database.name);
@@ -75,17 +76,25 @@ public class PostgreCCode extends Generator
     useTStyle = getProperty("usetstyle", useTStyle);
     for (int i = 0; i < database.tables.size(); i++)
     {
-      Table table = database.tables.elementAt(i);
-      generate(table, output, outLog);
+      try
+      {
+        Table table = database.tables.elementAt(i);
+        generate(table, output);
+        generateSnips(table, output, outLog, false);
+      }
+      catch (Exception ex)
+      {
+        outLog.println(ex);
+        ex.printStackTrace(outLog);
+      }
     }
   }
 
   /**
    * Build of standard and user defined procedures
    */
-  static void generate(Table table, String output, PrintWriter inOutLog)
+  static void generate(Table table, String output)
   {
-    outLog = inOutLog;
     boolean stdExtend = true;
     try
     {

@@ -302,6 +302,13 @@ public class PopHTTPPython extends Generator
           int state = 0;
           while ((line = reader.readLine()) != null)
           {
+            int h = line.indexOf('#');
+            if (h == 0)
+              continue;
+            if (h > 0)
+              line = line.substring(0, h).stripTrailing();
+            if (line.length() == 0)
+              continue;
             switch (state)
             {
               case 0:

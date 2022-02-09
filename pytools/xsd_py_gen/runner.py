@@ -15,7 +15,7 @@ messageorch/Common|file_message|FILE_MESSAGE
 '''.splitlines()
 
 CMAKE_CURRENT_SOURCE_DIR = 'C:/vlab/python/pytools/xsd_py_gen'
-CMAKE_CURRENT_BINARY_DIR = 'C:/vlab/python/pytools/xsd_py_gen/build'
+CMAKE_CURRENT_BINARY_DIR = 'C:/vlab/python/pytools/xsd_py_gen/out'
 
 def process(build_set):
     dir_name, base_name, make_name = build_set.split('|')
@@ -27,6 +27,7 @@ def process(build_set):
     outFile = f'{outPath}/XSD_{make_name}.py'
     logFile = f'{logPath}/{base_name}.log'
     sys.argv = ['xsd_py_gen.py', '-i', f'{inFile}', '-I', f'{inPath}', '-o', f'{outFile}', '-l', f'{logPath}', '-P', f'{python_front}']
+    print (f'{sys.argv}')
 
 import xsd_py_gen
 for no in [0,1,2,3,4,5,6]:

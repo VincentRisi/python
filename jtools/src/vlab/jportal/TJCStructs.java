@@ -500,7 +500,7 @@ public class TJCStructs //extends Writer
     writeln(1, "#endif");
   }
 
-  static String padder(String s, int length)
+  public static String padder(String s, int length)
   {
     StringBuilder sBuilder = new StringBuilder(s);
     for (int i = sBuilder.length(); i < length; i++)
