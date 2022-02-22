@@ -228,7 +228,6 @@ code
 PYTHON:
     try:
         rec = DAccuityContactExists()
-        rec.Id = Id
         DAccuityContact.exists = AccuityContact.execute
         rec.exists(connect)
             return rec.Count
@@ -365,7 +364,6 @@ code
 PYTHON:
     try:
         rec = DAccuityCorrespondentExists()
-        rec.Id = Id
         DAccuityCorrespondent.exists = AccuityCorrespondent.execute
         rec.exists(connect)
             return rec.Count
@@ -523,7 +521,6 @@ code
 PYTHON:
     try:
         rec = DAccuityCorrespondentSubExists()
-        rec.Id = Id
         DAccuityCorrespondentSub.exists = AccuityCorrespondentSub.execute
         rec.exists(connect)
             return rec.Count
@@ -662,7 +659,6 @@ code
 PYTHON:
     try:
         rec = DAccuityLocationExists()
-        rec.LocationId = LocationId
         log_debug(f'LocationExists LocationId:{LocationId}')
         DAccuityLocation.exists = AccuityLocation.execute
         rec.exists(connect)
@@ -688,7 +684,7 @@ code
 PYTHON:
     try:
         rec = DAccuityLocationGetClearingCode()
-        rec.LocationId = LocationId
+        rec.Id = LocationId
         DAccuityLocationGetClearingCode.getClearingCode = AccuityLocationGetClearingCode.execute
         rec.getClearingCode(connect)
     except DBError as db:
@@ -698,78 +694,110 @@ endcode
 } 
 
 struct DAccuityLocationGetLocations "accuityLocation.sh"
-
-void accuityLocationGetClearingCode(int pageNo, int lines, DAccuityLocationGetLocations *recs)
-{
-message: #
-openapi: get "accuityLocationGetLocations/pageNo/{pageNo}/lines/{lines}" Location
-input
-    pageNo;
-    lines;
-output
-    recs;    
-code
-PYTHON:
-    try:
-        rec = DAccuityLocationGetLocations()
-        rec.pageNo = pageNo
-        rec.lines = lines
-        DAccuityLocationGetLOcations.getLocations = AccuityLocationGetLocations.execute
-        recs = rec.getLocations(connect)
-        return recs
-    except DBError as db:
-        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
-    return recs    
-endcode
-} 
+//INPUT
+//    PageNo           INT
+//    Lines            INT
+//OUTPUT
+//    RowNo            INT
+//    LocationId       =
+//    CountryCode      =
+//    InstitutionType  =
+//    OfficeType       =
+//    NameAbbrev       =
+//    NameFull         =
+//    BranchName       =
+//    AddressLine1     =
+//    AddressLine2     =
+//    City             =
+//    StateAbbr        =
+//    StateFull        =
+//    PostalCode       =
+//    CountryName      =
+//    EmployerTaxId    =
+//    DateOfFinancial  =
+//    CurrentAssets    =
+//    HeadOfficeId     =
+//    InstitutionId    =
+//    CorrLocationType =
+//    CorrLocationId   =
+//    Status           =
+//    USId             =
+//    TmStamp          =
 
 struct DAccuityLocationSearchLocationBySwiftExact "accuityLocation.sh"
-
-void accuityLocationSearchLocationBySwiftExact(int status, char* swiftAddress, DAccuityLocationSearchLocationBySwiftExact *recs)
-{
-message: #
-openapi: get "accuityLocationSearchLocationBySwiftExact/status/{status}/swiftAddress/{swiftAddress}" Location
-input
-    status;
-    swiftAddress;
-output
-    recs
-code
-PYTHON:
-    try:
-        rec = DAccuityLocationSearchLocationBySwiftExact()
-        rec.pageNo = pageNo
-        rec.lines = lines
-        DAccuityLocationSearchLocationBySwiftExact.bySwiftExact = AccuityLocationSearchLocationBySwiftExact.execute
-        recs = rec.bySwiftExact(connect)
-        return recs
-    except DBError as db:
-        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
-    return recs    
-endcode
-}
+//INPUT
+//    Status           = 
+//    SwiftAddress     CHAR(11)
+//OUTPUT
+//    RowNo            INT
+//    LocationId       =
+//    SwiftAddress     CHAR(11)
+//    ClearingCode     CHAR(12)
+//    AuthKeysExchd    CHAR(1)
+//    CountryCode      =
+//    InstitutionType  =
+//    OfficeType       =
+//    NameAbbrev       =
+//    NameFull         =
+//    BranchName       =
+//    AddressLine1     =
+//    AddressLine2     =
+//    City             =
+//    StateAbbr        =
+//    StateFull        =
+//    PostalCode       =
+//    CountryName      =
+//    EmployerTaxId    =
+//    DateOfFinancial  =
+//    CurrentAssets    =
+//    HeadOfficeId     =
+//    InstitutionId    =
+//    CorrLocationType =
+//    CorrLocationId   =
+//    Status           =
+//    USId             =
+//    TmStamp          =
 
 struct DAccuityLocationSearchLocations "accuityLocation.sh"
-
-void accuityLocationSearchLocations(DAccuityLocationSearchLocations *rec, DAccuityLocationSearchLocations *recs)
-{
-message: #
-openapi: get "accuityLocationSearchLocations" Location
-input
-    rec;
-output
-    recs;    
-code
-PYTHON:
-    try:
-        DAccuityLocationSearchLocations.search = AccuityLocationSearchLocationBySwiftExact.execute
-        recs = rec.search(connect)
-        return recs
-    except DBError as db:
-        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
-    return recs    
-endcode
-}
+//INPUT
+//    PageNo           INT
+//    Lines            INT
+//    CountryCode      =
+//    CountryName      =
+//    City             =
+//    SwiftAddress     CHAR(11)
+//    SwiftOnly        BOOLEAN
+//    Status           = 
+//    NameFull         =  
+//OUTPUT
+//    RowNo            INT
+//    LocationId       =
+//    SwiftAddress     CHAR(11)
+//    ClearingCode     CHAR(12)
+//    AuthKeysExchd    CHAR(1)
+//    CountryCode      =
+//    InstitutionType  =
+//    OfficeType       =
+//    NameAbbrev       =
+//    NameFull         =
+//    BranchName       =
+//    AddressLine1     =
+//    AddressLine2     =
+//    City             =
+//    StateAbbr        =
+//    StateFull        =
+//    PostalCode       =
+//    CountryName      =
+//    EmployerTaxId    =
+//    DateOfFinancial  =
+//    CurrentAssets    =
+//    HeadOfficeId     =
+//    InstitutionId    =
+//    CorrLocationType =
+//    CorrLocationId   =
+//    Status           =
+//    USId             =
+//    TmStamp          =
 
 struct DAccuityLocationGetCorrespondentsBySwiftAddress "accuityLocation.sh"
 //INPUT
@@ -1206,7 +1234,6 @@ code
 PYTHON:
     try:
         rec = DAccuityOfficerExists()
-        rec.Id = Id
         DAccuityOfficer.exists = AccuityOfficer.execute
         rec.exists(connect)
             return rec.Count
@@ -1344,7 +1371,6 @@ code
 PYTHON:
     try:
         rec = DAccuityRoutingAttExists()
-        rec.Id = Id
         DAccuityRoutingAtt.exists = AccuityRoutingAtt.execute
         rec.exists(connect)
             return rec.Count
@@ -1482,7 +1508,6 @@ code
 PYTHON:
     try:
         rec = DAccuityRoutingCodeExists()
-        rec.Id = Id
         DAccuityRoutingCode.exists = AccuityRoutingCode.execute
         rec.exists(connect)
             return rec.Count

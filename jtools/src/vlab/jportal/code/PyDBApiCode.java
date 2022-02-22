@@ -528,39 +528,39 @@ public class PyDBApiCode extends Generator
       }
       int inouts = 0;
       boolean hasInputs = false;
+      writeln(1, "def execute(self, connect): # " + proc.lowerFirst());
       if (proc.outputs.size() > 0)
       {
-        writeln(1, "def _get_output(self, _result):");
+        writeln(2, "def _get_output(_result):");
         for (int j = 0; j < proc.outputs.size(); j++)
         {
           Field field = proc.outputs.elementAt(j);
-          writeln(2, "self." + field.useName() + " = _result[" + j + "]");
+          writeln(3, "self." + field.useName() + " = _result[" + j + "]");
           if (proc.hasInput(field.name) == true)
             inouts++;
         }
-        writeln(2, "return " + proc.outputs.size());
+        writeln(3, "return " + proc.outputs.size());
       }
       if (proc.outputs.size() > 0 && proc.inputs.size() + proc.dynamics.size() - inouts > 0)
       {
         hasInputs = true;
-        writeln(1, "def _copy_input(self, record):");
+        writeln(2, "def _copy_input(record):");
         for (int j = 0; j < proc.inputs.size(); j++)
         {
           Field field = proc.inputs.elementAt(j);
           if (proc.hasOutput(field.name) == true)
           {
-            writeln(2, "# " + field.name + " is an output");
+            writeln(3, "# " + field.name + " is an output");
             continue;
           }
-          writeln(2, "record." + field.name + " = self." + field.name);
+          writeln(3, "record." + field.name + " = self." + field.name);
         }
         for (int j = 0; j < proc.dynamics.size(); j++)
         {
           String name = proc.dynamics.elementAt(j);
-          writeln(2, "record." + name + " = self." + name);
+          writeln(3, "record." + name + " = self." + name);
         }
       }
-      writeln(1, "def execute(self, connect): # " + proc.lowerFirst());
       String command = "_command";
       generateCommand(proc, command, holder);
       writeln(2, "cursor = connect.cursor()");
@@ -587,6 +587,29 @@ public class PyDBApiCode extends Generator
           generatePythonMultiple(table, proc, current, hasInputs);
       else
         generatePythonAction(table, proc, hasInputs);
+      writeln();
+      writeln(format("class DB%1$s(%1$s):", current));
+      writeln(1, "def __init__(self, connect):");
+      writeln(2, "self.connect = connect");
+
+      if (proc.outputs.size() > 0)
+      {
+        if (proc.isSingle)
+        {
+          writeln(1, "def _data(self):");
+          writeln(2, "result = []");
+          writeln(2, "for field in self._fields():");
+          writeln(3, "result.append(getattr(self, field))");
+          writeln(2, "return result");
+        } else
+        {
+          writeln(1, "def _data(self, record):");
+          writeln(2, "result = []");
+          writeln(2, "for field in self._fields():");
+          writeln(3, "result.append(getattr(record, field))");
+          writeln(2, "return result");
+        }
+      }
       writeln();
     }
   }

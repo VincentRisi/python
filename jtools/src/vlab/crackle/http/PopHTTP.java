@@ -14,10 +14,11 @@ package vlab.crackle.http;
 
 import vlab.crackle.*;
 import vlab.crackle.Module;
+import static vlab.crackle.Writer.*;
 
 import java.io.PrintWriter;
 
-public class PopHTTP extends vlab.crackle.Generator
+public class PopHTTP extends Generator
 {
   static final String operations = "'POST'GET'PUT'DELETE'OPTIONS'HEAD'PATCH'TRACE'";
   public static PrintWriter errLog = new PrintWriter(System.out);

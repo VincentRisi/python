@@ -14,24 +14,24 @@ package vlab.crackle;
 
 import java.io.PrintWriter;
 
-public abstract class Writer
+public class Writer
 {
-  protected static PrintWriter writer;
-  protected static String indent_string = "                                                                                             ";
-  protected static int indent_size = 2;
-  protected static PrintWriter logger;
+  public static PrintWriter writer;
+  public static String indent_string = "                                                                                             ";
+  public static int indent_size = 2;
+  public static PrintWriter logger;
 
-  protected static String format(String fmt, Object... objects)
+  public static String format(String fmt, Object... objects)
   {
     return String.format(fmt, objects);
   }
 
-  protected static void write(String value)
+  public static void write(String value)
   {
     writer.print(value);
   }
 
-  protected static void write(int no, String value)
+  public static void write(int no, String value)
   {
     writer.print(indent(no) + value);
   }
@@ -41,12 +41,12 @@ public abstract class Writer
     writer.println(indent(no) + value);
   }
 
-  protected static void writeln(String value)
+  public static void writeln(String value)
   {
     writeln(0, value);
   }
 
-  protected static void writeln()
+  public static void writeln()
   {
     writer.println();
   }
@@ -60,9 +60,8 @@ public abstract class Writer
     return indent_string.substring(0, to);
   }
 
-  protected static void logln(String line)
+  public static void logln(String line)
   {
     logger.println(line);
   }
-
 }

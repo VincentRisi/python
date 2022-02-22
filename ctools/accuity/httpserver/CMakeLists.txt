@@ -40,8 +40,8 @@ else ()
 endif ()
 
 set (added_source
-  ${PUTTY3_SOURCE_DIR}/idl2/src/putty3shell.cpp
-  ${PUTTY3_SOURCE_DIR}/idl2/src/putty3shell.h
+  ${PUTTY3_SOURCE_DIR}/idl2/src/dbapishell.cpp
+  ${PUTTY3_SOURCE_DIR}/idl2/src/dbapishell.h
   )
 
 add_executable(accuity_httpserver ${source} ${added_source})

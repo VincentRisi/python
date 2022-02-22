@@ -70,7 +70,7 @@ endcode
 PROC GetClearingCode
 INPUT
   LocationId		=
-OUTPUT
+OUTPUT (single)
   ClearingCode		CHAR(20)	NULL
 SQLCODE
 SELECT ClearingCodes

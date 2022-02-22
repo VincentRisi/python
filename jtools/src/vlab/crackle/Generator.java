@@ -18,7 +18,7 @@ import java.io.PrintWriter;
 import java.util.Properties;
 import java.util.Vector;
 
-public abstract class Generator extends Writer
+public abstract class Generator
 {
   protected static Vector<Pragma> pragmaVector;
   private static Properties moduleProperties;
@@ -50,7 +50,7 @@ public abstract class Generator extends Writer
   {
     try
     {
-      String propertiesName = format("%s%s.properties", path, module.name);
+      String propertiesName = String.format("%s%s.properties", path, module.name);
       InputStream input = new FileInputStream(propertiesName);
       moduleProperties = new Properties();
       moduleProperties.load(input);

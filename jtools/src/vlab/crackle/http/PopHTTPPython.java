@@ -12,26 +12,16 @@
 
 package vlab.crackle.http;
 
-import vlab.crackle.*;
 import vlab.crackle.Module;
-import vlab.crackle.http.PopHTTP;
+import vlab.crackle.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.Reader;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Vector;
+
+import static vlab.crackle.Writer.*;
 
 public class PopHTTPPython extends Generator
 {

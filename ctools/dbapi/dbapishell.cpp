@@ -3,14 +3,14 @@ using namespace std;
 
 const char* initial =
 "import sys, datetime, os, os.path\n"
-"import INTRINSICS\n"
-"from %s_IMPL import *\n"
-"from HTTPSERVER_UTIL import *\n"
-"config_file = r'%s'\n"
-"rc, config = do_logons(config_file)\n"
-"INTRINSICS.config = config\n"
-"for path in sys.path:\n"
-"  INTRINSICS.log_info (f'path: {path}')\n"
+"# import INTRINSICS\n"
+"# from %s_IMPL import *\n"
+"# from HTTPSERVER_UTIL import *\n"
+"# config_file = r'%s'\n"
+"# rc, config = do_logons(config_file)\n"
+"# INTRINSICS.config = config\n"
+"#for path in sys.path:\n"
+"#  INTRINSICS.log_info (f'path: {path}')\n"
 ;
 
 char* DBApiShell::modulePrefix;
@@ -127,7 +127,7 @@ struct AutoModulePython
     }
 };
 
-void putty3Runner(string methodStr, string inputStr, string &outputStr)
+void runner(string methodStr, string inputStr, string &outputStr)
 {
     const char* method = methodStr.c_str();
     const char* input  = inputStr.c_str();

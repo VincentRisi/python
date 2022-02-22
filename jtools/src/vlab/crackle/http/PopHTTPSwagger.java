@@ -15,6 +15,7 @@ package vlab.crackle.http;
 import vlab.crackle.*;
 import vlab.crackle.Module;
 import vlab.crackle.http.PopHTTP;
+import static vlab.crackle.Writer.*;
 
 import java.io.BufferedReader;
 import java.io.File;

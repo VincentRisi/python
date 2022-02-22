@@ -14,6 +14,7 @@ package vlab.crackle.http;
 
 import vlab.crackle.*;
 import vlab.crackle.Module;
+import static vlab.crackle.Writer.*;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

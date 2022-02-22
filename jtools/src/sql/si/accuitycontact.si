@@ -6,7 +6,7 @@ SCHEMA   DBUD00
 USERID   dbu
 PASSWORD dbudev
 
-TABLE accuityContact
+TABLE AccuityContact
   Id               Int
   LocationId       int
   Department       Char(5)		NULL
@@ -16,7 +16,7 @@ TABLE accuityContact
   USId             Char(16)
   TmStamp          timestamp
 
-KEY accuityContactKey PRIMARY
+KEY AccuityContactKey PRIMARY
   Id
 
 KEY KEY01
@@ -76,7 +76,7 @@ input
   Status =
   USId   =
 sqlcode
-  update accuityContact set Status = :Status, USId = :USId, TmStamp = SYSDATE where Id = :Id
+  update AccuityContact set Status = :Status, USId = :USId, TmStamp = SYSDATE where Id = :Id
 endcode
 
 
