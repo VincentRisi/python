@@ -11,7 +11,6 @@ PYTHON_FRONT = '''\
 import gends_util as xsd_check
 from datetime import date, datetime, time
 byte = short = int
-ASIS, ATTRIB, PSEUDO = range(3)
 '''.splitlines()
 
 def runtime_parms():
@@ -54,8 +53,7 @@ def runtime_parms():
     if args.python_front != None:
         global PYTHON_FRONT
         with open(args.python_front, 'rt') as infile:
-            lines = infile.read()
-            PYTHON_FRONT = lines.splitlines()
+            PYTHON_FRONT = infile.readlines()
 
 class LogEnum:
     DEBUG = 'DEBUG'
@@ -183,6 +181,17 @@ def name_of(tag):
     if ':' in tag:
         return tag.split(':')[-1]
     return tag
+
+def list_of(text):
+    lines = text.splitlines()
+    result = []
+    for i, line in enumerate(lines):
+        line = line.strip()
+        if i == 0 or i == len(lines)-1:
+            if len(line) == 0:
+                continue
+        result.append(line)
+    return result
 
 class Element: 
     def __init__(self):
@@ -366,15 +375,12 @@ class Schema:
             self.content = 'complex'
             self.complex.complexContent = True
             self.element.complexContent = True
-        elif tag_type == 'annotation':        
-            if self.element != None and self.element.has('annotation') == False:
-                self.element.annotation = []
         elif tag_type == 'documentation':
-            if self.element != None and self.element.has('annotation') == True:
-                self.element.annotation.append(entry.text)
+            if self.element != None and self.element.has('documentation') == False:
+                self.element.documentation = list_of(entry.text) #entry.text.splitlines()
         elif tag_type == 'appinfo':
             if self.element != None and self.element.has('appinfo') == False:
-                self.element.appinfo = entry.text.splitlines()
+                self.element.appinfo = list_of(entry.text) #entry.text.splitlines()
         elif tag_type == 'sequence':
             self.element.sequence = level
         elif tag_type == 'all':
@@ -552,8 +558,6 @@ class Schema:
             outline(']')
             outline(f'valid = value in elist', 1+ind)
             done = True
-        if done == False:
-          outline('valid = False', 1) 
         outline(f'return valid', 1)
         newline()
     
@@ -646,7 +650,7 @@ class Schema:
             field.isComplex = True
             complex.name = name_of(complex.attrib['name'])
             if field.has_many:
-                field.type = f'[{complex.name}]'
+                field.type = f'[{complex.name}] ## {complex.name}'
                 field.set_to = '[]'
             else:
                 field.type = f'{complex.name}'
@@ -656,7 +660,7 @@ class Schema:
             complexType = element.complexType
             field.isComplex = True
             if field.has_many:
-                field.type = f'[{field.name}]'
+                field.type = f'[{field.name}] ## {base_name}.{field.name}'
                 field.set_to = '[]'
             else:
                 field.type = f'{field.name}'
@@ -710,10 +714,8 @@ class Schema:
         if type == None:
             return
         if '[' in type:
-            p = type.find('[')
-            x = type[p+1:]
-            p = x.find(']')
-            type = x[:p]
+            x = type.replace('[','').replace(']',"").replace('#','').split()
+            type = x[0]
         if not type in xs_std_types:
             if not type in self.classes_depends[self.classes_key]:
                 self.classes_depends[self.classes_key].append(type)
@@ -748,9 +750,9 @@ class Schema:
                 attribs.append(attrib)
         for attrib in attribs:
             name, type = attrib.name, attrib.use_as
-            self.classline(f"{name}: ({type}, ATTRIB))", ind+1)
+            self.classline(f"{name}: ({type}, 'attrib')", ind+1)
             self.add_class_depends(type)
-        self.classline(f"value: ({value_type}, PSEUDO)", ind+1)
+        self.classline(f"value: ({value_type}, 'pseudo')", ind+1)
         self.add_class_depends(value_type)
         self.classline(f'def __init__(self):', ind+1)
         for attrib in attribs:
@@ -801,7 +803,7 @@ class Schema:
                 for attribute in main.attrib_fields:
                     attribs.append(attribute)
             for attribute in attribs:
-                self.classline(f"{attribute.name}: ({attribute.use_as}, ATTRIB)", ind+1)
+                self.classline(f"{attribute.name}: ({attribute.use_as}, 'attrib')", ind+1)
             for no, name in elements:
                 element = self.elements[no]
                 base_name = element.basename
@@ -812,7 +814,9 @@ class Schema:
                 self.classline(f'{field.name}: {field.type}', ind+1)
                 self.add_class_depends(field.type)
             if main.has('appinfo'):
-                self.classline(f"__appinfo__ = '''{main.appinfo}'''",ind+1)
+                self.classline(f"_appinfo_ = {main.appinfo}",ind+1)
+            if main.has('documentation'):
+                self.classline(f"_documentation_ = {main.documentation}",ind+1)
             self.classline(f'def __init__(self):', ind+1)
             for attrib in attribs:
                 name, set_to, optional = attrib.name, attrib.set_to, attrib.optional

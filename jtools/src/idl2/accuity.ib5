@@ -1,0 +1,1494 @@
+struct DBananaRama
+{
+   int count;
+   double whipped;
+}
+
+code
+PYTHON:
+from DB_AUDITS import DBAudits
+
+actions = ['ADD', 'CHANGE', 'DELETE']
+ADD, CHANGE, DELETE = 0, 1, 2
+
+def amp_fix(value, asis=False):
+    ''' 
+      asis=True - leaves previous escapes 
+    '''
+    escapes = [('&', '&amp;'), ('<','&lt;'), ('>', '&gt;'), ('"','&quot;'), ("'",'&apos;')]
+    if asis == False:
+        for pair in escapes:
+            value = value.replace(pair[1], pair[0])
+    for pair in escapes:
+        value = value.replace(pair[0], pair[1])
+    return value
+
+def make_xml(name, action, fields, values):
+    usid = ''
+    xml = '<%s action="%s">\r\n' % (name, actions[action])
+    for i, field in enumerate(fields):
+        value = str(values[i]) if len(values) == len(fields) else ''
+        xml += '  <%s value="%s"/>\r\n' % (field, amp_fix(value))
+        if field.lower() == 'usid':
+            usid = value
+    xml += '</%s>' % (name)
+    return usid, xml
+
+def write_audit(name, action, fields, old, new):
+    if actions[action] != 'ADD':
+        usid, xmlOld = make_xml(name, action, fields, old)
+    else:
+        xmlOld = ' '
+    if actions[action] != 'DELETE':
+        usid, xmlNew = make_xml(name, action, fields, new)
+    else:
+        xmlNew = ' '
+    audit = DBAudits(connect)
+    tmStamp = '20190101000000'
+    audit.runInsert(0, name, actions[action], xmlOld, xmlNew, usid, tmStamp)
+endcode
+
+int ping(int given, int add)
+{
+message: #
+openapi: get "ping/given/{given}/add/{add}" Utility
+input 
+    given;
+    add;
+code
+PYTHON: 
+    return given + add
+endcode
+}
+
+int pang(int given, int add, string gotten)
+{
+message: #
+openapi: get "pang/given/{given}/add/{add}/and/{gotten}" Utility
+input 
+    given;
+    add;
+    gotten;
+code
+PYTHON:
+    log_info(gotten)
+    return given + add;
+endcode
+}
+
+void banana(tBananaRama *splits)
+{
+message: #
+openapi: options banana Utility
+input
+    splits;
+code
+PYTHON:
+    return
+endcode
+}
+
+void bananaFor(int opt, tBananaRama *splits)
+{
+message: #
+openapi: options "banana/opt/{opt}" Utility
+input
+    opt;
+output
+    splits;
+code
+PYTHON:
+    return
+endcode
+}
+
+struct DAccuityContact "accuitycontact.sh"
+
+void accuityContactInsert(DAccuityContact *newRec)
+{
+message: #
+openapi: post accuityContact Contact
+input
+    newRec;
+output
+    newRec;
+code
+PYTHON:
+    try:
+        write_audit('AccuityContact', ADD, newRec._fields(), None, newRec._data())
+        DAccuityContact.insert = AccuityContactInsert.execute
+        newRec.insert(connect)
+        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+        connect.rollback()
+    return newRec
+endcode
+}
+
+void accuityContactUpdate(DAccuityContact *newRec)
+{
+message: #
+openapi: put accuityContact Contact
+input
+    newRec;
+output
+    newRec;
+code
+PYTHON:
+    try:
+        oldRec = DAccuityContact()
+        oldRec.Id = newRec.Id
+        DAccuityContact.selectOne   = AccuityContactSelectOne.execute
+        oldRec.selectOne(connect)
+        write_audit('AccuityContact', CHANGE, newRec._fields(), oldRec._data(), newRec._data())
+        DAccuityContact.update = AccuityContactUpdate.execute
+        newRec.update(connect)        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+        connect.rollback()
+    return newRec
+endcode
+}
+
+struct DAccuityContactUpdateAllStatus "accuitycontact.sh"
+
+void accuityContactUpdateAllStatus(int status, char* usId)
+{
+message: #
+openapi: patch accuityContact Contact
+input
+  status;
+  usId;
+code
+PYTHON:
+    try:
+        rec = DAccuityContactUpdateAllStatus()
+        rec.Status = status
+        rec.USId = usId
+        DAccuityContactUpdateAllStatus.update = AccuityContactUpdateAllStatus.execute
+        rec.update(connect)
+        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+endcode
+}
+
+void accuityContactSelectOne(int Id, DAccuityContact *rec)
+{
+message: #
+openapi: get "accuityContact/Id/{Id}" Contact
+input
+    Id;
+output
+    rec;
+code
+PYTHON:
+    try:
+        rec = DAccuityContact()
+        rec.Id = Id
+        DAccuityContact.selectOne = AccuityContactSelectOne.execute
+        rec.selectOne(connect)
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+    return rec
+endcode
+}
+
+struct DAccuityContactDeleteOne "accuitycontact.sh"
+
+void accuityContactDeleteOne(int Id)
+{
+message: #
+openapi: delete "accuityContact/Id/{Id}" Contact
+input
+    Id;
+code
+PYTHON:
+    try:
+        rec = DAccuityContactDeleteOne()
+        rec.Id = Id
+        DAccuityContactDeleteOne.deleteOne = AccuityContactDeleteOne.execute
+        rec.deleteOne(connect)
+        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+endcode
+}
+
+struct DAccuityContactExists "accuitycontact.sh"
+
+int accuityContactExists(int Id)
+{
+message: #
+openapi: get "accuityContactExists/Id/{Id}" Contact
+input
+    Id;
+code
+PYTHON:
+    try:
+        rec = DAccuityContactExists()
+        rec.Id = Id
+        DAccuityContact.exists = AccuityContact.execute
+        rec.exists(connect)
+            return rec.Count
+        else:
+            return 0
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+endcode
+}
+
+//------------------------------------------------------------------------------
+
+struct DAccuityCorrespondent "accuitycorrespondent.sh"
+
+void accuityCorrespondentInsert(DAccuityCorrespondent *newRec)
+{
+message: #
+openapi: post accuityCorrespondent Correspondent
+input
+    newRec;
+output
+    newRec;
+code
+PYTHON:
+    try:
+        write_audit('AccuityCorrespondent', ADD, newRec._fields(), None, newRec._data())
+        DAccuityCorrespondent.insert = AccuityCorrespondentInsert.execute
+        newRec.insert(connect)
+        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+        connect.rollback()
+    return newRec
+endcode
+}
+
+void accuityCorrespondentUpdate(DAccuityCorrespondent *newRec)
+{
+message: #
+openapi: put accuityCorrespondent Correspondent
+input
+    newRec;
+output
+    newRec;
+code
+PYTHON:
+    try:
+        oldRec = DAccuityCorrespondent()
+        oldRec.Id = newRec.Id
+        DAccuityCorrespondent.selectOne   = AccuityCorrespondentSelectOne.execute
+        oldRec.selectOne(connect)
+        write_audit('AccuityCorrespondent', CHANGE, newRec._fields(), oldRec._data(), newRec._data())
+        DAccuityCorrespondent.update = AccuityCorrespondentUpdate.execute
+        newRec.update(connect)        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+        connect.rollback()
+    return newRec
+endcode
+}
+
+struct DAccuityCorrespondentUpdateAllStatus "accuitycorrespondent.sh"
+
+void accuityCorrespondentUpdateAllStatus(int status, char* usId)
+{
+message: #
+openapi: patch accuityCorrespondent Correspondent
+input
+  status;
+  usId;
+code
+PYTHON:
+    try:
+        rec = DAccuityCorrespondentUpdateAllStatus()
+        rec.Status = status
+        rec.USId = usId
+        DAccuityCorrespondentUpdateAllStatus.update = AccuityCorrespondentUpdateAllStatus.execute
+        rec.update(connect)
+        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+endcode
+}
+
+void accuityCorrespondentSelectOne(int Id, DAccuityCorrespondent *rec)
+{
+message: #
+openapi: get "accuityCorrespondent/Id/{Id}" Correspondent
+input
+    Id;
+output
+    rec;
+code
+PYTHON:
+    try:
+        rec = DAccuityCorrespondent()
+        rec.Id = Id
+        DAccuityCorrespondent.selectOne = AccuityCorrespondentSelectOne.execute
+        rec.selectOne(connect)    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+    return rec
+endcode
+}
+
+struct DAccuityCorrespondentDeleteOne "accuitycorrespondent.sh"
+
+void accuityCorrespondentDeleteOne(int Id)
+{
+message: #
+openapi: delete "accuityCorrespondent/Id/{Id}" Correspondent
+input
+    Id;
+code
+PYTHON:
+    try:
+        rec = DAccuityCorrespondentDeleteOne()
+        rec.Id = Id
+        DAccuityCorrespondentDeleteOne.deleteOne = AccuityCorrespondentDeleteOne.execute
+        rec.deleteOne(connect)
+        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+endcode
+}
+
+struct DAccuityCorrespondentExists "accuitycorrespondent.sh"
+int accuityCorrespondentExists(int Id)
+{
+message: #
+openapi: get "accuityCorrespondentExists/Id/{Id}" Correspondent
+input
+    Id;
+code
+PYTHON:
+    try:
+        rec = DAccuityCorrespondentExists()
+        rec.Id = Id
+        DAccuityCorrespondent.exists = AccuityCorrespondent.execute
+        rec.exists(connect)
+            return rec.Count
+        else:
+            return 0
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+endcode
+}
+
+struct DAccuityCorrespondentGetCorrespondentsBySwift                   "accuitycorrespondent.sh"
+// _get_output _copy_input execute :SwiftAddress :Currency
+struct DAccuityCorrespondentGetCorrespondentsFullBySwift               "accuitycorrespondent.sh"
+// _get_output _copy_input execute :SwiftAddress :Currency
+struct DAccuityCorrespondentGetCorrespondentsBySwiftIncludingBanks     "accuitycorrespondent.sh"
+// _get_output execute :SwiftAddress :Currency (nullable)
+struct DAccuityCorrespondentGetCorrespondentsBySwiftRanked             "accuitycorrespondent.sh"
+// _get_output execute :SwiftAddress :Currency
+struct DAccuityCorrespondentGetCorrespondentsByLocation                "accuitycorrespondent.sh"
+// _get_output _copy_input execute :LocastionId :Currency
+struct DAccuityCorrespondentGetCorrespondentsFullByLocation            "accuitycorrespondent.sh"
+// _get_output _copy_input execute :LocastionId :Currency
+struct DAccuityCorrespondentGetCorrespondentInformation                "accuitycorrespondent.sh"
+// _get_output _copy_input execute :Currency :Status
+struct DAccuityCorrespondentUpdateCorrespondentStatusById              "accuitycorrespondent.sh"
+// update execute :Status :USId :Id
+struct DAccuityCorrespondentGetCorrespondentsWithHolderClearingBySwift "accuitycorrespondent.sh"
+// _get_output _copy_input execute :SwiftAddress :Currency
+struct DAccuityCorrespondentGetNedbankCorrespondents                   "accuitycorrespondent.sh"
+// _get_output _copy_input execute :Currency
+
+//------------------------------------------------------------------------------
+
+struct DAccuityCorrespondentSub "accuitycorrespondentsub.sh"
+
+void accuityCorrespondentSubInsert(DAccuityCorrespondentSub *newRec)
+{
+message: #
+openapi: post accuityCorrespondentSub CorrespondentSub
+input
+    newRec;
+output
+    newRec;
+code
+PYTHON:
+    try:
+        write_audit('AccuityCorrespondentSub', ADD, newRec._fields(), None, newRec._data())
+        DAccuityCorrespondentSub.insert = AccuityCorrespondentSubInsert.execute
+        newRec.insert(connect)
+        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+        connect.rollback()
+    return newRec
+endcode
+}
+
+void accuityCorrespondentSubUpdate(DAccuityCorrespondentSub *newRec)
+{
+message: #
+openapi: put accuityCorrespondentSub CorrespondentSub
+input
+    newRec;
+output
+    newRec;
+code
+PYTHON:
+    try:
+        oldRec = DAccuityCorrespondentSub()
+        oldRec.Id = newRec.Id
+        DAccuityCorrespondentSub.selectOne   = AccuityCorrespondentSubSelectOne.execute
+        oldRec.selectOne(connect)
+        write_audit('AccuityCorrespondentSub', CHANGE, newRec._fields(), oldRec._data(), newRec._data())
+        DAccuityCorrespondentSub.update = AccuityCorrespondentSubUpdate.execute
+        newRec.update(connect)        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+        connect.rollback()
+    return newRec
+endcode
+}
+
+struct DAccuityCorrespondentSubUpdateAllStatus "accuitycorrespondentsub.sh"
+
+void accuityCorrespondentSubUpdateAllStatus(int status, char* usId)
+{
+message: #
+openapi: patch accuityCorrespondentSub CorrespondentSub
+input
+  status;
+  usId;
+code
+PYTHON:
+    try:
+        rec = DAccuityCorrespondentSubUpdateAllStatus()
+        rec.Status = status
+        rec.USId = usId
+        DAccuityCorrespondentSubUpdateAllStatus.update = AccuityCorrespondentSubUpdateAllStatus.execute
+        rec.update(connect)
+        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+endcode
+}
+
+void accuityCorrespondentSubSelectOne(int Id, DAccuityCorrespondentSub *rec)
+{
+message: #
+openapi: get "accuityCorrespondentSub/Id/{Id}" CorrespondentSub
+input
+    Id;
+output
+    rec;
+code
+PYTHON:
+    try:
+        rec = DAccuityCorrespondentSub()
+        rec.Id = Id
+        DAccuityCorrespondentSub.selectOne = AccuityCorrespondentSubSelectOne.execute
+        rec.selectOne(connect)    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+    return rec
+endcode
+}
+
+struct DAccuityCorrespondentSubDeleteOne "accuitycorrespondentsub.sh"
+
+void accuityCorrespondentSubDeleteOne(int Id)
+{
+message: #
+openapi: delete "accuityCorrespondentSub/Id/{Id}" CorrespondentSub
+input
+    Id;
+code
+PYTHON:
+    try:
+        rec = DAccuityCorrespondentSubDeleteOne()
+        rec.Id = Id
+        DAccuityCorrespondentSubDeleteOne.deleteOne = AccuityCorrespondentSubDeleteOne.execute
+        rec.deleteOne(connect)
+        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+endcode
+}
+
+struct DAccuityCorrespondentSubExists "accuitycorrespondentsub.sh"
+int accuityCorrespondentSubExists(int Id)
+{
+message: #
+openapi: get "accuityCorrespondentSubExists/Id/{Id}" CorrespondentSub
+input
+    Id;
+code
+PYTHON:
+    try:
+        rec = DAccuityCorrespondentSubExists()
+        rec.Id = Id
+        DAccuityCorrespondentSub.exists = AccuityCorrespondentSub.execute
+        rec.exists(connect)
+            return rec.Count
+        else:
+            return 0
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+endcode
+}
+
+//------------------------------------------------------------------------------
+
+struct DAccuityLocation "accuitylocation.sh"
+
+void accuityLocationInsert(DAccuityLocation *newRec)
+{
+message: #
+openapi: post accuityLocation Location
+input
+    newRec;
+output
+    newRec;
+code
+PYTHON:
+    try:
+        write_audit('AccuityLocation', ADD, newRec._fields(), None, newRec._data())
+        DAccuityLocation.insert = AccuityLocationInsert.execute
+        newRec.insert(connect)
+        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+        connect.rollback()
+    return newRec
+endcode
+}
+
+void accuityLocationUpdate(DAccuityLocation *newRec)
+{
+message: #
+openapi: put accuityLocation Location
+input
+    newRec;
+output
+    newRec;
+code
+PYTHON:
+    try:
+        oldRec = DAccuityLocation()
+        oldRec.LocationId = newRec.LocationId
+        DAccuityLocation.selectOne   = AccuityLocationSelectOne.execute
+        oldRec.selectOne(connect)
+        write_audit('AccuityLocation', CHANGE, newRec._fields(), oldRec._data(), newRec._data())
+        DAccuityLocation.update = AccuityLocationUpdate.execute
+        newRec.update(connect)        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+        connect.rollback()
+    return newRec
+endcode
+}
+
+struct DAccuityLocationUpdateAllStatus "accuitylocation.sh"
+void accuityLocationUpdateAllStatus(int status, char* usId)
+{
+message: #
+openapi: patch accuityLocation Location
+input
+  status;
+  usId;
+code
+PYTHON:
+    try:
+        rec = DAccuityLocationUpdateAllStatus()
+        rec.Status = status
+        rec.USId = usId
+        DAccuityLocationUpdateAllStatus.update = AccuityLocationUpdateAllStatus.execute
+        rec.update(connect)
+        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+endcode
+}
+
+void accuityLocationSelectOne(int Id, DAccuityLocation *rec)
+{
+message: #
+openapi: get "accuityLocation/Id/{Id}" Location
+input
+    Id;
+output
+    rec;
+code
+PYTHON:
+    try:
+        rec = DAccuityLocation()
+        log_debug(f'LocationSelectOne Id:{Id}')
+        rec.LocationId = Id
+        DAccuityLocation.selectOne = AccuityLocationSelectOne.execute
+        rec.selectOne(connect)    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+    return rec
+endcode
+}
+
+struct DAccuityLocationDeleteOne "accuitylocation.sh"
+
+void accuityLocationDeleteOne(int Id)
+{
+message: #
+openapi: delete "accuityLocation/Id/{Id}" Location
+input
+    Id;
+code
+PYTHON:
+    try:
+        rec = DAccuityLocationDeleteOne()
+        log_debug(f'LocationDeleteOne Id:{Id}')
+        rec.LocationId = Id
+        DAccuityLocationDeleteOne.deleteOne = AccuityLocationDeleteOne.execute
+        rec.deleteOne(connect)
+        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+endcode
+}
+
+struct DAccuityLocationExists "accuitylocation.sh"
+
+int accuityLocationExists(int LocationId)
+{
+message: #
+openapi: get "accuityLocationExists/LocationId/{LocationId}" Location
+input
+    LocationId;
+code
+PYTHON:
+    try:
+        rec = DAccuityLocationExists()
+        rec.LocationId = LocationId
+        log_debug(f'LocationExists LocationId:{LocationId}')
+        DAccuityLocation.exists = AccuityLocation.execute
+        rec.exists(connect)
+            return rec.Count
+        else:
+            return 0
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+endcode
+}
+
+struct DAccuityLocationGetClearingCode "accuityLocation.sh"
+
+void accuityLocationGetClearingCode(int LocationId, DAccuityLocationGetClearingCode rec)
+{
+message: #
+openapi: get "accuityLocationGetClearingCode/LocationId/{LocationId}" Location
+input
+    LocationId;
+output
+    rec    
+code
+PYTHON:
+    try:
+        rec = DAccuityLocationGetClearingCode()
+        rec.LocationId = LocationId
+        DAccuityLocationGetClearingCode.getClearingCode = AccuityLocationGetClearingCode.execute
+        rec.getClearingCode(connect)
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+    return rec    
+endcode
+} 
+
+struct DAccuityLocationGetLocations "accuityLocation.sh"
+
+void accuityLocationGetClearingCode(int pageNo, int lines, DAccuityLocationGetLocations *recs)
+{
+message: #
+openapi: get "accuityLocationGetLocations/pageNo/{pageNo}/lines/{lines}" Location
+input
+    pageNo;
+    lines;
+output
+    recs;    
+code
+PYTHON:
+    try:
+        rec = DAccuityLocationGetLocations()
+        rec.pageNo = pageNo
+        rec.lines = lines
+        DAccuityLocationGetLOcations.getLocations = AccuityLocationGetLocations.execute
+        recs = rec.getLocations(connect)
+        return recs
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+    return recs    
+endcode
+} 
+
+struct DAccuityLocationSearchLocationBySwiftExact "accuityLocation.sh"
+
+void accuityLocationSearchLocationBySwiftExact(int status, char* swiftAddress, DAccuityLocationSearchLocationBySwiftExact *recs)
+{
+message: #
+openapi: get "accuityLocationSearchLocationBySwiftExact/status/{status}/swiftAddress/{swiftAddress}" Location
+input
+    status;
+    swiftAddress;
+output
+    recs
+code
+PYTHON:
+    try:
+        rec = DAccuityLocationSearchLocationBySwiftExact()
+        rec.pageNo = pageNo
+        rec.lines = lines
+        DAccuityLocationSearchLocationBySwiftExact.bySwiftExact = AccuityLocationSearchLocationBySwiftExact.execute
+        recs = rec.bySwiftExact(connect)
+        return recs
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+    return recs    
+endcode
+}
+
+struct DAccuityLocationSearchLocations "accuityLocation.sh"
+
+void accuityLocationSearchLocations(DAccuityLocationSearchLocations *rec, DAccuityLocationSearchLocations *recs)
+{
+message: #
+openapi: get "accuityLocationSearchLocations" Location
+input
+    rec;
+output
+    recs;    
+code
+PYTHON:
+    try:
+        DAccuityLocationSearchLocations.search = AccuityLocationSearchLocationBySwiftExact.execute
+        recs = rec.search(connect)
+        return recs
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+    return recs    
+endcode
+}
+
+struct DAccuityLocationGetCorrespondentsBySwiftAddress "accuityLocation.sh"
+//INPUT
+//    SwiftAddress    CHAR(12)
+//    CurrencyCode    CHAR(3)
+//    WithSwiftSOnly  INT
+//OUTPUT
+//    Id              INT
+//    BICAddress      CHAR(12)
+//    BankName        CHAR(105)
+//    BankTown        CHAR(35)
+//    BranchName      CHAR(70)  NULL
+//    BranchId        INT
+//    BankType        CHAR(52)
+//    ClearingCode    CHAR(12)  NULL
+//    AuthKeysExchd   CHAR(2)
+//    Status          byte (Active=0 Inactive=1 MarkForDelete=2 ConfirmDelete=3)
+//    PhysicalAddr1   CHAR(50)
+//    PhysicalAddr2   CHAR(50)
+//    PhysicalAddr3   CHAR(50)
+//    PhysicalAddr4   CHAR(50)
+//    PhysicalAddr5   CHAR(50)
+//    PhysicalCountry CHAR(50)
+
+struct DAccuityLocationGetCorrespondentsBySwiftAddress2 "accuityLocation.sh"
+//INPUT
+//    SwiftAddress    CHAR(12)
+//    CurrencyCode    CHAR(3)
+//    CountryName     CHAR(70)
+//    SwiftOnly       INT
+//OUTPUT
+//    BICAddress      CHAR(12)
+//    BankName        CHAR(105)
+//    BankTown        CHAR(35)
+//    BankType        CHAR(52)
+//    PhysicalCountry CHAR(70)  NULL
+//    BranchName      CHAR(50)  NULL
+//    AuthKeysExchd   CHAR(2)
+
+struct DAccuityLocationGetCorrespondentsByLocationId "accuityLocation.sh"
+//INPUT
+//    LocationId     INT
+//    CurrencyCode   CHAR(3)
+//    WithSwiftsONLY INT
+//OUTPUT
+//    LocationId       =
+//    SwiftAddress     CHAR(11)
+//    BankName         CHAR(105)
+//    BankTown         CHAR(35)
+//    BankType         CHAR(52)
+//    BranchName       CHAR(70)  NULL
+//    ClearingSwift    CHAR(11)  NULL
+//    AuthKeysExchd    CHAR(1)
+//    Status           byte(Active=0 Inactive=1 MarkForDelete=2 ConfirmDelete=3)
+//    Address          CHAR(200)
+//    CountryName      =
+//    AccountNo        CHAR(64)
+
+struct DAccuityLocationGetCorrespondentsByLocationId2 "accuityLocation.sh"
+//INPUT
+//    LocationId     INT
+//    CurrencyCode   CHAR(3)
+//    WithSwiftsONLY INT
+//OUTPUT
+//    BICAddress       CHAR(11)
+//    BankName         CHAR(105)
+//    BankTown         CHAR(35)
+//    BankType         CHAR(52)
+//    PhysicalCountry  CHAR(40)  NULL
+//    BranchName       CHAR(70)  NULL
+//    AuthKeysExchd    CHAR(1)
+
+struct DAccuityLocationSearchBankDetails "accuityLocation.sh"
+//INPUT
+//    LocationId      INT
+//    CurrencyCode    CHAR(3)
+//    SwiftAddress    CHAR(12)
+//    BankName        CHAR(50)
+//    BANKTOWN        CHAR(50)
+//    COUNTRYNAME     CHAR(50)
+//OUTPUT
+//    LocationId                    =
+//    CountryCode                   =
+//    InstitutionType               =
+//    OfficeType                    =
+//    NameAbbrev                    =
+//    NameFull                      =
+//    BranchName                    =
+//    AddressLine1                  =
+//    AddressLine2                  =
+//    City                          =
+//    StateAbbr                     =
+//    StateFull                     =
+//    PostalCode                    =
+//    CountryName                   =
+//    EmployerTaxId                 =
+//    DateOfFinancial               =
+//    CurrentAssets                 =
+//    HeadOfficeId                  =
+//    InstitutionId                 =
+//    CorrLocationType              =
+//    CorrLocationId                =
+//    Status                        =
+//    Id                            INT
+//    ClearingSystem                CHAR(20)  NULL
+//    CurrencyCode                  CHAR(3)   NULL
+//    OwnerSwift                    CHAR(11)  NULL
+//    OwnerSwiftWOPadding           CHAR(11)  NULL
+//    OwnerSSIAccountNo             CHAR(75)  NULL
+//    ClearingAccuityId             CHAR(8)   NULL
+//    ClearingSwift                 CHAR(11)  NULL
+//    ClearingSwiftWOPadding        CHAR(11)  NULL
+//    HolderAccuityId               CHAR(8)   NULL
+//    HolderSwift                   CHAR(11)  NULL
+//    HolderSwiftWOPadding          CHAR(11)  NULL
+//    HolderSSIAccountNo            CHAR(75)  NULL
+//    PreferredSSIInd               CHAR(1)   NULL
+//    FurtherAccuityId              CHAR(8)   NULL
+//    FurtherSwift                  CHAR(11)  NULL
+//    FurtherSwiftWOPadding         CHAR(11)  NULL
+//    Further2AccuityId             CHAR(8)   NULL
+//    Further2Swift                 CHAR(11)  NULL
+//    Further2SwiftWOPadding        CHAR(11)  NULL
+//    CorrespondentEffectiveDate    CHAR(10)  NULL
+//    CorrespondentDeactivationDate CHAR(10)  NULL
+//    CorrespondentUpdateDate       CHAR(10)  NULL
+//    SSINotes                      CHAR(600) NULL     
+//    xStatus                       byte   (Active=0 Inactive=1 MarkForDelete=2 ConfirmDelete=3)
+
+struct DAccuityLocationSearchBankDetails2 "accuityLocation.sh"
+//INPUT
+//    SwiftAddress        CHAR(12)
+//    BankName            CHAR(50)
+//    BankTown            CHAR(50)
+//    Country             CHAR(50)
+//    BranchId            INT
+//    LocationId          INT
+//    Status              INT
+//OUTPUT
+//    Id                  INT
+//    BranchName          CHAR(30)
+//    BankName            CHAR(100)
+//    BankTown            CHAR(100)
+//    PhysicalAddr1       CHAR(100)
+//    PhysicalAddr2       CHAR(100)
+//    PhysicalAddr3       CHAR(100)
+//    PhysicalAddr4       CHAR(100)
+//    PhysicalAddr5       CHAR(100)
+//    PhysicalCountry     CHAR(100)
+//    BICAddress          CHAR(12)
+//    ClearingCode        CHAR(20) 
+
+struct DAccuityLocationSearchBankDetailsPartial "accuityLocation.sh"
+//INPUT
+//    BankName        CHAR(50)
+//    BankTown        CHAR(50)
+//OUTPUT
+//    LocationId                    =
+//    CountryCode                   =
+//    InstitutionType               =
+//    OfficeType                    =
+//    NameAbbrev                    =
+//    NameFull                      =
+//    BranchName                    =
+//    AddressLine1                  =
+//    AddressLine2                  =
+//    City                          =
+//    StateAbbr                     =
+//    StateFull                     =
+//    PostalCode                    =
+//    CountryName                   =
+//    EmployerTaxId                 =
+//    DateOfFinancial               =
+//    CurrentAssets                 =
+//    HeadOfficeId                  =
+//    InstitutionId                 =
+//    CorrLocationType              =
+//    CorrLocationId                =
+//    Status                        =
+//    Id                            INT
+//    ClearingSystem                CHAR(20)  NULL
+//    CurrencyCode                  CHAR(3)   NULL
+//    OwnerSwift                    CHAR(11)  NULL
+//    OwnerSwiftWOPadding           CHAR(11)  NULL
+//    OwnerSSIAccountNo             CHAR(75)  NULL
+//    ClearingAccuityId             CHAR(8)   NULL
+//    ClearingSwift                 CHAR(11)  NULL
+//    ClearingSwiftWOPadding        CHAR(11)  NULL
+//    HolderAccuityId               CHAR(8)   NULL
+//    HolderSwift                   CHAR(11)  NULL
+//    HolderSwiftWOPadding          CHAR(11)  NULL
+//    HolderSSIAccountNo            CHAR(75)  NULL
+//    PreferredSSIInd               CHAR(1)   NULL
+//    FurtherAccuityId              CHAR(8)   NULL
+//    FurtherSwift                  CHAR(11)  NULL
+//    FurtherSwiftWOPadding         CHAR(11)  NULL
+//    Further2AccuityId             CHAR(8)   NULL
+//    Further2Swift                 CHAR(11)  NULL
+//    Further2SwiftWOPadding        CHAR(11)  NULL
+//    CorrespondentEffectiveDate    CHAR(10)  NULL
+//    CorrespondentDeactivationDate CHAR(10)  NULL
+//    CorrespondentUpdateDate       CHAR(10)  NULL
+//    SSINotes                      CHAR(600) NULL     
+//    xStatus                       =(Status)
+
+struct DAccuityLocationGetAllLocations "accuityLocation.sh"
+//INPUT 
+//    BankName            CHAR(30)
+//    CountryCode         CHAR(50)
+//    CountryName         CHAR(50)
+//    City                CHAR(50)
+//    SwiftAddress        CHAR(12)
+//    Status              INT
+//OUTPUT
+//    SwiftAddress        CHAR(12)
+//    LocationId          INTEGER
+//    CountryCode         CHAR(2)
+//    InstitutionType     CHAR(2)
+//    OfficeType          CHAR(10)
+//    NameAbbrev          CHAR(100)
+//    NameFull            CHAR(200)
+//    BranchName          CHAR(100)
+//    AddressLine1        CHAR(100)
+//    AddressLine2        CHAR(100)
+//    City                CHAR(100)
+//    StateFull           CHAR(100)
+//    PostalCode          CHAR(100)
+//    CountryName         CHAR(100)
+//    DateOfFinancial     TIMESTAMP
+//    CurrentAssets       CHAR(100)
+//    HeadOfficeId        INTEGER
+//    InstitutionId       INTEGER
+//    CorrLocationType    CHAR(100)
+//    CorrLocationId      INTEGER
+//    Status              BYTE         (Active=0 Inactive=1 MarkForDelete=2 ConfirmDelete=3)
+//    UsId                CHAR(100)
+//    TmStamp             TIMESTAMP
+
+struct DAccuityLocationBankDetailsByLocationId "accuityLocation.sh"
+//INPUT
+//    LocationId  =
+//OUTPUT
+//    HeadOfficeId    =
+//    NameFull        =
+//    SwiftAddress    CHAR(12)
+//    AddressLine1    =
+//    AddressLine2    =
+//    City            =
+//    StateFull       =
+//    PostalCode      =
+//    CountryName     =
+//    BranchName      =
+//    TelePhone       CHAR(20)
+//    Fax             CHAR(20)
+//    Email           CHAR(20)
+//    Telex           CHAR(20)
+//    Cable           CHAR(20)
+
+struct DAccuityLocationGetBankInformation "accuityLocation.sh"
+//INPUT
+//    Swift           CHAR(11)
+//OUTPUT
+//    LocationId      = 
+//    Swift           CHAR(11) NULL
+//    AccountNo       CHAR(75) NULL
+//    NameAbbrev      =
+//    BranchName      =
+//    AddressLine1    =
+//    AddressLine2    =
+//    City            =
+//    StateFull       =
+//    PostalCode      =
+//    CountryName     =
+//    ContactType CHAR(75) NULL
+//    ContactInfo CHAR(75) NULL
+
+struct DAccuityLocationUpdateCorrLocationId "accuityLocation.sh"
+//INPUT
+//    LocationId      =
+
+struct DAccuityLocationBankSearch "accuityLocation.sh"
+//INPUT
+//  BankName          CHAR(105)
+//  City              =
+//  CountryCode       =
+//  CountryName       =
+//  Status            =
+//  SwiftAddress      CHAR(11)
+//  PageNo            INT
+//  Lines             INT
+//OUTPUT
+//  AuthKeysExChd     CHAR(1)
+//  SwiftAddress      CHAR(11)
+//  ClearingCodes     CHAR(12)
+//  BankName          CHAR(105)
+//  BankNameAbbrev    CHAR(45)
+//  BranchName        =
+//  AddressLine1      =
+//  AddressLine2      =
+//  City              =
+//  PostalCode        =
+//  StateFull         =
+//  StateAbbr         =
+//  CountryCode       =
+//  CountryName       =
+//  InstitutionId     =
+//  InstitutionType   =
+//  Status            =
+
+//------------------------------------------------------------------------------
+
+struct DAccuityOfficer "accuityofficer.sh"
+
+void accuityOfficerInsert(DAccuityOfficer *newRec)
+{
+message: #
+openapi: post accuityOfficer Officer
+input
+    newRec;
+output
+    newRec;
+code
+PYTHON:
+    try:
+        write_audit('AccuityOfficer', ADD, newRec._fields(), None, newRec._data())
+        DAccuityOfficer.insert = AccuityOfficerInsert.execute
+        newRec.insert(connect)
+        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+        connect.rollback()
+    return newRec
+endcode
+}
+
+void accuityOfficerUpdate(DAccuityOfficer *newRec)
+{
+message: #
+openapi: put accuityOfficer Officer
+input
+    newRec;
+output
+    newRec;
+code
+PYTHON:
+    try:
+        oldRec = DAccuityOfficer()
+        oldRec.Id = newRec.Id
+        DAccuityOfficer.selectOne   = AccuityOfficerSelectOne.execute
+        oldRec.selectOne(connect)
+        write_audit('AccuityOfficer', CHANGE, newRec._fields(), oldRec._data(), newRec._data())
+        DAccuityOfficer.update = AccuityOfficerUpdate.execute
+        newRec.update(connect)        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+        connect.rollback()
+    return newRec
+endcode
+}
+
+struct DAccuityOfficerUpdateAllStatus "accuityofficer.sh"
+
+void accuityOfficerUpdateAllStatus(int status, char* usId)
+{
+message: #
+openapi: patch accuityOfficer Officer
+input
+  status;
+  usId;
+code
+PYTHON:
+    try:
+        rec = DAccuityOfficerUpdateAllStatus()
+        rec.Status = status
+        rec.USId = usId
+        DAccuityOfficerUpdateAllStatus.update = AccuityOfficerUpdateAllStatus.execute
+        rec.update(connect)
+        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+endcode
+}
+
+void accuityOfficerSelectOne(int Id, DAccuityOfficer *rec)
+{
+message: #
+openapi: get "accuityOfficer/Id/{Id}" Officer
+input
+    Id;
+output
+    rec;
+code
+PYTHON:
+    try:
+        rec = DAccuityOfficer()
+        rec.Id = Id
+        DAccuityOfficer.selectOne = AccuityOfficerSelectOne.execute
+        rec.selectOne(connect)    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+    return rec
+endcode
+}
+
+struct DAccuityOfficerDeleteOne "accuityofficer.sh"
+
+void accuityOfficerDeleteOne(int Id)
+{
+message: #
+openapi: delete "accuityOfficer/Id/{Id}" Officer
+input
+    Id;
+code
+PYTHON:
+    try:
+        rec = DAccuityOfficerDeleteOne()
+        rec.Id = Id
+        DAccuityOfficerDeleteOne.deleteOne = AccuityOfficerDeleteOne.execute
+        rec.deleteOne(connect)
+        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+endcode
+}
+
+struct DAccuityOfficerExists "accuityofficer.sh"
+
+int accuityOfficerExists(int Id)
+{
+message: #
+openapi: get "accuityOfficerExists/Id/{Id}" Officer
+input
+    Id;
+code
+PYTHON:
+    try:
+        rec = DAccuityOfficerExists()
+        rec.Id = Id
+        DAccuityOfficer.exists = AccuityOfficer.execute
+        rec.exists(connect)
+            return rec.Count
+        else:
+            return 0
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+endcode
+}
+
+//------------------------------------------------------------------------------
+
+struct DAccuityRoutingAtt "accuityroutingatt.sh"
+
+void accuityRoutingAttInsert(DAccuityRoutingAtt *newRec)
+{
+message: #
+openapi: post accuityRoutingAtt RoutingAtt
+input
+    newRec;
+output
+    newRec;
+code
+PYTHON:
+    try:
+        write_audit('AccuityRoutingAtt', ADD, newRec._fields(), None, newRec._data())
+        DAccuityRoutingAtt.insert = AccuityRoutingAttInsert.execute
+        newRec.insert(connect)
+        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+        connect.rollback()
+    return newRec
+endcode
+}
+
+void accuityRoutingAttUpdate(DAccuityRoutingAtt *newRec)
+{
+message: #
+openapi: put accuityRoutingAtt RoutingAtt
+input
+    newRec;
+output
+    newRec;
+code
+PYTHON:
+    try:
+        oldRec = DAccuityRoutingAtt()
+        oldRec.Id = newRec.Id
+        DAccuityRoutingAtt.selectOne   = AccuityRoutingAttSelectOne.execute
+        oldRec.selectOne(connect)
+        write_audit('AccuityRoutingAtt', CHANGE, newRec._fields(), oldRec._data(), newRec._data())
+        DAccuityRoutingAtt.update = AccuityRoutingAttUpdate.execute
+        newRec.update(connect)        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+        connect.rollback()
+    return newRec
+endcode
+}
+
+struct DAccuityRoutingAttUpdateAllStatus "accuityroutingatt.sh"
+
+void accuityRoutingAttUpdateAllStatus(int status, char* usId)
+{
+message: #
+openapi: patch accuityRoutingAtt RoutingAtt
+input
+  status;
+  usId;
+code
+PYTHON:
+    try:
+        rec = DAccuityRoutingAttUpdateAllStatus()
+        rec.Status = status
+        rec.USId = usId
+        DAccuityRoutingAttUpdateAllStatus.update = AccuityRoutingAttUpdateAllStatus.execute
+        rec.update(connect)
+        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+endcode
+}
+
+void accuityRoutingAttSelectOne(int Id, DAccuityRoutingAtt *rec)
+{
+message: #
+openapi: get "accuityRoutingAtt/Id/{Id}" RoutingAtt
+input
+    Id;
+output
+    rec;
+code
+PYTHON:
+    try:
+        rec = DAccuityRoutingAtt()
+        rec.Id = Id
+        DAccuityRoutingAtt.selectOne = AccuityRoutingAttSelectOne.execute
+        rec.selectOne(connect)    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+    return rec
+endcode
+}
+
+struct DAccuityRoutingAttDeleteOne "accuityroutingatt.sh"
+
+void accuityRoutingAttDeleteOne(int Id)
+{
+message: #
+openapi: delete "accuityRoutingAtt/Id/{Id}" RoutingAtt
+input
+    Id;
+code
+PYTHON:
+    try:
+        rec = DAccuityRoutingAttDeleteOne()
+        rec.Id = Id
+        DAccuityRoutingAttDeleteOne.deleteOne = AccuityRoutingAttDeleteOne.execute
+        rec.deleteOne(connect)
+        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+endcode
+}
+
+struct DAccuityRoutingAttExists "accuityroutingatt.sh"
+
+int accuityRoutingAttExists(int Id)
+{
+message: #
+openapi: get "accuityRoutingAttExists/Id/{Id}" RoutingAtt
+input
+    Id;
+code
+PYTHON:
+    try:
+        rec = DAccuityRoutingAttExists()
+        rec.Id = Id
+        DAccuityRoutingAtt.exists = AccuityRoutingAtt.execute
+        rec.exists(connect)
+            return rec.Count
+        else:
+            return 0
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+endcode
+}
+
+//------------------------------------------------------------------------------
+
+struct DAccuityRoutingCode          "accuityroutingcode.sh"
+
+void accuityRoutingCodeInsert(DAccuityRoutingCode *newRec)
+{
+message: #
+openapi: post accuityRoutingCode RoutingCode
+input
+    newRec;
+output
+    newRec;
+code
+PYTHON:
+    try:
+        write_audit('AccuityRoutingCode', ADD, newRec._fields(), '[]', newRec._data())
+        DAccuityRoutingCode.insert = AccuityRoutingCodeInsert.execute
+        newRec.insert(connect)
+        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+        connect.rollback()
+    return newRec
+endcode
+}
+
+void accuityRoutingCodeUpdate(DAccuityRoutingCode *newRec)
+{
+message: #
+openapi: put accuityRoutingCode RoutingCode
+input
+    newRec;
+output
+    newRec;
+code
+PYTHON:
+    try:
+        oldRec = DAccuityRoutingCode()
+        oldRec.Id = newRec.Id
+        DAccuityRoutingCode.selectOne   = AccuityRoutingCodeSelectOne.execute
+        oldRec.selectOne(connect)
+        write_audit('AccuityRoutingCode', CHANGE, newRec._fields(), oldRec._data(), newRec._data())
+        DAccuityRoutingCode.update = AccuityRoutingCodeUpdate.execute
+        newRec.update(connect)        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+        connect.rollback()
+    return newRec
+endcode
+}
+
+struct DAccuityRoutingCodeUpdateAllStatus "accuityroutingcode.sh"
+
+void accuityRoutingCodeUpdateAllStatus(int status, char* usId)
+{
+message: #
+openapi: patch accuityRoutingCode RoutingCode
+input
+  status;
+  usId;
+code
+PYTHON:
+    try:
+        rec = DAccuityRoutingCodeUpdateAllStatus()
+        rec.Status = status
+        rec.USId = usId
+        DAccuityRoutingCodeUpdateAllStatus.update = AccuityRoutingCodeUpdateAllStatus.execute
+        rec.update(connect)
+        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+endcode
+}
+
+void accuityRoutingCodeSelectOne(int Id, DAccuityRoutingCode *rec)
+{
+message: #
+openapi: get "accuityRoutingCode/Id/{Id}" RoutingCode
+input
+    Id;
+output
+    rec;
+code
+PYTHON:
+    try:
+        rec = DAccuityRoutingCode()
+        rec.Id = Id
+        DAccuityRoutingCode.selectOne = AccuityRoutingCodeSelectOne.execute
+        rec.selectOne(connect)    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+    return rec
+endcode
+}
+
+struct DAccuityRoutingCodeDeleteOne "accuityroutingcode.sh"
+
+void accuityRoutingCodeDeleteOne(int Id)
+{
+message: #
+openapi: delete "accuityRoutingCode/Id/{Id}" RoutingCode
+input
+    Id;
+code
+PYTHON:
+    try:
+        rec = DAccuityRoutingCodeDeleteOne()
+        rec.Id = Id
+        DAccuityRoutingCodeDeleteOne.deleteOne = AccuityRoutingCodeDeleteOne.execute
+        rec.deleteOne(connect)
+        connect.commit()
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+endcode
+}
+
+struct DAccuityRoutingCodeExists "accuityroutingcode.sh"
+
+int accuityRoutingCodeExists(int Id)
+{
+message: #
+openapi: get "accuityRoutingCodeExists/Id/{Id}" RoutingCode
+input
+    Id;
+code
+PYTHON:
+    try:
+        rec = DAccuityRoutingCodeExists()
+        rec.Id = Id
+        DAccuityRoutingCode.exists = AccuityRoutingCode.execute
+        rec.exists(connect)
+            return rec.Count
+        else:
+            return 0
+    except DBError as db:
+        log_error ('DBError: value:{0} rc:{1} ociErr:{2}'.format(db.value, db.rc, db.ociErr))
+endcode
+}

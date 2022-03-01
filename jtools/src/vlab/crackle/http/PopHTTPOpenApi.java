@@ -203,6 +203,11 @@ public class PopHTTPOpenApi extends Generator
                 state = 1;
                 writeln(line);
               }
+              else if (line.contains(structName.replace(" DB", " D")) == true)
+              {
+                state = 1;
+                writeln(line.replace(" D", " DB"));
+              }
               break;
             case 1:
               if (line.compareTo("...") == 0 || line.charAt(4) != ' ')

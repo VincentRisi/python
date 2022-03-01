@@ -92,9 +92,9 @@ public class PyDBApiCode extends Generator
 
   static public void generate(Database database, String output, PrintWriter outLog)
   {
+    PyDBApiCode.outLog = outLog;
     try
     {
-      PyDBApiCode.outLog = outLog;
       try
       {
         String propertiesName = format("%s%s.properties", output, database.name);
@@ -152,7 +152,8 @@ public class PyDBApiCode extends Generator
     }
     catch (Exception ex)
     {
-
+      outLog.println(ex);
+      ex.printStackTrace(outLog);
     }
   }
 

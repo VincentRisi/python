@@ -447,10 +447,10 @@ public class PopHTTPPythonImpl extends Generator
       if (schema.type == Schema.DB_STRUCT)
       {
         int n = schema.structure.header.length() - 3;
-        writeln(format("from %sDBApi import %s", schema.structure.name.substring(1, n-1), schema.name.substring(1)));
+        writeln(format("from %sDBApi import %s", schema.structure.name.substring(2,n), schema.name));
       }
       else if (dbOnly == false)
-        writeln(format("from %s import t%s", module.name.toLowerCase(), schema.name.substring(1)));
+        writeln(format("from %s import %s", module.name.toLowerCase(), schema.name));
     }
   }
 

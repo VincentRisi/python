@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{9b8cf034-8b25-40a1-bc1e-57b823a343b4}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>openapi_test.py</StartupFile>
+    <StartupFile>runner.py</StartupFile>
     <SearchPath>build\simon\py</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -60,7 +60,7 @@
     <Compile Include="openapi_test.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="base85.py">
+    <Compile Include="base85.py" />
     <Compile Include="tester.py">
       <SubType>Code</SubType>
     </Compile>
