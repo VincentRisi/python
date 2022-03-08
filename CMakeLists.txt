@@ -99,6 +99,7 @@ endif ()
 
 set (JTOOLS_DIR  ${CMAKE_SOURCE_DIR}/jtools)
 set (PYTOOLS_DIR ${CMAKE_SOURCE_DIR}/pytools)
+set (CTOOLS_DIR  ${CMAKE_SOURCE_DIR}/ctools)
 
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin"   CACHE FILEPATH "Single output directory for building all executeables")
 set(LIBRARY_OUTPUT_PATH    "${CMAKE_BINARY_DIR}/lib"   CACHE FILEPATH "Single output directory for building all libraries")

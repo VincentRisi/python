@@ -1,0 +1,11 @@
+{root}/src/idl2/accuity.ii
+{root}/out/accuity/sql/py/dbapi/AccuityContact.ii
+{root}/out/accuity/sql/py/dbapi/AccuityCorrespondent.ii
+{root}/out/accuity/sql/py/dbapi/AccuityCorrespondentSub.ii
+{root}/out/accuity/sql/py/dbapi/AccuityLocation.ii
+{root}/out/accuity/sql/py/dbapi/AccuityOfficer.ii
+{root}/out/accuity/sql/py/dbapi/AccuityRoutingAtt.ii
+{root}/out/accuity/sql/py/dbapi/AccuityRoutingCode.ii
+{root}/out/accuity/sql/py/dbapi/AccuityUserOverride.ii
+{root}/out/accuity/sql/py/dbapi/Audits.ii
+{root}/out/accuity/sql/py/dbapi/BankFile.ii

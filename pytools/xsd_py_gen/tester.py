@@ -1,3 +1,10 @@
+#import sys
+#sys.path.append(r'D:\vlab\python\ctools\audio\utility\py')
+#print (sys.path)
+#from aaxlist import books
+#for key in books:
+#    book = books[key]
+#    print (key, book.name)
 alias_name = []
 alias_type = []
 alias_name.append('ErrorLogMsg')

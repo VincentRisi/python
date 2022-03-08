@@ -1,0 +1,91 @@
+DATABASE VLAB
+PACKAGE  vlab.audio
+OUTPUT   audio
+SERVER   LV01
+SCHEMA   DBUD00
+USERID   dbu
+PASSWORD dbudev
+
+DECLARE
+    _Id   char 10
+    _Name char 120
+    _List char 250
+    _Des  char 1024
+    _Cmt  char 250
+
+
+TABLE Author
+    authorId    =(_Id)
+    authorName  =(_Name)
+KEY AuthorPK PRIMARY authorId
+
+PROC Insert
+PROC Update
+PROC SelectOne
+PROC DeleteOne
+
+TABLE Narrator
+    narratorId    =(_Id)
+    narratorName  =(_Name)
+KEY NarratorPK PRIMARY narratorId
+
+PROC Insert
+PROC Update
+PROC SelectOne
+PROC DeleteOne
+
+TABLE Series    
+    seriesId    =(_Id)
+    seriesName  =(_Name)
+KEY SeriesPK PRIMARY seriesId
+
+PROC Insert
+PROC Update
+PROC SelectOne
+PROC DeleteOne
+
+TABLE Book
+    bookId      =(_Id)
+    bookName    =(_Name)
+    authorId    =(_Id)
+    narratorId  =(_Id)
+    seriesId    =(_Id) null
+    comment     =(_Cmt)
+    description =(_Des)
+    genre       =(_List)
+    released    Date
+
+KEY  BookPK PRIMARY bookId
+LINK Series seriesID
+LINK Author authorId    
+
+PROC Insert
+PROC Update
+PROC SelectOne
+PROC DeleteOne
+
+TABLE CoAuthors
+     bookId    =(_Id)
+     authorId  =(_Id)
+
+KEY CoAuthorsPK PRIMARY bookId authorId
+LINK Book bookId
+LINK Author authorId    
+
+PROC Insert
+PROC Update
+PROC SelectOne
+PROC DeleteOne
+
+TABLE CoNarrators
+     bookId     =(_Id)
+     narratorId =(_Id)
+
+KEY CoNarratorsPK PRIMARY bookId narratorId
+LINK Book bookId
+LINK Narrator narratorId    
+
+PROC Insert
+PROC Update
+PROC SelectOne
+PROC DeleteOne

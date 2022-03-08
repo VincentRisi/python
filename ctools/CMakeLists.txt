@@ -22,5 +22,5 @@ set (BUILD_SQL_DIR  ${JTOOLS_DIR}/out/sql)
 set (BUILD_IDL2_DIR ${JTOOLS_DIR}/out/idl2)
 
 add_subdirectory (libs)
-add_subdirectory (tests)
-add_subdirectory (accuity)
+#add_subdirectory (tests)
+add_subdirectory (audio)

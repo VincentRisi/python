@@ -1,0 +1,11 @@
+project (audio)
+
+set (jportal_jar ${JTOOLS_DIR}/build/jportal.jar)
+set (crackle_jar ${JTOOLS_DIR}/build/crackle.jar)
+
+set (AUDIO_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set (AUDIO_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
+
+add_subdirectory (sql_build)
+add_subdirectory (idl2_build)
+add_subdirectory (httpserver)

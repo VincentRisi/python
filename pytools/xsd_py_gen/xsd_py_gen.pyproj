@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{9b8cf034-8b25-40a1-bc1e-57b823a343b4}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>runner.py</StartupFile>
+    <StartupFile>tester.py</StartupFile>
     <SearchPath>build\simon\py</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -48,6 +48,9 @@
     <Content Include="xsds\simon\Weird.xsd" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\ctools\audio\utility\py\aaxlist.py">
+      <Link>aaxlist.py</Link>
+    </Compile>
     <Compile Include="build\example\py\XSD_GPSPayment.py" />
     <Compile Include="build\example\py\XSD_PACS_008.py" />
     <Compile Include="build\example\py\XSD_PAIN_001.py" />

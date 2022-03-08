@@ -2,3 +2,5 @@ build
 tools
 out
 target
+*.suo
+*.pyc

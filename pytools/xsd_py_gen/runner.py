@@ -33,3 +33,4 @@ for no in [0,1,2]:
     process(build_sets[no])
     xsd_py_gen.runtime_parms()
     xsd_py_gen.main()
+
