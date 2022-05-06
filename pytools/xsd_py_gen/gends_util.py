@@ -462,9 +462,11 @@ def amp_fix(value, asis=False, undo=False):
         value = value.replace(pair[0], pair[1])
     return value
 
-def _write_xml(cls, message, field_name, ind):
+def _write_xml(cls, message, field_name, ind, namespace):
     annotations = cls.__annotations__
     attribs = {}
+    if namespace != None:
+        attribs['xmlns'] = namespace
     tag_done = False
     for key in annotations:
         annote = annotations[key]
@@ -484,6 +486,7 @@ def _write_xml(cls, message, field_name, ind):
             attrib_str = ''
             if attribs != {}:
                 for name in attribs:
+                    value = attribs[name]
                     attrib_str = f'{attrib_str} {name}="{amp_fix(value)}"'
             message.write(f'{indent(ind)}<{field_name}{attrib_str}>\n')
         field = getattr(cls, key)
@@ -538,14 +541,14 @@ def _write_xml(cls, message, field_name, ind):
         else:
             if type(field) is list:
                 for subcls in field:
-                    _write_xml(subcls, message, key, ind+1)
+                    _write_xml(subcls, message, key, ind+1, None)
             else:
                 subcls = getattr(cls, key)
                 if subcls != None:
-                    _write_xml(subcls, message, key, ind+1)
+                    _write_xml(subcls, message, key, ind+1, None)
     message.write(f'{indent(ind)}</{field_name}>\n')
 
-def as_xml(cls, encoding='utf-8', use_name=''):
+def as_xml(cls, encoding='utf-8', use_name='', namespace=None):
     field_name = cls.__class__.__name__
     if hasattr(cls, '__annotations__') == False:
         raise InvalidXSDBasedClassException(f'Class {field_name} does not have annotations')
@@ -553,7 +556,7 @@ def as_xml(cls, encoding='utf-8', use_name=''):
         if encoding != None and len(encoding) > 0:
             message.write(f'<?xml version="1.0" encoding="{encoding}"?>\n')
         tag_name = field_name if len(use_name) == 0 else use_name
-        _write_xml(cls, message, tag_name, ind=0)
+        _write_xml(cls, message, tag_name, 0, namespace)
         result = message.getvalue()
         return result
 

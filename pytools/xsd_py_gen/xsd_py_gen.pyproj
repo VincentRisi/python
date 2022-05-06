@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{9b8cf034-8b25-40a1-bc1e-57b823a343b4}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>tester.py</StartupFile>
+    <StartupFile>test_attrib.py</StartupFile>
     <SearchPath>build\simon\py</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -60,6 +60,9 @@
     <Compile Include="build\simon\py\XSD_Weird.py" />
     <Compile Include="gends_util.py" />
     <Compile Include="json_yaml_tester.py" />
+    <Compile Include="test_attrib.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="openapi_test.py">
       <SubType>Code</SubType>
     </Compile>

@@ -8,15 +8,16 @@ PASSWORD dbudev
 
 DECLARE
     _Id   char 10
+    _Book char 16
     _Name char 120
     _List char 250
     _Des  char 1024
     _Cmt  char 250
 
-
 TABLE Author
     authorId    =(_Id)
     authorName  =(_Name)
+    authorExtra =(_List)
 KEY AuthorPK PRIMARY authorId
 
 PROC Insert
@@ -50,6 +51,7 @@ TABLE Book
     authorId    =(_Id)
     narratorId  =(_Id)
     seriesId    =(_Id) null
+    bookSeq     =(_Book)
     comment     =(_Cmt)
     description =(_Des)
     genre       =(_List)

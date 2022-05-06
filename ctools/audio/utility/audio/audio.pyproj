@@ -42,8 +42,8 @@
     <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\named\SeriesDBApi.py">
       <Link>generated\SeriesDBApi.py</Link>
     </Compile>
-    <Compile Include="pyasdata\aaxlist.py" />
     <Compile Include="audio.py" />
+    <Compile Include="pyasdata\aaxlist.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="generated\" />
