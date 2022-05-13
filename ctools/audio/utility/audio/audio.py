@@ -1,7 +1,10 @@
-import sys
-sys.path.append(r'C:\vlab\python\ctools\audio\utility\audio\pyasdata')
-sys.path.append(r'C:\vlab\python\ctools\audio\utility\audio\generated')
-import re
+import sys, os, os.path
+audio_dir = r'C:\vlab\python\ctools\audio\utility\audio'
+pyasdata_dir = rf'{audio_dir}\pyasdata'
+generated_dir = rf'{audio_dir}\generated'
+sys.path.append(pyasdata_dir)
+sys.path.append(generated_dir)
+import re, sqlite3
 from aaxlist import books
 class _obj: pass
 
@@ -11,6 +14,8 @@ series = dict()
 coauthors = list()
 conarrators = list()
 ids = dict()
+if os.path.exists(rf'{pyasdata_dir}\ids_list.py'):
+  from ids_list import ids
 
 def make_id(data):
   r = re.findall('([A-Z])', data)
@@ -21,6 +26,14 @@ def make_id(data):
   else:
     x = 'ANON'
   key = x[:7]
+  r = re.findall('([A-Za-z0-9])', data)
+  if len(r) > 0:
+    x = ''.join(r)
+  elif len(data) > 0:
+    x = data.replace(')','')
+  else:
+    x = 'ANON'
+  data = x
   if not key in ids:
     ids[key] = list()
   if not data in ids[key]:
@@ -97,6 +110,38 @@ def process(book):
   book.narrators = ids
   do_book(book)
 
+def run(con, command):
+  cursor = con.cursor()
+  cursor.execute(command.replace('main.',''))
+
+def make_tables():
+  table_sql = (r'C:\vlab\python\jtools\out\audio\sql\ddl\lite3\audio.sql')
+  con = sqlite3.connect(r'C:\vlab\python\ctools\audio\utility\audio\books.db')
+  with open(table_sql, 'rt') as ifile: lines = ifile.readlines()
+  NONE, START, NEXT = range(3) 
+  state = START
+  command = ''
+  for line in lines:
+    line = line.rstrip()
+    if len(line) == 0:
+      state = START
+      command = ''
+      continue
+    if state == START:
+      command += f'{line}\n'
+      if line[-1] == ';':
+        run (con, command)
+        state = NONE
+      else:
+        state = NEXT
+      continue
+    if state == NEXT:
+      command += f'{line}\n'
+      if line[-1] == ';':
+        run (con, command)
+        state = NONE
+
+
 def main():
   for bk in books:
     book = books[bk]
@@ -114,6 +159,11 @@ def main():
   for ss in sorted(series):
     obj = series[ss]
     print (ss, obj.series)
+  with open(rf'{pyasdata_dir}\ids_list.py', 'wt') as ofile:
+    ofile.write('ids = dict()\n')
+    for key in sorted(ids):
+      x = repr(ids[key])
+      ofile.write(f'ids[{repr(key)}]={x}\n')
 
-  
+
 main()
