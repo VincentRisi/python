@@ -25,23 +25,23 @@ import java.io.*;
 */
 public class JPortal
 {
-  protected static Database  database;
-  protected static Table     table;
-  protected static Enumerator      entry;
-  protected static Field     field;
-  protected static Const     constant;
-  protected static Value     value;
-  protected static Grant     grant;
-  protected static Key       key;
-  protected static Link      link;
-  protected static View      view;
-  protected static Proc      proc;
-  protected static With      with;
-  protected static Parameter parameter;
-  protected static String    perm;
-  protected static String    user;
-  protected static String    line;
-  protected static String    inDir;
+  protected static Database   database;
+  protected static Table      table;
+  protected static Enumerator entry;
+  protected static Field      field;
+  protected static Const      constant;
+  protected static Value      value;
+  protected static Grant      grant;
+  protected static Key        key;
+  protected static Link       link;
+  protected static View       view;
+  protected static Proc       proc;
+  protected static With       with;
+  protected static Parameter  parameter;
+  protected static String     perm;
+  protected static String     user;
+  protected static String     line;
+  protected static String     inDir;
   protected static PrintWriter outLog;
   static private boolean parser_initialised = false;
   static private boolean fieldsNullByDefault = false;
@@ -202,7 +202,7 @@ public class JPortal
           boolean done = false;
           for (int i=0; i < field.enums.size(); i++)
           {
-            Enum entry = field.enums.elementAt(i);
+            Enumerator entry = field.enums.elementAt(i);
             if (entry.name.equalsIgnoreCase(enumName))
             {
               String evalue = ""+entry.value;
@@ -231,7 +231,7 @@ public class JPortal
   {
     s = parseConsts(s);
     Line line;
-    Integer size;
+    int size;
     for (int dB = s.indexOf("&"); dB != -1; dB = s.indexOf("&"))
     {
       if (dB > 0)
@@ -267,14 +267,14 @@ public class JPortal
       s = s.substring(dE);
       int sB = dVar.indexOf("(");
       int sE = dVar.indexOf(")");
-      size = new Integer(256);
+      size = 256;
       if (sB > 0)
       {
         //int sE = dVar.indexOf(")");
         if (sE > sB)
         {
           String dSize = dVar.substring(sB+1, sE);
-          size = new Integer(dSize);
+          size = Integer.parseInt(dSize);
         }
         dVar = dVar.substring(0, sB);
       }
@@ -291,7 +291,7 @@ public class JPortal
           proc.useStd = false;
         proc.dynamics.addElement(dVar);
         proc.dynamicSizes.addElement(size);
-        proc.dynamicStrung.addElement(new Boolean(strung));
+        proc.dynamicStrung.addElement(strung);
       }
     }
     return s;
@@ -389,7 +389,6 @@ public class JPortal
       e.printStackTrace();
     }
   }
-}}
 }
 PARSER_END(JPortal)
 
@@ -503,6 +502,7 @@ TOKEN[IGNORE_CASE] :          // Keywords
 | <UPDATE:       "update">
 | <UPDATEBY:     "updateby">
 | <UPDATEFOR:    "updatefor">
+| <UPSERT:       "upsert">
 | <USERID:       "userid">
 | <USERSTAMP:    "userstamp">
 | <USING:        "using">
@@ -1189,7 +1189,7 @@ void jEnumValue() :  // (a=1[,] b=2 c=3)
     (
       s = jIdent() <EQUALS> n=jNumber() (<COMMA>)?
       {
-        entry = new Enum();
+        entry = new Enumerator();
         entry.name = s;
         entry.value = n;
         field.enums.addElement(entry);
@@ -1253,7 +1253,7 @@ void jEnumChar() :
       ( 
         s = jIdent() <EQUALS> n=jAsciiChar() (<COMMA>)?
         {
-          entry = new Enum();
+          entry = new Enumerator();
           entry.name = s;
           entry.value = n;
           field.enums.addElement(entry);
@@ -1309,14 +1309,14 @@ int jNumber() :
 {
   Token t;
   String s;
-  Integer i;
+  int i;
 }
 {
   t = <NUMBER>
   {
     s = t.image;
-    i = new Integer(s);
-    return i.intValue();
+    i = Integer.parseInt(s);
+    return i;
   }
 }
 
@@ -1802,7 +1802,7 @@ void jStdProc() :
 {
   (
     <INSERT>
-    ( <RETURNING> {proc.hasReturning = true;})?
+    ( <RETURNING> {proc.hasReturning = true;} | <UPSERT> {proc.useUpsert = true;})?
     {
       table.hasSequenceReturning = table.hasSequence;
       proc.name = "Insert";
@@ -2205,7 +2205,7 @@ void jWithCode() :
 {
   Token t;
   String s;
-  Integer size;
+  //int size;
   Line line;
 }
 {
@@ -2368,7 +2368,7 @@ void jUserProc() :
 void jOldCode() :
 {
   String s;
-  Integer size;
+  int size;
 }
 {
   ( <SQL>
@@ -2432,7 +2432,7 @@ Integer jOptSize() :
   ( <LEFTPAREN> n = jNumber() <RIGHTPAREN>
   ) ?
   {
-    return new Integer(n);
+    return n;
   }
 }
 

@@ -2,7 +2,7 @@ DATABASE VLAB
 PACKAGE  vlab.audio
 OUTPUT   audio
 SERVER   LV01
-SCHEMA   DBUD00
+SCHEMA   dbud00
 USERID   dbu
 PASSWORD dbudev
 
@@ -20,30 +20,33 @@ TABLE Author
     authorExtra =(_List)
 KEY AuthorPK PRIMARY authorId
 
-PROC Insert
+PROC Insert upsert
 PROC Update
 PROC SelectOne
 PROC DeleteOne
+PROC Merge
 
 TABLE Narrator
     narratorId    =(_Id)
     narratorName  =(_Name)
 KEY NarratorPK PRIMARY narratorId
 
-PROC Insert
+PROC Insert upsert
 PROC Update
 PROC SelectOne
 PROC DeleteOne
+PROC Merge
 
 TABLE Series    
     seriesId    =(_Id)
     seriesName  =(_Name)
 KEY SeriesPK PRIMARY seriesId
 
-PROC Insert
+PROC Insert upsert
 PROC Update
 PROC SelectOne
 PROC DeleteOne
+PROC Merge
 
 TABLE Book
     bookId      =(_Id)
@@ -61,33 +64,50 @@ KEY  BookPK PRIMARY bookId
 LINK Series seriesID
 LINK Author authorId    
 
-PROC Insert
+PROC Insert upsert
 PROC Update
 PROC SelectOne
 PROC DeleteOne
+PROC Merge
+
+PROC ByAuthor
+INPUT
+  authorId =(_Id)
+OUTPUT
+  bookName =(_Name)
+  seriesId =(_Id)
+  bookSeq  =(_Book)
+SQLCODE
+  select bookName, seriesId, bookSeq from Book
+  where authorId = :authorId
+  order seriesId, bookSeq, bookName
+ENDCODE
+
 
 TABLE CoAuthors
-     bookId    =(_Id)
-     authorId  =(_Id)
+    bookId    =(_Id)
+    authorId  =(_Id)
 
 KEY CoAuthorsPK PRIMARY bookId authorId
 LINK Book bookId
 LINK Author authorId    
 
-PROC Insert
+PROC Insert upsert
 PROC Update
 PROC SelectOne
 PROC DeleteOne
+PROC Merge
 
 TABLE CoNarrators
-     bookId     =(_Id)
-     narratorId =(_Id)
+    bookId     =(_Id)
+    narratorId =(_Id)
 
 KEY CoNarratorsPK PRIMARY bookId narratorId
 LINK Book bookId
 LINK Narrator narratorId    
 
-PROC Insert
+PROC Insert upsert
 PROC Update
 PROC SelectOne
 PROC DeleteOne
+PROC Merge

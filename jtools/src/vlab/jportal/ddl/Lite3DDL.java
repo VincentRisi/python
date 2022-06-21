@@ -51,8 +51,8 @@ public class Lite3DDL extends Generator
         fileName = database.output;
       else
         fileName = database.name;
-      if (database.schema.length() > 0) // does not have mutiple schemas - main or temp only
-        tableOwner = "main.";
+      if (database.schema.length() > 0) // does not have multiple schemas - main or temp only
+        tableOwner = database.schema + ".";
       else
         tableOwner = "";
       outLog.println("DDL: " + output + fileName + ".sql");
@@ -111,7 +111,7 @@ public class Lite3DDL extends Generator
           Link link = table.links.elementAt(i);
           if (link.linkName.length() == 0)
             link.linkName = table.name + "_FK" + bSO(i);
-          generateLink(link, table.name, tableOwner, i);
+          generateLink(link, table.name, "", i);
         }
       }
       if (table.options.size() > 0)

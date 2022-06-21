@@ -590,9 +590,10 @@ public class Table implements Serializable
   {
     String name = tableName();
     int i;
-    String comma = " ";
+    String comma = "   ";
     String front = "";
-    proc.isStd = true;
+    //proc.isStd = true;
+    //proc.extendsStd = true;
     proc.isSql = true;
     proc.isMerge = true;
     proc.lines.addElement(new Line("merge into " + name));
@@ -600,10 +601,18 @@ public class Table implements Serializable
     for (i = 0; i < fields.size(); i++)
     {
       Field field = fields.elementAt(i);
-      proc.lines.addElement(new Line(comma + field.name));
-      comma = ", ";
+      proc.inputs.addElement(field);
+      proc.lines.addElement(new Line(comma + ":" + field.name + " as " + field.name));
+      comma = " , ";
     }
-    proc.lines.addElement(new Line(" from with_" + proc.table.name + ") as temp_" + proc.table.name));
+    Line dualType = new Line("DUAL_TYPE");
+    dualType.isVar = true;
+    var dualSize = 256;
+    proc.lines.addElement(dualType);
+    proc.dynamics.addElement("DUAL_TYPE");
+    proc.dynamicSizes.addElement(dualSize);
+    proc.dynamicStrung.addElement(false);
+    proc.lines.addElement(new Line(") as temp_" + proc.table.name));
     front = " on (";
     for (i = 0; i < fields.size(); i++)
     {
@@ -617,8 +626,8 @@ public class Table implements Serializable
     }
     proc.lines.addElement(new Line(")"));
     proc.lines.addElement(new Line(" when matched then"));
-    proc.lines.addElement(new Line(" update set"));
-    comma = " ";
+    proc.lines.addElement(new Line("  update set"));
+    comma = "    ";
     for (i = 0; i < fields.size(); i++)
     {
       Field field = fields.elementAt(i);
@@ -626,30 +635,41 @@ public class Table implements Serializable
       {
         proc.lines.addElement(new Line(comma + name + "." + field.useLiteral(true)
                 + " = temp_" + proc.table.name + "." + field.useLiteral(true)));
-        comma = ", ";
+        comma = "  , ";
+      }
+    }
+    comma = "  where ";
+    for (i = 0; i < fields.size(); i++)
+    {
+      Field field = fields.elementAt(i);
+      if (field.isPrimaryKey == false)
+      {
+        proc.lines.addElement(new Line(comma + name + "." + field.useLiteral(true)
+                + " <> temp_" + proc.table.name + "." + field.useLiteral(true)));
+        comma = "     or ";
       }
     }
     proc.lines.addElement(new Line(" when not matched then"));
-    proc.lines.addElement(new Line(" insert"));
-    proc.lines.addElement(new Line(" ("));
-    comma = " ";
+    proc.lines.addElement(new Line("  insert"));
+    proc.lines.addElement(new Line("  ("));
+    comma = "    ";
     for (i = 0; i < fields.size(); i++)
     {
       Field field = fields.elementAt(i);
       proc.lines.addElement(new Line(comma + field.useLiteral(true)));
-      comma = ", ";
+      comma = "  , ";
     }
-    proc.lines.addElement(new Line(")"));
-    proc.lines.addElement(new Line(" values"));
-    proc.lines.addElement(new Line(" ("));
-    comma = " ";
+    proc.lines.addElement(new Line("  )"));
+    proc.lines.addElement(new Line("  values"));
+    proc.lines.addElement(new Line("  ("));
+    comma = "    ";
     for (i = 0; i < fields.size(); i++)
     {
       Field field = fields.elementAt(i);
       proc.lines.addElement(new Line(comma + "temp_" + proc.table.name + "." + field.useLiteral(true)));
-      comma = ", ";
+      comma = "  , ";
     }
-    proc.lines.addElement(new Line(")"));
+    proc.lines.addElement(new Line("  )"));
   }
 
   /**
@@ -731,6 +751,8 @@ public class Table implements Serializable
     proc.lines.addElement(new Line(" )"));
     if (proc.hasReturning)
       proc.lines.add(new Line("_ret.tail", true));
+    if (proc.useUpsert)
+      proc.lines.addElement(new Line(" /*use upsert*/"));
   }
 
   /**

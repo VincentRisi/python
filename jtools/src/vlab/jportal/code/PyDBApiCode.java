@@ -26,6 +26,7 @@ public class PyDBApiCode extends Generator
   private static PrintWriter outLog;
   static private Properties properties;
   static private byte paramStyle = QUESTION;
+  static private boolean useFetchall = false;
   static private byte dbVendor = DB2;
   static private boolean useEnum = false;
   static private boolean enumImport = false;
@@ -40,6 +41,7 @@ public class PyDBApiCode extends Generator
    * 'named'    Named style, e.g. '...WHERE name=:name'
    * 'format'   ANSI C printf format codes, e.g. '...WHERE name=%s'
    * 'pyformat' Python extended format codes, e.g.  '...WHERE name=%(name)s'
+   * 'pyodbc'   Microsoft distorted dbapi, e.g '...WHERE name=?'
    * ============ ==============================================================
    */
   public static String description()
@@ -74,6 +76,7 @@ public class PyDBApiCode extends Generator
       case "named" -> paramStyle = COLON;
       case "format" -> paramStyle = FORMAT;
       case "pyformat" -> paramStyle = PYFORMAT;
+      case "pyodbc" -> {paramStyle = QUESTION; useFetchall = true;}
     }
   }
 
@@ -209,9 +212,25 @@ public class PyDBApiCode extends Generator
     return "";
   }
 
+  static private String _commapkey(Field field)
+  {
+    if (field.isPrimaryKey) return (", pkey=True");
+    return "";
+  }
+
   static private String _null(Field field)
   {
     if (field.isNull) return ("null=True");
+    return "";
+  }
+
+  static private String _pkey(Field field)
+  {
+    if (field.isPrimaryKey)
+      if (field.isNull)
+        return (", pkey=True");
+      else
+        return ("pkey=True");
     return "";
   }
 
@@ -224,87 +243,87 @@ public class PyDBApiCode extends Generator
       switch (field.type)
       {
         case Field.ANSICHAR:
-          writeln(format("Char(%d%s)", field.length + 1, _commanull(field)));
+          writeln(format("Char(%d%s%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
           break;
         case Field.AUTOTIMESTAMP:
-          writeln(format("TimeStamp(%s)", _null(field)));
+          writeln(format("TimeStamp(%s%s%s)", _null(field), _pkey(field)));
           break;
         case Field.BIGIDENTITY:
         case Field.BIGSEQUENCE:
         case Field.LONG:
-          writeln(format("LongInt(%d%s)", field.length, _commanull(field)));
+          writeln(format("LongInt(%d%s%s)", field.length, _commanull(field), _commapkey(field)));
           break;
         case Field.BIGXML:
-          writeln(format("XMLTYPE(%d%s)", field.length + 1, _commanull(field)));
+          writeln(format("XMLTYPE(%d%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
           break;
         case Field.BLOB:
-          writeln(format("Blob(%d%s)", field.length + 1, _commanull(field)));
+          writeln(format("Blob(%d%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
           break;
         case Field.BOOLEAN:
-          writeln(format("Boolean(%d%s)", field.length, _commanull(field)));
+          writeln(format("Boolean(%d%s%s)", field.length, _commanull(field), _commapkey(field)));
           break;
         case Field.BYTE:
-          writeln(format("TinyInt(%d%s)", field.length, _commanull(field)));
+          writeln(format("TinyInt(%d%s%s)", field.length, _commanull(field), _commapkey(field)));
           break;
         case Field.CHAR:
-          writeln(format("Char(%d%s)", field.length + 1, _commanull(field)));
+          writeln(format("Char(%d%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
           break;
         case Field.DATE:
-          writeln(format("Date(%s)", _null(field)));
+          writeln(format("Date(%s%s)", _null(field), _pkey(field)));
           break;
         case Field.DATETIME:
-          writeln(format("DateTime(%s)", _null(field)));
+          writeln(format("DateTime(%s%s)", _null(field), _pkey(field)));
           break;
         case Field.DOUBLE:
         case Field.FLOAT:
-          writeln(format("Float(%d, %d%s)", field.precision, field.scale, _commanull(field)));
+          writeln(format("Float(%d, %d%s%s)", field.precision, field.scale, _commanull(field), _commapkey(field)));
           break;
         case Field.DYNAMIC:
-          writeln(format("Unhandled('Dynamic', %d%s)", field.length, _commanull(field)));
+          writeln(format("Unhandled('Dynamic', %d%s%s)", field.length, _commanull(field), _commapkey(field)));
           break;
         case Field.IDENTITY:
         case Field.INT:
         case Field.SEQUENCE:
-          writeln(format("Int(%s%s)", field.length, _commanull(field)));
+          writeln(format("Int(%s%s%s)", field.length, _commanull(field), _commapkey(field)));
           break;
         case Field.IMAGE:
-          writeln(format("Image(%s%s)", field.length + 1, _commanull(field)));
+          writeln(format("Image(%s%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
           break;
         case Field.MONEY:
-          writeln(format("Char(%s%s)", field.length + 1, _commanull(field)));
+          writeln(format("Char(%s%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
           break;
         case Field.SHORT:
-          writeln(format("SmallInt(%s%s)", field.length, _commanull(field)));
+          writeln(format("SmallInt(%s%s%s)", field.length, _commanull(field), _commapkey(field)));
           break;
         case Field.STATUS:
-          writeln(format("Status(%s%s)", field.length, _commanull(field)));
+          writeln(format("Status(%s%s%s)", field.length, _commanull(field), _commapkey(field)));
           break;
         case Field.TIME:
-          writeln(format("Time(%s)", _null(field)));
+          writeln(format("Time(%s%s)", _null(field), _pkey(field)));
           break;
         case Field.TIMESTAMP:
-          writeln(format("TimeStamp(%s)", _null(field)));
+          writeln(format("TimeStamp(%s%s)", _null(field), _pkey(field)));
           break;
         case Field.TLOB:
-          writeln(format("Clob(%s%s)", field.length + 1, _commanull(field)));
+          writeln(format("Clob(%s%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
           break;
         case Field.UID:
-          writeln(format("Unhandled('UID', %s%s)", field.length, _commanull(field)));
+          writeln(format("Unhandled('UID', %s%sV)", field.length, _commanull(field), _commapkey(field)));
           break;
         case Field.USERSTAMP:
-          writeln(format("UserStamp(%s%s)", field.length + 1, _commanull(field)));
+          writeln(format("UserStamp(%s%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
           break;
         case Field.UTF8:
-          writeln(format("Unhandled('UTF8', %s%s)", field.length + 1, _commanull(field)));
+          writeln(format("Unhandled('UTF8', %s%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
           break;
         case Field.WANSICHAR:
-          writeln(format("Unhandled('WANSICHAR', %s%s)", field.length + 1, _commanull(field)));
+          writeln(format("Unhandled('WANSICHAR', %s%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
           break;
         case Field.WCHAR:
-          writeln(format("Unhandled('WCHAR', %s%s)", field.length + 1, _commanull(field)));
+          writeln(format("Unhandled('WCHAR', %s%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
           break;
         case Field.XML:
-          writeln(format("XMLTYPE(%s%s)", field.length + 1, _commanull(field)));
+          writeln(format("XMLTYPE(%s%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
           break;
       }
     }
@@ -649,7 +668,12 @@ public class PyDBApiCode extends Generator
   static private void generatePythonMultiple(Table table, Proc proc, String current, boolean hasInputs)
   {
     writeln(2, "records = []");
-    writeln(2, "for row in cursor:");
+    if (useFetchall)
+    {
+      writeln(2, "rows = cursor.fetchall()");
+      writeln(2, "for row in rows:");
+    } else
+      writeln(2, "for row in cursor:");
     writeln(3, "record = " + current + "()");
     if (hasInputs)
       writeln(3, "self._copy_input(record)");
@@ -692,7 +716,7 @@ public class PyDBApiCode extends Generator
         String quotes = "";
         if (proc.isStrung(l) == true)
           quotes = "'";
-        writeln(format("%1$s{self.%2$ss}%1$s", quotes, l));
+        writeln(format("%1$s{self.%2$s}%1$s", quotes, l));
       }
     }
     if (holder.limit != null)

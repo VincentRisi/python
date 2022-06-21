@@ -166,7 +166,7 @@ public class Proc implements Serializable
    * Code starts at line
    */
   public int start;
-
+  public boolean useUpsert;
   /**
    * Constructs with default values
    */
@@ -206,6 +206,7 @@ public class Proc implements Serializable
     hasReturning = false;
     hasUpdates = false;
     start = 0;
+    useUpsert = false;
   }
 
   public void addLine(Line line)
@@ -251,13 +252,13 @@ public class Proc implements Serializable
     noOf = ids.readInt();
     for (int i = 0; i < noOf; i++)
     {
-      Integer value = new Integer(ids.readInt());
+      Integer value = ids.readInt();
       dynamicSizes.addElement(value);
     }
     noOf = ids.readInt();
     for (int i = 0; i < noOf; i++)
     {
-      Boolean value = new Boolean(ids.readBoolean());
+      Boolean value = ids.readBoolean();
       dynamicStrung.addElement(value);
     }
     noOf = ids.readInt();
