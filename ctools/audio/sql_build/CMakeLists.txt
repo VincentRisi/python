@@ -3,7 +3,7 @@ project (audio_sql_build)
 set (root ${JTOOLS_DIR})
 set (logFile ${CMAKE_CURRENT_BINARY_DIR}/build.log)
 
-file (READ ${root}/audio/inputs.list lines)
+file (READ ${JTOOLS_DIR}/src/audio/inputs.list lines)
 separate_arguments(lines)
 set (inFiles)
 foreach (line ${lines})
@@ -21,21 +21,20 @@ log_info(${inFiles})
 set (switches
   "-l ${logFile}"
   "-R ${JTOOLS_DIR}"
-  "-f {root}/audio/inputs.list"
-  "-o {root}/out/sql/ddl/oracle ddl.OracleDDL"
-  "-o {root}/out/sql/yaml2 code.SwaggerCode"
-  "-o {root}/out/sql/yaml3 code.OpenApiCode"
-  "-o {root}/out/sql/py/dbapi/format"
-  "-F %param=format code.PyDBApiCode"
-  "-o {root}/out/sql/py/dbapi/named"
-  "-F %param=named code.PyDBApiCode"
-  "-o {root}/out/sql/py/dbapi/pyformat"
-  "-F %param=pyformat code.PyDBApiCode"
-  "-o {root}/out/sql/py/dbapi/numeric"
-  "-F %param=numeric code.PyDBApiCode"
-  "-o {root}/out/sql/py/dbapi/qmark"
-  "-F %param=qmark code.PyDBApiCode"
-  "-o {root}/out/sql/ii code.IdlPyCode"
+  "-f {root}/src/audio/inputs.list"
+  "-o {root}/out/audio/sql/ddl/oracle ddl.OracleDDL"
+  "-o {root}/out/audio/sql/ddl/lite3 ddl.Lite3DDL"
+  "-o {root}/out/audio/sql/ddl/mssql ddl.MSSqlDDL"
+  "-o {root}/out/audio/sql/yaml2 code.SwaggerCode"
+  "-o {root}/out/audio/sql/yaml3 code.OpenApiCode"
+  "-o {root}/out/audio/sql/ii code.IdlPyCode"
+  "-o {root}/out/audio/sql/msssh code.MSSqlCCode"
+  "-o {root}/out/audio/sql/py/dbapi/format -F %param=format code.PyDBApiCode"
+  "-o {root}/out/audio/sql/py/dbapi/named -F %param=named code.PyDBApiCode"
+  "-o {root}/out/audio/sql/py/dbapi/pyformat -F %param=pyformat code.PyDBApiCode"
+  "-o {root}/out/audio/sql/py/dbapi/numeric -F %param=numeric code.PyDBApiCode"
+  "-o {root}/out/audio/sql/py/dbapi/qmark -F %param=qmark code.PyDBApiCode"
+  "-o {root}/out/audio/sql/py/dbapi/pyodbc -F %param=pyodbc code.PyDBApiCode"
 )
 separate_arguments(switches)
 log_info("java -jar ${jportal_jar} ${switches}")

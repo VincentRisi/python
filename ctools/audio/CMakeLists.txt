@@ -7,5 +7,5 @@ set (AUDIO_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set (AUDIO_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
 
 add_subdirectory (sql_build)
-add_subdirectory (idl2_build)
-add_subdirectory (httpserver)
+#add_subdirectory (idl2_build)
+#add_subdirectory (httpserver)
