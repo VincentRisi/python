@@ -16,6 +16,8 @@
 
 package vlab.jportal.ddl;
 
+import vlab.jportal.*;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -23,17 +25,11 @@ import java.io.PrintWriter;
 import java.util.Vector;
 
 import static vlab.jportal.Writer.*;
-import vlab.jportal.*;
 
-public class MSSqlDDL extends vlab.jportal.Generator
+public class MSSqlDDL extends Generator
 {
   protected static Vector flagsVector;
-  static boolean addTimestamp;
-  static boolean useInsertTrigger;
-  static boolean useUpdateTrigger;
-  static boolean internalStamps;
-  static boolean generate42;
-  static boolean auditTrigger;
+  static boolean useSequence;
   private static String tableOwner;
   private static String tableSchema;
 
@@ -49,12 +45,7 @@ public class MSSqlDDL extends vlab.jportal.Generator
 
   private static void flagDefaults()
   {
-    addTimestamp = false;
-    useInsertTrigger = false;
-    useUpdateTrigger = false;
-    internalStamps = false;
-    auditTrigger = false;
-    generate42 = false;
+    useSequence = false;
   }
 
   public static Vector flags()
@@ -63,12 +54,7 @@ public class MSSqlDDL extends vlab.jportal.Generator
     {
       flagDefaults();
       flagsVector = new Vector();
-      flagsVector.addElement(new Flag("add timestamp", addTimestamp, "Add Timestamp - legacy flags"));
-      flagsVector.addElement(new Flag("use insert trigger", useInsertTrigger, "Use Insert Trigger - legacy flags"));
-      flagsVector.addElement(new Flag("use update trigger", useUpdateTrigger, "Use Update Trigger - legacy flags"));
-      flagsVector.addElement(new Flag("internal stamps", internalStamps, "Use Internal Stamps - legacy flags"));
-      flagsVector.addElement(new Flag("generate 4.2", generate42, "Generate for SqlServer 4.2 - legacy flags"));
-      flagsVector.addElement(new Flag("auditTrigger", auditTrigger, "Generate Auditing Table and Triggers"));
+      flagsVector.addElement(new Flag("use sequence", useSequence, "Use new sequence from 2012"));
     }
     return flagsVector;
   }
@@ -80,46 +66,15 @@ public class MSSqlDDL extends vlab.jportal.Generator
   {
     if (flagsVector != null)
     {
-      addTimestamp = toBoolean(((Flag) flagsVector.elementAt(0)).value);
-      useInsertTrigger = toBoolean(((Flag) flagsVector.elementAt(1)).value);
-      useUpdateTrigger = toBoolean(((Flag) flagsVector.elementAt(2)).value);
-      internalStamps = toBoolean(((Flag) flagsVector.elementAt(3)).value);
-      generate42 = toBoolean(((Flag) flagsVector.elementAt(4)).value);
-      auditTrigger = toBoolean(((Flag) flagsVector.elementAt(5)).value);
+      useSequence = toBoolean(((Flag) flagsVector.elementAt(0)).value);
     } else
       flagDefaults();
     for (int i = 0; i < database.flags.size(); i++)
     {
       String flag = database.flags.elementAt(i);
-      if (flag.equalsIgnoreCase("add timestamp"))
-        addTimestamp = true;
-      else if (flag.equalsIgnoreCase("use triggers"))
-      {
-        useInsertTrigger = true;
-        useUpdateTrigger = true;
-      } else if (flag.equalsIgnoreCase("use insert trigger"))
-        useInsertTrigger = true;
-      else if (flag.equalsIgnoreCase("use update trigger"))
-        useUpdateTrigger = true;
-      else if (flag.equalsIgnoreCase("internal stamps"))
-        internalStamps = true;
-      else if (flag.equalsIgnoreCase("generate 4.2"))
-        generate42 = true;
-      else if (flag.equalsIgnoreCase("audit triggers"))
-        auditTrigger = true;
+      if (flag.equalsIgnoreCase("use sequence"))
+        useSequence = true;
     }
-    if (addTimestamp)
-      outLog.println(" (add timestamp)");
-    if (useInsertTrigger)
-      outLog.println(" (use insert trigger)");
-    if (useUpdateTrigger)
-      outLog.println(" (use update trigger)");
-    if (internalStamps)
-      outLog.println(" (internal stamps)");
-    if (generate42)
-      outLog.println(" (generate 4.2)");
-    if (auditTrigger)
-      outLog.println(" (audit triggers)");
   }
 
   /**
@@ -138,33 +93,59 @@ public class MSSqlDDL extends vlab.jportal.Generator
       if (database.schema.length() > 0)
       {
         tableOwner = database.schema + ".";
-        tableSchema = database.schema;
+        tableSchema = database.schema + "_";
       } else
       {
         tableOwner = "";
         tableSchema = "";
       }
       outLog.println("DDL: " + output + fileName + ".sql");
-      OutputStream outFile = new FileOutputStream(output + fileName + ".sql");
-      try
+      try (OutputStream outFile = new FileOutputStream(output + fileName + ".sql"))
       {
-        PrintWriter outData = new PrintWriter(outFile);
-        outData.println("USE " + database.name);
-        outData.println();
+        writer = new PrintWriter(outFile);
+        indent_size = 4;
+        writeln("USE " + database.name);
+        writeln();
         for (int i = 0; i < database.tables.size(); i++)
-          generateTable(database.tables.elementAt(i), outData);
+          generateTable(database.tables.elementAt(i));
         for (int i = 0; i < database.views.size(); i++)
-          generateView(database.views.elementAt(i), outData);
-        outData.flush();
-      }
-      finally
-      {
-        outFile.close();
+          generateView(database.views.elementAt(i));
+        if (useSequence)
+          for (int i = 0; i < database.sequences.size(); i++)
+            generateSequence(database.sequences.elementAt(i), tableOwner);
+        writer.flush();
       }
     }
     catch (IOException e1)
     {
       outLog.println("Generate SQLServer SQL IO Error");
+    }
+  }
+
+  private static void generateSequence(Sequence sequence, String tableOwner)
+  {
+    writeln("DROP SEQUENCE " + tableOwner + sequence.name + ";");
+    writeln("GO");
+    writeln();
+    writeln("CREATE SEQUENCE " + tableOwner + sequence.name);
+    writeln("  MINVALUE  " + sequence.minValue);
+    writeln("  MAXVALUE  " + sequence.maxValue);
+    writeln("  INCREMENT BY " + sequence.increment);
+    if (sequence.cycleFlag)
+      writeln("  CYCLE");
+    if (sequence.orderFlag)
+      writeln("  ORDER");
+    writeln("  START WITH " + sequence.startWith);
+    writeln("GO");
+    writeln();
+    if (tableOwner.length() > 0)
+    {
+      writeln("DROP SYNONYM " + sequence.name);
+      writeln("GO");
+      writeln();
+      writeln("CREATE SYNONYM " + sequence.name + " FOR " + tableOwner + sequence.name);
+      writeln("GO");
+      writeln();
     }
   }
 
@@ -178,324 +159,178 @@ public class MSSqlDDL extends vlab.jportal.Generator
     return work;
   }
 
-  static void generateAuditTable(Table table, PrintWriter outData)
+  static void generateTable(Table table)
   {
-    String auditName = tableOwner + useExtra(table.useLiteral(), "Audit");
-    outData.println("IF OBJECT_ID('" + auditName + "', 'U') IS NOT NULL");
-    outData.println("    DROP TABLE " + auditName);
-    outData.println("GO");
-    outData.println();
-    outData.println("CREATE TABLE " + auditName);
-    outData.println("(");
-    outData.println("  AuditId INTEGER IDENTITY(1,1) NOT NULL PRIMARY KEY");
-    outData.println(", AuditAction INTEGER NOT NULL -- 1 = INSERT, 2 = DELETE, 3 = UPDATE");
-    outData.println(", AuditWhen DATETIME NOT NULL");
-    for (int i = 0; i < table.fields.size(); i++)
-    {
-      Field field = table.fields.elementAt(i);
-      outData.println(", " + varType(field, true, false) + " NULL");
-    }
-    outData.println(")");
-    outData.println("GO");
-    outData.println();
-  }
-
-  static void generateAuditTrigger(Table table, PrintWriter outData)
-  {
-    String triggerName = tableOwner + useExtra(table.useLiteral(), "AuditTrigger");
-    String auditName = tableOwner + useExtra(table.useLiteral(), "Audit");
-    outData.println("IF OBJECT_ID('" + triggerName + "','TR') IS NOT NULL");
-    outData.println("    DROP TRIGGER " + triggerName);
-    outData.println("GO");
-    outData.println();
-    outData.println("CREATE TRIGGER " + triggerName + " ON " + triggerName);
-    outData.println("FOR INSERT, DELETE, UPDATE AS");
-    outData.println("BEGIN");
-    outData.println("  DECLARE @INSERT INT, @DELETE INT, @ACTION INT;");
-    outData.println("  SELECT @INSERT = COUNT(*) FROM INSERTED;");
-    outData.println("  SELECT @DELETE = COUNT(*) FROM DELETED;");
-    outData.println("  IF @INSERT > 0 SELECT @ACTION = 1 ELSE SELECT @ACTION = 0;");
-    outData.println("  IF @DELETE > 0 SELECT @ACTION = @ACTION + 2;");
-    outData.println("  -- 1 = INSERT, 2 = DELETE, 3 = UPDATE");
-    outData.println("  IF @ACTION = 2 BEGIN");
-    outData.println("    INSERT INTO " + auditName);
-    outData.println("    SELECT @ACTION");
-    outData.println("         , GETDATE()");
-    for (int i = 0; i < table.fields.size(); i++)
-    {
-      Field field = table.fields.elementAt(i);
-      outData.println("          , " + field.useLiteral());
-    }
-    outData.println("    FROM DELETED;");
-    outData.println("  END ELSE");
-    outData.println("  BEGIN");
-    outData.println("    INSERT INTO " + auditName);
-    outData.println("    SELECT @ACTION");
-    outData.println("         , GETDATE()");
-    for (int i = 0; i < table.fields.size(); i++)
-    {
-      Field field = table.fields.elementAt(i);
-      outData.println("         , " + field.useLiteral());
-    }
-    outData.println("    FROM INSERTED;");
-    outData.println("  END");
-    outData.println("END");
-    outData.println("GO");
-    outData.println();
-  }
-
-  static void generateTable(Table table, PrintWriter outData)
-  {
+    boolean bigSequence = false;
     String tableName = tableOwner + table.useLiteral();
     String comma = "  ";
-    outData.println("IF OBJECT_ID('" + tableName + "','U') IS NOT NULL");
-    outData.println("    DROP TABLE " + tableName);
-    outData.println("GO");
-    outData.println();
-    outData.println("CREATE TABLE " + tableName);
-    outData.println("(");
+    writeln("IF OBJECT_ID('" + tableName + "','U') IS NOT NULL");
+    writeln("    DROP TABLE " + tableName);
+    writeln("GO");
+    writeln();
+    writeln("CREATE TABLE " + tableName);
+    writeln("(");
     for (int i = 0; i < table.fields.size(); i++, comma = ", ")
     {
       Field field = table.fields.elementAt(i);
-      outData.print(comma + varType(field, false, table.hasSequenceReturning));
+      write(comma + varType(field, false, table.hasSequenceReturning));
       if (field.defaultValue.length() > 0)
-        outData.print(" CONSTRAINT  DF_" + tableName + "_" + field.useLiteral() + " DEFAULT " + field.defaultValue);
+        write(" CONSTRAINT  DF_" + tableName + "_" + field.useLiteral() + " DEFAULT " + field.defaultValue);
       if (!field.isNull)
-        outData.println(" NOT NULL");
+        writeln(" NOT NULL");
       else
-        outData.println(" NULL");
+        writeln(" NULL");
+      if (field.type == Field.BIGSEQUENCE)
+        bigSequence = true;
     }
-    if (internalStamps)
-    {
-      outData.println(comma + "UpdateWhen  DATETIME DEFAULT CURRENT_TIMESTAMP NULL");
-      outData.println(comma + "UpdateByWho CHAR(8)  DEFAULT USER NULL ");
-    }
-    if (addTimestamp)
-      outData.println(comma + "TIMESTAMP");
-    if (!generate42)
-    {
-      for (int i = 0; i < table.keys.size(); i++)
-      {
-        Key key = table.keys.elementAt(i);
-        if (key.isPrimary)
-          generatePrimary(key, tableSchema + "_" + table.name, outData);
-        else if (key.isUnique)
-          generateUnique(key, tableSchema + "_" + table.name, outData);
-      }
-      for (int i = 0; i < table.links.size(); i++)
-      {
-        Link link = table.links.elementAt(i);
-        generateLink(link, tableSchema + "_" + table.name, outData);
-      }
-      //      if (hasEnums)
-      //        generateEnumLinks(table, outData);
-    }
-    outData.println(")");
-    outData.println("GO");
-    outData.println();
     for (int i = 0; i < table.keys.size(); i++)
     {
       Key key = table.keys.elementAt(i);
-      if (generate42 || (!key.isPrimary && !key.isUnique))
-        generateKey(key, outData, tableName);
+      if (key.isPrimary)
+        generatePrimary(key, tableSchema + table.name);
+      else if (key.isUnique)
+        generateUnique(key, tableSchema + table.name);
     }
-    if (generate42)
+    for (int i = 0; i < table.links.size(); i++)
     {
-      for (int i = 0; i < table.links.size(); i++)
+      Link link = table.links.elementAt(i);
+      generateLink(link, tableSchema + table.name);
+    }
+    writeln(")");
+    writeln("GO");
+    writeln();
+    if (useSequence && table.hasSequence)
+    {
+      writeln("DROP SEQUENCE " + tableOwner + table.name + "Seq");
+      writeln("GO");
+      writeln();
+      writeln("CREATE SEQUENCE " + tableOwner + table.name + "Seq");
+      if (bigSequence == true)
+        writeln("  AS BIGINT");
+      else
+        writeln("  AS INT");
+      writeln("GO");
+      writeln();
+      if (tableOwner.length() > 0)
       {
-        Link link = table.links.elementAt(i);
-        generateSpLink(link, outData, tableName);
+        writeln("DROP SYNONYM " + table.name + "SEQ");
+        writeln("GO");
+        writeln();
+        writeln("CREATE SYNONYM " + table.name + "SEQ FOR " + tableOwner + table.name + "SEQ");
+        writeln("GO");
+        writeln();
       }
+//      if (table.grants.size() > 0)
+//      {
+//        Grant grant = table.grants.elementAt(0);
+//        for (int j = 0; j < grant.users.size(); j++)
+//        {
+//          String user = grant.users.elementAt(j);
+//          writeln("GRANT SELECT ON " + tableOwner + tableName + "SEQ TO " + user + "");
+//          writeln("GO");
+//          writeln();
+//        }
+//      }
+    }
+    for (int i = 0; i < table.keys.size(); i++)
+    {
+      Key key = table.keys.elementAt(i);
+      if ((!key.isPrimary && !key.isUnique))
+        generateKey(key, tableName);
     }
     for (int i = 0; i < table.grants.size(); i++)
     {
       Grant grant = table.grants.elementAt(i);
-      generateGrant(grant, outData, table.database.userid + "." + tableName);
-    }
-    if (useInsertTrigger)
-    {
-      String insertTrigger = tableOwner + useExtra(table.useLiteral(), "InsertTrigger");
-      if (table.hasSequence || table.hasUserStamp || table.hasTimeStamp)
-      {
-        outData.println("IF OBJECT_ID('" + insertTrigger + "','TR') IS NOT NULL");
-        outData.println("    DROP TRIGGER " + insertTrigger);
-        outData.println("GO");
-        outData.println();
-        outData.println("CREATE TRIGGER " + insertTrigger + " ON " + tableName + " FOR INSERT AS");
-        for (int i = 0; i < table.fields.size(); i++)
-        {
-          Field field = table.fields.elementAt(i);
-          if (field.type == Field.SEQUENCE)
-          {
-            outData.println("UPDATE " + tableName + " SET " + field.useLiteral() + "=" + field.useLiteral() + "+0");
-            outData.println("WHERE " + field.useLiteral() + "=(SELECT MAX(" + field.useLiteral() + ") FROM " + tableName + ")");
-          }
-        }
-        outData.println("UPDATE " + tableName);
-        outData.println("SET");
-        comma = "  ";
-        for (int i = 0; i < table.fields.size(); i++)
-        {
-          Field field = table.fields.elementAt(i);
-          if (field.type == Field.SEQUENCE)
-          {
-            outData.println(comma + field.useLiteral() + " = (SELECT MAX(" + field.useLiteral() + ") FROM " + tableName + ")+1");
-            comma = ", ";
-          } else if (field.type == Field.USERSTAMP)
-          {
-            outData.println(comma + field.useLiteral() + " = USER_NAME()");
-            comma = ", ";
-          } else if (field.type == Field.TIMESTAMP)
-          {
-            outData.println(comma + field.useLiteral() + " = GETDATE()");
-            comma = ", ";
-          }
-        }
-        String cond = "WHERE ";
-        for (int i = 0; i < table.fields.size(); i++)
-        {
-          Field field = table.fields.elementAt(i);
-          if (field.isPrimaryKey)
-          {
-            outData.println(cond + field.useLiteral() + " = (SELECT " + field.useLiteral() + " FROM INSERTED)");
-            cond = "  AND ";
-          }
-        }
-        outData.println("GO");
-        outData.println();
-      }
-    }
-    if ((table.hasUserStamp || table.hasTimeStamp) && auditTrigger)
-    {
-      String updateTrigger = tableOwner + useExtra(table.useLiteral(), "UpdateTrigger");
-      outData.println("IF OBJECT_ID('" + updateTrigger + "','TR') IS NOT NULL");
-      outData.println("    DROP TRIGGER " + updateTrigger);
-      outData.println("GO");
-      outData.println();
-      outData.println("CREATE TRIGGER " + updateTrigger + " ON " + tableName + " FOR UPDATE AS");
-      outData.println("UPDATE " + tableName);
-      outData.println("SET");
-      comma = "  ";
-      for (int i = 0; i < table.fields.size(); i++)
-      {
-        Field field = table.fields.elementAt(i);
-        if (field.type == Field.USERSTAMP)
-        {
-          outData.println(comma + field.useLiteral() + " = USER_NAME()");
-          comma = ", ";
-        } else if (field.type == Field.TIMESTAMP)
-        {
-          outData.println(comma + field.useLiteral() + " = GETDATE()");
-          comma = ", ";
-        }
-      }
-      outData.println("FROM INSERTED I");
-      String cond = "WHERE ";
-      for (int i = 0; i < table.fields.size(); i++)
-      {
-        Field field = table.fields.elementAt(i);
-        if (field.isPrimaryKey)
-        {
-          outData.println(cond + tableName + "." + field.useLiteral() + " = I." + field.useLiteral() + " ");
-          cond = "  AND ";
-        }
-      }
-      outData.println("GO");
-      outData.println();
-    }
-    if (auditTrigger)
-    {
-      generateAuditTable(table, outData);
-      generateAuditTrigger(table, outData);
+      generateGrant(grant, tableName);
     }
     for (int i = 0; i < table.views.size(); i++)
     {
       View view = table.views.elementAt(i);
-      generateView(view, outData, table);
+      generateView(view, table);
     }
     for (int i = 0; i < table.procs.size(); i++)
     {
       Proc proc = table.procs.elementAt(i);
       if (proc.isData)
-        generateData(proc, outData);
+        generateData(proc);
     }
   }
 
   /**
    * Generates SQL code for SQL Server Index
    */
-  static void generateKey(Key key, PrintWriter outData, String table)
+  static void generateKey(Key key, String table)
   {
     String comma = "  ";
     if (key.isPrimary)
-      outData.println("CREATE UNIQUE CLUSTERED INDEX " + key.name + " ON " + table);
+      writeln("CREATE UNIQUE CLUSTERED INDEX " + key.name + " ON " + table);
     else if (key.isUnique)
-      outData.println("CREATE UNIQUE INDEX " + key.name + " ON " + table);
+      writeln("CREATE UNIQUE INDEX " + key.name + " ON " + table);
     else if (key.isClustered)
-      outData.println("CREATE CLUSTERED INDEX " + key.name + " ON " + table);
+      writeln("CREATE CLUSTERED INDEX " + key.name + " ON " + table);
     else
-      outData.println("CREATE INDEX " + key.name + " ON " + table);
-    outData.println("(");
+      writeln("CREATE INDEX " + key.name + " ON " + table);
+    writeln("(");
     for (int i = 0; i < key.fields.size(); i++, comma = ", ")
     {
       String name = key.fields.elementAt(i);
-      outData.println(comma + name);
+      writeln(comma + name);
     }
-    outData.println(")");
+    writeln(")");
     for (int i = 0; i < key.options.size(); i++)
     {
       String option = key.options.elementAt(i);
-      outData.println(option);
+      writeln(option);
     }
-    outData.println("GO");
-    outData.println();
+    writeln("GO");
+    writeln();
     if (key.isPrimary)
     {
-      outData.println("sp_primarykey " + table);
+      writeln("sp_primarykey " + table);
       for (int i = 0; i < key.fields.size(); i++)
       {
         String name = key.fields.elementAt(i);
-        outData.println(", " + name);
+        writeln(", " + name);
       }
-      outData.println("GO");
-      outData.println();
+      writeln("GO");
+      writeln();
     }
   }
 
   /**
    * Generates SQL code for ORACLE Primary Key create
    */
-  static void generatePrimary(Key key, String tableName, PrintWriter outData)
+  static void generatePrimary(Key key, String tableName)
   {
     String comma = "    ";
-    outData.println(", CONSTRAINT PK_" + tableName + "_" + key.name + " PRIMARY KEY (");
+    writeln(", CONSTRAINT PK_" + tableName + "_" + key.name + " PRIMARY KEY (");
     for (int i = 0; i < key.fields.size(); i++, comma = "  , ")
     {
       String name = key.fields.elementAt(i);
-      outData.println(comma + name);
+      writeln(comma + name);
     }
-    outData.println("  )");
+    writeln("  )");
   }
 
   /**
    * Generates SQL code for ORACLE Unique Key create
    */
-  static void generateUnique(Key key, String tableName, PrintWriter outData)
+  static void generateUnique(Key key, String tableName)
   {
     String comma = "    ";
-    outData.println(", CONSTRAINT UK_" + tableName + "_" + key.name + (key.isClustered ? " CLUSTERED UNIQUE (" : " UNIQUE ("));
+    writeln(", CONSTRAINT UK_" + tableName + "_" + key.name + (key.isClustered ? " CLUSTERED UNIQUE (" : " UNIQUE ("));
     for (int i = 0; i < key.fields.size(); i++, comma = "  , ")
     {
       String name = key.fields.elementAt(i);
-      outData.println(comma + name);
+      writeln(comma + name);
     }
-    outData.println("  )");
+    writeln("  )");
   }
 
   /**
    * Generates foreign key SQL Code appended to table
    */
-  static void generateLink(Link link, String table, PrintWriter outData)
+  static void generateLink(Link link, String table)
   {
     String comma = "    ";
     String temp = "";
@@ -504,61 +339,61 @@ public class MSSqlDDL extends vlab.jportal.Generator
       String name = link.fields.elementAt(i);
       temp += "_" + name;
     }
-    outData.println(", CONSTRAINT FK_" + table + "_" + link.useName() + temp + " FOREIGN KEY (");
+    writeln(", CONSTRAINT FK_" + table + "_" + link.useName() + temp + " FOREIGN KEY (");
     for (int i = 0; i < link.fields.size(); i++, comma = "   ,")
     {
       String name = link.fields.elementAt(i);
-      outData.println(comma + name);
+      writeln(comma + name);
     }
-    outData.println("  )");
+    writeln("  )");
     if (link.linkFields.size() > 0)
     {
-      outData.println("  REFERENCES " + link.name + "(");
+      writeln("  REFERENCES " + tableOwner + link.name + "(");
       comma = "    ";
       for (int i = 0; i < link.linkFields.size(); i++, comma = "   ,")
       {
         String name = link.linkFields.elementAt(i);
-        outData.println(comma + name);
+        writeln(comma + name);
       }
-      outData.println("  )");
+      writeln("  )");
     } else
     {
-      outData.println("  REFERENCES " + link.name);
+      writeln("  REFERENCES " + tableOwner + link.name);
     }
     if (link.isDeleteCascade)
     {
-      outData.println("    ON DELETE CASCADE");
+      writeln("    ON DELETE CASCADE");
     }
     if (link.isUpdateCascade)
     {
-      outData.println("    ON UPDATE CASCADE");
+      writeln("    ON UPDATE CASCADE");
     }
     for (int i = 0; i < link.options.size(); i++)
     {
       String option = (String) link.options.elementAt(i);
-      outData.println("    " + option);
+      writeln("    " + option);
     }
   }
 
   /**
    * Generates foreign key SQL Code for SQL Server
    */
-  static void generateSpLink(Link link, PrintWriter outData, String table)
+  static void generateSpLink(Link link, String table)
   {
-    outData.println("sp_foreignkey " + table + ", " + link.name);
+    writeln("sp_foreignkey " + table + ", " + link.name);
     for (int i = 0; i < link.fields.size(); i++)
     {
       String name = link.fields.elementAt(i);
-      outData.println(", " + name);
+      writeln(", " + name);
     }
-    outData.println("GO");
-    outData.println();
+    writeln("GO");
+    writeln();
   }
 
   /**
    * Generates grant SQL Code for SQL Server
    */
-  static void generateGrant(Grant grant, PrintWriter outData, String object)
+  static void generateGrant(Grant grant, String object)
   {
     for (int i = 0; i < grant.perms.size(); i++)
     {
@@ -566,9 +401,9 @@ public class MSSqlDDL extends vlab.jportal.Generator
       for (int j = 0; j < grant.users.size(); j++)
       {
         String user = grant.users.elementAt(j);
-        outData.println("GRANT " + perm + " ON " + object + " TO " + user);
-        outData.println("GO");
-        outData.println();
+        writeln("GRANT " + perm + " ON " + object + " TO " + user);
+        writeln("GO");
+        writeln();
       }
     }
   }
@@ -576,65 +411,65 @@ public class MSSqlDDL extends vlab.jportal.Generator
   /**
    * Generates view SQL Code for SQL Server
    */
-  private static void generateView(View view, PrintWriter outData, String viewName)
+  private static void generateView(View view, String viewName)
   {
-    outData.println("IF OBJECT_ID('" + viewName + "','V') IS NOT NULL");
-    outData.println("    DROP VIEW " + viewName);
-    outData.println("GO");
-    outData.println();
-    outData.println("CREATE VIEW " + viewName);
-    outData.println("(");
+    writeln("IF OBJECT_ID('" + viewName + "','V') IS NOT NULL");
+    writeln("    DROP VIEW " + viewName);
+    writeln("GO");
+    writeln();
+    writeln("CREATE VIEW " + viewName);
+    writeln("(");
     String comma = "  ";
     for (int i = 0; i < view.aliases.size(); i++)
     {
       String alias = (String) view.aliases.elementAt(i);
-      outData.println(comma + alias);
+      writeln(comma + alias);
       comma = ", ";
     }
-    outData.println(") AS");
-    outData.println("(");
+    writeln(") AS");
+    writeln("(");
     for (int i = 0; i < view.lines.size(); i++)
     {
       String line = (String) view.lines.elementAt(i);
-      outData.println(line);
+      writeln(line);
     }
-    outData.println(")");
-    outData.println("GO");
-    outData.println();
+    writeln(")");
+    writeln("GO");
+    writeln();
     for (int i = 0; i < view.users.size(); i++)
     {
       String user = (String) view.users.elementAt(i);
-      outData.println("GRANT SELECT ON " + viewName + " TO " + user);
+      writeln("GRANT SELECT ON " + viewName + " TO " + user);
     }
     if (view.users.size() > 0)
     {
-      outData.println("GO");
-      outData.println();
+      writeln("GO");
+      writeln();
     }
   }
 
-  static void generateView(View view, PrintWriter outData, Table table)
+  static void generateView(View view, Table table)
   {
     String viewName = tableOwner + useExtra(table.useLiteral(), view.name);
-    generateView(view, outData, viewName);
+    generateView(view, viewName);
   }
 
-  static void generateView(View view, PrintWriter outData)
+  static void generateView(View view)
   {
-    generateView(view, outData, view.name);
+    generateView(view, view.name);
   }
 
-  static void generateData(Proc proc, PrintWriter outData)
+  static void generateData(Proc proc)
   {
     for (int i = 0; i < proc.lines.size(); i++)
     {
       Line l = proc.lines.elementAt(i);
       if (l.line.startsWith("--start"))
-        outData.println("BEGIN TRANSACTION;");
+        writeln("BEGIN TRANSACTION;");
       else
-        outData.println(l);
+        writeln(l.line);
     }
-    outData.println();
+    writeln();
   }
 
   /**
@@ -655,11 +490,11 @@ public class MSSqlDDL extends vlab.jportal.Generator
       case Field.LONG:
         return field.useLiteral() + " BIGINT";
       case Field.SEQUENCE:
-        if (hasSequenceReturning)
+        if (useSequence == false && hasSequenceReturning)
           return field.useLiteral() + " INTEGER IDENTITY(1,1)";
         return field.useLiteral() + " INTEGER";
       case Field.BIGSEQUENCE:
-        if (hasSequenceReturning)
+        if (useSequence == false && hasSequenceReturning)
           return field.useLiteral() + " BIGINT IDENTITY(1,1)";
         return field.useLiteral() + " BIGINT";
       case Field.IDENTITY:

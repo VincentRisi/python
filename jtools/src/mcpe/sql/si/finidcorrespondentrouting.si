@@ -1,0 +1,59 @@
+//
+// File : &URL: http://cdssvnmaster/MCPE/trunk/targsrc/sql/si/finidcorrespondentrouting.si &
+//
+// &Author: simon &
+//
+// &Revision: 99 &
+//
+// &Date: 2007-06-29 09:59:40 +0200 (Fri, 29 Jun 2007) &
+
+DATABASE VLAB 
+PACKAGE  vlab.mcpe
+OUTPUT   finidcorrespondentrouting
+SERVER   LV01
+SCHEMA   DBUD00
+USERID   dbu
+PASSWORD dbudev
+
+TABLE FinidCorrespondentRouting
+  FinId             int
+  Branchid          int
+  RouteFinId        int
+  RouteBranchid     int
+  Status            byte  (Active=0 Inactive=1 MarkForDelete=2)
+  USId              Char(16)
+  Tmstamp           timestamp
+
+KEY CorrespondentBankKey PRIMARY
+  FinId
+
+LINK AlmanacBank
+  FinId
+  Branchid
+
+LINK AlmanacBank
+  RouteFinId
+  RouteBranchid
+
+PROC Insert     
+PROC Update     
+PROC SelectOne  
+PROC DeleteOne  
+
+
+
+//used by router,ide
+PROC Get 
+INPUT
+  FinId             int
+OUTPUT (single)
+  RouteFinId        int
+sqlcode
+   Select
+   RouteFinId
+   FROM
+      FinidCorrespondentRouting
+   WHERE
+   FinId    = :FinId
+ENDCODE
+

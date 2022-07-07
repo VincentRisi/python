@@ -1,0 +1,54 @@
+//#
+//# File : $URL: http://cdssvnmaster/MCPE/trunk/targsrc/sql/si/sourcesystem.si $
+//#
+//# $Author: simon $
+//#
+//# $Revision: 97 $
+//#
+//# $Date: 2007-06-29 09:30:55 +0200 (Fri, 29 Jun 2007) $
+
+//$PARMS 1
+//$DESCR 'System for Source'
+//$VIEWONLY
+
+//SERVER   @DN29_ATLAS
+//CONNECT  NPUD00/CONTROL
+
+DATABASE MCPE
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   SourceSystem
+SERVER   PUTTY
+
+TABLE SourceSystem
+  ID         Char(16)
+  Name       Char(256)
+  Decription Char(256)
+  Status     int  (ACTIVE=0 INACTIVE=1 MARKDELETE=2)
+  USId       Char(16)
+  TmStamp    DateTime
+
+KEY SourceSystemKey PRIMARY
+  ID
+
+PROC Insert
+PROC Update
+PROC SelectOne
+PROC DeleteOne
+PROC SelectAll
+
+PROC ByName
+  INPUT
+    Name   char(256)
+  OUTPUT( SINGLE )
+    ID     char(16)
+SQLCODE
+    SELECT ID
+    FROM   SourceSystem
+    WHERE  Name = :Name
+ENDCODE
+
+
+SQLDATA 
+insert into SourceSystem Values ('SAFFY', 'SAFFY', 'Swift Router SAFFY', 0, 'simon', CURRENT_TIMESTAMP)
+enddata

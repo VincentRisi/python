@@ -1,0 +1,38 @@
+// &Author: Johan &
+//
+// &Revision: 1 &
+//
+// &Date: 2013-10-02 &
+
+DATABASE VLAB 
+PACKAGE  vlab.mcpe
+OUTPUT   siressholidays
+SERVER   LV01
+SCHEMA   DBUD00
+USERID   dbu
+PASSWORD dbudev
+
+TABLE SIRESSHolidays
+  HoliDayDate	Date	
+  Description	Char(50)		
+  USId    	    Char(16)
+  TmStamp 	    timestamp
+
+KEY CurrentDayKey PRIMARY 
+  HoliDayDate
+  
+PROC Insert		
+PROC Update
+PROC SelectOne		
+PROC DeleteOne		
+
+PROC SelectHoliday
+INPUT
+	inDate		Char(8)
+OUTPUT 	outHoliDayDate	Char(8)	
+sqlcode
+    SELECT to_char(HoliDayDate,'YYYYMMDD') HoliDayDate 
+    FROM SIRESSHolidays
+    WHERE HoliDayDate = to_date(:inDate, 'YYYYMMDD')
+endcode
+

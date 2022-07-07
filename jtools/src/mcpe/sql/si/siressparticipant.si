@@ -1,0 +1,137 @@
+// &Author: Johan &
+//
+// &Revision: 1 &
+//
+// &Date: 2013-10-01 &
+
+DATABASE VLAB 
+PACKAGE  vlab.mcpe
+OUTPUT   siressparticipant
+SERVER   LV01
+SCHEMA   DBUD00
+USERID   dbu
+PASSWORD dbudev
+
+TABLE SIRESSParticipants
+  ParticipantBIC	Char(11)	// SWIFT Address of the SIRESS Participant
+  ParticipantBankName	Char(50)	// Bank Name of the SIRESS Participant
+  CPLAccNo		Char(16)	// The Participants CPL SIRESS account number     
+  RTLAccNo		Char(16)	// The Participants RTL SIRESS account number
+  CPLGLAccNo		Char(16)	// The CPL GL account number
+  RTLGLAccNo		Char(16)	// The RTL GL account number
+  SiressBIC		char(11)		// QA :ZYCQZAJ0  PROD: SARBZAJS
+  PayCode		char(6)		// Will always be "SIRESS"	
+  USId    		Char(16)
+  TmStamp 		timestamp
+
+KEY ParticipantKey PRIMARY
+  ParticipantBIC
+
+PROC Insert 	
+PROC Update
+PROC SelectOne
+PROC DeleteOne 
+PROC Exists    
+
+PROC SelParticipantForPartSwift
+INPUT
+	inParticipantBIC	Char(11)
+
+OUTPUT 	outParticipantBIC	Char(11)
+	outCPLAccNo		Char(16)	
+	outRTLAccNo		Char(16)	
+	outCPLGLAccNo		Char(16)	
+	outRTLGLAccNo		Char(16)	
+	outSiressBIC		Char(11)
+	outPayCode		Char(6)
+sqlcode
+	SELECT ParticipantBIC, CPLAccNo, RTLAccNo, CPLGLAccNo, RTLGLAccNo, SiressBIC, PayCode  
+	FROM SIRESSParticipants
+	WHERE UPPER(ParticipantBIC) LIKE '%'||UPPER(:inParticipantBIC)||'%'
+endcode
+
+PROC SelParticipantForFullSwift
+INPUT
+	inParticipantBIC	Char(11)
+
+OUTPUT 	outParticipantBIC	Char(11)
+	outCPLAccNo		Char(16)	
+	outRTLAccNo		Char(16)	
+	outCPLGLAccNo		Char(16)	
+	outRTLGLAccNo		Char(16)	
+	outSiressBIC		Char(11)
+	outPayCode		Char(6)
+sqlcode
+	SELECT ParticipantBIC, CPLAccNo, RTLAccNo, CPLGLAccNo, RTLGLAccNo, SiressBIC, PayCode  
+	FROM SIRESSParticipants
+	WHERE UPPER(ParticipantBIC) = UPPER(:inParticipantBIC)
+endcode
+
+PROC SelParticipantForCPLAccNo
+INPUT
+	inCPLAccNo		Char(16)
+
+OUTPUT 	outParticipantBIC	Char(11)
+	outCPLAccNo		Char(16)	
+	outRTLAccNo		Char(16)	
+	outCPLGLAccNo		Char(16)	
+	outRTLGLAccNo		Char(16)	
+	outSiressBIC		Char(11)
+	outPayCode		Char(6)
+sqlcode
+	SELECT ParticipantBIC, CPLAccNo, RTLAccNo, CPLGLAccNo, RTLGLAccNo, SiressBIC, PayCode  
+	FROM SIRESSParticipants
+	WHERE CPLAccNo = :inCPLAccNo
+endcode
+
+PROC SelParticipantForRTLAccNo
+INPUT
+	inRTLAccNo		Char(16)
+
+OUTPUT 	outParticipantBIC	Char(11)
+	outCPLAccNo		Char(16)	
+	outRTLAccNo		Char(16)	
+	outCPLGLAccNo		Char(16)	
+	outRTLGLAccNo		Char(16)	
+	outSiressBIC		Char(11)
+	outPayCode		Char(6)
+sqlcode
+	SELECT ParticipantBIC, CPLAccNo, RTLAccNo, CPLGLAccNo, RTLGLAccNo, SiressBIC, PayCode  
+	FROM SIRESSParticipants
+	WHERE RTLAccNo = :inRTLAccNo
+endcode
+
+PROC SelParticipantForCPLGLAccNo
+INPUT
+	inCPLGLAccNo		Char(16)
+
+OUTPUT 	outParticipantBIC	Char(11)
+	outCPLAccNo		Char(16)	
+	outRTLAccNo		Char(16)	
+	outCPLGLAccNo		Char(16)	
+	outRTLGLAccNo		Char(16)	
+	outSiressBIC		Char(11)
+	outPayCode		Char(6)
+sqlcode
+	SELECT ParticipantBIC, CPLAccNo, RTLAccNo, CPLGLAccNo, RTLGLAccNo, SiressBIC, PayCode  
+	FROM SIRESSParticipants
+	WHERE CPLGLAccNo = :inCPLGLAccNo
+endcode
+
+PROC SelParticipantForRTLGLAccNo
+INPUT
+	inRTLGLAccNo		Char(16)
+
+OUTPUT 	outParticipantBIC	Char(11)
+	outCPLAccNo		Char(16)	
+	outRTLAccNo		Char(16)	
+	outCPLGLAccNo		Char(16)	
+	outRTLGLAccNo		Char(16)	
+	outSiressBIC		Char(11)
+	outPayCode		Char(6)
+sqlcode
+	SELECT ParticipantBIC, CPLAccNo, RTLAccNo, CPLGLAccNo, RTLGLAccNo, SiressBIC, PayCode  
+	FROM SIRESSParticipants
+	WHERE RTLGLAccNo = :inRTLGLAccNo
+endcode
+

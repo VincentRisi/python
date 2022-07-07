@@ -1,10 +1,8 @@
-DATABASE VLAB
+DATABASE audio
 PACKAGE  vlab.audio
 OUTPUT   audio
-SERVER   LV01
-SCHEMA   dbud00
-USERID   dbu
-PASSWORD dbudev
+SERVER   audio
+schema   audio
 
 DECLARE
     _Id   char 10
@@ -24,6 +22,7 @@ PROC Insert upsert
 PROC Update
 PROC SelectOne
 PROC DeleteOne
+PROC Exists
 PROC Merge
 
 TABLE Narrator
@@ -35,6 +34,7 @@ PROC Insert upsert
 PROC Update
 PROC SelectOne
 PROC DeleteOne
+PROC Exists
 PROC Merge
 
 TABLE Series    
@@ -46,6 +46,7 @@ PROC Insert upsert
 PROC Update
 PROC SelectOne
 PROC DeleteOne
+PROC Exists
 PROC Merge
 
 TABLE Book
@@ -68,6 +69,7 @@ PROC Insert upsert
 PROC Update
 PROC SelectOne
 PROC DeleteOne
+PROC Exists
 PROC Merge
 
 PROC ByAuthor
@@ -96,6 +98,7 @@ PROC Insert upsert
 PROC Update
 PROC SelectOne
 PROC DeleteOne
+PROC Exists
 PROC Merge
 
 TABLE CoNarrators
@@ -110,4 +113,5 @@ PROC Insert upsert
 PROC Update
 PROC SelectOne
 PROC DeleteOne
+PROC Exists
 PROC Merge

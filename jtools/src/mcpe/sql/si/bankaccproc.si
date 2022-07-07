@@ -1,0 +1,44 @@
+//
+// File : &URL: http://cdssvnmaster/MCPE/trunk/targsrc/sql/si/bankaccproc.si &
+//
+// &Author: simon &
+//
+// &Revision: 99 &
+//
+// &Date: 2007-06-29 09:59:40 +0200 (Fri, 29 Jun 2007) &
+
+DATABASE VLAB 
+PACKAGE  vlab.mcpe
+OUTPUT   bankaccproc
+SERVER   LV01
+SCHEMA   DBUD00
+USERID   dbu
+PASSWORD dbudev
+
+TABLE BankAccount
+//  SwiftAddress Char(11)
+//  CurrId Char(4)
+//  AccountTypeId Char(16)
+//  AccountNo Char(64)
+//  USId         Char(16)
+//  TmStamp      DateTime
+
+// used by Rutter
+PROC FromLT 
+INPUT
+  SwiftAddress Char(11)
+  CurrId Char(4)
+  AccountTypeId Char(16)
+OUTPUT (single)
+  AccountNo Char(64)
+sqlcode
+  SELECT
+     AccountNo
+  FROM
+     BankAccount
+  Where
+      SwiftAddress  = :SwiftAddress
+  AND CurrId        = :CurrId
+  AND AccountTypeId = :AccountTypeId
+ENDCODE
+

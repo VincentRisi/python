@@ -1,0 +1,98 @@
+//  &Revision: 98 &
+//  &Date: 2007-06-29 09:32:15 +0200 (Fri, 29 Jun 2007) &
+
+DATABASE VLAB 
+PACKAGE  vlab.mcpe
+OUTPUT   staffgroup
+SERVER   LV01
+SCHEMA   DBUD00
+USERID   dbu
+PASSWORD dbudev
+
+TABLE StaffGroup
+  StaffId      Char(16)
+  GroupId      Char(16)
+  USId         Char(16)
+  TmStamp      DateTime
+
+KEY StaffGroupKey PRIMARY
+  StaffId
+  GroupId
+
+LINK Staff 
+  StaffId
+  //DELETE CASCADE
+
+LINK Grps GroupId
+
+PROC Insert 
+PROC DeleteOne 
+
+PROC InsertStaff 
+INPUT
+  GroupId      Char(16)
+  USId         Char(16)
+sqlcode
+  insert into StaffGroup
+    (select Id, :GroupId, :USId, SYSDATE
+     from Staff
+     where Id in (&StaffList(40960)))
+ENDCODE
+
+PROC DeleteStaff 
+INPUT
+  GroupId      Char(16)
+sqlcode
+  delete from ScriptGroup
+  where GroupId = :GroupId
+  and StaffId in (&StaffList(40960))
+ENDCODE
+
+PROC InsertGroups 
+INPUT
+  StaffId      Char(16)
+  USId         Char(16)
+sqlcode
+  insert into StaffGroup
+    (select :StaffId, GroupId, :USId, SYSDATE
+     from Grps
+     where GroupId in (&GroupList(40960)))
+ENDCODE
+
+PROC DeleteGroups 
+INPUT
+  StaffId      Char(16)
+sqlcode
+  delete from ScriptGroup
+  where GroupId in (&GroupList(40960))
+  and StaffId = :StaffId
+ENDCODE
+
+PROC List
+INPUT
+  StaffId      Char(16)
+OUTPUT (1000)
+  GroupId      Char(16)
+sqlcode
+  select GroupId from StaffGroup where StaffId = :StaffId
+ENDCODE
+
+PROC ListAll 
+OUTPUT (1000)
+  StaffId Char(16)
+  GroupId Char(16)
+sqlcode
+  SELECT StaffId
+       , GroupId
+  FROM StaffGroup
+  ORDER BY StaffId
+         , GroupId
+ENDCODE
+
+
+sqldata
+insert into StaffGroup values ('PUTTYIDE', 'INTRSYS', 'PUTTYIDE', SYSDATE);
+insert into StaffGroup (select Staff.ID, 'NEDPAYM', 'PUTTYIDE', SYSDATE);
+insert into StaffGroup (select Staff.ID, 'ZARPAYM', 'PUTTYIDE', SYSDATE);
+commit;
+enddata

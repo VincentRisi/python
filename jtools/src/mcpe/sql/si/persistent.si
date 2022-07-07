@@ -1,0 +1,50 @@
+//  &Revision: 98 &
+//
+//  &Date: 2007-06-29 09:32:15 +0200 (Fri, 29 Jun 2007) &
+//
+DATABASE VLAB 
+PACKAGE  vlab.mcpe
+OUTPUT   persistent
+SERVER   LV01
+SCHEMA   DBUD00
+USERID   dbu
+PASSWORD dbudev
+
+TABLE Persistent
+  Name         Char(255)
+  Ref          Char(255)
+  Type         byte      (StoreString=0 StoreInteger=1 StoreDouble=2)
+  Value        Char(255)
+  USId         Char(16)
+  TmStamp      DateTime
+
+KEY LookupKey PRIMARY
+  Name
+  Ref
+
+PROC SelectOne 
+PROC Insert 
+PROC Update 
+PROC DeleteOne 
+
+// used by PythonIntrinsics
+PROC GetForUpdate 
+INPUT
+  Name Char(256)
+  Ref Char(256)
+OUTPUT (single)
+  Type  byte      
+  Value Char(256)
+sqlcode
+  SELECT
+     Type,
+     Value
+  FROM
+     persistent
+  Where
+     Name = :Name
+     and Ref = :Ref
+  for update
+ENDCODE
+
+

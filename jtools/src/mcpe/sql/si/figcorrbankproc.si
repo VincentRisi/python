@@ -1,0 +1,68 @@
+//
+// File : &URL: http://cdssvnmaster/MCPE/trunk/targsrc/sql/si/figcorrbankproc.si &
+//
+// &Author: simon &
+//
+// &Revision: 99 &
+//
+// &Date: 2007-06-29 09:59:40 +0200 (Fri, 29 Jun 2007) &
+
+DATABASE VLAB 
+PACKAGE  vlab.mcpe
+OUTPUT   figcorrbankproc
+SERVER   LV01
+SCHEMA   DBUD00
+USERID   dbu
+PASSWORD dbudev
+
+TABLE FigCorrespondentBank
+
+//used by router,ide
+PROC GetBySwiftList
+OUTPUT (1000)
+  Country   Char(35)
+  CurrId    Char(4)
+  RankType  Char(1)
+  Rank      Int
+  SwiftAddress    Char(11)
+  Frequency    byte
+  Counter   byte
+sqlcode
+   Select
+   Country
+   ,CurrId
+   ,RankType
+   ,Rank
+   ,SwiftAddress
+   ,Frequency
+   ,Counter
+   FROM
+      FigCorrespondentBank
+   WHERE
+      SwiftAddress in &SwiftList(1024)
+ENDCODE
+
+//used by router,ide
+PROC GetByCountry 
+INPUT
+  Country   Char(35)
+OUTPUT (1000)
+  CurrId    Char(4)
+  RankType  Char(1)
+  Rank      Int
+  SwiftAddress    Char(11)
+  Frequency    byte
+  Counter   byte
+sqlcode
+   Select
+    CurrId
+   ,RankType
+   ,Rank
+   ,SwiftAddress
+   ,Frequency
+   ,Counter
+   FROM
+      FigCorrespondentBank
+   WHERE
+      Country = :Country
+ENDCODE

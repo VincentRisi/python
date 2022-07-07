@@ -1,0 +1,53 @@
+//
+// File : &URL: http://cdssvnmaster/MCPE/trunk/targsrc/sql/si/staff.si &
+//
+// &Author: simon &
+//
+// &Revision: 99 &
+//
+// &Date: 2007-06-29 09:59:40 +0200 (Fri, 29 Jun 2007) &
+
+// This code was generated, do not modify it, modify it at source and regenerate it.
+
+DATABASE VLAB 
+PACKAGE  vlab.mcpe
+OUTPUT   staff
+SERVER   LV01
+SCHEMA   DBUD00
+USERID   dbu
+PASSWORD dbudev
+
+TABLE Staff
+  Id           Char(16)
+  Name         Char(64)
+  Description  Char(256)
+  USId         Char(16)
+  TmStamp      DateTime
+
+KEY StaffKey PRIMARY
+  Id
+
+PROC Insert 
+PROC Update 
+PROC SelectAll
+PROC SelectOne
+PROC DeleteOne 
+
+PROC ListAll 
+OUTPUT (1000)
+  Id Char(16)
+  Name Char(64)
+  Description Char(256)
+sqlcode
+  SELECT Id
+       , Name
+       , Description
+  FROM Staff
+  ORDER BY Id
+ENDCODE
+
+sqldata
+insert into Staff values ('PUTTYIDE', 'Super Snooper', 'Main Super user', 'PUTTYIDE', SYSDATE);
+commit;
+enddata
+

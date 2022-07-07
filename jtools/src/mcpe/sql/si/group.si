@@ -1,0 +1,43 @@
+//  &Revision: 98 &
+//  &Date: 2007-06-29 09:32:15 +0200 (Fri, 29 Jun 2007) &
+
+DATABASE VLAB 
+PACKAGE  vlab.mcpe
+OUTPUT   group
+SERVER   LV01
+SCHEMA   DBUD00
+USERID   dbu
+PASSWORD dbudev
+
+TABLE Grps
+  GroupId      Char(16)
+  Name         Char(64)
+  USId         Char(16)
+  TmStamp      DateTime
+
+KEY GroupKey PRIMARY
+  GroupId
+
+PROC Insert 
+PROC Update 
+PROC SelectAll
+PROC SelectOne
+PROC DeleteOne 
+
+PROC ListAll 
+OUTPUT (1000)
+  GroupId Char(16)
+  Name Char(64)
+sqlcode
+  SELECT GroupId
+       , Name
+  FROM Grps
+  ORDER BY GroupId
+ENDCODE
+
+sqldata
+insert into grps values ('INTRSYS', 'Intrinsics Scripter', 'PUTTYIDE', SYSDATE);
+insert into grps values ('NEDPAYM', 'Nedpayment Scripter', 'PUTTYIDE', SYSDATE);
+insert into grps values ('ZARPAYM', 'Zarpayment Scripter', 'PUTTYIDE', SYSDATE);
+commit;
+enddata

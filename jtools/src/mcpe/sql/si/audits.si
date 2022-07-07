@@ -1,0 +1,24 @@
+DATABASE VLAB 
+PACKAGE  vlab.mcpe
+OUTPUT   audits
+SERVER   LV01
+SCHEMA   DBUD00
+USERID   dbu
+PASSWORD dbudev
+
+TABLE Audits
+  Id        Sequence
+  TableName Char(64)
+  Action    char(64)
+  Old       Char(2000)
+  New       Char(2000)  
+  USId      Char(16)
+  TmStamp   timestamp
+
+KEY AdaptorKey PRIMARY
+  TableName Id
+
+PROC Insert
+PROC Update
+PROC SelectOne
+PROC DeleteOne

@@ -1,0 +1,104 @@
+//  &Revision: 98 &
+//
+//  &Date: 2007-06-29 09:32:15 +0200 (Fri, 29 Jun 2007) &
+//
+DATABASE VLAB 
+PACKAGE  vlab.mcpe
+OUTPUT   summary
+SERVER   LV01
+SCHEMA   DBUD00
+USERID   dbu
+PASSWORD dbudev
+
+TABLE   Summary
+  ID            Sequence
+  MessageID     int
+  SummaryLen    short
+  SummaryData   image  (16000)
+  SummaryType   byte      (XMLDATA=0 Text=1)
+  USId          char (16)
+  Tmstamp       timestamp
+
+GRANT DELETE TO PUBLIC
+GRANT INSERT TO PUBLIC
+GRANT SELECT TO PUBLIC
+GRANT UPDATE TO PUBLIC
+
+// caz added this for cvs
+
+
+KEY     SYS_C00810
+PRIMARY
+  ID
+
+KEY  KEY01
+  MessageID
+
+link Message
+   MessageID
+   //DELETE CASCADE
+
+PROC    Insert 
+PROC    Update
+PROC    DeleteOne
+PROC    SelectOne
+PROC    Exists
+PROC    DeleteAll
+PROC    SelectAll
+PROC    Count
+
+// Used By PE Front End
+PROC ByID
+INPUT
+   InID           int
+OUTPUT(Single)
+   ID             int
+   MessageID      int
+   SummaryLen     short
+   SummaryData    image  (16000)
+   SummaryType    byte      (XMLDATA=0 Text=1)
+   USId           char (16)
+   Tmstamp        timestamp
+sqlcode
+   SELECT
+     ID
+     ,MessageID
+     ,SummaryLen
+     ,SummaryData
+     ,SummaryType
+     ,USId
+     ,to_char(Tmstamp, 'YYYYMMDDHH24MISS')
+     FROM
+      Summary
+   WHERE
+      MessageId = :InID
+ENDCODE
+
+// Used By Router End
+PROC ByDayAndQueueId 
+INPUT
+   InDate           char(8)
+   QueueId          char(16)
+OUTPUT
+   ID             int
+   MessageID      int
+   SummaryLen     short
+   SummaryData    image  (16000)
+   SummaryType    byte      (XMLDATA=0 Text=1)
+   USId           char (16)
+   Tmstamp        timestamp
+sqlcode
+   SELECT /*+RULE*/
+     s.ID
+     ,s.MessageID
+     ,s.SummaryLen
+     ,s.SummaryData
+     ,s.SummaryType
+     ,s.USId
+     ,to_char(s.Tmstamp, 'YYYYMMDDHH24MISS')
+     FROM
+      summary s, message m
+   WHERE
+      s.tmstamp >= to_date(:InDate,'YYYYMMDD') and s.tmstamp-1 < to_date(:InDate,'YYYYMMDD')
+      and m.id = s.messageid and m.queueid = :QueueId
+ENDCODE

@@ -1,0 +1,60 @@
+//  &Revision: 98 &
+//
+//  &Date: 2007-06-29 09:32:15 +0200 (Fri, 29 Jun 2007) &
+//
+
+DATABASE VLAB 
+PACKAGE  vlab.mcpe
+OUTPUT   bankcorrespondents
+SERVER   LV01
+SCHEMA   DBUD00
+USERID   dbu
+PASSWORD dbudev
+
+TABLE BankCorrespondents
+  SwiftAddress  Char(11)
+  CurrId        Char(4)
+  Correspondent Char(11)
+  CreateDate    DateTime
+  USId          Char(16)
+  TmStamp       DateTime
+
+KEY BankCorrespondentsKey PRIMARY
+  SwiftAddress
+  CurrId
+  Correspondent
+
+LINK BankFile
+  SwiftAddress
+  ////DELETE CASCADE
+
+LINK Currency
+  CurrId
+  ////DELETE CASCADE
+
+LINK BankFile
+  Correspondent
+  ////DELETE CASCADE
+
+PROC Insert
+PROC Update
+PROC SelectOne
+PROC DeleteOne
+
+// used by Router,IDE
+PROC Get 
+INPUT
+  SwiftAddress  Char(11)
+  CurrId        Char(4)
+OUTPUT (1000)
+  Correspondent Char(11)
+sqlcode
+  SELECT
+     Correspondent
+  FROM
+     BankCorrespondents
+  Where
+     SwiftAddress = :SwiftAddress
+     and CurrId = :CurrId
+ENDCODE
+

@@ -1,0 +1,88 @@
+DATABASE VLAB 
+PACKAGE  vlab.accuity
+OUTPUT   accuitycontact
+SERVER   LV01
+SCHEMA   DBUD00
+USERID   dbu
+PASSWORD dbudev
+
+TABLE AccuityContact
+  Id               Int
+  LocationId       int
+  Department       Char(5)    NULL
+  ContactType      Char(15)   NULL
+  ContactInfo      Char(100)  NULL
+  Status           Byte       (Active=0 Inactive=1 MarkForDelete=2 ConfirmDelete=3)
+  USId             Char(16)
+  TmStamp          timestamp
+
+KEY AccuityContactKey PRIMARY
+  Id
+
+KEY KEY01
+  LocationId
+
+PROC SelectOne
+PROC Insert
+PROC DeleteOne
+PROC DeleteAll
+PROC Update
+PROC Exists
+
+proc bulkinsert (1000)
+
+// used by accuityimport
+PROC Truncate
+INPUT
+OUTPUT
+SQLCODE
+   TRUNCATE TABLE NPUD00.AccuityContact
+ENDCODE
+
+// used by almanacto
+PROC UpdateAllStatus
+INPUT
+  Status        byte
+  USId          char  (16)
+SQLCODE
+  Update
+    AccuityContact
+  Set
+      Status = :Status
+     ,USId = :USId
+     ,TMStamp = SYSDATE
+ENDCODE
+
+PROC SelectByLocationId
+INPUT
+  LocationId    =
+OUTPUT
+  Id               =
+  LocationId       =
+  Department       =
+  ContactType      =
+  ContactInfo      =
+  Status           =
+  USId             =
+  TmStamp          =
+SQLCODE
+  SELECT
+    ID,
+    LocationID,
+    Department,
+    ContactType,
+    ContactInfo,
+    Status,
+    UsId,
+    TmStamp
+  FROM accuityContact WHERE LocationId = :LocationId AND Status != 2
+ENDCODE
+
+proc UpdStatus
+input
+  Id     =
+  Status =
+  USId   =
+sqlcode
+  update AccuityContact set Status = :Status, USId = :USId, TmStamp = SYSDATE where Id = :Id
+endcode

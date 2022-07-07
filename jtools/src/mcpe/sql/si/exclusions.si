@@ -1,0 +1,42 @@
+// &Author: Aubrey &
+//
+// &Revision: 1 &
+//
+// &Date: 2015-06-08 &
+
+DATABASE VLAB 
+PACKAGE  vlab.mcpe
+OUTPUT   exclusions
+SERVER   LV01
+SCHEMA   DBUD00
+USERID   dbu
+PASSWORD dbudev
+
+TABLE EXCLUSIONS
+  SWIFTADDRESS Char(11)
+  ACCOUNTNO    Char(16)
+  BENCORRIND   Char(1)
+  USId    	   Char(16)
+  TmStamp 	   timestamp
+
+KEY CurrentDayKey PRIMARY 
+  SWIFTADDRESS 
+  ACCOUNTNO    
+  
+PROC Insert		    
+PROC Update
+PROC SelectOne		
+PROC DeleteOne		
+
+PROC SelectExclusion
+INPUT	
+	SWIFTADDRESS Char(11)
+	ACCOUNTNO    Char(16)
+OUTPUT 	
+    BENCORRIND	Char(1)	
+sqlcode
+    SELECT BENCORRIND  
+    FROM EXCLUSIONS
+    WHERE SWIFTADDRESS = :SWIFTADDRESS
+	AND ACCOUNTNO = :ACCOUNTNO
+endcode

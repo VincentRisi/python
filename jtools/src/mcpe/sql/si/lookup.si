@@ -1,0 +1,124 @@
+//  &Revision: 359 &
+//
+//  &Date: 2011-11-04 09:06:04 +0200 (Fri, 04 Nov 2011) &
+//
+
+DATABASE VLAB 
+PACKAGE  vlab.mcpe
+OUTPUT   lookup
+SERVER   LV01
+SCHEMA   DBUD00
+USERID   dbu
+PASSWORD dbudev
+
+TABLE Lookup
+  Name         Char(255)
+  Ref(Refs)    Char(255)
+  Value        Char(255)
+  USId         Char(16)
+  TmStamp      DateTime
+
+KEY LookupKey PRIMARY
+  Name
+  Ref
+
+PROC Insert
+PROC Update 
+PROC SelectOne 
+PROC DeleteOne 
+PROC DeleteAll 
+
+PROC SelectList  
+INPUT
+  Name         Char(255)
+OUTPUT (1000)
+  Ref(Refs)    Char(255)
+  Value        Char(255)
+SQLCODE
+  select Ref, Value from Lookup where Name = :Name
+ENDCODE
+
+// (moved from LookupProc.si)
+// used by Rutter
+PROC Get 
+INPUT
+  Name Char(256)
+  Ref Char(256)
+OUTPUT (single)
+  Value Char(256)
+sqlcode
+  SELECT
+     Value
+  FROM
+     Lookup
+  Where
+     Name = :Name
+     and Ref = :Ref
+ENDCODE
+
+PROC NameList 
+OUTPUT (1000)
+  Name Char(256)
+sqlcode
+  SELECT distinct Name FROM Lookup
+ENDCODE
+
+PROC SelectIBAN  
+INPUT
+  Ref          Char(255)
+OUTPUT (1000)
+  Name         Char(255)
+  Value        Char(255)
+SQLCODE
+  select Name, Value from Lookup where Ref = :Ref
+  and name like 'IBAN%'
+ENDCODE
+
+PROC SelectVatAccNumber
+INPUT 
+Ref       Char(255)
+OUTPUT (Single)
+Value     Char(255) 
+USid      Char(16)
+TmStamp   Char(18)
+sqlcode
+SELECT
+ Value
+ , USId
+ , to_char(TmStamp, 'YYYYMMDDHH24MISS') TmStamp
+ FROM Lookup
+ WHERE Name = 'VAT ACCOUNT NUMBERS'
+ AND Lookup.Ref = :Ref
+ENDCODE
+
+PROC SelectAllVatAccNumber
+OUTPUT (1000)
+Value     Char(255) 
+USid      Char(16)
+TmStamp   Char(18)
+sqlcode
+SELECT
+ Value
+ , USId
+ , to_char(TmStamp, 'YYYYMMDDHH24MISS') TmStamp
+ FROM Lookup
+ WHERE Name = 'VAT ACCOUNT NUMBERS'
+ENDCODE
+
+sqldata
+insert into lookup values ('ACCOUNT SYSTEM'  , 'CA'     , '001'  , USER, sysdate);
+insert into lookup values ('ACCOUNT SYSTEM'  , 'GL'     , '009'  , USER, sysdate);
+insert into lookup values ('ACCOUNT SYSTEM'  , 'MCA'    , '?'    , USER, sysdate);
+insert into lookup values ('ACCOUNT SYSTEM'  , 'SA'     , '002'  , USER, sysdate);
+insert into lookup values ('TRANSACTION TYPE', 'DT'     , 'YES'  , USER, sysdate);
+insert into lookup values ('TRANSACTION TYPE', 'MCT'    , 'YES'  , USER, sysdate);
+insert into lookup values ('TRANSACTION TYPE', 'OT'     , 'YES'  , USER, sysdate);
+insert into lookup values ('TRANSACTION TYPE', 'PRODCHG', 'YES'  , USER, sysdate);
+insert into lookup values ('VAT'             , 'NOVAT'  , '0.00%', USER, sysdate);
+insert into lookup values ('VAT'             , 'VAT'    , '14.00', USER, sysdate);
+insert into lookup values ('WASTE TRAN CODE' , 'DT'     , '1234' , USER, sysdate);
+insert into lookup values ('WASTE TRAN CODE' , 'OT'     , '5678' , USER, sysdate);
+insert into lookup values ('WASTE TRAN CODE' , 'RT'     , '8765' , USER, sysdate);
+commit;
+enddata
+

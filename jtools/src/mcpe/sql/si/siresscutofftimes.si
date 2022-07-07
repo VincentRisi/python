@@ -1,0 +1,43 @@
+// &Author: Johan &
+//
+// &Revision: 1 &
+//
+// &Date: 2013-10-02 &
+
+DATABASE VLAB 
+PACKAGE  vlab.mcpe
+OUTPUT   siresscutofftimes
+SERVER   LV01
+SCHEMA   DBUD00
+USERID   dbu
+PASSWORD dbudev
+
+TABLE SIRESSCutOffTimes
+  CurrentDay	char(10)			
+  TradingDay	Char(1)		// Y = Yes, N = No
+  StartOfDay	char(11)	// HH:MM:SS 
+  CutOffTime	char(11)	// HH:MM:SS 	
+  USId    	Char(16)
+  TmStamp 	timestamp
+
+KEY CurrentDayKey PRIMARY
+  CurrentDay
+
+PROC Insert	
+PROC Update
+PROC SelectOne 
+PROC DeleteOne 
+
+PROC SelTradingDay
+INPUT
+	inDay		Char(10)
+
+OUTPUT 	outTradingDay	Char(1)
+	outStartOfDay	Char(11)
+	outCutOffTime	Char(11)	
+sqlcode
+	SELECT TradingDay, StartOfDay, CutOffTime
+	FROM SIRESSCutOffTimes
+	WHERE UPPER(CurrentDay) = UPPER(:inDay)
+endcode
+

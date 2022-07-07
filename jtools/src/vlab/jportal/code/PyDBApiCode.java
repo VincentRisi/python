@@ -151,6 +151,7 @@ public class PyDBApiCode extends Generator
       {
         Table table = database.tables.elementAt(i);
         generateStructs(database, table, output);
+        //generateDB(database, table, output);
       }
     }
     catch (Exception ex)
@@ -159,6 +160,25 @@ public class PyDBApiCode extends Generator
       ex.printStackTrace(outLog);
     }
   }
+
+//  private static void generateDB(Database database, Table table, String output) throws Exception
+//  {
+//    String fileName = output + "DB_" + table.useName().toUpperCase() + ".py";
+//    outLog.println("Code: " + fileName);
+//    try (OutputStream outFile = new FileOutputStream(fileName))
+//    {
+//      writer = new PrintWriter(outFile);
+//      indent_size = 4;
+//      writeln("# This code was generated, do not modify it, modify it at source and regenerate it.");
+//      writeln("# see " + table.useName() + " source file");
+//      writeln();
+//      writeln(format("from %sDBApi import *", table.useName()));
+//      writeln();
+//      generateDBEnums(table);
+//      generateDBCode(table);
+//      writer.flush();
+//    }
+//  }
 
   static private String getProperty(String propName, String propDefault)
   {
@@ -480,6 +500,31 @@ public class PyDBApiCode extends Generator
     }
   }
 
+//  static private void generateDBEnums(Table table)
+//  {
+//    for (int i = 0; i < table.fields.size(); i++)
+//    {
+//      Field field = table.fields.elementAt(i);
+//      generateDBEnums(table.useName() + field.useName(), field);
+//    }
+//  }
+//
+//  static private void generateDBEnums(String baseName, Field field)
+//  {
+//    if (field.enums.size() > 0)
+//    {
+//      if (useEnum == false)
+//        generateDBEnumsAsDict(baseName, field);
+//      writeln();
+//    }
+//  }
+//
+//  static private void generateDBEnumsAsDict(String baseName, Field field)
+//  {
+//    if (field.enums.size() > 0)
+//      writeln(format("%1$sConst = %1$s", baseName));
+//  }
+
   static private void generateCode(Table table)
   {
     for (int i = 0; i < table.procs.size(); i++)
@@ -608,31 +653,73 @@ public class PyDBApiCode extends Generator
       else
         generatePythonAction(table, proc, hasInputs);
       writeln();
-      writeln(format("class DB%1$s(%1$s):", current));
-      writeln(1, "def __init__(self, connect):");
-      writeln(2, "self.connect = connect");
-
-      if (proc.outputs.size() > 0)
-      {
-        if (proc.isSingle)
-        {
-          writeln(1, "def _data(self):");
-          writeln(2, "result = []");
-          writeln(2, "for field in self._fields():");
-          writeln(3, "result.append(getattr(self, field))");
-          writeln(2, "return result");
-        } else
-        {
-          writeln(1, "def _data(self, record):");
-          writeln(2, "result = []");
-          writeln(2, "for field in self._fields():");
-          writeln(3, "result.append(getattr(record, field))");
-          writeln(2, "return result");
-        }
-      }
-      writeln();
     }
   }
+//  static private void generateDBCode(Table table)
+//  {
+//    String parent = "";
+//    String current = "";
+//    writeln(format("class DB%1$s(D%1$s):", table.useName()));
+//    writeln(1, "def __init__(self, connect):");
+//    writeln(2, "self.connect = connect");
+//    writeln(1, "def set_connect(self, connect):");
+//    writeln(2, "self.connect = connect");
+//    for (int i = 0; i < table.procs.size(); i++)
+//    {
+//      Proc proc = table.procs.elementAt(i);
+//      if (proc.isData)
+//        continue;
+//      if (proc.isStd == false && proc.isStdExtended() == false && proc.hasNoData() == false)
+//        continue;
+//      _callDBApi(table, proc);
+//      //PlaceHolder holder = new PlaceHolder(proc, paramStyle, "");
+//      //Vector pairs = holder.getPairs();
+//    }
+//    for (int i = 0; i < table.procs.size(); i++)
+//    {
+//      Proc proc = table.procs.elementAt(i);
+//      if (proc.isData)
+//        continue;
+//      if (proc.isStd || proc.isStdExtended() || proc.hasNoData())
+//        continue;
+//      writeln();
+//      writeln(format("class DB%1$s%2$s(D%1$s%2$s):", table.useName(), proc.name));
+//      writeln(1, "def __init__(self, connect):");
+//      writeln(2, "self.connect = connect");
+//      writeln(1, "def set_connect(self, connect):");
+//      writeln(2, "self.connect = connect");
+//      _callDBApi(table, proc);
+//    }
+//  }
+//
+//  private static void _callDBApi(Table table, Proc proc)
+//  {
+//    writeln(1, format("def exec%s(self):", proc.name));
+//    writeln(2, format("dbapi = %s%s()", table.useName(), proc.name));
+//    if (proc.hasNoData())
+//    {
+//      writeln(2, format("dbapi.execute(self.connect)"));
+//      return;
+//    }
+//    String ret = "";
+//    if (proc.outputs.size() > 0)
+//      ret = "return ";
+//    writeln(2, format("%sdbapi.execute(self.connect)", ret));
+//    String prefix = "run";
+//    String parms = "";
+//    var code = new StringBuilder();
+//    for (int i=0; i < proc.inputs.size(); i++)
+//    {
+//      Field field = proc.inputs.elementAt(i);
+//      parms += format(", %s", field.name);
+//      code.append(format("%sself.%2$s = %2$s\n", indent(2), field.name));
+//    }
+//    if (proc.isSingle) prefix = "read";
+//    else if (proc.outputs.size() > 0) prefix = "load";
+//    code.append(format("%s%sself.exec%s()\n", indent(2), ret, proc.name));
+//    writeln(1, format("def %s%s(self%s)", prefix, proc.name, parms));
+//    write(code.toString());
+//  }
 
   static private void checkPythonSingle(Table table, Proc proc, String current, boolean hasInputs)
   {

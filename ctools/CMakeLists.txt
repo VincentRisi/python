@@ -23,3 +23,6 @@ set (BUILD_IDL2_DIR ${JTOOLS_DIR}/out/idl2)
 
 add_subdirectory (libs)
 add_subdirectory (audio)
+add_subdirectory (accuity)
+add_subdirectory (mcpe)
+add_subdirectory (gps)

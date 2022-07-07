@@ -1,0 +1,77 @@
+//
+// File : &URL: http://cdssvnmaster/MCPE/trunk/targsrc/sql/si/dates.si &
+//
+// &Author: simon &
+//
+// &Revision: 99 &
+//
+// &Date: 2007-06-29 09:59:40 +0200 (Fri, 29 Jun 2007) &
+
+// revision date 22/03/1996
+
+DATABASE VLAB 
+PACKAGE  vlab.mcpe
+OUTPUT   dates
+SERVER   LV01
+SCHEMA   DBUD00
+USERID   dbu
+PASSWORD dbudev
+
+table Dates
+
+DateType     byte    (RunDate=0 ReleaseDate=1)
+Description  char(50)
+Value        DateTime
+USId         Char(16)
+TmStamp      timestamp
+
+KEY key1 PRIMARY
+DateType
+
+proc Insert
+proc Update
+proc SelectOne 
+proc Exists
+proc SelectAll
+
+//used by appsyndate,ide, router
+PROC Get 
+INPUT
+  DateType byte   
+OUTPUT  (single)
+  Value   DateTime
+sqlcode
+   select to_char(Value,'YYYYMMDDHH24MISS') from Dates where DateType = :DateType
+endcode
+
+//used by appsyndate
+PROC SetOracleDate
+INPUT
+  DateType byte   
+  USId     Char(16)
+sqlcode
+   update dates
+   set
+      Value        = SYSDATE
+     ,USId         = :USId
+     ,TMstamp      = SYSDATE
+   where
+      DateType = :DateType
+endcode
+
+//used by appsyndate
+PROC Inc
+INPUT
+  DateType    int
+  USId        Char(16)
+sqlcode
+   UPDATE
+      dates
+   SET
+      Value       = Value + 1
+     ,USId        = :USId
+     ,TMstamp     = SYSDATE
+   WHERE
+     DateType = :DateType
+ENDCODE
+
