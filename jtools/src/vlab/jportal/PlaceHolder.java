@@ -23,7 +23,7 @@ public class PlaceHolder implements Serializable
   private static final long serialVersionUID = 1L;
   public static final byte COLON = 0, QUESTION = 1, AT = 2, CURLY = 3, AT_NAMED = 4, PERC_STRING = 5, DOLLAR_NO = 6
           , COLON_NO = 7, FORMAT = 8, PYFORMAT = 9, ORACLE = 10, DB2 = 11, MSSQL = 12, POSTGRE = 13
-          , MYSQL = 14, LITE3 = 15;
+          , MYSQL = 14, LITE3 = 15, ODBC = 16;
   private final Proc proc;
   public Vector<PlaceHolderPairs> pairs;
   private StringBuffer command, upper;

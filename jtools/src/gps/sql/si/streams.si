@@ -60,7 +60,7 @@ link Message DELETE CASCADE
 link Streamtype
   StreamType
 
-PROC    Insert
+PROC    Insert returning
 PROC    Update
 PROC    SelectOne
 PROC    SelectOneUpd

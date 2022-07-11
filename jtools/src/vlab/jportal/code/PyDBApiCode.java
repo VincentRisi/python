@@ -25,9 +25,9 @@ public class PyDBApiCode extends Generator
 {
   private static PrintWriter outLog;
   static private Properties properties;
-  static private byte paramStyle = QUESTION;
+  static private byte paramStyle = COLON;
   static private boolean useFetchall = false;
-  static private byte dbVendor = DB2;
+  static private byte dbVendor = ORACLE;
   static private boolean useEnum = false;
   static private boolean enumImport = false;
 
@@ -41,7 +41,7 @@ public class PyDBApiCode extends Generator
    * 'named'    Named style, e.g. '...WHERE name=:name'
    * 'format'   ANSI C printf format codes, e.g. '...WHERE name=%s'
    * 'pyformat' Python extended format codes, e.g.  '...WHERE name=%(name)s'
-   * 'pyodbc'   Microsoft distorted dbapi, e.g '...WHERE name=?'
+   * 'odbc'   Microsoft distorted dbapi, e.g '...WHERE name=?'
    * ============ ==============================================================
    */
   public static String description()
@@ -74,28 +74,60 @@ public class PyDBApiCode extends Generator
       case "qmark" -> paramStyle = QUESTION;
       case "numeric" -> paramStyle = COLON_NO;
       case "named" -> paramStyle = COLON;
+      case "atnamed" -> paramStyle = AT_NAMED;
       case "format" -> paramStyle = FORMAT;
       case "pyformat" -> paramStyle = PYFORMAT;
-      case "pyodbc" -> {paramStyle = QUESTION; useFetchall = true;}
+      case "odbc" -> {paramStyle = QUESTION; useFetchall = true;}
     }
+  }
+
+  static private String getParamStyle()
+  {
+    return switch (paramStyle)
+    {
+      case QUESTION -> "qmark";
+      case COLON_NO -> "numeric";
+      case COLON -> "named";
+      case AT_NAMED -> "atnamed";
+      case FORMAT -> "format";
+      case PYFORMAT -> "pyformat";
+      default -> "qmark";
+    };
   }
 
   static private void setVendor(String vendor)
   {
     switch (vendor.toLowerCase())
     {
-      case "db2" -> dbVendor = DB2;
-      case "oracle" -> dbVendor = ORACLE;
-      case "mssql" -> dbVendor = MSSQL;
-      case "postgre" -> dbVendor = POSTGRE;
-      case "mysql" -> dbVendor = MYSQL;
-      case "lite3" -> dbVendor = LITE3;
+      case "db2" -> {dbVendor = DB2; paramStyle = QUESTION;}
+      case "oracle" -> {dbVendor = ORACLE; paramStyle = COLON;}
+      case "mssql" -> {dbVendor = MSSQL; paramStyle = COLON_NO;}
+      case "odbc" -> {dbVendor = ODBC; paramStyle = QUESTION; useFetchall = true;}
+      case "postgre" -> {dbVendor = POSTGRE; paramStyle = PYFORMAT;}
+      case "mysql" -> {dbVendor = MYSQL; paramStyle = FORMAT;}
+      case "lite3" -> {dbVendor = LITE3; paramStyle = AT_NAMED;}
     }
+  }
+
+  static private String getVendor()
+  {
+    return switch (dbVendor)
+    {
+      case DB2 -> "db2";
+      case ORACLE -> "oracle";
+      case MSSQL -> "mssql";
+      case POSTGRE -> "postgre";
+      case MYSQL -> "mysql";
+      case LITE3 -> "lite3";
+      case ODBC -> "odbc";
+      default -> "oracle";
+    };
   }
 
   static public void generate(Database database, String output, PrintWriter outLog)
   {
     PyDBApiCode.outLog = outLog;
+    useFetchall = false;
     try
     {
       try
@@ -136,22 +168,10 @@ public class PyDBApiCode extends Generator
       if (value != null)
         setVendor(value.toLowerCase());
       useEnum = getProperty("useenum", useEnum);
-      if (paramStyle == QUESTION)
-      {
-        switch (dbVendor)
-        {
-          case ORACLE -> paramStyle = COLON;
-          case MSSQL -> paramStyle = COLON_NO;
-          case POSTGRE -> paramStyle = PYFORMAT;
-          case MYSQL -> paramStyle = FORMAT;
-          case LITE3 -> paramStyle = AT_NAMED;
-        }
-      }
       for (int i = 0; i < database.tables.size(); i++)
       {
         Table table = database.tables.elementAt(i);
         generateStructs(database, table, output);
-        //generateDB(database, table, output);
       }
     }
     catch (Exception ex)
@@ -160,25 +180,6 @@ public class PyDBApiCode extends Generator
       ex.printStackTrace(outLog);
     }
   }
-
-//  private static void generateDB(Database database, Table table, String output) throws Exception
-//  {
-//    String fileName = output + "DB_" + table.useName().toUpperCase() + ".py";
-//    outLog.println("Code: " + fileName);
-//    try (OutputStream outFile = new FileOutputStream(fileName))
-//    {
-//      writer = new PrintWriter(outFile);
-//      indent_size = 4;
-//      writeln("# This code was generated, do not modify it, modify it at source and regenerate it.");
-//      writeln("# see " + table.useName() + " source file");
-//      writeln();
-//      writeln(format("from %sDBApi import *", table.useName()));
-//      writeln();
-//      generateDBEnums(table);
-//      generateDBCode(table);
-//      writer.flush();
-//    }
-//  }
 
   static private String getProperty(String propName, String propDefault)
   {
@@ -213,6 +214,8 @@ public class PyDBApiCode extends Generator
       writeln("# This code was generated, do not modify it, modify it at source and regenerate it.");
       writeln("# see " + table.useName() + " source file");
       writeln();
+      writeln(format("param_style='%s'", getParamStyle()));
+      writeln(format("vendor='%s'", getVendor()));
       writeln("import dbapi_util");
       writeln("from dbapi_annotate import *");
       writeln();
@@ -500,31 +503,6 @@ public class PyDBApiCode extends Generator
     }
   }
 
-//  static private void generateDBEnums(Table table)
-//  {
-//    for (int i = 0; i < table.fields.size(); i++)
-//    {
-//      Field field = table.fields.elementAt(i);
-//      generateDBEnums(table.useName() + field.useName(), field);
-//    }
-//  }
-//
-//  static private void generateDBEnums(String baseName, Field field)
-//  {
-//    if (field.enums.size() > 0)
-//    {
-//      if (useEnum == false)
-//        generateDBEnumsAsDict(baseName, field);
-//      writeln();
-//    }
-//  }
-//
-//  static private void generateDBEnumsAsDict(String baseName, Field field)
-//  {
-//    if (field.enums.size() > 0)
-//      writeln(format("%1$sConst = %1$s", baseName));
-//  }
-
   static private void generateCode(Table table)
   {
     for (int i = 0; i < table.procs.size(); i++)
@@ -655,72 +633,6 @@ public class PyDBApiCode extends Generator
       writeln();
     }
   }
-//  static private void generateDBCode(Table table)
-//  {
-//    String parent = "";
-//    String current = "";
-//    writeln(format("class DB%1$s(D%1$s):", table.useName()));
-//    writeln(1, "def __init__(self, connect):");
-//    writeln(2, "self.connect = connect");
-//    writeln(1, "def set_connect(self, connect):");
-//    writeln(2, "self.connect = connect");
-//    for (int i = 0; i < table.procs.size(); i++)
-//    {
-//      Proc proc = table.procs.elementAt(i);
-//      if (proc.isData)
-//        continue;
-//      if (proc.isStd == false && proc.isStdExtended() == false && proc.hasNoData() == false)
-//        continue;
-//      _callDBApi(table, proc);
-//      //PlaceHolder holder = new PlaceHolder(proc, paramStyle, "");
-//      //Vector pairs = holder.getPairs();
-//    }
-//    for (int i = 0; i < table.procs.size(); i++)
-//    {
-//      Proc proc = table.procs.elementAt(i);
-//      if (proc.isData)
-//        continue;
-//      if (proc.isStd || proc.isStdExtended() || proc.hasNoData())
-//        continue;
-//      writeln();
-//      writeln(format("class DB%1$s%2$s(D%1$s%2$s):", table.useName(), proc.name));
-//      writeln(1, "def __init__(self, connect):");
-//      writeln(2, "self.connect = connect");
-//      writeln(1, "def set_connect(self, connect):");
-//      writeln(2, "self.connect = connect");
-//      _callDBApi(table, proc);
-//    }
-//  }
-//
-//  private static void _callDBApi(Table table, Proc proc)
-//  {
-//    writeln(1, format("def exec%s(self):", proc.name));
-//    writeln(2, format("dbapi = %s%s()", table.useName(), proc.name));
-//    if (proc.hasNoData())
-//    {
-//      writeln(2, format("dbapi.execute(self.connect)"));
-//      return;
-//    }
-//    String ret = "";
-//    if (proc.outputs.size() > 0)
-//      ret = "return ";
-//    writeln(2, format("%sdbapi.execute(self.connect)", ret));
-//    String prefix = "run";
-//    String parms = "";
-//    var code = new StringBuilder();
-//    for (int i=0; i < proc.inputs.size(); i++)
-//    {
-//      Field field = proc.inputs.elementAt(i);
-//      parms += format(", %s", field.name);
-//      code.append(format("%sself.%2$s = %2$s\n", indent(2), field.name));
-//    }
-//    if (proc.isSingle) prefix = "read";
-//    else if (proc.outputs.size() > 0) prefix = "load";
-//    code.append(format("%s%sself.exec%s()\n", indent(2), ret, proc.name));
-//    writeln(1, format("def %s%s(self%s)", prefix, proc.name, parms));
-//    write(code.toString());
-//  }
-
   static private void checkPythonSingle(Table table, Proc proc, String current, boolean hasInputs)
   {
     if (proc.hasReturning && proc.isInsert == true)

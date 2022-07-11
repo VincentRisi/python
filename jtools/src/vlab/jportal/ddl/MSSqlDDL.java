@@ -29,7 +29,7 @@ import static vlab.jportal.Writer.*;
 public class MSSqlDDL extends Generator
 {
   protected static Vector flagsVector;
-  static boolean useSequence;
+  static boolean useSequence = false;
   private static String tableOwner;
   private static String tableSchema;
 
@@ -43,37 +43,37 @@ public class MSSqlDDL extends Generator
     return "Generate MSSql DDL";
   }
 
-  private static void flagDefaults()
-  {
-    useSequence = false;
-  }
-
-  public static Vector flags()
-  {
-    if (flagsVector == null)
-    {
-      flagDefaults();
-      flagsVector = new Vector();
-      flagsVector.addElement(new Flag("use sequence", useSequence, "Use new sequence from 2012"));
-    }
-    return flagsVector;
-  }
-
   /**
    * Sets generation flags.
    */
   static void setFlags(Database database, PrintWriter outLog)
   {
-    if (flagsVector != null)
-    {
-      useSequence = toBoolean(((Flag) flagsVector.elementAt(0)).value);
-    } else
-      flagDefaults();
+    useSequence = false;
     for (int i = 0; i < database.flags.size(); i++)
     {
       String flag = database.flags.elementAt(i);
-      if (flag.equalsIgnoreCase("use sequence"))
+      flag = flag.toLowerCase();
+      boolean dropParameter = false;
+      if (flag.startsWith("%"))
+      {
+        flag = flag.substring(1);
+        dropParameter = true;
+      }
+      if (flag.startsWith("mssql="))
+        setMSSql(flag.substring(6));
+      if (flag.equals("use sequence"))
         useSequence = true;
+      if (dropParameter)
+        database.flags.remove(i);
+    }
+  }
+
+  private static void setMSSql(String mssql)
+  {
+    switch (mssql)
+    {
+      case "sequence" -> useSequence=true;
+      case "identity" -> useSequence=false;
     }
   }
 
