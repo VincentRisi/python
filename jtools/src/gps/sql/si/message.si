@@ -63,7 +63,7 @@ link Queue
 link SourceSystem
    SourceSysId
 
-PROC    Insert
+PROC    Insert returning
 PROC    Update
 PROC    DeleteOne
 PROC    SelectOne//  $PYTHON

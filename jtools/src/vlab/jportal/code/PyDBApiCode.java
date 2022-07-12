@@ -27,6 +27,7 @@ public class PyDBApiCode extends Generator
   static private Properties properties;
   static private byte paramStyle = COLON;
   static private boolean useFetchall = false;
+  static private boolean mssqlSequence = false;
   static private byte dbVendor = ORACLE;
   static private boolean useEnum = false;
   static private boolean enumImport = false;
@@ -128,6 +129,7 @@ public class PyDBApiCode extends Generator
   {
     PyDBApiCode.outLog = outLog;
     useFetchall = false;
+    mssqlSequence = false;
     try
     {
       try
@@ -155,11 +157,12 @@ public class PyDBApiCode extends Generator
           setParamStyle(flag.substring(6));
         else if (flag.startsWith("vendor="))
           setVendor(flag.substring(7));
+        else if (flag.startsWith("mssql="))
+          setVendor(flag.substring(7));
         if (dropParameter)
           database.flags.remove(i);
         if (flag.equalsIgnoreCase("useenum") || flag.equalsIgnoreCase("use enum"))
           useEnum = true;
-
       }
       String value = getProperty("param", null);
       if (value != null)
@@ -180,6 +183,16 @@ public class PyDBApiCode extends Generator
       ex.printStackTrace(outLog);
     }
   }
+
+  private static void setMSSql(String mssql)
+  {
+    switch (mssql)
+    {
+      case "sequence" -> mssqlSequence=true;
+      case "identity" -> mssqlSequence=false;
+    }
+  }
+
 
   static private String getProperty(String propName, String propDefault)
   {
@@ -216,6 +229,7 @@ public class PyDBApiCode extends Generator
       writeln();
       writeln(format("param_style='%s'", getParamStyle()));
       writeln(format("vendor='%s'", getVendor()));
+      writeln(format("mssqlSequence=%s", mssqlSequence ? "True" : "False"));
       writeln("import dbapi_util");
       writeln("from dbapi_annotate import *");
       writeln();
@@ -543,7 +557,7 @@ public class PyDBApiCode extends Generator
             else if (field.type == Field.TIMESTAMP)
               timestampName = field.useName();
           }
-          writeln(1, "def __init__(self, ret):");
+          writeln(1, "def __init__(self, ret=dbapi_util.returning()):");
           writeln(2, parent + ".__init__(self)");
           writeln(2, "self._ret = ret('" + table.name + "', '" + returningName + "')");
           if (timestampName.length() > 0)
