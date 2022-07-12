@@ -158,7 +158,7 @@ public class PyDBApiCode extends Generator
         else if (flag.startsWith("vendor="))
           setVendor(flag.substring(7));
         else if (flag.startsWith("mssql="))
-          setVendor(flag.substring(7));
+          setMSSql(flag.substring(6));
         if (dropParameter)
           database.flags.remove(i);
         if (flag.equalsIgnoreCase("useenum") || flag.equalsIgnoreCase("use enum"))

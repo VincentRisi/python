@@ -5,7 +5,7 @@
 //SERVER  @dn29
 //CONNECT NPUD00/CONTROL
 
-DATABASE MCPE FLAGS "param=pyodbc"
+DATABASE MCPE FLAGS "vendor=odbc"
 PACKAGE  putty.bulk
 OUTPUT   Message
 SERVER   PUTTY
