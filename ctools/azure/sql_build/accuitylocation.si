@@ -1,0 +1,58 @@
+DATABASE DN09
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   accuitylocation
+SERVER   PUTTY
+
+TABLE AccuityLocation (jAccuityLocation)
+  LocationId       int
+  CountryCode      Char(2)
+  InstitutionType  Char(4)    NULL
+  OfficeType       Char(4)    NULL
+  NameAbbrev       Char(35)   NULL
+  NameFull         Char(100)  NULL
+  BranchName       Char(70)   NULL
+  AddressLine1     Char(35)   NULL
+  AddressLine2     Char(35)   NULL
+  City             Char(30)   NULL
+  StateAbbr        Char(3)    NULL
+  StateFull        Char(40)   NULL
+  PostalCode       Char(15)   NULL
+  CountryName      Char(35)   NULL
+  EmployerTaxId    Char(10)   NULL
+  DateOfFinancial  Char(8)    NULL
+  CurrentAssets    Char(14)   NULL
+  HeadOfficeId     Int        NULL 
+  InstitutionId    Int        NULL
+  CorrLocationType Int        NULL
+  CorrLocationId   Int        NULL
+  Status           byte       (Active=0 Inactive=1 MarkForDelete=2 ConfirmDelete=3)
+  USId             Char(16)
+  TmStamp          datetime
+
+KEY AccuityLocationKey PRIMARY
+  LocationId
+
+proc update
+proc exists
+proc insert
+proc selectone
+//proc bulkinsert (1000)
+
+proc UpdStatus
+input
+  LocationId     =
+  Status =
+  USId   =
+sqlcode
+  update AccuityLocation set Status = :Status, USId = :USId, TmStamp = CURRENT_TIMESTAMP where LocationId = :LocationId
+endcode
+
+// used by accuityimport
+PROC Truncate
+INPUT
+OUTPUT
+SQLCODE
+   TRUNCATE TABLE AccuityLocation
+ENDCODE
+

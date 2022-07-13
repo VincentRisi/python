@@ -1,0 +1,112 @@
+//#
+//# File : $URL: http://cdssvnmaster/MCPE/trunk/targsrc/sql/si/fieldsearchdef.si $
+//#
+//# $Author: simon $
+//#
+//# $Revision: 171 $
+//#
+//# $Date: 2008-05-08 13:28:36 +0200 (Thu, 08 May 2008) $
+
+////$PARMS 1
+//$LOOKUP 'Id Tag'
+////$DESCR 'Field Search Definition'
+//
+//
+//// This code was generated, do not modify it, modify it at source and regenerate it.
+//
+//SERVER   @DN29
+//CONNECT  NPUD00/CONTROL
+
+DATABASE MCPE 
+//FLAGS "xmlValue"
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   FieldSearchDef
+SERVER   PUTTY
+
+TABLE FieldSearchDef
+  Id              Char(16)
+  SourceSystemID  Char(16)  NULL
+  Tag             Char(256)
+  USId            Char(16)
+  TmStamp         DateTime
+
+KEY FieldSearchDefKey1 PRIMARY
+  Id
+
+KEY FieldSearchDefKey2 UNIQUE
+  SourceSystemID
+  Tag
+
+LINK SourceSystem SourceSystemID
+
+PROC Insert
+PROC Update
+PROC SelectOne
+PROC DeleteOne
+PROC SelectAll
+PROC Count
+
+////#Used By Genmqin
+PROC LoadBySysytem
+INPUT
+  SourceSystem Char(256)
+OUTPUT
+  Id           Char(16)
+  Tag          Char(256)
+SQLCODE
+  select
+      Id
+      ,Tag
+  from
+      FieldSearchDef f, SourceSystem s  
+  where
+      f.SourceSystemID = s.Id
+      and s.Name = :SourceSystem 
+ENDCODE
+
+sqldata
+
+------------- FieldSearchDef Table ------------
+   ALTER TABLE FieldSearchDef ADD SourceSystemID varchar2(16);
+
+   ALTER TABLE FieldSearchDef
+   ADD(
+     CONSTRAINT FieldSearchDef_FK01 FOREIGN KEY
+     (
+       SourceSystemID
+     ) REFERENCES SourceSystem
+   );
+
+--   DROP INDEX FieldSearchDef_UK05;
+   ALTER TABLE FieldSearchDef
+   ADD(
+     CONSTRAINT FieldSearchDef_UK05 UNIQUE
+     (
+       SourceSystemID
+      ,Tag
+     )
+   );
+
+------------- Fields Table ------------
+   ALTER TABLE Fields ADD SourceSystemID varchar2(16);
+
+   ALTER TABLE Fields
+   ADD(
+     CONSTRAINT Fields_FK01 FOREIGN KEY
+     (
+       SourceSystemID
+     ) REFERENCES SourceSystem
+   );
+
+--   DROP INDEX Fields_IX05;
+   ALTER TABLE Fields
+   ADD(
+     CONSTRAINT Fields_IX05 
+     (
+       SourceSystemID
+      ,Tag
+     )
+   );
+enddata
+

@@ -1,0 +1,43 @@
+DATABASE MCPE
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   accuityoverride
+SERVER   PUTTY
+
+TABLE AccuityUserOverride (jAccuityUserOverride)
+    Id        char(64)
+    TableName char(64)
+    AuditsId  int     
+    Status    char(16)  {ACTIVE INACTIVE MARKED}
+    USId      char(16)
+    TmStamp   timestamp
+
+KEY AccuityUserOverrideKey PRIMARY
+  Id
+
+LINK Audits
+  AuditsId
+
+PROC Insert 
+PROC Update
+PROC SelectOne 
+PROC DeleteOne
+PROC DeleteAll
+PROC Exists
+
+proc UpdStatus
+input
+  Id     =
+  Status = 
+  USId   =
+SQLCODE
+   update 
+      AccuityUserOverride
+   set
+      Status =:Status
+      , USId = :USId
+      , TmStamp = CURRENT_TIMESTAMP
+   where
+      id = :id
+ENDCODE
+

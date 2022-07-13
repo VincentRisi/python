@@ -1,0 +1,57 @@
+//#
+//# File : $URL: http://cdssvnmaster/MCPE/trunk/targsrc/sql/si/staff.si $
+//#
+//# $Author: simon $
+//#
+//# $Revision: 99 $
+//#
+//# $Date: 2007-06-29 09:59:40 +0200 (Fri, 29 Jun 2007) $
+
+// This code was generated, do not modify it, modify it at source and regenerate it.
+//$PARMS 1
+//$DESCR 'Staff'
+//$SHOW  'Name'
+
+//SERVER   @DN29_ATLAS
+//CONNECT  NPUD00/CONTROL
+
+DATABASE MCPE
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   Staff
+SERVER   PUTTY
+
+TABLE Staff
+  Id           Char(16)
+  Name         Char(64)
+  Description  Char(256)
+  USId         Char(16)
+  TmStamp      DateTime
+
+KEY StaffKey PRIMARY
+  Id
+
+PROC Insert //  $PYTHON
+PROC Update //  $PYTHON
+PROC SelectAll
+PROC SelectOne
+PROC DeleteOne //  $PYTHON
+
+PROC ListAll //  $PYTHON
+OUTPUT //(Multiple)
+  Id Char(16)
+  Name Char(64)
+  Description Char(256)
+SQLCODE
+  SELECT Id
+       , Name
+       , Description
+  FROM Staff
+  ORDER BY Id
+ENDCODE
+
+SQLDATA
+insert into Staff values ('PUTTYIDE', 'Super Snooper', 'Main Super user', 'PUTTYIDE', CURRENT_TIMESTAMP);
+commit;
+enddata
+

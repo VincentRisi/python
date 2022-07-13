@@ -39,7 +39,7 @@ set (switches
   #          generator
   "-o {root}/out/gps/sql/ddl/db2 ddl.Db2DDL"
   "-o {root}/out/gps/sql/ddl/lite3 ddl.Lite3DDL"
-  "-o {root}/out/gps/sql/ddl/mssql -F %mssql=identity ddl.MSSqlDDL"
+  "-o {root}/out/gps/sql/ddl/mssql ddl.MSSqlDDL"
   "-o {root}/out/gps/sql/ddl/mysql ddl.MySqlDDL"
   "-o {root}/out/gps/sql/ddl/oracle ddl.OracleDDL"
   "-o {root}/out/gps/sql/ddl/postgre ddl.PostgreDDL"
@@ -55,7 +55,7 @@ set (switches
   "-o {root}/out/gps/sql/py/dbapi/oracle -F %vendor=oracle code.PyDBApiCode"
   "-o {root}/out/gps/sql/py/dbapi/postgre -F %vendor=postgre code.PyDBApiCode"
   "-o {root}/out/gps/sql/clish code.CliCCode"
-  "-o {root}/out/gps/sql/msssh -F %mssql=identity code.MSSqlCCode"
+  "-o {root}/out/gps/sql/msssh code.MSSqlCCode"
   "-o {root}/out/gps/sql/myssh code.MySqlCCode"
   "-o {root}/out/gps/sql/ocish code.OciCCode"
   "-o {root}/out/gps/sql/pgsh code.PostgreCCode"

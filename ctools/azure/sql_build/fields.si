@@ -1,0 +1,157 @@
+//#  $Revision: 98 $
+//#
+//#  $Date: 2007-06-29 09:32:15 +0200 (Fri, 29 Jun 2007) $
+//#
+//SERVER  @dn29
+//CONNECT NPUD00/CONTROL
+
+DATABASE MCPE 
+//FLAGS "xmlValue"
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   Fields
+SERVER   PUTTY
+
+//## tablespace NPUT001M1 INITIAL 40K NEXT 1M
+TABLE   Fields
+  MessageID     int
+  SystemID      char (16) //# to allow quicker search
+  Tag           char (256)
+  Content       char (256)
+  Fieldsearchid char (16)
+  USId          char (16)
+  Tmstamp       timestamp
+
+GRANT DELETE TO PUBLIC
+GRANT INSERT TO PUBLIC
+GRANT SELECT TO PUBLIC
+GRANT UPDATE TO PUBLIC
+
+KEY     SYS_C00809
+PRIMARY
+//## tablespace NPUT001M1 INITIAL 40K NEXT 1M
+  MessageID
+  TAG
+
+KEY KEY01
+//## tablespace NPUT001M1 INITIAL 40K NEXT 1M
+  TAG
+  Content
+
+KEY KEY02
+//## tablespace NPUT001M1 INITIAL 40K NEXT 1M
+  Content
+
+KEY KEY03
+//## tablespace NPUT001M1 INITIAL 40K NEXT 1M
+  SystemID
+  TAG
+  Content
+
+link Message
+   MessageID
+
+link FieldSearchDef
+   Fieldsearchid
+   
+link SourceSystem
+   SystemID   
+
+PROC    Insert
+PROC    SelectOne
+PROC    Exists
+PROC    SelectAll
+PROC    Count
+
+//# Used By PE Front End
+PROC ByTag
+INPUT
+   InTag         char(256)
+   InDateFrom    DateTime
+   InDateTo      DateTime
+OUTPUT //(Multiple)
+   MessageID     int
+   Tag           char (256)
+   Content       char (256)
+   Fieldsearchid char (16) 
+   USId          char (16)
+   Tmstamp       timestamp
+SQLCODE
+   SELECT
+     MessageID    
+     ,Tag          
+     ,Content      
+     ,Fieldsearchid
+     ,USId         
+     ,Tmstamp      
+   FROM
+      Fields
+   WHERE
+          Tag = :InTag
+      AND Tmstamp between :InDateFrom
+      AND :InDateTo
+      ORDER BY MessageId
+ENDCODE
+
+//# Used By PE Front End
+PROC ByContent
+INPUT
+   InContent     char(256)
+   InDateFrom    DateTime
+   InDateTo      DateTime
+OUTPUT//(Multiple)
+   MessageID     int
+   Tag           char (256)
+   Content       char (256)
+   Fieldsearchid char (16) 
+   USId          char (16)
+   Tmstamp       timestamp
+SQLCODE
+   SELECT
+     MessageID    
+     ,Tag          
+     ,Content      
+     ,Fieldsearchid
+     ,USId         
+     ,Tmstamp      
+   FROM
+      Fields
+   WHERE
+          Content = :InContent
+      AND Tmstamp between :InDateFrom
+      AND                 :InDateTo
+      ORDER BY MessageId
+ENDCODE
+
+//# Used By PE Front End
+PROC ByTagContent
+INPUT
+   InTag         char(256)
+   InContent     char(256)
+   InDateFrom    DateTime
+   InDateTo      DateTime
+OUTPUT//(Multiple)
+   MessageID     int
+   Tag           char (256)
+   Content       char (256)
+   Fieldsearchid char (16) 
+   USId          char (16)
+   Tmstamp       timestamp
+SQLCODE
+   SELECT
+     MessageID    
+     ,Tag          
+     ,Content      
+     ,Fieldsearchid
+     ,USId         
+     ,Tmstamp      
+   FROM
+      Fields
+   WHERE
+          Tag = :InTag
+      AND Content like :InContent
+      AND Tmstamp between :InDateFrom
+      AND                 :InDateTo
+      ORDER BY MessageId
+ENDCODE
+

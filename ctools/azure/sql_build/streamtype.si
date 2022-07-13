@@ -1,0 +1,69 @@
+//#  $Revision: 98 $
+//#
+//#  $Date: 2007-06-29 09:32:15 +0200 (Fri, 29 Jun 2007) $
+//#
+//$PARMS 1
+//$DESCR 'Stream Type'
+//$VIEWONLY
+
+//SERVER   @DN29_ATLAS
+//CONNECT  NPUD00/CONTROL
+
+DATABASE MCPE FLAGS "param=pyodbc"
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   StreamType
+SERVER   PUTTY
+
+
+TABLE StreamType
+  Id Char(16)          {SWIFT TIBOS WASTE}
+  Descr Char(65) NULL
+  USId         Char(16)
+  TmStamp      TimeStamp
+
+KEY StreamtypeKey1 PRIMARY
+  Id
+
+PROC Insert
+PROC Update
+PROC SelectOne
+PROC SelectAll
+PROC DeleteOne
+PROC Exist
+
+//# used by tcpout
+PROC Cnt
+INPUT
+  Id            =
+OUTPUT (Single)
+  cnt            int
+SQLCODE
+  SELECT
+     count(id)
+  FROM
+     StreamType
+  Where
+     id = :id
+ENDCODE
+
+SQLDATA
+  insert into StreamType  values ('SWIFT'          ,'SWIFT'                     , 'Predefined', CURRENT_TIMESTAMP);
+  insert into StreamType  values ('TIBOS'          ,'TIBOS'                     , 'Predefined', CURRENT_TIMESTAMP);
+  insert into StreamType  values ('WASTE'          ,'Waste stream'              , 'Predefined', CURRENT_TIMESTAMP);
+  insert into StreamType  values ('ACB'            ,'ACB'                       , 'Predefined', CURRENT_TIMESTAMP);
+  insert into StreamType  values ('CARD-CAMS'      ,'Cams'                      , 'Predefined', CURRENT_TIMESTAMP);
+  insert into StreamType  values ('CARD-LEGACY'    ,'LEGACY'                    , 'Predefined', CURRENT_TIMESTAMP);
+  insert into StreamType  values ('WASTE-BATCH'    ,'WASTE BATCH'               , 'Predefined', CURRENT_TIMESTAMP);
+  insert into StreamType  values ('BANKWARE'       ,'BANKWARE'                  , 'Predefined', CURRENT_TIMESTAMP);
+  insert into StreamType  values ('WALLSTREET'     ,'WALLSTREET VIA GLASSFISH'  , 'Predefined', CURRENT_TIMESTAMP);
+  insert into StreamType  values ('MCA'            ,'MCA'                       , 'Predefined', CURRENT_TIMESTAMP);
+  insert into StreamType  values ('BOP'            ,'Stream for BOP Balancing'  , 'Predefined', CURRENT_TIMESTAMP);
+  insert into StreamType  values ('FCAM'           ,'FCAM'                      , 'Predefined', CURRENT_TIMESTAMP);
+  insert into StreamType  values ('HOMELOAN'       ,'HOME LOAN stream'          , 'Predefined', CURRENT_TIMESTAMP);
+  insert into StreamType  values ('CASA-UNRS'      ,'CASA-UNRESERVE'            , 'Predefined', CURRENT_TIMESTAMP);
+  insert into StreamType  values ('CREDITCARD'     ,'CREDIT CARD Stream'        , 'Predefined', CURRENT_TIMESTAMP);
+  insert into StreamType  values ('NT-BAL-CHECK'   ,'NT-BAL-CHECK'              , 'Predefined', CURRENT_TIMESTAMP);
+  commit;
+ENDDATA 
+

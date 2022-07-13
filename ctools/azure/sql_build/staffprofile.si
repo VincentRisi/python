@@ -1,0 +1,46 @@
+//#
+//# File : $URL: http://cdssvnmaster/MCPE/trunk/targsrc/sql/si/staffprofile.si $
+//#
+//# $Author: simon $
+//#
+//# $Revision: 99 $
+//#
+//# $Date: 2007-06-29 09:59:40 +0200 (Fri, 29 Jun 2007) $
+
+//SERVER   @DN29_ATLAS
+//CONNECT  NPUD00/CONTROL
+
+DATABASE MCPE
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   StaffProfile
+SERVER   PUTTY
+
+TABLE   StaffProfile
+Staffid       char(16)
+Function      char (64)
+USId          char (16)
+Tmstamp       timestamp
+
+GRANT DELETE TO PUBLIC
+GRANT INSERT TO PUBLIC
+GRANT SELECT TO PUBLIC
+GRANT UPDATE TO PUBLIC
+
+KEY     SYS_C00826
+PRIMARY
+  STAFFID
+  FUNCTION
+
+link Staff
+  Staffid
+
+PROC    Insert
+PROC    Update
+PROC    DeleteOne
+PROC    SelectOne
+PROC    Exists
+PROC    DeleteAll
+PROC    SelectAll
+PROC    Count
+

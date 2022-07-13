@@ -27,7 +27,6 @@ public class MSSqlCCode extends Generator
   protected static PrintWriter outLog;
   static PlaceHolder placeHolder;
   protected static Vector flagsVector;
-  static private boolean useSequence = false;
 
   public static String description()
   {
@@ -40,46 +39,11 @@ public class MSSqlCCode extends Generator
   }
 
   /**
-   * Sets generation flags.
-   */
-  static void setFlags(Database database, PrintWriter outLog)
-  {
-    useSequence = false;
-    for (int i = 0; i < database.flags.size(); i++)
-    {
-      String flag = database.flags.elementAt(i);
-      flag = flag.toLowerCase();
-      boolean dropParameter = false;
-      if (flag.startsWith("%"))
-      {
-        flag = flag.substring(1);
-        dropParameter = true;
-      }
-      if (flag.startsWith("mssql="))
-        setMSSql(flag.substring(6));
-      if (flag.equals("use sequence"))
-        useSequence = true;
-      if (dropParameter)
-        database.flags.remove(i);
-    }
-  }
-
-  private static void setMSSql(String mssql)
-  {
-    switch (mssql)
-    {
-      case "sequence" -> useSequence=true;
-      case "identity" -> useSequence=false;
-    }
-  }
-
-  /**
    * Generates the procedure classes for each table present.
    */
   public static void generate(Database database, String output, PrintWriter outLog)
   {
     MSSqlCCode.outLog = outLog;
-    setFlags(database, outLog);
     for (int i = 0; i < database.tables.size(); i++)
     {
       try
@@ -396,7 +360,6 @@ public class MSSqlCCode extends Generator
         {
           Field field = proc.inputs.elementAt(j);
           if ((isSequence(field) && proc.isInsert)
-                  || isIdentity(field)
                   || field.type == Field.TIMESTAMP
                   || field.type == Field.AUTOTIMESTAMP
                   || field.type == Field.USERSTAMP)
@@ -464,8 +427,7 @@ public class MSSqlCCode extends Generator
       if (field.isSequence == true)
       {
         isReturning = true;
-        if (useSequence)
-           sequencer = "nextval for " + proc.table.tableName() + "seq";
+        sequencer = "nextval for " + proc.table.tableName() + "seq";
         output = format("output Inserted.%s ", field.name);
         size += sequencer.length();
         size += output.length();
@@ -474,8 +436,7 @@ public class MSSqlCCode extends Generator
     if (proc.isMultipleInput == true && proc.isInsert == true)
     {
       isBulkSequence = true;
-      if (useSequence)
-        sequencer = "nextval for " + proc.table.tableName() + "seq ";
+      sequencer = "nextval for " + proc.table.tableName() + "seq ";
       size += sequencer.length();
     }
     for (int i = 0; i < lines.size(); i++)
@@ -513,7 +474,7 @@ public class MSSqlCCode extends Generator
       if (sequencer.length() > 0)
         writeln(1, "_ret.sequence = \"" + sequencer + ",\";");
     }
-    String strcat = "  strcat(q_.command, ";
+    String strcat = "    strcat(q_.command, ";
     String terminate = "";
     if (lines.size() > 0)
     {
@@ -575,7 +536,7 @@ public class MSSqlCCode extends Generator
     for (int j = 0; j < proc.inputs.size(); j++)
     {
       Field field = proc.inputs.elementAt(j);
-      if ((isSequence(field) && proc.isInsert) || isIdentity(field)
+      if ((isSequence(field) && proc.isInsert)
               || field.type == Field.TIMESTAMP || field.type == Field.AUTOTIMESTAMP || field.type == Field.USERSTAMP)
         continue;
       writeln(pad + comma + "const " + cppParm(field));
@@ -1013,6 +974,8 @@ public class MSSqlCCode extends Generator
       case Field.SHORT:
         return "int16 *" + field.useName() + " = (int16 *)(q_.data + " + offset + " * noOf);";
       case Field.INT:
+      case Field.SEQUENCE:
+      case Field.IDENTITY:
         return "int32 *" + field.useName() + " = (int32 *)(q_.data + " + offset + " * noOf);";
       case Field.LONG:
       case Field.BIGSEQUENCE:
@@ -1025,8 +988,6 @@ public class MSSqlCCode extends Generator
         return "double *" + field.useName() + " = (double *)(q_.data + " + offset + " * noOf);";
       case Field.MONEY:
         return "char *" + field.useName() + " = (char *)(q_.data + " + offset + " * noOf);";
-      case Field.SEQUENCE:
-        return "int32 *" + field.useName() + " = (int32 *)(q_.data + " + offset + " * noOf);";
       case Field.TLOB:
       case Field.XML:
       case Field.CHAR:
@@ -1070,6 +1031,10 @@ public class MSSqlCCode extends Generator
         if (isInsert)
           return "q_.Sequence(" + field.useName() + ", \"" + tableName + "Seq\")";
         else
+          return field.useName();
+      case Field.IDENTITY:
+      case Field.BIGIDENTITY:
+        if (isInsert == false)
           return field.useName();
       case Field.TLOB:
       case Field.XML:
@@ -1207,6 +1172,8 @@ public class MSSqlCCode extends Generator
       case Field.LONG:
       case Field.SEQUENCE:
       case Field.BIGSEQUENCE:
+      case Field.IDENTITY:
+      case Field.BIGIDENTITY:
         return field.useName() + " = a" + field.useName() + ";";
       case Field.FLOAT:
       case Field.DOUBLE:
@@ -1227,7 +1194,6 @@ public class MSSqlCCode extends Generator
       case Field.BLOB:
         return field.useName() + " = a" + field.useName() + ";";
       case Field.USERSTAMP:
-      case Field.IDENTITY:
       case Field.TIMESTAMP:
         return "// " + field.useName() + " -- generated";
       case Field.AUTOTIMESTAMP:
@@ -1247,9 +1213,9 @@ public class MSSqlCCode extends Generator
       case Field.INT:
       case Field.LONG:
       case Field.SEQUENCE:
-        //case Field.IDENTITY:
+      case Field.IDENTITY:
       case Field.BIGSEQUENCE:
-        //case Field.BIGIDENTITY:
+      case Field.BIGIDENTITY:
         return field.useName() + "[i] = Recs[i]." + field.useName() + ";";
       case Field.FLOAT:
       case Field.DOUBLE:
@@ -1273,8 +1239,6 @@ public class MSSqlCCode extends Generator
       case Field.BLOB:
         return field.useName() + "[i] = Recs[i]." + field.useName() + ";";
       case Field.USERSTAMP:
-        return field.useName() + " -- generated";
-      case Field.IDENTITY:
         return field.useName() + " -- generated";
       case Field.TIMESTAMP:
         return "q_.TimeStamp(" + field.useName() + "[i], Recs[i]." + field.useName() + ");";

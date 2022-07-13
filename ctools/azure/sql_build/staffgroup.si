@@ -1,0 +1,102 @@
+//#  $Revision: 98 $
+//#  $Date: 2007-06-29 09:32:15 +0200 (Fri, 29 Jun 2007) $
+//$PARMS 1
+//$LOOKUP "StaffId GroupId"
+//$DESCR 'Staff Group'
+
+//SERVER   @DN29_ATLAS
+//CONNECT  NPUD00/CONTROL
+
+DATABASE MCPE
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   StaffGroup
+SERVER   PUTTY
+
+TABLE StaffGroup
+  StaffId      Char(16)
+  GroupId      Char(16)
+  USId         Char(16)
+  TmStamp      DateTime
+
+KEY StaffGroupKey PRIMARY
+  StaffId
+  GroupId
+
+LINK Staff 
+  StaffId
+//   DELETE CASCADE
+
+LINK Grps GroupId
+
+PROC Insert //  $PYTHON
+PROC DeleteOne //  $PYTHON
+
+PROC InsertStaff //  $PYTHON
+INPUT
+  GroupId      Char(16)
+  USId         Char(16)
+SQLCODE
+  insert into StaffGroup
+    (select Id, :GroupId, :USId, CURRENT_TIMESTAMP
+     from Staff
+     where Id in ($StaffList(40960)))
+ENDCODE
+
+PROC DeleteStaff //  $PYTHON
+INPUT
+  GroupId      Char(16)
+SQLCODE
+  delete from ScriptGroup
+  where GroupId = :GroupId
+  and StaffId in ($StaffList(40960))
+ENDCODE
+
+PROC InsertGroups //  $PYTHON
+INPUT
+  StaffId      Char(16)
+  USId         Char(16)
+SQLCODE
+  insert into StaffGroup
+    (select :StaffId, GroupId, :USId, CURRENT_TIMESTAMP
+     from Grps
+     where GroupId in ($GroupList(40960)))
+ENDCODE
+
+PROC DeleteGroups //  $PYTHON
+INPUT
+  StaffId      Char(16)
+SQLCODE
+  delete from ScriptGroup
+  where GroupId in ($GroupList(40960))
+  and StaffId = :StaffId
+ENDCODE
+
+PROC List
+INPUT
+  StaffId      Char(16)
+OUTPUT //(Multiple)
+  GroupId      Char(16)
+SQLCODE
+  select GroupId from StaffGroup where StaffId = :StaffId
+ENDCODE
+
+PROC ListAll //  $PYTHON
+OUTPUT //(Multiple)
+  StaffId Char(16)
+  GroupId Char(16)
+SQLCODE
+  SELECT StaffId
+       , GroupId
+  FROM StaffGroup
+  ORDER BY StaffId
+         , GroupId
+ENDCODE
+
+
+SQLDATA
+insert into StaffGroup values ('PUTTYIDE', 'INTRSYS', 'PUTTYIDE', CURRENT_TIMESTAMP);
+insert into StaffGroup (select Staff.ID, 'NEDPAYM', 'PUTTYIDE', CURRENT_TIMESTAMP);
+insert into StaffGroup (select Staff.ID, 'ZARPAYM', 'PUTTYIDE', CURRENT_TIMESTAMP);
+commit;
+enddata

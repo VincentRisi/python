@@ -1,0 +1,56 @@
+//#  $Revision: 98 $
+//#
+//#  $Date: 2007-06-29 09:32:15 +0200 (Fri, 29 Jun 2007) $
+//#
+////$PARMS 1
+////$DESCR 'Input and Output Putty Drivers'
+////$SHOW  'Descr'
+//$VIEWONLY
+//
+//SERVER   @DN29
+//CONNECT  NPUD00/CONTROL
+
+DATABASE MCPE 
+//FLAGS "xmlValue"
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   Drivers
+SERVER   PUTTY
+
+TABLE Drivers
+  Id      Char(16)
+  Descr   Char(256)
+  Status  int    (Active=0 Inactive=1 MarkForDelete=2)
+  USId    Char(16)
+  TmStamp timestamp
+
+KEY DriverKey PRIMARY
+  Id
+
+PROC Insert
+PROC Update
+PROC SelectOne
+PROC DeleteOne
+
+SQLDATA
+INSERT INTO Drivers VALUES ('NONE'        , 'NONE'                    , 0, 'PreDefined',  CURRENT_TIMESTAMP);
+INSERT INTO Drivers VALUES ('TCPOUT'      , 'TCPOUT'                  , 0, 'PreDefined',  CURRENT_TIMESTAMP);
+INSERT INTO Drivers VALUES ('TCPFILEOUT'  , 'TCPFILEOUT'              , 0, 'PreDefined',  CURRENT_TIMESTAMP);
+INSERT INTO Drivers VALUES ('ROUTER'      , 'ROUTER'                  , 0, 'PreDefined',  CURRENT_TIMESTAMP);
+INSERT INTO Drivers VALUES ('SAFFYSND'    , 'SAFFYSND'                , 0, 'PreDefined',  CURRENT_TIMESTAMP);
+INSERT INTO Drivers VALUES ('SAFFYRCV'    , 'SAFFYRCV'                , 0, 'PreDefined',  CURRENT_TIMESTAMP);
+INSERT INTO Drivers VALUES ('TCPIN'       , 'TCPIN'                   , 0, 'PreDefined',  CURRENT_TIMESTAMP);
+INSERT INTO Drivers VALUES ('TCPSTREAM'   , 'MCCA Stream Resonse'     , 0, 'Simon'     ,  CURRENT_TIMESTAMP);
+INSERT INTO Drivers VALUES ('TCPFILEIN'   , 'TCPFILEIN'               , 0, 'PreDefined',  CURRENT_TIMESTAMP);
+INSERT INTO Drivers VALUES ('TIBOSSND'    , 'Output ftp driver to acb', 0, 'CAZ'       ,  CURRENT_TIMESTAMP);
+INSERT INTO Drivers VALUES ('ACBOUT'      , 'TIBOSSND'                , 0, 'PreDefined',  CURRENT_TIMESTAMP);
+INSERT INTO Drivers VALUES ('ACBFILEIN'   , 'Frocess ACB Ack FILE'    , 0, 'PreDefined',  CURRENT_TIMESTAMP);
+INSERT INTO Drivers VALUES ('MQOUT'       , 'Any MQ output'           , 0, 'CAZ'       ,  CURRENT_TIMESTAMP);
+INSERT INTO Drivers VALUES ('MQIN'        , 'Any MQ INPUT'            , 0, 'PreDefined',  CURRENT_TIMESTAMP);
+INSERT INTO Drivers VALUES ('GENMQIN'     , 'GENMQIN Recieve Over MQ' , 0, 'PreDefined',  CURRENT_TIMESTAMP);
+INSERT INTO Drivers VALUES ('GENMQOUT'    , 'GENMQOUT Send Over MQ'   , 0, 'PreDefined',  CURRENT_TIMESTAMP);
+INSERT INTO Drivers VALUES ('SAFFYMQSND'  , 'SAFFY Send Over MQ'      , 0, 'PreDefined',  CURRENT_TIMESTAMP);
+INSERT INTO Drivers VALUES ('SAFFYMQRCV'  , 'SAFFY Recieve Over MQ'   , 0, 'PreDefined',  CURRENT_TIMESTAMP);
+INSERT INTO Drivers VALUES ('MQSEND'      , 'MQSEND Send Over MQ'     , 0, 'Simon'     ,  CURRENT_TIMESTAMP);
+COMMIT;
+ENDDATA

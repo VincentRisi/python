@@ -1,0 +1,49 @@
+//  $Revision: 98 $
+//  $Date: 2007-06-29 09:32:15 +0200 (Fri, 29 Jun 2007) $
+
+////$PARMS 1
+////$DESCR 'Groups'
+//
+//SERVER   @DN29
+//CONNECT  NPUD00/CONTROL
+
+
+DATABASE MCPE 
+//FLAGS "xmlValue"
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   Grps
+SERVER   PUTTY
+
+TABLE Grps
+  GroupId      Char(16)
+  Name         Char(64)
+  USId         Char(16)
+  TmStamp      DateTime
+
+KEY GroupKey PRIMARY
+  GroupId
+
+PROC Insert//  $PYTHON
+PROC Update//  $PYTHON
+PROC SelectAll
+PROC SelectOne
+PROC DeleteOne//  $PYTHON
+
+PROC ListAll//  $PYTHON
+OUTPUT //(Multiple)
+  GroupId Char(16)
+  Name Char(64)
+SQLCODE
+  SELECT GroupId
+       , Name
+  FROM Grps
+  ORDER BY GroupId
+ENDCODE
+
+SQLDATA
+insert into grps values ('INTRSYS', 'Intrinsics Scripter', 'PUTTYIDE', CURRENT_TIMESTAMP);
+insert into grps values ('NEDPAYM', 'Nedpayment Scripter', 'PUTTYIDE', CURRENT_TIMESTAMP);
+insert into grps values ('ZARPAYM', 'Zarpayment Scripter', 'PUTTYIDE', CURRENT_TIMESTAMP);
+commit;
+enddata

@@ -1,0 +1,54 @@
+//#
+//# File : $URL: http://cdssvnmaster/MCPE/trunk/targsrc/sql/si/fieldsearchdefnew.si $
+//#
+//# $Author: simon $
+//#
+//# $Revision: 127 $
+//#
+//# $Date: 2007-08-08 14:17:08 +0200 (Wed, 08 Aug 2007) $
+
+// This code was generated, do not modify it, modify it at source and regenerate it.
+
+SERVER   @DN29
+CONNECT  NPUD00/CONTROL
+
+TABLE FieldSearchDefNew
+  Id              Char(16)
+  SourceSystemID  Char(16)  NULL
+  Tag             Char(256)
+  USId            Char(16)
+  TmStamp         DateTime
+
+KEY FieldSearchDefKey1 PRIMARY
+  SourceSystemID
+  Id
+
+KEY FieldSearchDefKey2 UNIQUE
+  Tag
+
+LINK SourceSystem SourceSystemID
+
+PROC Insert
+PROC Update
+PROC SelectOne
+PROC DeleteOne
+PROC SelectAll
+PROC Count
+
+//#Used By Genmqin
+PROC LoadBySysytem
+INPUT
+  SourceSystem =
+OUTPUT
+  Id           =
+  Tag          =
+SQL CODE
+  select
+      Id
+      ,Tag
+  from
+      FieldSearchDef f, SourceSystem s  
+  where
+      f.SourceSystemID = s.Id
+      and s.Name = :SourceSystem 
+ENDCODE

@@ -1,0 +1,121 @@
+//#
+//# File : $URL: http://cdssvnmaster/MCPE/trunk/targsrc/sql/si/routing.si $
+//#
+//# $Author: simon $
+//#
+//# $Revision: 99 $
+//#
+//# $Date: 2007-06-29 09:59:40 +0200 (Fri, 29 Jun 2007) $
+
+//SERVER   @DN29_ATLAS
+//CONNECT  NPUD00/CONTROL
+
+DATABASE MCPE
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   Routing
+SERVER   PUTTY
+
+TABLE   Routing
+  Id            Sequence
+  MessageID     int
+  MessageType   int       (Message=0 Stream=1 Response=2 Reply=3)
+  Queuefrom     char (16)
+  Queueto       char (16)
+  Comments      char (256)    NULL
+  Method        int       (Auto=0, Manual=1)
+  USId          char (16)
+  Tmstamp       timestamp
+
+GRANT DELETE TO PUBLIC
+GRANT INSERT TO PUBLIC
+GRANT SELECT TO PUBLIC
+GRANT UPDATE TO PUBLIC
+
+KEY     SYS_C00812
+PRIMARY
+  ID
+
+KEY KEY01
+  MessageID
+
+
+link Queue
+   QueueFrom
+
+link Queue
+   QueueTo
+
+
+PROC    Insert
+PROC    Update
+PROC    DeleteOne
+PROC    SelectOne//  $PYTHON
+PROC    Exists
+PROC    DeleteAll
+PROC    SelectAll
+PROC    Count
+
+//# Used By Front End
+PROC ByID
+INPUT
+  InID          int
+OUTPUT(Single)
+  Id            int
+  MessageID     int
+  MessageType   int
+  Queuefrom     char (16)
+  Queueto       char (16)
+  Comments      char (256)
+  Method        int
+  USId          char (16)
+  Tmstamp       timestamp
+SQLCODE
+    SELECT
+      Id
+      ,MessageID
+      ,MessageType
+      ,Queuefrom
+      ,Queueto
+      ,Comments
+      ,Method
+      ,USId
+      ,Tmstamp
+    FROM Routing
+    WHERE
+       Id = :InID
+ENDCODE
+
+//# Used By Front End
+PROC ByMessageID
+INPUT
+  InMessageId   int
+  InMessageType int
+OUTPUT//(Multiple)
+  Id            int
+  MessageID     int
+  MessageType   int
+  Queuefrom     char (16)
+  Queueto       char (16)
+  Comments      char (256)
+  Method        int
+  USId          char (16)
+  Tmstamp       timestamp
+SQLCODE
+    SELECT
+      Id
+      ,MessageID
+      ,MessageType
+      ,Queuefrom
+      ,Queueto
+      ,Comments
+      ,Method
+      ,USId
+      ,Tmstamp
+    FROM Routing
+    WHERE
+       MessageId = :InMessageId
+       AND MessageType = :InMessageType
+ENDCODE
+
+

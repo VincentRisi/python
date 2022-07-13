@@ -1,0 +1,45 @@
+//#  $Revision: 98 $
+//#
+//#  $Date: 2007-06-29 09:32:15 +0200 (Fri, 29 Jun 2007) $
+//#
+//$PARMS 1
+//$DESCR 'Queue Types'
+//$SHOW  'Name'
+//$VIEWONLY
+
+//SERVER   @DN29_ATLAS
+//CONNECT  NPUD00/CONTROL
+
+DATABASE MCPE
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   QueueType
+SERVER   PUTTY
+
+TABLE QueueType
+  Id           int        (Message=0 Stream=1 Response=2 Reply=3)
+  Name         Char(64)
+  Descr        Char(256)
+  Status       int    (Active=0 Inactive=1 MarkForDelete=2)
+  USId         Char(16)
+  TmStamp      timestamp
+
+KEY QueueKey PRIMARY
+  Id
+
+PROC Insert
+PROC Update
+PROC SelectOne
+PROC DeleteOne
+PROC Exists
+PROC SelectAll
+PROC Count
+
+SQLDATA
+insert into QueueType values (0, 'Message' , 'Message' , 0, 'PreDefined', CURRENT_TIMESTAMP);
+insert into QueueType values (1, 'Stream'  , 'Stream'  , 0, 'PreDefined', CURRENT_TIMESTAMP);
+insert into QueueType values (2, 'Response', 'Response', 0, 'PreDefined', CURRENT_TIMESTAMP);
+insert into QueueType values (3, 'Reply'   , 'Reply'   , 0, 'PreDefined', CURRENT_TIMESTAMP);
+commit;
+ENDDATA
+

@@ -1,0 +1,51 @@
+//#
+//# File : $URL: http://cdssvnmaster/MCPE/trunk/targsrc/sql/si/staffqueueconfig.si $
+//#
+//# $Author: simon $
+//#
+//# $Revision: 99 $
+//#
+//# $Date: 2007-06-29 09:59:40 +0200 (Fri, 29 Jun 2007) $
+
+//SERVER   @DN29_ATLAS
+//CONNECT  NPUD00/CONTROL
+
+DATABASE MCPE
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   StaffQueueConfig
+SERVER   PUTTY
+
+TABLE   StaffQueueConfig
+  Staffid       char(16)
+  Name          char(256)
+  Queueid       char(16)
+  USId          char(16)
+  Tmstamp       timestamp
+
+GRANT DELETE TO PUBLIC
+GRANT INSERT TO PUBLIC
+GRANT SELECT TO PUBLIC
+GRANT UPDATE TO PUBLIC
+
+KEY     SYS_C00825
+PRIMARY
+  Staffid
+  Name
+  Queueid
+
+link Staff
+   Staffid
+
+link Queue
+   Queueid
+
+PROC    Insert
+PROC    Update
+PROC    DeleteOne
+PROC    SelectOne
+PROC    Exists
+PROC    DeleteAll
+PROC    SelectAll
+PROC    Count
+

@@ -1,0 +1,49 @@
+//#
+//# File : $URL: http://cdssvnmaster/MCPE/trunk/targsrc/sql/si/staffqueueperm.si $
+//#
+//# $Author: simon $
+//#
+//# $Revision: 99 $
+//#
+//# $Date: 2007-06-29 09:59:40 +0200 (Fri, 29 Jun 2007) $
+//$PARMS 1
+//$LOOKUP 'StaffId QueueId'
+//$DESCR 'Staff Queue Permision'
+
+
+//$PARMS 1
+//$DESCR 'Staff Queue Permission'
+
+//SERVER   @DN29_ATLAS
+//CONNECT  NPUD00/CONTROL
+
+DATABASE MCPE
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   StaffQueuePerm
+SERVER   PUTTY
+
+TABLE StaffQueuePerm
+  StaffId      Char(16)
+  QueueId      Char(16)
+  Status       int (ViewOnly=0 ViewRoute=1)
+  USId         Char(16)
+  TmStamp      DateTime
+
+KEY StaffQueuePermKey PRIMARY
+  StaffId
+  QueueId
+
+LINK Queue
+  QueueId
+//   DELETE CASCADE
+
+LINK Staff
+  StaffId
+//   DELETE CASCADE
+
+PROC Insert
+PROC DeleteOne
+
+
+

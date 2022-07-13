@@ -1,0 +1,540 @@
+//#
+//# File : $URL: http://cdssvnmaster/MCPE/trunk/targsrc/sql/si/domain.si $
+//#
+//# $Author: nick $
+//#
+//# $Revision: 359 $
+//#
+//# $Date: 2011-11-04 09:06:04 +0200 (Fri, 04 Nov 2011) $
+
+// This code was generated, do not modify it, modify it at source and regenerate it.
+
+//SERVER   @dn29
+//CONNECT  npu/tiger
+
+DATABASE MCPE
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   Routing
+SERVER   PUTTY
+
+TABLE Domain
+
+PROC AccountType
+OUTPUT //// (Multiple)
+  Id Char(16)
+  Descr Char(256)
+  Status int //TinyInt
+SQLCODE
+  SELECT Id
+       , Descr
+       , Status
+  FROM AccountType
+  ORDER BY Id
+ENDCODE
+
+PROC BankFile
+OUTPUT //// (Multiple)
+  SwiftAddress Char(11)
+  BankName Char(105)
+  BankTown Char(35)
+  BankType Char(52)
+  BranchName Char(70) NULL
+  PhysicalAddr1 Char(35) NULL
+  PhysicalAddr2 Char(35) NULL
+  PhysicalAddr3 Char(35) NULL
+  PhysicalAddr4 Char(35) NULL
+  PhysicalAddr5 Char(35) NULL
+  PhysicalCountry Char(35) NULL
+  PostalAddr1 Char(35) NULL
+  PostalAddr2 Char(35) NULL
+  PostalAddr3 Char(35) NULL
+  PostalAddr4 Char(35) NULL
+  PostalCountry Char(35) NULL
+  Telephone Char(20) NULL
+  EMail Char(50) NULL
+  Info Char(100) NULL
+  AuthKeysExchd Char(1)
+  TgTestKeysExchd Char(1)
+  DeleteInd int //TinyInt
+  Status int //TinyInt
+SQLCODE
+  SELECT SwiftAddress
+       , BankName
+       , BankTown
+       , BankType
+       , BranchName
+       , PhysicalAddr1
+       , PhysicalAddr2
+       , PhysicalAddr3
+       , PhysicalAddr4
+       , PhysicalAddr5
+       , PhysicalCountry
+       , PostalAddr1
+       , PostalAddr2
+       , PostalAddr3
+       , PostalAddr4
+       , PostalCountry
+       , Telephone
+       , EMail
+       , Info
+       , AuthKeysExchd
+       , TgTestKeysExchd
+       , DeleteInd
+       , Status
+  FROM BankFile
+  ORDER BY SwiftAddress
+         , BankName
+         , BankTown
+         , BankType
+         , PhysicalCountry
+         , Status
+ENDCODE
+
+PROC AlmanacBank
+OUTPUT //// (Multiple)
+  FinId             INT
+  BranchId          INT
+  BankName          CHAR(105) NULL
+  Town              CHAR(35)  NULL
+  AddressLine1      CHAR(35)  NULL
+  AddressLine2      CHAR(35)  NULL
+  AddressLine3      CHAR(35)  NULL
+  AddressLine4      CHAR(35)  NULL
+  AddressLine5      CHAR(35)  NULL
+  Country           CHAR(35)  NULL
+  Telephone         CHAR(20)  NULL
+  Fax               CHAR(20)  NULL
+  Telex             CHAR(51)  NULL
+  SwiftAddress      CHAR(11)  NULL
+  NationalBankCode  CHAR(20)  NULL
+  RBIInsertDate     DATETIME
+  RBIChangeDate     DATETIME
+  Status            int //TinyInt
+SQLCODE
+    SELECT
+        al.LocationId AS FinId,
+        0 AS BranchId,
+        bf.BankName,
+        bf.BankTown AS Town,
+        bf.physicaladdr1 AS AddressLine1,
+        bf.physicaladdr2 AS AddressLine2,
+        bf.physicaladdr3 AS AddressLine3,
+        bf.physicaladdr4 AS AddressLine4,
+        bf.physicaladdr5 AS AddressLine5,
+        al.CountryName AS Country,
+        bf.Telephone,
+        '' AS Fax,
+        '' AS Telex,
+        bf.SwiftAddress,
+        y.routingcodealt AS NationalBankCode,
+        to_char(bf.tmstamp, 'YYYYMMDDHH24MISS') AS RBIInsertDate,
+        to_char(bf.tmstamp, 'YYYYMMDDHH24MISS') AS RBIChangeDate,
+        bf.status AS Status
+    FROM NPUD00.accuitylocation al
+    LEFT OUTER JOIN NPUD00.accuityroutingcode x ON al.locationid = x.locationid AND x.routingtype = 'SWIFT'
+    LEFT OUTER JOIN NPUD00.accuityroutingcode y ON al.locationid = y.locationid AND y.routingtype NOT IN ('SWIFT', 'BIC')
+    LEFT OUTER JOIN NPUD00.bankfile bf ON x.swiftpairingcode  = bf.swiftaddress
+    WHERE al.Status = 0
+    ORDER BY al.LocationId, 2, bf.SwiftAddress, al.CountryName, bf.BankTown, bf.status;
+ENDCODE
+
+PROC AlmanacCorrespondent
+OUTPUT //// (Multiple)
+  FinId             INT
+  CorrCurrency      CHAR(3)
+  CorrFinId         INT
+  CorrBranchId      INT
+  CorrBankName      CHAR(105) NULL
+  CorrTown          CHAR(35)  NULL
+  CorrCountry       CHAR(35)  NULL
+  CorrAccountNo     CHAR(75)  NULL
+  CorrSwiftAddress  CHAR(11)  NULL
+  PreferredInd      CHAR(1)   NULL
+  RBIInsertDate     DATETIME  NULL
+  RBIChangeDate     DATETIME  NULL
+  Status            int //TinyInt
+SQLCODE
+    SELECT DISTINCT
+        al.locationid AS FinId,
+        ac.currencycode AS CorrCurrency,
+        ac.locationid AS CorrFinId,
+        0 AS CorrBranchId,
+        bf.bankname AS CorrBankName,
+        bf.banktown AS CorrTown,
+        bf.physicalcountry AS CorrCountry,
+        ac.ownerssiaccountno AS CorrAccountNo,
+        ac.holderswift AS CorrSwiftAddress,
+        ac.preferredssiind AS PreferredInd,
+        to_char(ac.tmstamp, 'YYYYMMDDHH24MISS') AS RBIInsertDate,
+        to_char(ac.tmstamp, 'YYYYMMDDHH24MISS') AS RBIChangeDate,
+        al.Status
+    FROM NPUD00.accuitylocation al
+    LEFT OUTER JOIN NPUD00.accuitycorrespondent ac ON ac.locationid = al.locationid
+    LEFT OUTER JOIN NPUD00.accuityroutingcode x ON al.locationid = x.locationid AND x.routingtype = 'SWIFT'
+    LEFT OUTER JOIN NPUD00.accuityroutingcode y ON al.locationid = y.locationid AND y.routingtype NOT IN ('SWIFT', 'BIC')
+    LEFT OUTER JOIN NPUD00.bankfile bf ON x.swiftpairingcode  = bf.swiftaddress
+    WHERE al.status = 0
+    ORDER BY al.locationid, ac.currencycode, 3, 4, ac.holderswift, al.Status
+ENDCODE
+
+PROC Currency
+OUTPUT // (Multiple)
+  Id Char(4)
+  Descr Char(64)
+  Comments Char(256)
+  Status int //TinyInt
+SQLCODE
+  SELECT Id
+       , Descr
+       , Comments
+       , Status
+  FROM Currency
+  ORDER BY Id
+ENDCODE
+
+PROC BankAccount
+OUTPUT // (Multiple)
+  SwiftAddress Char(11)
+  CurrId Char(4)
+  AccountTypeId Char(16)
+  AccountNo Char(64)
+SQLCODE
+  SELECT SwiftAddress
+       , CurrId
+       , AccountTypeId
+       , AccountNo
+  FROM BankAccount
+  ORDER BY SwiftAddress
+         , CurrId
+         , AccountTypeId
+         , AccountNo
+ENDCODE
+
+PROC BankCorrespondents
+OUTPUT // (Multiple)
+  SwiftAddress Char(11)
+  CurrId Char(4)
+  Correspondent Char(11)
+  CreateDate DateTime
+SQLCODE
+  SELECT SwiftAddress
+       , CurrId
+       , Correspondent
+       , to_char(CreateDate, 'YYYYMMDDHH24MISS')
+  FROM BankCorrespondents
+  ORDER BY SwiftAddress
+         , CurrId
+         , Correspondent
+ENDCODE
+
+PROC Country
+OUTPUT // (Multiple)
+  Id Char(64)
+  CodeId Char(4)
+  CurrId Char(4)
+  Status int //TinyInt
+SQLCODE
+  SELECT Id
+       , CodeId
+       , CurrId
+       , Status
+  FROM Country
+  ORDER BY Id
+ENDCODE
+
+PROC Dates
+OUTPUT // (Multiple)
+  DateType int //TinyInt
+  Description Char(50)
+  Value DateTime
+SQLCODE
+  SELECT DateType
+       , Description
+       , to_char(Value, 'YYYYMMDDHH24MISS')
+  FROM Dates
+  ORDER BY DateType
+ENDCODE
+
+PROC Drivers
+OUTPUT // (Multiple)
+  Id Char(16)
+  Descr Char(256)
+  Status int //TinyInt
+SQLCODE
+  SELECT Id
+       , Descr
+       , Status
+  FROM Drivers
+  ORDER BY Id
+ENDCODE
+
+PROC FieldSearchDef
+OUTPUT // (Multiple)
+  Id Char(16)
+  Tag Char(256)
+SQLCODE
+  SELECT Id
+       , Tag
+  FROM FieldSearchDef
+  ORDER BY Tag
+ENDCODE
+
+PROC FigCorrespondentBank
+OUTPUT // (Multiple)
+  Country Char(64)
+  CurrId Char(4)
+  RankType Char(1)
+  Rank Int
+  SwiftAddress Char(11)
+  Frequency int //TinyInt
+  Counter int //TinyInt
+  Status int //TinyInt
+SQLCODE
+  SELECT Country
+       , CurrId
+       , RankType
+       , Rank
+       , SwiftAddress
+       , Frequency
+       , Counter
+       , Status
+  FROM FigCorrespondentBank
+  ORDER BY Country
+         , CurrId
+         , RankType
+         , Rank
+         , SwiftAddress
+ENDCODE
+
+PROC FinidCorrespondentRouting
+OUTPUT // (Multiple)
+  FinId Int
+  Branchid Int
+  RouteFinId Int
+  RouteBranchid Int
+  Status int //TinyInt
+SQLCODE
+  SELECT FinId
+       , Branchid
+       , RouteFinId
+       , RouteBranchid
+       , Status
+  FROM FinidCorrespondentRouting
+  ORDER BY FinId
+         , RouteFinId
+ENDCODE
+
+PROC Grps
+OUTPUT // (Multiple)
+  GroupId Char(16)
+  Name Char(64)
+SQLCODE
+  SELECT GroupId
+       , Name
+  FROM Grps
+  ORDER BY GroupId
+ENDCODE
+
+PROC Lookup
+OUTPUT // (Multiple)
+  Name Char(255)
+  Ref Char(255)
+  Value Char(255)
+SQLCODE
+  SELECT Name
+       , Ref
+       , Value
+  FROM Lookup
+  ORDER BY Name
+         , Ref
+ENDCODE
+
+PROC MT103Direct
+OUTPUT // (Multiple)
+  Country Char(65)
+  CurrencyID Char(3)
+  DirectFlag Char(1)
+SQLCODE
+  SELECT Country
+       , CurrencyID
+       , DirectFlag
+  FROM MT103Direct
+  ORDER BY Country
+         , CurrencyID
+ENDCODE
+
+PROC MT103DirectExceptions
+OUTPUT // (Multiple)
+  Country Char(65)
+  CurrencyID Char(3)
+  BankName Char(106)
+SQLCODE
+  SELECT Country
+       , CurrencyID
+       , BankName
+  FROM MT103DirectExceptions
+  ORDER BY Country
+         , CurrencyID
+         , BankName
+ENDCODE
+
+PROC QueueType
+OUTPUT // (Multiple)
+  Id Int
+  Name Char(64)
+  Descr Char(256)
+  Status int //TinyInt
+SQLCODE
+  SELECT Id
+       , Name
+       , Descr
+       , Status
+  FROM QueueType
+  ORDER BY Id
+ENDCODE
+
+PROC Queue
+OUTPUT // (Multiple)
+  Id Char(16)
+  Name Char(64)
+  Descr Char(256)
+  InputDriver Char(16)
+  OutputDriver Char(16)
+  QueueType Int
+  Priority int //TinyInt
+  Status int //TinyInt
+SQLCODE
+  SELECT Id
+       , Name
+       , Descr
+       , InputDriver
+       , OutputDriver
+       , QueueType
+       , Priority
+       , Status
+  FROM Queue
+  ORDER BY Id
+ENDCODE
+
+PROC ScriptGroup
+OUTPUT // (Multiple)
+  ScriptName Char(64)
+  GroupId Char(16)
+  AccessType int //TinyInt
+SQLCODE
+  SELECT ScriptName
+       , GroupId
+       , AccessType
+  FROM ScriptGroup
+  ORDER BY ScriptName
+         , GroupId
+ENDCODE
+
+PROC SourceSystem
+OUTPUT // (Multiple)
+  ID Char(16)
+  Name Char(256)
+  Decription Char(256)
+  Status int //TinyInt
+SQLCODE
+  SELECT ID
+       , Name
+       , Decription
+       , Status
+  FROM SourceSystem
+  ORDER BY ID
+ENDCODE
+
+PROC Staff
+OUTPUT // (Multiple)
+  Id Char(16)
+  Name Char(64)
+  Description Char(256)
+SQLCODE
+  SELECT Id
+       , Name
+       , Description
+  FROM Staff
+  ORDER BY Id
+ENDCODE
+
+PROC StaffGroup
+OUTPUT // (Multiple)
+  StaffId Char(16)
+  GroupId Char(16)
+SQLCODE
+  SELECT StaffId
+       , GroupId
+  FROM StaffGroup
+  ORDER BY StaffId
+         , GroupId
+ENDCODE
+
+PROC StaffQueuePerm
+OUTPUT // (Multiple)
+  StaffId Char(16)
+  QueueId Char(16)
+  Status int //TinyInt
+SQLCODE
+  SELECT StaffId
+       , QueueId
+       , Status
+  FROM StaffQueuePerm
+  ORDER BY StaffId
+         , QueueId
+ENDCODE
+
+PROC StreamFieldsDef
+OUTPUT // (Multiple)
+  Id Char(16)
+  Name Char(64)
+  Descr Char(256) NULL
+  Length Int
+  Format Char(256) NULL
+  DefaultValue Char(256) NULL
+  Mandatory int //TinyInt
+SQLCODE
+  SELECT Id
+       , Name
+       , Descr
+       , Length
+       , Format
+       , DefaultValue
+       , Mandatory
+  FROM StreamFieldsDef
+  ORDER BY Id
+ENDCODE
+
+PROC StreamMessageFormat
+OUTPUT // (Multiple)
+  Id Char(16)
+  Format Char(256) NULL
+SQLCODE
+  SELECT Id
+       , Format
+  FROM StreamMessageFormat
+  ORDER BY Id
+ENDCODE
+
+PROC StreamType
+OUTPUT // (Multiple)
+  Id Char(16)
+  Descr Char(65) NULL
+SQLCODE
+  SELECT Id
+       , Descr
+  FROM StreamType
+  ORDER BY Id
+ENDCODE
+
+PROC TestPack
+OUTPUT // (Multiple)
+  Name Char(50)
+SQLCODE
+  SELECT Name
+  FROM TestPack
+  ORDER BY Name
+ENDCODE
+
+

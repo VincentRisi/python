@@ -1,0 +1,64 @@
+DATABASE DN09
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   accuityroutingcode
+SERVER   PUTTY
+
+TABLE AccuityRoutingCode (jAccuityRoutingCode)
+  Id               Int
+  LocationId       int
+  Department       Char(5)      NULL
+  Rank             Char(8)      NULL
+  RoutingType      Char(6)      NULL
+  RoutingCode      Char(20)     NULL
+  RoutingCodeAlt   Char(20)     NULL
+  FederalDistrict  Char(6)      NULL
+  SwiftPairingCode Char(11)     NULL
+  Status           byte         (Active=0 Inactive=1 MarkForDelete=2 ConfirmDelete=3)
+  USId             Char(16)
+  TmStamp          datetime
+
+KEY AccuityRoutingCodeKey PRIMARY
+  Id
+
+KEY KEY01
+  LocationId
+  RoutingType
+
+proc update
+proc exists
+proc insert
+//proc bulkinsert (1000)
+proc selectone
+
+proc UpdStatus
+input
+  Id     =
+  Status =
+  USId   =
+sqlcode
+  update AccuityRoutingCode set Status = :Status, USId = :USId, TmStamp = CURRENT_TIMESTAMP where Id = :Id
+endcode
+
+proc SwiftExists
+input
+	SwiftAddress Char(20) NULL
+output
+	SwiftAddressWOPadding Char(20) NULL
+	SwiftAddress Char(20) NULL
+sqlcode
+	SELECT 
+	RoutingCodeAlt,
+	RoutingCode
+	FROM AccuityRoutingCode
+	WHERE
+	RoutingCodeAlt = :SwiftAddress
+endcode
+
+// used by accuityimport
+PROC Truncate
+INPUT
+OUTPUT
+SQLCODE
+   TRUNCATE TABLE AccuityRoutingCode
+ENDCODE

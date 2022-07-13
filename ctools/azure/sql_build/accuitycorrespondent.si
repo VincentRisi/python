@@ -1,0 +1,95 @@
+DATABASE DN29
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   accuitycorrespondent
+SERVER   PUTTY
+
+TABLE AccuityCorrespondent (jAccuityCorrespondent)
+    Id                            Int
+    LocationId                    int
+    ClearingSystem                char(20)    NULL
+   CurrencyCode                  char(3)      NULL
+   OwnerSwift                    char(11)     NULL
+   OwnerSwiftWOPadding           char(11)     NULL
+   OwnerSSIAccountNo             char(75)     NULL
+   ClearingAccuityId             char(8)      NULL
+   ClearingSwift                 char(11)     NULL
+   ClearingSwiftWOPadding        char(11)     NULL
+   HolderAccuityId               char(8)      NULL
+   HolderSwift                   char(11)     NULL
+   HolderSwiftWOPadding          char(11)     NULL
+   HolderSSIAccountNo            char(75)     NULL
+   PreferredSSIInd               char(1)      NULL
+   FurtherAccuityId              char(8)      NULL
+   FurtherSwift                  char(11)     NULL
+   FurtherSwiftWOPadding         char(11)     NULL
+   Further2AccuityId             char(8)      NULL
+   Further2Swift                 char(11)     NULL
+   Further2SwiftWOPadding        char(11)     NULL
+   CorrespondentEffectiveDate    char(10)     NULL
+   CorrespondentDeactivationDate char(10)     NULL
+   CorrespondentUpdateDate       char(10)     NULL
+   SSINotes                      char(600)    NULL
+   Status                        byte        (Active=0 Inactive=1 MarkForDelete=2 ConfirmDelete=3)
+   USId                          Char(16)
+   TmStamp                       datetime
+
+
+KEY AccuityCorrespondent PRIMARY
+  Id
+
+KEY KEY01
+  LocationId
+  
+//proc bulkinsert (1000)
+
+proc update
+proc exists
+proc insert
+proc selectone
+
+proc UpdStatus
+input
+  Id     =
+  Status =
+  USId   =
+sqlcode
+  update AccuityCorrespondent set Status = :Status, USId = :USId, TmStamp = CURRENT_TIMESTAMP where Id = :Id
+endcode
+
+// used by accuityimport
+PROC Truncate
+INPUT
+OUTPUT
+SQLCODE
+   TRUNCATE TABLE AccuityCorrespondent
+ENDCODE
+
+
+proc AddCheck
+input
+   LocationId              =
+   ClearingSystem          =
+   CurrencyCode            =
+   OwnerSwiftWOPadding     =
+   ClearingSwiftWOPadding  =
+   HolderSwiftWOPadding    = 
+output
+   aCount                  Int
+sqlcode
+   select 
+      count(*)
+   from 
+      AccuityCorrespondent 
+   where 
+          LocationId              = :LocationId            
+      and ClearingSystem          = :ClearingSystem        
+      and CurrencyCode            = :CurrencyCode          
+      and OwnerSwiftWOPadding     = :OwnerSwiftWOPadding   
+      and ClearingSwiftWOPadding  = :ClearingSwiftWOPadding
+      and nvl(HolderSwiftWOPadding, 'x') = nvl(:HolderSwiftWOPadding, 'x')
+endcode
+
+
+
+

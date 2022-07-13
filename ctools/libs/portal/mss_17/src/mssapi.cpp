@@ -1842,9 +1842,12 @@ JP_INTERNAL(void) JP_Sequence(TJQuery& qry, int32 &sequence, const char *sequenc
   };
   TJQuery q(qry.conn);
   q.command = TJAlloc::newChar(128);
+  #ifdef USES_SEQUENCE
   strcpy(q.command, "SELECT NEXTVAL FOR ");
   strcat(q.command, sequencer);
-  strcat(q.command, " from SYSIBM.SYSDUMMY1 WITH UR" );
+  #else
+  snprintf(q.command, sizeof(q.command), "SELECT IDENT_CURRENT('%s') + 1", sequencer);
+  #endif
   q.Open(q.command, NO_BINDS, NO_DEFINES, NO_ROWS, ROW_SIZE);
   q.Define(0, (int32*) (q.data));
   q.Exec();
@@ -1863,9 +1866,12 @@ JP_INTERNAL(void) JP_BigSequence(TJQuery& qry, int64 &sequence, const char *sequ
   };
   TJQuery q(qry.conn);
   q.command = TJAlloc::newChar(128);
+  #ifdef USES_SEQUENCE
   strcpy(q.command, "SELECT NEXTVAL FOR ");
   strcat(q.command, sequencer);
-  strcat(q.command, " from SYSIBM.SYSDUMMY1 WITH UR" );
+  #else
+  snprintf(q.command, sizeof(q.command), "SELECT IDENT_CURRENT('%s') + 1", sequencer);
+  #endif
   q.Open(q.command, NO_BINDS, NO_DEFINES, NO_ROWS, ROW_SIZE);
   q.Define(0, (int64*) (q.data));
   q.Exec();

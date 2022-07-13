@@ -1,0 +1,92 @@
+//#
+//# File : $URL: http://cdssvnmaster/MCPE/trunk/targsrc/sql/si/dates.si $
+//#
+//# $Author: simon $
+//#
+//# $Revision: 99 $
+//#
+//# $Date: 2007-06-29 09:59:40 +0200 (Fri, 29 Jun 2007) $
+//
+//# revision date 22/03/1996
+////$PARMS 1
+////$DESCR 'Dates'
+//
+//server @dn29
+//connect npud00/control
+
+DATABASE MCPE FLAGS "param=pyodbc"
+//FLAGS "xmlValue"
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   Dates
+SERVER   PUTTY
+
+
+table Dates
+
+DateType     int (RunDate=0 ReleaseDate=1)
+Description  char(50)
+Value        DateTime
+USId         Char(16)
+TmStamp      timestamp
+
+KEY key1 PRIMARY
+DateType
+
+proc Insert
+proc Update
+proc SelectOne//  $PYTHON
+proc Exists
+proc SelectAll
+
+//#Used by appsyndate,ide, router
+PROC Get//  $PYTHON
+INPUT
+  DateType =
+OUTPUT
+  Value   DateTime
+SQLCODE
+   select 
+      Value 
+   from 
+      Dates 
+   where 
+      DateType = :DateType
+ENDCODE
+
+//#Used by appsyndate
+PROC SetOracleDate
+INPUT
+  DateType int
+  USId     Char(16)
+SQLCODE
+   update dates
+   set
+      Value        = CURRENT_TIMESTAMP
+     ,USId         = :USId
+     ,TMstamp      = CURRENT_TIMESTAMP
+   where
+      DateType = :DateType
+ENDCODE
+
+//#Used by appsyndate
+PROC Inc
+INPUT
+  DateType    int
+  USId        Char(16)
+SQLCODE
+   UPDATE
+      dates
+   SET
+      Value       = DATEADD(day,1, dates.Value)
+     ,USId        = :USId
+     ,TMstamp     = CURRENT_TIMESTAMP
+   WHERE
+     DateType = :DateType
+ENDCODE
+
+SQLDATA
+  INSERT INTO Dates VALUES (0, 'RunDate'    , CURRENT_TIMESTAMP, 'PreDefined', CURRENT_TIMESTAMP);
+  INSERT INTO Dates VALUES (1, 'ReleaseDate', CURRENT_TIMESTAMP, 'PreDefined', CURRENT_TIMESTAMP);
+  COMMIT;
+ENDDATA

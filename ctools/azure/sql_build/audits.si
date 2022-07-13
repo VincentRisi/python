@@ -1,0 +1,47 @@
+DATABASE MCPE
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   audits
+SERVER   PUTTY
+
+TABLE Audits (jAudits)
+  Id        Sequence
+  TableName Char(64)
+  Action    char(64)    {l'ADD', CHANGE, l'DELETE'}
+  Old       Char(2000)
+  New       Char(2000)  
+  USId      Char(16)
+  TmStamp   timestamp
+
+KEY AdaptorKey PRIMARY
+  TableName Id
+
+PROC Insert
+PROC Update
+PROC SelectOne
+PROC DeleteOne
+
+proc GetById
+input
+  Status    char(16)
+output 
+  id        =
+  OverideId  char(64)
+  TableName =
+  Action    =
+  New       =
+  USId      =
+sqlcode
+  Select 
+    a.id
+    ,o.id
+    ,a.TableName
+    ,a.Action
+    ,a.New 
+    ,a.USId
+  from
+    Audits a, AccuityUserOverride o
+  where 
+    a.Id = o.AuditsId
+    and o.Status = :Status
+endcode

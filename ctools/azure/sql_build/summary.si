@@ -1,0 +1,105 @@
+//#  $Revision: 98 $
+//#
+//#  $Date: 2007-06-29 09:32:15 +0200 (Fri, 29 Jun 2007) $
+//#
+//SERVER   @DN29_ATLAS
+//CONNECT  NPUD00/CONTROL
+
+DATABASE MCPE
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   Summary
+SERVER   PUTTY
+
+TABLE   Summary
+  ID            Sequence
+  MessageID     int
+  SummaryLen    int //smallint
+  SummaryData   blob  (16000)
+  SummaryType   int   (XMLT=0Text=1)
+  USId          char (16)
+  Tmstamp       timestamp
+
+GRANT DELETE TO PUBLIC
+GRANT INSERT TO PUBLIC
+GRANT SELECT TO PUBLIC
+GRANT UPDATE TO PUBLIC
+
+//# caz added this for cvs
+
+
+KEY     SYS_C00810
+PRIMARY
+  ID
+
+KEY  KEY01
+  MessageID
+
+link Message
+   MessageID
+// //   DELETE CASCADE
+
+PROC    Insert //  $PYTHON
+PROC    Update
+PROC    DeleteOne
+PROC    SelectOne
+PROC    Exists
+PROC    DeleteAll
+PROC    SelectAll
+PROC    Count
+
+//# Used By PE Front End
+PROC ByID
+INPUT
+   InID           int
+OUTPUT(Single)
+   ID             int
+   MessageID      int
+   SummaryLen     int //smallint
+   SummaryData    blob  (16000)
+   SummaryType    int   (XMLT=0Text=1)
+   USId           char (16)
+   Tmstamp        timestamp
+SQLCODE
+   SELECT
+     ID
+     ,MessageID
+     ,SummaryLen
+     ,SummaryData
+     ,SummaryType
+     ,USId
+     ,Tmstamp
+     FROM
+      Summary
+   WHERE
+      MessageId = :InID
+ENDCODE
+
+//# Used By Router End
+PROC ByDayAndQueueId //  $PYTHON
+INPUT
+   InDate           char(8)
+   QueueId          char(16)
+OUTPUT
+   ID             int
+   MessageID      int
+   SummaryLen     int //smallint
+   SummaryData    blob  (16000)
+   SummaryType    int   (XMLT=0Text=1)
+   USId           char (16)
+   Tmstamp        timestamp
+SQLCODE
+   SELECT /*+RULE*/
+     s.ID
+     ,s.MessageID
+     ,s.SummaryLen
+     ,s.SummaryData
+     ,s.SummaryType
+     ,s.USId
+     ,s.Tmstamp
+     FROM
+      summary s, message m
+   WHERE
+      s.tmstamp >= trunc(:InDate) and s.tmstamp-1 < trunc(:InDate)
+      and m.id = s.messageid and m.queueid = :QueueId
+ENDCODE

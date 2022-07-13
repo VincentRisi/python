@@ -1,0 +1,132 @@
+//  $Revision: 1.15 $
+//
+//  $Author: simon $
+//
+//  $Date: 2005/10/12 13:48:43 $
+//
+//$CSADONET 0
+//SERVER  @DN29
+//CONNECT NPUD00/CONTROL
+
+DATABASE MCPE 
+//FLAGS "xmlValue"
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   Message
+SERVER   PUTTY
+
+TABLE MetaData
+  ID          Sequence
+  MessageID   int
+  ChildID     int
+  Tag         char  (24)       { MQ_REPORT_FLAG, MQ_CORELLID, MQ_MESSAGEID, MQ_REPLY_QUEUE }
+  Value       char  (128)
+  DataType    byte             ( StringType = 1, IntegerType = 2, DoubleType = 3, DateType = 4 )
+  USId        char  (16)
+  TMStamp     timestamp
+
+KEY MetaDataKey PRIMARY ID
+KEY KEY01 UNIQUE 
+   MessageID 
+   ChildID 
+   Tag
+
+KEY KEY02
+   ChildID
+   Tag
+
+KEY KEY03
+   Tag
+   Value
+
+
+
+//KEY TagValue Tag Value  # Added by caz, 20050902
+
+//LINK Message MessageID DELETE CASCADE
+
+PROC  INSERT 
+PROC  Update
+
+
+PROC GetByMessage 
+INPUT
+  MessageID =
+OUTPUT
+  ID     =
+  Tag    =
+  Value     =
+  DataType  =
+SQLCODE
+  SELECT
+    ID,
+    Tag,
+    Value,
+    DataType,
+  FROM
+    MetaData md
+  WHERE
+    md.MessageID = :MessageID
+ENDCODE
+
+
+//# Used By : 
+PROC GetByMessageTag
+INPUT
+  MessageID =
+  Tag       =
+OUTPUT (single)
+  Value       =
+  DataType    =
+SQLCODE
+   SELECT
+      Value
+      ,DataType
+   FROM
+      MetaData
+   WHERE
+     MessageID = :MessageID
+     AND Tag   = :Tag
+ENDCODE
+
+//# Used By : famqout
+PROC GetByMessageTags
+INPUT
+  MessageID =
+  Tags      char(1024)
+OUTPUT //(multiple)
+  Tag       =
+  Value     =
+  DataType  =
+SQLCODE
+   SELECT
+       Tag
+      ,Value
+      ,DataType
+   FROM
+      MetaData
+   WHERE
+     MessageID = :MessageID
+     AND Tag in :Tags(1024)
+ENDCODE
+
+
+//# Used By : 
+PROC GetByMessageTagInt
+INPUT
+  MessageID =
+  Tag       =
+OUTPUT (single)
+  Value       int
+  DataType    =
+SQLCODE
+   SELECT
+      TO_NUBBER(Value, '999999999')
+      ,DataType
+   FROM
+      MetaData
+   WHERE
+     MessageID = :MessageID
+     AND Tag   = :Tag
+ENDCODE
+

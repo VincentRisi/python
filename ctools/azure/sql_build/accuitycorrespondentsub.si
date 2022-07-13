@@ -1,0 +1,43 @@
+DATABASE DN29
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   accuitycorrespondentsub
+SERVER   PUTTY
+
+TABLE AccuityCorrespondentSub (jAccuityCorrespondentSub)
+  Id                            Int
+  CorrespondentId               int
+  SubCategory                   char(3) 
+  Status           byte        (Active=0 Inactive=1 MarkForDelete=2 ConfirmDelete=3)
+  USId             Char(16)
+  TmStamp          datetime
+
+
+KEY AccuityCorrespondentSubKey PRIMARY
+  Id
+
+KEY KEY01
+  CorrespondentId
+  
+//proc bulkinsert (1000)
+proc update
+proc exists
+proc insert
+proc selectone
+
+proc UpdStatus
+input
+  Id     =
+  Status =
+  USId   =
+sqlcode
+  update AccuityCorrespondentSub set Status = :Status, USId = :USId, TmStamp = CURRENT_TIMESTAMP where Id = :Id
+endcode
+
+// used by accuityimport
+PROC Truncate
+INPUT
+OUTPUT
+SQLCODE
+   TRUNCATE TABLE AccuityCorrespondentSub
+ENDCODE

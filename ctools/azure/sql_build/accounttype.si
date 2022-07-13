@@ -1,0 +1,44 @@
+//#
+//# File : $URL: http://cdssvnmaster/MCPE/trunk/targsrc/sql/si/accounttype.si $
+//#
+//# $Author: simon $
+//#
+//# $Revision: 99 $
+//#
+//# $Date: 2007-06-29 09:59:40 +0200 (Fri, 29 Jun 2007) $
+
+$PARMS 1
+$DESCR 'Account Type'
+$SHOW  'Descr'
+//#  WWDF  DDASD
+//SERVER   @DN29_ATLAS
+//CONNECT  NPUD00/CONTROL
+
+DATABASE DN29
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   QueueType
+SERVER   PUTTY
+
+TABLE AccountType
+  Id      Char(16)
+  Descr   Char(256)
+  Status  TinyInt     (Active=0 Inactive=1 MarkForDelete=2)
+  USId    Char(16)
+  TmStamp timestamp
+
+KEY AccountTypeKey PRIMARY
+  Id
+
+PROC Insert
+PROC Update
+PROC SelectOne (NOIDL)
+PROC DeleteOne
+
+SQLDATAINSERT INTO AccountType VALUES ('CURRENT'    , 'CURRENT'    , 0, 'PreDefined', CURRENT_TIMESTAMP);
+INSERT INTO AccountType VALUES ('NOSTRO'     , 'NOSTRO'     , 0, 'PreDefined', CURRENT_TIMESTAMP);
+INSERT INTO AccountType VALUES ('VOSTRO'     , 'VOSTRO'     , 0, 'PreDefined', CURRENT_TIMESTAMP);
+INSERT INTO AccountType VALUES ('NOSTRODRAFT', 'NOSTRODRAFT', 0, 'PreDefined', CURRENT_TIMESTAMP);
+INSERT INTO AccountType VALUES ('ZAPS'       , 'ZAPS'       , 0, 'PreDefined', CURRENT_TIMESTAMP);
+commit;
+ENDDATA

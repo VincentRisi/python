@@ -1,0 +1,51 @@
+//#  $Revision: 98 $
+//#
+//#  $Date: 2007-06-29 09:32:15 +0200 (Fri, 29 Jun 2007) $
+//#
+//SERVER   @DN29_ATLAS
+//CONNECT  NPUD00/CONTROL
+
+DATABASE MCPE
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   Persistent
+SERVER   PUTTY
+
+TABLE Persistent
+  Name         Char(255)
+  Ref          Char(255)
+  Type         int   (StoreString=0 StoreInteger=1 StoreDouble=2)
+  Value        Char(255)
+  USId         Char(16)
+  TmStamp      DateTime
+
+KEY LookupKey PRIMARY
+  Name
+  Ref
+
+PROC SelectOne//  $PYTHON
+PROC Insert//  $PYTHON
+PROC Update//  $PYTHON
+PROC DeleteOne//  $PYTHON
+
+//# used by PythonIntrinsics
+PROC GetForUpdate//  $PYTHON
+INPUT
+  Name Char(256)
+  Ref Char(256)
+OUTPUT (single)
+  Type  int   
+  Value Char(256)
+SQLCODE
+  SELECT
+     Type,
+     Value
+  FROM
+     persistent
+  Where
+     Name = :Name
+     and Ref = :Ref
+  for update
+ENDCODE
+
+
