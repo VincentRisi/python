@@ -29,7 +29,6 @@ import static vlab.jportal.Writer.*;
 public class MSSqlDDL extends Generator
 {
   protected static Vector flagsVector;
-  static boolean useSequence = false;
   private static String tableOwner;
   private static String tableSchema;
 
@@ -44,47 +43,12 @@ public class MSSqlDDL extends Generator
   }
 
   /**
-   * Sets generation flags.
-   */
-  static void setFlags(Database database, PrintWriter outLog)
-  {
-    useSequence = false;
-    for (int i = 0; i < database.flags.size(); i++)
-    {
-      String flag = database.flags.elementAt(i);
-      flag = flag.toLowerCase();
-      boolean dropParameter = false;
-      if (flag.startsWith("%"))
-      {
-        flag = flag.substring(1);
-        dropParameter = true;
-      }
-      if (flag.startsWith("mssql="))
-        setMSSql(flag.substring(6));
-      if (flag.equals("use sequence"))
-        useSequence = true;
-      if (dropParameter)
-        database.flags.remove(i);
-    }
-  }
-
-  private static void setMSSql(String mssql)
-  {
-    switch (mssql)
-    {
-      case "sequence" -> useSequence=true;
-      case "identity" -> useSequence=false;
-    }
-  }
-
-  /**
    * Generates the SQL for SQLServer Table creation.
    */
   public static void generate(Database database, String output, PrintWriter outLog)
   {
     try
     {
-      setFlags(database, outLog);
       String fileName;
       if (database.output.length() > 0)
         fileName = database.output;
@@ -110,9 +74,8 @@ public class MSSqlDDL extends Generator
           generateTable(database.tables.elementAt(i));
         for (int i = 0; i < database.views.size(); i++)
           generateView(database.views.elementAt(i));
-        if (useSequence)
-          for (int i = 0; i < database.sequences.size(); i++)
-            generateSequence(database.sequences.elementAt(i), tableOwner);
+        for (int i = 0; i < database.sequences.size(); i++)
+          generateSequence(database.sequences.elementAt(i), tableOwner);
         writer.flush();
       }
     }
@@ -199,7 +162,7 @@ public class MSSqlDDL extends Generator
     writeln(")");
     writeln("GO");
     writeln();
-    if (useSequence && table.hasSequence)
+    if (table.hasSequence)
     {
       writeln("DROP SEQUENCE " + tableOwner + table.name + "Seq");
       writeln("GO");
@@ -490,12 +453,8 @@ public class MSSqlDDL extends Generator
       case Field.LONG:
         return field.useLiteral() + " BIGINT";
       case Field.SEQUENCE:
-        if (useSequence == false && hasSequenceReturning)
-          return field.useLiteral() + " INTEGER IDENTITY(1,1)";
         return field.useLiteral() + " INTEGER";
       case Field.BIGSEQUENCE:
-        if (useSequence == false && hasSequenceReturning)
-          return field.useLiteral() + " BIGINT IDENTITY(1,1)";
         return field.useLiteral() + " BIGINT";
       case Field.IDENTITY:
         if (typeOnly == true)

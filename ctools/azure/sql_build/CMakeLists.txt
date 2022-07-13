@@ -117,7 +117,7 @@ pathed(msqlPyDirOld   ${CMAKE_CURRENT_BINARY_DIR}/msqlpy-old)
 
 set (switches
   "${msqlcDir}|code.MSSqlCCode|Msql C Files"
-#  "${msqlDir}|MSSqlDDL|Msql SQL Files"
+  "${msqlDir}|ddl.MSSqlDDL|Msql SQL Files"
  )
 
 ### set (switchesOld

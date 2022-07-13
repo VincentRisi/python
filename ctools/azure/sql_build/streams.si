@@ -12,7 +12,7 @@ OUTPUT   Streams
 SERVER   PUTTY
 
 TABLE   Streams
-  Id           Sequence
+  Id           sequence
   MessageId    int
   QueueId      char(16)
   EventQueueId char(16)  NULL

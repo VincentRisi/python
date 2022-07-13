@@ -11,7 +11,7 @@ OUTPUT   Streams
 SERVER   PUTTY
 
 TABLE   Streams
-  Id           Identity
+  Id           Sequence
   MessageId    int
   QueueId      char(16)
   EventQueueId char(16)  NULL
@@ -60,7 +60,7 @@ link Message
 link Streamtype
   StreamType
 
-PROC    Insert
+PROC    Insert returning
 PROC    Update
 PROC    SelectOne
 PROC    SelectOneUpd
