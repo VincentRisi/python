@@ -21,7 +21,7 @@ import java.util.Vector;
 import static vlab.jportal.PlaceHolder.*;
 import static vlab.jportal.Writer.*;
 
-public class PyOracleCode extends Generator
+public class OciPyCode extends Generator
 {
   private static PrintWriter outLog;
   static private Properties properties;
@@ -127,7 +127,7 @@ public class PyOracleCode extends Generator
 
   static public void generate(Database database, String output, PrintWriter outLog)
   {
-    PyOracleCode.outLog = outLog;
+    OciPyCode.outLog = outLog;
     useFetchall = false;
     mssqlSequence = false;
     try

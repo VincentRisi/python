@@ -21,14 +21,12 @@ import java.util.Vector;
 import static vlab.jportal.PlaceHolder.*;
 import static vlab.jportal.Writer.*;
 
-public class PyOdbcCode extends Generator
+public class DB2PyCode extends Generator
 {
   private static PrintWriter outLog;
   static private Properties properties;
-  static private byte paramStyle = COLON;
-  static private boolean useFetchall = false;
-  static private boolean mssqlSequence = false;
-  static private byte dbVendor = ORACLE;
+  static private byte paramStyle = QUESTION;
+  static private byte dbVendor = DB2;
   static private boolean useEnum = false;
   static private boolean enumImport = false;
 
@@ -47,12 +45,12 @@ public class PyOdbcCode extends Generator
    */
   public static String description()
   {
-    return "Generate DBApi Code for Python";
+    return "Generate DBApi Code for DB2 Python";
   }
 
   public static String documentation()
   {
-    return "Generate DBApi Code for Python";
+    return "Generate DBApi Code for DB2 Python";
   }
 
   /**
@@ -65,71 +63,11 @@ public class PyOdbcCode extends Generator
     return s + " ";
   }
 
-  /**
-   * Generates the procedure classes for each table present.
-   */
-  static private void setParamStyle(String flag)
-  {
-    switch (flag.toLowerCase())
-    {
-      case "qmark" -> paramStyle = QUESTION;
-      case "numeric" -> paramStyle = COLON_NO;
-      case "named" -> paramStyle = COLON;
-      case "atnamed" -> paramStyle = AT_NAMED;
-      case "format" -> paramStyle = FORMAT;
-      case "pyformat" -> paramStyle = PYFORMAT;
-      case "odbc" -> {paramStyle = QUESTION; useFetchall = true;}
-    }
-  }
 
-  static private String getParamStyle()
-  {
-    return switch (paramStyle)
-    {
-      case QUESTION -> "qmark";
-      case COLON_NO -> "numeric";
-      case COLON -> "named";
-      case AT_NAMED -> "atnamed";
-      case FORMAT -> "format";
-      case PYFORMAT -> "pyformat";
-      default -> "qmark";
-    };
-  }
-
-  static private void setVendor(String vendor)
-  {
-    switch (vendor.toLowerCase())
-    {
-      case "db2" -> {dbVendor = DB2; paramStyle = QUESTION;}
-      case "oracle" -> {dbVendor = ORACLE; paramStyle = COLON;}
-      case "mssql" -> {dbVendor = MSSQL; paramStyle = COLON_NO;}
-      case "odbc" -> {dbVendor = ODBC; paramStyle = QUESTION; useFetchall = true;}
-      case "postgre" -> {dbVendor = POSTGRE; paramStyle = PYFORMAT;}
-      case "mysql" -> {dbVendor = MYSQL; paramStyle = FORMAT;}
-      case "lite3" -> {dbVendor = LITE3; paramStyle = AT_NAMED;}
-    }
-  }
-
-  static private String getVendor()
-  {
-    return switch (dbVendor)
-    {
-      case DB2 -> "db2";
-      case ORACLE -> "oracle";
-      case MSSQL -> "mssql";
-      case POSTGRE -> "postgre";
-      case MYSQL -> "mysql";
-      case LITE3 -> "lite3";
-      case ODBC -> "odbc";
-      default -> "oracle";
-    };
-  }
 
   static public void generate(Database database, String output, PrintWriter outLog)
   {
-    PyOdbcCode.outLog = outLog;
-    useFetchall = false;
-    mssqlSequence = false;
+    DB2PyCode.outLog = outLog;
     try
     {
       try
@@ -151,25 +89,11 @@ public class PyOdbcCode extends Generator
         if (flag.startsWith("%"))
         {
           flag = flag.substring(1);
-          dropParameter = true;
-        }
-        if (flag.startsWith("param="))
-          setParamStyle(flag.substring(6));
-        else if (flag.startsWith("vendor="))
-          setVendor(flag.substring(7));
-        else if (flag.startsWith("mssql="))
-          setMSSql(flag.substring(6));
-        if (dropParameter)
           database.flags.remove(i);
+        }
         if (flag.equalsIgnoreCase("useenum") || flag.equalsIgnoreCase("use enum"))
           useEnum = true;
       }
-      String value = getProperty("param", null);
-      if (value != null)
-        setParamStyle(value.toLowerCase());
-      value = getProperty("vendor", null);
-      if (value != null)
-        setVendor(value.toLowerCase());
       useEnum = getProperty("useenum", useEnum);
       for (int i = 0; i < database.tables.size(); i++)
       {
@@ -183,16 +107,6 @@ public class PyOdbcCode extends Generator
       ex.printStackTrace(outLog);
     }
   }
-
-  private static void setMSSql(String mssql)
-  {
-    switch (mssql)
-    {
-      case "sequence" -> mssqlSequence=true;
-      case "identity" -> mssqlSequence=false;
-    }
-  }
-
 
   static private String getProperty(String propName, String propDefault)
   {
@@ -227,11 +141,21 @@ public class PyOdbcCode extends Generator
       writeln("# This code was generated, do not modify it, modify it at source and regenerate it.");
       writeln("# see " + table.useName() + " source file");
       writeln();
-      writeln(format("param_style='%s'", getParamStyle()));
-      writeln(format("vendor='%s'", getVendor()));
-      writeln(format("mssqlSequence=%s", mssqlSequence ? "True" : "False"));
       writeln("import dbapi_util");
       writeln("from dbapi_annotate import *");
+      writeln();
+      writeln("class DB2Returning():");
+      writeln(1, "    def __init__(self, table, field):");
+      writeln(2, "        self.head = f'select {field) from new table ('");
+      writeln(2, "        self.output = ''");
+      writeln(2, "        self.sequence = f'  nextval for {table}Seq,'");
+      writeln(2, "        self.tail = ')'");
+      writeln(2, "        self.dropField = ''");
+      writeln(2, "        self.doesGeneratedKeys = False");
+      writeln(2, "        self.usesPlSql = False");
+      writeln(1, "    def check_use(self, value):");
+      writeln(2, "        return value");
+      writeln("dbapi_util.returning = DB2Returning");
       writeln();
       generateEnums(database);
       generateEnums(table);
@@ -681,12 +605,7 @@ public class PyOdbcCode extends Generator
   static private void generatePythonMultiple(Table table, Proc proc, String current, boolean hasInputs)
   {
     writeln(2, "records = []");
-    if (useFetchall)
-    {
-      writeln(2, "rows = cursor.fetchall()");
-      writeln(2, "for row in rows:");
-    } else
-      writeln(2, "for row in cursor:");
+    writeln(2, "for row in cursor:");
     writeln(3, "record = " + current + "()");
     if (hasInputs)
       writeln(3, "self._copy_input(record)");

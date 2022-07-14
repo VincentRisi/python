@@ -84,6 +84,7 @@ public class Field implements Serializable
    * Indicates the field is a Sequence
    */
   public boolean isSequence;
+  public boolean isIdentity;
   /**
    * Indicates the field can be NULL on the database
    */
@@ -132,6 +133,7 @@ public class Field implements Serializable
     valueList = new Vector<String>();
     isPrimaryKey = false;
     isSequence = false;
+    isIdentity = false;
     isNull = false;
     isLiteral = false;
     isCalc = false;

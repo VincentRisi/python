@@ -21,7 +21,7 @@ import static vlab.jportal.TJCStructs.*;
 import static vlab.jportal.Writer.*;
 import vlab.jportal.*;
 
-public class CliCCode extends Generator
+public class DB2CCode extends Generator
 {
   protected static PrintWriter outLog;
   static PlaceHolder placeHolder;
@@ -41,7 +41,7 @@ public class CliCCode extends Generator
    */
   public static void generate(Database database, String output, PrintWriter outLog)
   {
-    CliCCode.outLog = outLog;
+    DB2CCode.outLog = outLog;
     for (int i = 0; i < database.tables.size(); i++)
     {
       try

@@ -1109,15 +1109,15 @@ void jDatatype() :
 |  <IDENTITY>
   {
     field.type = Field.IDENTITY;
-    field.isSequence = true;
-    table.hasSequence = true;
+    field.isIdentity = true;
+    table.hasIdentity = true;
     field.length = 4;
   }
 |  <BIGIDENTITY>
   {
     field.type = Field.BIGIDENTITY;
-    field.isSequence = true;
-    table.hasSequence = true;
+    field.isIdentity = true;
+    table.hasIdentity = true;
     field.length = 8;
   }
 | (<DOUBLE>|<FLOAT>)
@@ -1831,18 +1831,9 @@ void jStdProc() :
       }
   | <BULKINSERT> (jRowCount())?
     {
-      //table.hasSequenceReturning = table.hasSequence;
       proc.name = "BulkInsert";
       table.buildBulkInsert(proc);
       table.hasStdProcs = true;
-      //if (table.hasIdentity)
-      //  {
-      //    table.procs.addElement(proc);
-      //    proc = new Proc();
-      //    proc.table = table;
-      //    proc.name = "Identity";
-      //    table.buildIdentity(proc);
-      //  }
     }
   | <MAXTMSTAMP>
     {

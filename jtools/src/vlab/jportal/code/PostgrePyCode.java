@@ -21,7 +21,7 @@ import java.util.Vector;
 import static vlab.jportal.PlaceHolder.*;
 import static vlab.jportal.Writer.*;
 
-public class PyLite3Code extends Generator
+public class PostgrePyCode extends Generator
 {
   private static PrintWriter outLog;
   static private Properties properties;
@@ -127,7 +127,7 @@ public class PyLite3Code extends Generator
 
   static public void generate(Database database, String output, PrintWriter outLog)
   {
-    PyLite3Code.outLog = outLog;
+    PostgrePyCode.outLog = outLog;
     useFetchall = false;
     mssqlSequence = false;
     try
