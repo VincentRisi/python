@@ -17,7 +17,7 @@ OUTPUT   Routing
 SERVER   PUTTY
 
 TABLE   Routing
-  Id            Sequence
+  Id            identity
   MessageID     int
   MessageType   int       (Message=0 Stream=1 Response=2 Reply=3)
   Queuefrom     char (16)

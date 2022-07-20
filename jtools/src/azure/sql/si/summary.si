@@ -12,7 +12,7 @@ OUTPUT   Summary
 SERVER   PUTTY
 
 TABLE   Summary
-  ID            Sequence
+  ID            identity
   MessageID     int
   SummaryLen    int //smallint
   SummaryData   blob  (16000)

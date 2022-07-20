@@ -106,55 +106,57 @@ function (jportal projectName siFiles)
   )
 endfunction()
 
-
-pathed(msqlcDir  ${CMAKE_CURRENT_BINARY_DIR}/msqlc) 
-pathed(msqlDir   ${CMAKE_CURRENT_BINARY_DIR}/mddl) 
-
-pathed(msqlcDirOld   ${CMAKE_CURRENT_BINARY_DIR}/msqlc-old) 
-pathed(msqlDirOld   ${CMAKE_CURRENT_BINARY_DIR}/mddl-old) 
-pathed(msqlPyDirOld   ${CMAKE_CURRENT_BINARY_DIR}/msqlpy-old) 
-
+pathed(SQL_MSSSH  ${JTOOLS_DIR}/out/azure/sql/msssh) 
+pathed(DDL_MSSQL  ${JTOOLS_DIR}/out/azure/ddl/mssql)
+pathed(SQL_DBAPI  ${JTOOLS_DIR}/out/azure/sql/py/dbapi) 
+pathed(SQL_PYMSSQL  ${JTOOLS_DIR}/out/azure/sql/py/dbapi/mssql)
+pathed(SQL_PYODBC   ${JTOOLS_DIR}/out/azure/sql/py/dbapi/odbc)
 
 set (switches
-  "${msqlcDir}|code.MSSqlCCode|Msql C Files"
-  "${msqlDir}|ddl.MSSqlDDL|Msql SQL Files"
+  "${SQL_MSSSH}|code.MSSqlCCode|Msql C Files"
+  "${DDL_MSSQL}|ddl.MSSqlDDL|Msql SQL Files"
+  "${SQL_DBAPI}|code.PyDBOldCode|DBOld PY Files"
+  "${SQL_PYMSSQL}|code.MSSqlPyCode|MSSql PY Files"
+  "${SQL_PYODBC}|code.OdbcPyCode|Odbc PY Files"
  )
 
 set (sifiles
-/vlab/python/jtools/src/azure/sql/si/comments.si
-/vlab/python/jtools/src/azure/sql/si/country.si
-/vlab/python/jtools/src/azure/sql/si/currency.si
-/vlab/python/jtools/src/azure/sql/si/dates.si
-/vlab/python/jtools/src/azure/sql/si/domain.si
-/vlab/python/jtools/src/azure/sql/si/drivers.si
-/vlab/python/jtools/src/azure/sql/si/fields.si
-/vlab/python/jtools/src/azure/sql/si/fieldsearch.si
-/vlab/python/jtools/src/azure/sql/si/fieldsearchdef.si
-/vlab/python/jtools/src/azure/sql/si/group.si
-/vlab/python/jtools/src/azure/sql/si/lookup.si
-/vlab/python/jtools/src/azure/sql/si/message.si
-/vlab/python/jtools/src/azure/sql/si/metadata.si
-/vlab/python/jtools/src/azure/sql/si/persistent.si
-/vlab/python/jtools/src/azure/sql/si/queue.si
-/vlab/python/jtools/src/azure/sql/si/queuetype.si
-/vlab/python/jtools/src/azure/sql/si/reply.si
-/vlab/python/jtools/src/azure/sql/si/response.si
-/vlab/python/jtools/src/azure/sql/si/routing.si
-/vlab/python/jtools/src/azure/sql/si/sourcesystem.si
-/vlab/python/jtools/src/azure/sql/si/staff.si
-/vlab/python/jtools/src/azure/sql/si/staffconfigname.si
-/vlab/python/jtools/src/azure/sql/si/staffgroup.si
-/vlab/python/jtools/src/azure/sql/si/staffprofile.si
-/vlab/python/jtools/src/azure/sql/si/staffqueueconfig.si
-/vlab/python/jtools/src/azure/sql/si/staffqueueperm.si
-/vlab/python/jtools/src/azure/sql/si/streams.si
-/vlab/python/jtools/src/azure/sql/si/streamtype.si
-/vlab/python/jtools/src/azure/sql/si/summary.si
+${JTOOLS_DIR}/src/azure/sql/si/comments.si
+${JTOOLS_DIR}/src/azure/sql/si/country.si
+${JTOOLS_DIR}/src/azure/sql/si/currency.si
+${JTOOLS_DIR}/src/azure/sql/si/dates.si
+${JTOOLS_DIR}/src/azure/sql/si/domain.si
+${JTOOLS_DIR}/src/azure/sql/si/drivers.si
+${JTOOLS_DIR}/src/azure/sql/si/fields.si
+${JTOOLS_DIR}/src/azure/sql/si/fieldsearch.si
+${JTOOLS_DIR}/src/azure/sql/si/fieldsearchdef.si
+${JTOOLS_DIR}/src/azure/sql/si/group.si
+${JTOOLS_DIR}/src/azure/sql/si/lookup.si
+${JTOOLS_DIR}/src/azure/sql/si/message.si
+${JTOOLS_DIR}/src/azure/sql/si/metadata.si
+${JTOOLS_DIR}/src/azure/sql/si/persistent.si
+${JTOOLS_DIR}/src/azure/sql/si/queue.si
+${JTOOLS_DIR}/src/azure/sql/si/queuetype.si
+${JTOOLS_DIR}/src/azure/sql/si/reply.si
+${JTOOLS_DIR}/src/azure/sql/si/response.si
+${JTOOLS_DIR}/src/azure/sql/si/routing.si
+${JTOOLS_DIR}/src/azure/sql/si/sourcesystem.si
+${JTOOLS_DIR}/src/azure/sql/si/staff.si
+${JTOOLS_DIR}/src/azure/sql/si/staffconfigname.si
+${JTOOLS_DIR}/src/azure/sql/si/staffgroup.si
+${JTOOLS_DIR}/src/azure/sql/si/staffprofile.si
+${JTOOLS_DIR}/src/azure/sql/si/staffqueueconfig.si
+${JTOOLS_DIR}/src/azure/sql/si/staffqueueperm.si
+${JTOOLS_DIR}/src/azure/sql/si/streams.si
+${JTOOLS_DIR}/src/azure/sql/si/streamtype.si
+${JTOOLS_DIR}/src/azure/sql/si/summary.si
 )
-#set (inputList /vlab/python/jtools/src/azure/inputs.list)
-#file (WRITE ${inputList})
-#foreach (file ${sifiles})
-#  file (APPEND ${inputList} ${file} "\n")
-#endforeach ()
 
 jportal (${name} "${sifiles}" ${switches})
+
+file (GLOB CPP_MSSSH ${SQL_MSSSH}/*.*)
+
+message (status "${SQL_MSSSH}")
+message (status "${CPP_MSSSH}")
+
+add_subdirectory (check_sh)

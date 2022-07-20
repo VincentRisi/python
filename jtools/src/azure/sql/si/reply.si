@@ -12,7 +12,7 @@ OUTPUT   Reply
 SERVER   PUTTY
 
 TABLE   Reply
-  Id            Sequence
+  Id            identity
   MessageID     int      
   QueueID       char (16)
   MessageLen    int         //int creates number(10) which is out of sync with the database number(5)

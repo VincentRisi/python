@@ -16,7 +16,7 @@ OUTPUT   Message
 SERVER   PUTTY
 
 TABLE MetaData
-  ID          Sequence
+  ID          identity
   MessageID   int
   ChildID     int
   Tag         char  (24)       { MQ_REPORT_FLAG, MQ_CORELLID, MQ_MESSAGEID, MQ_REPLY_QUEUE }

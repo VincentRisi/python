@@ -18,7 +18,7 @@ SERVER   PUTTY
 
 //## tablespace NPUT001M1 INITIAL 40K NEXT 1M
 TABLE   Comments
-  ID            Sequence
+  ID            identity
   MessageID     int
   Text          char(1024)
   USId          char (16)

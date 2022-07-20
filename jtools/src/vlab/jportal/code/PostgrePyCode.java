@@ -106,7 +106,7 @@ public class PostgrePyCode extends Generator
       ex.printStackTrace(outLog);
     }
   }
-  
+
   static private String getProperty(String propName, String propDefault)
   {
     if (properties == null)
@@ -173,7 +173,7 @@ public class PostgrePyCode extends Generator
         writeln(1, "def _copy_input(self, record):");
         writeln(2, "record.tableSeq = self.tableSeq");
         writeln(1, "def execute(self, connect):");
-        writeln(2, "_command = f'select {self.tableSeq}.nextval'");
+        writeln(2, "_command = f'select nextval({self.tableSeq})'");
         writeln(2, "cursor = connect.cursor()");
         writeln(2, "cursor.execute(_command)");
         writeln(2, "record = util_sequence()");

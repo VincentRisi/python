@@ -19,7 +19,7 @@ SERVER   PUTTY
 
 //## tablespace NPUT001M1 INITIAL 40K NEXT 1M
 TABLE   FieldSearch
-  id            Sequence
+  id            identity
   Tag           char (256)
   USId          char (16)
   Tmstamp       timestamp

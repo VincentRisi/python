@@ -12,7 +12,7 @@ OUTPUT   Response
 SERVER   PUTTY
 
 TABLE   Response
-  Id            Sequence
+  Id            identity
   MessageID     int
   Streamid      int
   Streamref     char (128) NULL
@@ -619,7 +619,7 @@ ENDCODE
 //# used by IDE
 PROC TVSlurpIDs
 OUTPUT //(Multiple)
-  Id            Sequence
+  Id            identity
   Reference     char  (64)
 SQLCODE
   SELECT

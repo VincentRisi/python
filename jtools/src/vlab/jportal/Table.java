@@ -683,7 +683,7 @@ public class Table implements Serializable
     proc.isStd = true;
     proc.isSql = true;
     proc.isInsert = true;
-    if (proc.hasReturning)
+    if (proc.hasReturning && proc.table.hasIdentity == false)
       proc.lines.add(new Line("_ret.head", true));
     String identityName = "";
     proc.lines.addElement(new Line("insert into " + name + " ("));
@@ -749,7 +749,7 @@ public class Table implements Serializable
       line = "  ";
     }
     proc.lines.addElement(new Line(" )"));
-    if (proc.hasReturning)
+    if (proc.hasReturning && proc.table.hasIdentity == false)
       proc.lines.add(new Line("_ret.tail", true));
     if (proc.useUpsert)
       proc.lines.addElement(new Line(" /*use upsert*/"));

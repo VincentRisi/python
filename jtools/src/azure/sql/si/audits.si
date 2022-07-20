@@ -5,7 +5,7 @@ OUTPUT   audits
 SERVER   PUTTY
 
 TABLE Audits (jAudits)
-  Id        Sequence
+  Id        identity
   TableName Char(64)
   Action    char(64)    {l'ADD', CHANGE, l'DELETE'}
   Old       Char(2000)

@@ -13,7 +13,7 @@ SERVER   PUTTY
 
 //## tablespace NPUT001M1 INITIAL 40K NEXT 1M
 TABLE Message
-  Id            Sequence
+  Id            identity
   SourceSysid   char  (16)
   Reference     char  (64)
   SourceQueue   char  (16)
