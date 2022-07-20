@@ -7,8 +7,8 @@ function (pathed result ext_dir)
       file (GLOB remFiles ${ext_dir}/*.*)
       list (LENGTH remFiles count)
       if (0 LESS count)
-        #message (STATUS "--info-- Removing all files in ${ext_dir}")
-        file (REMOVE ${remFiles})
+ 
+         file (REMOVE ${remFiles})
       endif ()
     endif ()
   endforeach ()
@@ -34,7 +34,7 @@ function (file_glob dir)
     ${dir}/*.yaml
     ${dir}/*.json
     )
-  ##message (STATUS "--info-- GLOB ${globs}")
+
   set (files ${globs} PARENT_SCOPE)
 endfunction()
 
@@ -99,7 +99,7 @@ function (jportal projectName siFiles)
     )
   endforeach ()
   source_group (LogFiles FILES ${logFiles})
-  #set (logFiles ${logFiles} PARENT_SCOPE)
+   
   add_custom_target (${projectName} ALL
     DEPENDS ${logFiles}
     SOURCES ${siFiles} ${allFiles} ${logFiles}
@@ -120,65 +120,41 @@ set (switches
   "${msqlDir}|ddl.MSSqlDDL|Msql SQL Files"
  )
 
-### set (switchesOld
-###  "${msqlPyDirOld}|code.PyDBApiCode|Msql PY Files"
-###  "${msqlcDirOld}|code.MSSqlCCode|Msql C Files"
-###  "${msqlDirOld}|ddl.MSSqlDDL|Msql SQL Files"
-### )
-
 set (sifiles
-   #${CMAKE_CURRENT_SOURCE_DIR}/accuitycontact.si
-   #${CMAKE_CURRENT_SOURCE_DIR}/accuitycorrespondent.si
-   #${CMAKE_CURRENT_SOURCE_DIR}/accuitycorrespondentsub.si
-   #${CMAKE_CURRENT_SOURCE_DIR}/accuitylocation.si
-   #${CMAKE_CURRENT_SOURCE_DIR}/accuityofficer.si
-   #${CMAKE_CURRENT_SOURCE_DIR}/accuityroutingatt.si
-   #${CMAKE_CURRENT_SOURCE_DIR}/accuityroutingcode.si
-   #
-   #${CMAKE_CURRENT_SOURCE_DIR}/accuityoverride.si
-   #${CMAKE_CURRENT_SOURCE_DIR}/audits.si
-
-  ${CMAKE_CURRENT_SOURCE_DIR}/comments.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/country.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/currency.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/dates.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/domain.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/drivers.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/fields.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/fieldsearch.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/fieldsearchdef.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/group.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/lookup.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/message.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/metadata.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/persistent.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/queue.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/queuetype.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/reply.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/response.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/routing.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/sourcesystem.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/staff.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/staffconfigname.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/staffgroup.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/staffprofile.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/staffqueueconfig.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/staffqueueperm.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/streams.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/streamtype.si
-  ${CMAKE_CURRENT_SOURCE_DIR}/summary.si
+/vlab/python/jtools/src/azure/sql/si/comments.si
+/vlab/python/jtools/src/azure/sql/si/country.si
+/vlab/python/jtools/src/azure/sql/si/currency.si
+/vlab/python/jtools/src/azure/sql/si/dates.si
+/vlab/python/jtools/src/azure/sql/si/domain.si
+/vlab/python/jtools/src/azure/sql/si/drivers.si
+/vlab/python/jtools/src/azure/sql/si/fields.si
+/vlab/python/jtools/src/azure/sql/si/fieldsearch.si
+/vlab/python/jtools/src/azure/sql/si/fieldsearchdef.si
+/vlab/python/jtools/src/azure/sql/si/group.si
+/vlab/python/jtools/src/azure/sql/si/lookup.si
+/vlab/python/jtools/src/azure/sql/si/message.si
+/vlab/python/jtools/src/azure/sql/si/metadata.si
+/vlab/python/jtools/src/azure/sql/si/persistent.si
+/vlab/python/jtools/src/azure/sql/si/queue.si
+/vlab/python/jtools/src/azure/sql/si/queuetype.si
+/vlab/python/jtools/src/azure/sql/si/reply.si
+/vlab/python/jtools/src/azure/sql/si/response.si
+/vlab/python/jtools/src/azure/sql/si/routing.si
+/vlab/python/jtools/src/azure/sql/si/sourcesystem.si
+/vlab/python/jtools/src/azure/sql/si/staff.si
+/vlab/python/jtools/src/azure/sql/si/staffconfigname.si
+/vlab/python/jtools/src/azure/sql/si/staffgroup.si
+/vlab/python/jtools/src/azure/sql/si/staffprofile.si
+/vlab/python/jtools/src/azure/sql/si/staffqueueconfig.si
+/vlab/python/jtools/src/azure/sql/si/staffqueueperm.si
+/vlab/python/jtools/src/azure/sql/si/streams.si
+/vlab/python/jtools/src/azure/sql/si/streamtype.si
+/vlab/python/jtools/src/azure/sql/si/summary.si
 )
-
+#set (inputList /vlab/python/jtools/src/azure/inputs.list)
+#file (WRITE ${inputList})
+#foreach (file ${sifiles})
+#  file (APPEND ${inputList} ${file} "\n")
+#endforeach ()
 
 jportal (${name} "${sifiles}" ${switches})
-
-#set_property(TARGET jportalmsql.gen  PROPERTY FOLDER "mcpe/sql/jportalmsql_gen")
-#folder(${name})
-
-
-#set (name jportalmsql-old.gen)
-#project (${name})
-#jportal (${name} "${sifiles}" ${switchesOld})
-
-#set_property(TARGET jportalmsql.gen  PROPERTY FOLDER "mcpe/sql/jportalmsql_gen")
-#folder(${name})

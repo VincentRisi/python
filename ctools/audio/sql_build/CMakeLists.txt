@@ -4,6 +4,10 @@ set (root ${JTOOLS_DIR})
 set (logFile ${root}/out/audio/sql/build.log)
 set (siFiles
   ${root}/src/audio/sql/si/book.si
+  ${root}/src/audio/sql/si/message.si
+  ${root}/src/audio/sql/si/reply.si
+  ${root}/src/audio/sql/si/response.si
+  ${root}/src/audio/sql/si/streams.si
   )
 set (inputList ${root}/src/audio/inputs.list)
 source_group ("SI Files" FILES ${siFiles} ${logFile} ${inputList})
@@ -30,7 +34,7 @@ set (switches
   #          generator
   "-o {root}/out/audio/sql/ddl/db2 ddl.Db2DDL"
   "-o {root}/out/audio/sql/ddl/lite3 ddl.Lite3DDL"
-  "-o {root}/out/audio/sql/ddl/mssql -F %mssql=sequence ddl.MSSqlDDL"
+  "-o {root}/out/audio/sql/ddl/mssql ddl.MSSqlDDL"
   "-o {root}/out/audio/sql/ddl/mysql ddl.MySqlDDL"
   "-o {root}/out/audio/sql/ddl/oracle ddl.OracleDDL"
   "-o {root}/out/audio/sql/ddl/postgre ddl.PostgreDDL"
@@ -38,15 +42,15 @@ set (switches
   "-o {root}/out/audio/sql/yaml3 code.OpenApiCode"
   "-o {root}/out/audio/sql/py/dbapi code.PyDBRestCode"
   "-o {root}/out/audio/sql/py/dbapi code.PyDBOldCode"
-  "-o {root}/out/audio/sql/py/dbapi/db2 -F %vendor=db2 code.PyDBApiCode"
-  "-o {root}/out/audio/sql/py/dbapi/lite3 -F %vendor=lite3 code.PyDBApiCode"
-  "-o {root}/out/audio/sql/py/dbapi/mssql -F %vendor=mssql code.PyDBApiCode"
-  "-o {root}/out/audio/sql/py/dbapi/mysql -F %vendor=mysql code.PyDBApiCode"
-  "-o {root}/out/audio/sql/py/dbapi/odbc -F %vendor=odbc code.PyDBApiCode"
-  "-o {root}/out/audio/sql/py/dbapi/oracle -F %vendor=oracle code.PyDBApiCode"
-  "-o {root}/out/audio/sql/py/dbapi/postgre -F %vendor=postgre code.PyDBApiCode"
+  "-o {root}/out/audio/sql/py/dbapi/db2 code.CliPyCode"
+  "-o {root}/out/audio/sql/py/dbapi/lite3 code.Lite3PyCode"
+  "-o {root}/out/audio/sql/py/dbapi/mssql code.MssqlPyCode"
+  "-o {root}/out/audio/sql/py/dbapi/mysql code.MysqlPyCode"
+  "-o {root}/out/audio/sql/py/dbapi/odbc code.OdbcPyCode"
+  "-o {root}/out/audio/sql/py/dbapi/oracle code.OciPyCode"
+  "-o {root}/out/audio/sql/py/dbapi/postgre code.PostgrePyCode"
   "-o {root}/out/audio/sql/clish code.CliCCode"
-  "-o {root}/out/audio/sql/msssh -F %mssql=sequence code.MSSqlCCode"
+  "-o {root}/out/audio/sql/msssh code.MSSqlCCode"
   "-o {root}/out/audio/sql/myssh code.MySqlCCode"
   "-o {root}/out/audio/sql/ocish code.OciCCode"
   "-o {root}/out/audio/sql/pgsh code.PostgreCCode"

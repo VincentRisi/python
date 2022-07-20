@@ -26,8 +26,6 @@ public class OciPyCode extends Generator
   private static PrintWriter outLog;
   static private Properties properties;
   static private byte paramStyle = COLON;
-  static private boolean useFetchall = false;
-  static private boolean mssqlSequence = false;
   static private byte dbVendor = ORACLE;
   static private boolean useEnum = false;
   static private boolean enumImport = false;
@@ -65,71 +63,10 @@ public class OciPyCode extends Generator
     return s + " ";
   }
 
-  /**
-   * Generates the procedure classes for each table present.
-   */
-  static private void setParamStyle(String flag)
-  {
-    switch (flag.toLowerCase())
-    {
-      case "qmark" -> paramStyle = QUESTION;
-      case "numeric" -> paramStyle = COLON_NO;
-      case "named" -> paramStyle = COLON;
-      case "atnamed" -> paramStyle = AT_NAMED;
-      case "format" -> paramStyle = FORMAT;
-      case "pyformat" -> paramStyle = PYFORMAT;
-      case "odbc" -> {paramStyle = QUESTION; useFetchall = true;}
-    }
-  }
-
-  static private String getParamStyle()
-  {
-    return switch (paramStyle)
-    {
-      case QUESTION -> "qmark";
-      case COLON_NO -> "numeric";
-      case COLON -> "named";
-      case AT_NAMED -> "atnamed";
-      case FORMAT -> "format";
-      case PYFORMAT -> "pyformat";
-      default -> "qmark";
-    };
-  }
-
-  static private void setVendor(String vendor)
-  {
-    switch (vendor.toLowerCase())
-    {
-      case "db2" -> {dbVendor = DB2; paramStyle = QUESTION;}
-      case "oracle" -> {dbVendor = ORACLE; paramStyle = COLON;}
-      case "mssql" -> {dbVendor = MSSQL; paramStyle = COLON_NO;}
-      case "odbc" -> {dbVendor = ODBC; paramStyle = QUESTION; useFetchall = true;}
-      case "postgre" -> {dbVendor = POSTGRE; paramStyle = PYFORMAT;}
-      case "mysql" -> {dbVendor = MYSQL; paramStyle = FORMAT;}
-      case "lite3" -> {dbVendor = LITE3; paramStyle = AT_NAMED;}
-    }
-  }
-
-  static private String getVendor()
-  {
-    return switch (dbVendor)
-    {
-      case DB2 -> "db2";
-      case ORACLE -> "oracle";
-      case MSSQL -> "mssql";
-      case POSTGRE -> "postgre";
-      case MYSQL -> "mysql";
-      case LITE3 -> "lite3";
-      case ODBC -> "odbc";
-      default -> "oracle";
-    };
-  }
 
   static public void generate(Database database, String output, PrintWriter outLog)
   {
     OciPyCode.outLog = outLog;
-    useFetchall = false;
-    mssqlSequence = false;
     try
     {
       try
@@ -147,29 +84,14 @@ public class OciPyCode extends Generator
       {
         String flag = database.flags.elementAt(i);
         flag = flag.toLowerCase();
-        boolean dropParameter = false;
         if (flag.startsWith("%"))
         {
           flag = flag.substring(1);
-          dropParameter = true;
-        }
-        if (flag.startsWith("param="))
-          setParamStyle(flag.substring(6));
-        else if (flag.startsWith("vendor="))
-          setVendor(flag.substring(7));
-        else if (flag.startsWith("mssql="))
-          setMSSql(flag.substring(6));
-        if (dropParameter)
           database.flags.remove(i);
+        }
         if (flag.equalsIgnoreCase("useenum") || flag.equalsIgnoreCase("use enum"))
           useEnum = true;
       }
-      String value = getProperty("param", null);
-      if (value != null)
-        setParamStyle(value.toLowerCase());
-      value = getProperty("vendor", null);
-      if (value != null)
-        setVendor(value.toLowerCase());
       useEnum = getProperty("useenum", useEnum);
       for (int i = 0; i < database.tables.size(); i++)
       {
@@ -181,15 +103,6 @@ public class OciPyCode extends Generator
     {
       outLog.println(ex);
       ex.printStackTrace(outLog);
-    }
-  }
-
-  private static void setMSSql(String mssql)
-  {
-    switch (mssql)
-    {
-      case "sequence" -> mssqlSequence=true;
-      case "identity" -> mssqlSequence=false;
     }
   }
 
@@ -227,12 +140,58 @@ public class OciPyCode extends Generator
       writeln("# This code was generated, do not modify it, modify it at source and regenerate it.");
       writeln("# see " + table.useName() + " source file");
       writeln();
-      writeln(format("param_style='%s'", getParamStyle()));
-      writeln(format("vendor='%s'", getVendor()));
-      writeln(format("mssqlSequence=%s", mssqlSequence ? "True" : "False"));
       writeln("import dbapi_util");
       writeln("from dbapi_annotate import *");
       writeln();
+      if (table.hasSequence)
+      {
+        writeln("class OciSqlReturning():");
+        writeln(1, "def __init__(self, table, field):");
+        writeln(2, "self.head = ''");
+        writeln(2, "self.output = ''");
+        writeln(2, "self.sequence = f'  {table}Seq.nextval'");
+        writeln(2, "self.tail = 'returning {field} into :{field} '");
+        writeln(2, "self.dropField = ''");
+        writeln(2, "self.usesPlSql = True");
+        writeln(1, "def check_use(self, value):");
+        writeln(2, "return value");
+        writeln("dbapi_util.returning = OciSqlReturning");
+        writeln();
+        writeln("class Dutil_sequence(object):");
+        writeln(1, "def _make(self): return Dutil_sequence()");
+        writeln(1, "__slots__ = ['seq', 'tableSeq']");
+        writeln(1, "def __init__(self):");
+        writeln(2, "self.seq = ''");
+        writeln(2, "self.tableSeq = ''");
+        writeln(1, "def _fields(self):");
+        writeln(2, "return Dutil_sequence.__slots__");
+        writeln();
+        writeln("class util_sequence(Dutil_sequence):");
+        writeln(1, "def _get_output(self, _result):");
+        writeln(2, "self.seq = _result[0]");
+        writeln(2, "return 1");
+        writeln(1, "def _copy_input(self, record):");
+        writeln(2, "record.tableSeq = self.tableSeq");
+        writeln(1, "def execute(self, connect):");
+        writeln(2, "_command = f'select {self.tableSeq}.nextval from dual'");
+        writeln(2, "cursor = connect.cursor()");
+        writeln(2, "cursor.execute(_command)");
+        writeln(2, "record = util_sequence()");
+        writeln(2, "self._copy_input(record)");
+        writeln(2, "result = cursor.fetchone()");
+        writeln(2, "if result == None:");
+        writeln(3, "return None");
+        writeln(2, "record._get_output(result)");
+        writeln(2, "return record");
+        writeln();
+        writeln("def get_sequence(connect, table):");
+        writeln(1, "query = util_sequence()");
+        writeln(1, "query.tableSeq = f'{table}Seq'");
+        writeln(1, "query.execute(connect)");
+        writeln(1, "return query.seq");
+        writeln("dbapi_util.get_sequence = get_sequence");
+        writeln();
+      }
       generateEnums(database);
       generateEnums(table);
       if (table.hasStdProcs)
@@ -681,12 +640,7 @@ public class OciPyCode extends Generator
   static private void generatePythonMultiple(Table table, Proc proc, String current, boolean hasInputs)
   {
     writeln(2, "records = []");
-    if (useFetchall)
-    {
-      writeln(2, "rows = cursor.fetchall()");
-      writeln(2, "for row in rows:");
-    } else
-      writeln(2, "for row in cursor:");
+    writeln(2, "for row in cursor:");
     writeln(3, "record = " + current + "()");
     if (hasInputs)
       writeln(3, "self._copy_input(record)");

@@ -142,32 +142,31 @@ public class MSSqlPyCode extends Generator
       writeln("import dbapi_util");
       writeln("from dbapi_annotate import *");
       writeln();
-      writeln("class MSSqlReturning():");
-      writeln(1, "def __init__(self, table, field):");
-      writeln(2, "self.head = ''");
-      writeln(2, "self.output = f'  output Inserted.{field}'");
       if (table.hasSequence)
       {
-        writeln(2, "self.sequence = f'  nextval for {table}Seq'");
-        writeln(2, "self.doesGeneratedKeys = False");
-      }
-      else
-      {
-        writeln(2, "self.sequence = ''");
-        writeln(2, "self.doesGeneratedKeys = True");
-      }
-      writeln(2, "self.tail = ''");
-      writeln(2, "self.dropField = ''");
-      writeln(2, "self.usesPlSql = False");
-      writeln(1, "def check_use(self, value):");
-      if (table.hasSequence)
-        writeln(2, "return value");
-      else
-        writeln(2, "return ''");
-      writeln("dbapi_util.returning = MSSqlReturning");
-      writeln();
-      if (table.hasSequence)
-      {
+        writeln("class MSSqlReturning():");
+        writeln(1, "def __init__(self, table, field):");
+        writeln(2, "self.head = ''");
+        writeln(2, "self.output = f'  output Inserted.{field}'");
+        if (table.hasSequence)
+        {
+          writeln(2, "self.sequence = f'  nextval for {table}Seq'");
+          writeln(2, "self.doesGeneratedKeys = False");
+        } else
+        {
+          writeln(2, "self.sequence = ''");
+          writeln(2, "self.doesGeneratedKeys = True");
+        }
+        writeln(2, "self.tail = ''");
+        writeln(2, "self.dropField = ''");
+        writeln(2, "self.usesPlSql = False");
+        writeln(1, "def check_use(self, value):");
+        if (table.hasSequence)
+          writeln(2, "return value");
+        else
+          writeln(2, "return ''");
+        writeln("dbapi_util.returning = MSSqlReturning");
+        writeln();
         writeln("class Dutil_sequence(object):");
         writeln(1, "def _make(self): return Dutil_sequence()");
         writeln(1, "__slots__ = ['seq', 'tableSeq']");

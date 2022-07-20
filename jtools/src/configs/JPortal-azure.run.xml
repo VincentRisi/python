@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="JPortal-azure" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="C:\Java\jdk-16" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <option name="MAIN_CLASS_NAME" value="vlab.jportal.Compiler" />
+    <module name="jtools" />
+    <option name="PROGRAM_PARAMETERS" value="-R $PROJECT_DIR$ -f {root}/src/audio/inputs.list -o {root}/out/audio/sql/ddl/oracle ddl.OracleDDL -o {root}/out/audio/sql/ddl/lite3 ddl.Lite3DDL -o {root}/out/audio/sql/ddl/mssql -F %mssql=identity ddl.MSSqlDDL -o {root}/out/audio/sql/yaml2 code.SwaggerCode -o {root}/out/audio/sql/yaml3 code.OpenApiCode -o {root}/out/audio/sql/py/dbapi code.PyDBRestCode -o {root}/out/audio/sql/py/dbapi/db2 code.CliPyCode -o {root}/out/audio/sql/py/dbapi/lite3 code.Lite3PyCode -o {root}/out/audio/sql/py/dbapi/mssql code.MSSqlPyCode -o {root}/out/audio/sql/py/dbapi/mysql code.MySqlPyCode -o {root}/out/audio/sql/py/dbapi/odbc code.OdbcPyCode -o {root}/out/audio/sql/py/dbapi/oracle code.OciPyCode -o {root}/out/audio/sql/py/dbapi/postgre code.PostgrePyCode -o {root}/out/audio/sql/clish code.CliCCode -o {root}/out/audio/sql/msssh -F %mssql=identity code.MSSqlCCode -o {root}/out/audio/sql/myssh code.MySqlCCode -o {root}/out/audio/sql/ocish code.OciCCode -o {root}/out/audio/sql/pgsh code.PostgreCCode -o {root}/out/audio/sql/odbc/db2 -F %odbc=db2 code.OdbcCCode -o {root}/out/audio/sql/odbc/mssql -F %odbc=mssql code.OdbcCCode -o {root}/out/audio/sql/odbc/mysql -F %odbc=mysql code.OdbcCCode -o {root}/out/audio/sql/odbc/oracle -F %odbc=oracle code.OdbcCCode -o {root}/out/audio/sql/odbc/postgre -F %odbc=postgre code.OdbcCCode -o {root}/out/audio/sql/ii code.IdlPyCode" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

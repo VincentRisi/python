@@ -21,7 +21,7 @@ import java.util.Vector;
 import static vlab.jportal.PlaceHolder.*;
 import static vlab.jportal.Writer.*;
 
-public class DB2PyCode extends Generator
+public class CliPyCode extends Generator
 {
   private static PrintWriter outLog;
   static private Properties properties;
@@ -67,7 +67,7 @@ public class DB2PyCode extends Generator
 
   static public void generate(Database database, String output, PrintWriter outLog)
   {
-    DB2PyCode.outLog = outLog;
+    CliPyCode.outLog = outLog;
     try
     {
       try
@@ -85,7 +85,6 @@ public class DB2PyCode extends Generator
       {
         String flag = database.flags.elementAt(i);
         flag = flag.toLowerCase();
-        boolean dropParameter = false;
         if (flag.startsWith("%"))
         {
           flag = flag.substring(1);
@@ -144,19 +143,57 @@ public class DB2PyCode extends Generator
       writeln("import dbapi_util");
       writeln("from dbapi_annotate import *");
       writeln();
-      writeln("class DB2Returning():");
-      writeln(1, "    def __init__(self, table, field):");
-      writeln(2, "        self.head = f'select {field) from new table ('");
-      writeln(2, "        self.output = ''");
-      writeln(2, "        self.sequence = f'  nextval for {table}Seq,'");
-      writeln(2, "        self.tail = ')'");
-      writeln(2, "        self.dropField = ''");
-      writeln(2, "        self.doesGeneratedKeys = False");
-      writeln(2, "        self.usesPlSql = False");
-      writeln(1, "    def check_use(self, value):");
-      writeln(2, "        return value");
-      writeln("dbapi_util.returning = DB2Returning");
-      writeln();
+      if (table.hasSequence)
+      {
+        writeln("class DB2Returning():");
+        writeln(1, "def __init__(self, table, field):");
+        writeln(2, "self.head = f'select {field) from new table ('");
+        writeln(2, "self.output = ''");
+        writeln(2, "self.sequence = f'  nextval for {table}Seq,'");
+        writeln(2, "self.tail = ')'");
+        writeln(2, "self.dropField = ''");
+        writeln(2, "self.doesGeneratedKeys = False");
+        writeln(2, "self.usesPlSql = False");
+        writeln(1, "def check_use(self, value):");
+        writeln(2, "return value");
+        writeln("dbapi_util.returning = DB2Returning");
+        writeln();
+        writeln();
+        writeln("class Dutil_sequence(object):");
+        writeln(1, "def _make(self): return Dutil_sequence()");
+        writeln(1, "__slots__ = ['seq', 'tableSeq']");
+        writeln(1, "def __init__(self):");
+        writeln(2, "self.seq = ''");
+        writeln(2, "self.tableSeq = ''");
+        writeln(1, "def _fields(self):");
+        writeln(2, "return Dutil_sequence.__slots__");
+        writeln();
+        writeln("class util_sequence(Dutil_sequence):");
+        writeln(1, "def _get_output(self, _result):");
+        writeln(2, "self.seq = _result[0]");
+        writeln(2, "return 1");
+        writeln(1, "def _copy_input(self, record):");
+        writeln(2, "record.tableSeq = self.tableSeq");
+        writeln(1, "def execute(self, connect):");
+        writeln(2, "_command = f'select nextval for {self.tableSeq} from SYSIBM.SYSDUMMY1 WITH UR'");
+        writeln(2, "cursor = connect.cursor()");
+        writeln(2, "cursor.execute(_command)");
+        writeln(2, "record = util_sequence()");
+        writeln(2, "self._copy_input(record)");
+        writeln(2, "result = cursor.fetchone()");
+        writeln(2, "if result == None:");
+        writeln(3, "return None");
+        writeln(2, "record._get_output(result)");
+        writeln(2, "return record");
+        writeln();
+        writeln("def get_sequence(connect, table):");
+        writeln(1, "query = util_sequence()");
+        writeln(1, "query.tableSeq = f'{table}Seq'");
+        writeln(1, "query.execute(connect)");
+        writeln(1, "return query.seq");
+        writeln();
+        writeln("dbapi_util.get_sequence = get_sequence");
+      }
       generateEnums(database);
       generateEnums(table);
       if (table.hasStdProcs)

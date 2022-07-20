@@ -142,32 +142,31 @@ public class OdbcPyCode extends Generator
       writeln("import dbapi_util");
       writeln("from dbapi_annotate import *");
       writeln();
-      writeln("class ODBCReturning():");
-      writeln(1, "def __init__(self, table, field):");
-      writeln(2, "self.head = ''");
-      writeln(2, "self.output = f'  output Inserted.{field}'");
       if (table.hasSequence)
       {
-        writeln(2, "self.sequence = f'  nextval for {table}Seq'");
-        writeln(2, "self.doesGeneratedKeys = False");
-      }
-      else
-      {
-        writeln(2, "self.sequence = ''");
-        writeln(2, "self.doesGeneratedKeys = True");
-      }
-      writeln(2, "self.tail = ''");
-      writeln(2, "self.dropField = ''");
-      writeln(2, "self.usesPlSql = False");
-      writeln(1, "def check_use(self, value):");
-      if (table.hasSequence)
-        writeln(2, "return value");
-      else
-        writeln(2, "return ''");
-      writeln("dbapi_util.returning = ODBCReturning");
-      writeln();
-      if (table.hasSequence)
-      {
+        writeln("class ODBCReturning():");
+        writeln(1, "def __init__(self, table, field):");
+        writeln(2, "self.head = ''");
+        writeln(2, "self.output = f'  output Inserted.{field}'");
+        if (table.hasSequence)
+        {
+          writeln(2, "self.sequence = f'  nextval for {table}Seq'");
+          writeln(2, "self.doesGeneratedKeys = False");
+        } else
+        {
+          writeln(2, "self.sequence = ''");
+          writeln(2, "self.doesGeneratedKeys = True");
+        }
+        writeln(2, "self.tail = ''");
+        writeln(2, "self.dropField = ''");
+        writeln(2, "self.usesPlSql = False");
+        writeln(1, "def check_use(self, value):");
+        if (table.hasSequence)
+          writeln(2, "return value");
+        else
+          writeln(2, "return ''");
+        writeln("dbapi_util.returning = ODBCReturning");
+        writeln();
         writeln("class Dutil_sequence(object):");
         writeln(1, "def _make(self): return Dutil_sequence()");
         writeln(1, "__slots__ = ['seq', 'tableSeq']");
@@ -184,7 +183,7 @@ public class OdbcPyCode extends Generator
         writeln(1, "def _copy_input(self, record):");
         writeln(2, "record.tableSeq = self.tableSeq");
         writeln(1, "def execute(self, connect):");
-        writeln(4, "_command = f'select nextval from {self.tableSeq}'");
+        writeln(2, "_command = f'select nextval for {self.tableSeq}'");
         writeln(2, "cursor = connect.cursor()");
         writeln(2, "cursor.execute(_command)");
         writeln(2, "record = util_sequence()");
