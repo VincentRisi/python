@@ -29,6 +29,8 @@ public class CliPyCode extends Generator
   static private byte dbVendor = DB2;
   static private boolean useEnum = false;
   static private boolean enumImport = false;
+  static private boolean upsert = false;
+  static private boolean hasMerge = false;
 
   /**
    * DBApi param styles
@@ -63,8 +65,6 @@ public class CliPyCode extends Generator
     return s + " ";
   }
 
-
-
   static public void generate(Database database, String output, PrintWriter outLog)
   {
     CliPyCode.outLog = outLog;
@@ -98,6 +98,17 @@ public class CliPyCode extends Generator
       {
         Table table = database.tables.elementAt(i);
         generateStructs(database, table, output);
+        if (table.hasIdentity || table.hasSequence) continue;
+        for (Proc proc : table.procs)
+        {
+          if (proc.isInsert)
+          {
+            if (proc.useUpsert)
+            {
+              writeln("# upserts");
+            }
+          }
+        }
       }
     }
     catch (Exception ex)
@@ -191,11 +202,18 @@ public class CliPyCode extends Generator
         writeln(1, "query.tableSeq = f'{table}Seq'");
         writeln(1, "query.execute(connect)");
         writeln(1, "return query.seq");
-        writeln();
         writeln("dbapi_util.get_sequence = get_sequence");
+        writeln();
       }
       generateEnums(database);
       generateEnums(table);
+      for (Proc proc: table.procs)
+      {
+        if (proc.isInsert)
+          upsert = proc.useUpsert;
+        if (proc.isMerge)
+          hasMerge = true;
+      }
       if (table.hasStdProcs)
         generateStdOutputRec(table);
       generateUserOutputRecs(table);
@@ -371,6 +389,8 @@ public class CliPyCode extends Generator
       Proc proc = table.procs.elementAt(i);
       if (proc.isData || proc.isStd || proc.hasNoData())
         continue;
+//      if (proc.isMerge && upsert)
+//        continue;
       if (proc.isStdExtended())
         continue;
       String superName = table.useName() + proc.upperFirst();
@@ -485,6 +505,8 @@ public class CliPyCode extends Generator
       Proc proc = table.procs.elementAt(i);
       if (proc.isData)
         continue;
+      if (proc.isInsert && hasMerge)
+        continue;
       PlaceHolder holder = new PlaceHolder(proc, paramStyle, "");
       Vector pairs = holder.getPairs();
       String parent = "";
@@ -493,6 +515,10 @@ public class CliPyCode extends Generator
       {
         parent = "object";
         current = table.useName() + proc.upperFirst();
+      } else if (proc.isMerge && upsert)
+      {
+        parent = "D" + table.useName();
+        current = table.useName() + "Insert";
       } else if (proc.isStd == true || proc.isStdExtended() == true)
       {
         parent = "D" + table.useName();
@@ -547,6 +573,7 @@ public class CliPyCode extends Generator
       int inouts = 0;
       boolean hasInputs = false;
       writeln(1, "def execute(self, connect): # " + proc.lowerFirst());
+      writeln(2, "self.DUAL_TYPE = ' from SYSIBM.SYSDUMMY1'");
       if (proc.outputs.size() > 0)
       {
         writeln(2, "def _get_output(_result):");
@@ -608,6 +635,7 @@ public class CliPyCode extends Generator
       writeln();
     }
   }
+
   static private void checkPythonSingle(Table table, Proc proc, String current, boolean hasInputs)
   {
     if (proc.hasReturning && proc.isInsert == true)
@@ -663,20 +691,6 @@ public class CliPyCode extends Generator
     for (int i = 0; i < lines.size(); i++)
     {
       String string = lines.elementAt(i);
-      if (i == 0 & holder.limit != null & dbVendor == MSSQL)
-      {
-        if (string.toLowerCase().startsWith("\"select"))
-        {
-          String[] code = holder.limit.topRowsLinesDBApi();
-          writeln("SELECT ");
-          string = string.replaceAll("\"", "").substring(7);
-          for (String line : code)
-            writeln(line);
-          if (string.length() > 0)
-            writeln(string);
-          continue;
-        }
-      }
       if (string.charAt(0) == '"')
         writeln(string.replaceAll("\"", ""));
       else
@@ -691,11 +705,7 @@ public class CliPyCode extends Generator
     if (holder.limit != null)
     {
       String[] code = {};
-      switch (dbVendor)
-      {
-        case ORACLE, DB2 -> code = holder.limit.fetchRowsLinesDBApi();
-        case MYSQL, POSTGRE, LITE3 -> code = holder.limit.limitRowsLinesDBApi();
-      }
+      code = holder.limit.fetchRowsLinesDBApi();
       for (String line : code)
         writeln(line);
     }

@@ -29,6 +29,9 @@ public class PostgrePyCode extends Generator
   static private byte dbVendor = POSTGRE;
   static private boolean useEnum = false;
   static private boolean enumImport = false;
+  static private boolean upsert = false;
+  static private boolean hasMerge = false;
+  static private Vector<Field> primaryKeys;
 
   /**
    * DBApi param styles
@@ -45,12 +48,12 @@ public class PostgrePyCode extends Generator
    */
   public static String description()
   {
-    return "Generate DBApi Code for Python";
+    return "Generate DBApi Code for Postgre Python";
   }
 
   public static String documentation()
   {
-    return "Generate DBApi Code for Python";
+    return "Generate DBApi Code for Postgre Python";
   }
 
   /**
@@ -92,7 +95,6 @@ public class PostgrePyCode extends Generator
         if (flag.equalsIgnoreCase("useenum") || flag.equalsIgnoreCase("use enum"))
           useEnum = true;
       }
-      String value = getProperty("param", null);
       useEnum = getProperty("useenum", useEnum);
       for (int i = 0; i < database.tables.size(); i++)
       {
@@ -194,6 +196,13 @@ public class PostgrePyCode extends Generator
       }
       generateEnums(database);
       generateEnums(table);
+      for (Proc proc : table.procs)
+      {
+        if (proc.isInsert)
+          upsert = proc.useUpsert;
+        if (proc.isMerge)
+          hasMerge = true;
+      }
       if (table.hasStdProcs)
         generateStdOutputRec(table);
       generateUserOutputRecs(table);
@@ -230,11 +239,13 @@ public class PostgrePyCode extends Generator
     return "";
   }
 
-  static private void generateAnnotates(Vector allFields)
+  static private void generateAnnotates(Vector allFields, boolean setpkey)
   {
     for (int i = 0; i < allFields.size(); i++)
     {
       Field field = (Field) allFields.elementAt(i);
+      if (setpkey && field.isPrimaryKey)
+        primaryKeys.addElement(field);
       write(1, format("%s: ", field.useName()));
       switch (field.type)
       {
@@ -356,7 +367,8 @@ public class PostgrePyCode extends Generator
   static private void generateStdOutputRec(Table table)
   {
     writeln("class D" + table.useName() + "():");
-    generateAnnotates(table.fields);
+    primaryKeys = new Vector<Field>();
+    generateAnnotates(table.fields, true);
     writeln(1, "def _make(self): return D" + table.useName() + "()");
     generateDataFields(table.fields, "", table.useName());
     writeln();
@@ -369,6 +381,8 @@ public class PostgrePyCode extends Generator
       Proc proc = table.procs.elementAt(i);
       if (proc.isData || proc.isStd || proc.hasNoData())
         continue;
+//      if (proc.isMerge && upsert)
+//        continue;
       if (proc.isStdExtended())
         continue;
       String superName = table.useName() + proc.upperFirst();
@@ -393,7 +407,7 @@ public class PostgrePyCode extends Generator
         f.type = Field.CHAR;
         procFields.addElement(f);
       }
-      generateAnnotates(procFields);
+      generateAnnotates(procFields, false);
       writeln(1, "def _make(self): return D" + superName + "()");
       generateDataFields(procFields, superName, table.useName());
       writeln();
@@ -481,7 +495,7 @@ public class PostgrePyCode extends Generator
     for (int i = 0; i < table.procs.size(); i++)
     {
       Proc proc = table.procs.elementAt(i);
-      if (proc.isData)
+      if (proc.isData || (proc.isMerge && upsert))
         continue;
       PlaceHolder holder = new PlaceHolder(proc, paramStyle, "");
       Vector pairs = holder.getPairs();
@@ -661,20 +675,6 @@ public class PostgrePyCode extends Generator
     for (int i = 0; i < lines.size(); i++)
     {
       String string = lines.elementAt(i);
-      if (i == 0 & holder.limit != null & dbVendor == MSSQL)
-      {
-        if (string.toLowerCase().startsWith("\"select"))
-        {
-          String[] code = holder.limit.topRowsLinesDBApi();
-          writeln("SELECT ");
-          string = string.replaceAll("\"", "").substring(7);
-          for (String line : code)
-            writeln(line);
-          if (string.length() > 0)
-            writeln(string);
-          continue;
-        }
-      }
       if (string.charAt(0) == '"')
         writeln(string.replaceAll("\"", ""));
       else
@@ -686,14 +686,31 @@ public class PostgrePyCode extends Generator
         writeln(format("%1$s{self.%2$s}%1$s", quotes, l));
       }
     }
+    if (upsert && proc.isInsert)
+    {
+      write(1, "on conflict (");
+      for (int i = 0; i < primaryKeys.size(); i++)
+      {
+        Field field = primaryKeys.elementAt(i);
+        write(format("%s%s", i == 0 ? "" : ",", field.name));
+      }
+      if (proc.inputs.size() > primaryKeys.size())
+      {
+        writeln(") do update set");
+        for (int i = 0; i < proc.inputs.size(); i++)
+        {
+          Field field = (Field) proc.inputs.elementAt(i);
+          if (field.isPrimaryKey) continue;
+          writeln(1, format("%1$s=@%1$s", field.name));
+        }
+      }
+      else
+        writeln(") do nothing");
+    }
     if (holder.limit != null)
     {
       String[] code = {};
-      switch (dbVendor)
-      {
-        case ORACLE, DB2 -> code = holder.limit.fetchRowsLinesDBApi();
-        case MYSQL, POSTGRE, LITE3 -> code = holder.limit.limitRowsLinesDBApi();
-      }
+      code = holder.limit.limitRowsLinesDBApi();
       for (String line : code)
         writeln(line);
     }

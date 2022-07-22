@@ -25,12 +25,15 @@ public class MySqlPyCode extends Generator
 {
   private static PrintWriter outLog;
   static private Properties properties;
-  static private byte paramStyle = COLON;
+  static private byte paramStyle = AT_NAMED;
   static private boolean useFetchall = false;
   static private boolean mssqlSequence = false;
-  static private byte dbVendor = ORACLE;
+  static private byte dbVendor = MYSQL;
   static private boolean useEnum = false;
   static private boolean enumImport = false;
+  static private boolean upsert = false;
+  static private boolean hasMerge = false;
+  static private Vector<Field> primaryKeys;
 
   /**
    * DBApi param styles
@@ -47,12 +50,12 @@ public class MySqlPyCode extends Generator
    */
   public static String description()
   {
-    return "Generate DBApi Code for Python";
+    return "Generate DBApi Code for MySQL Python";
   }
 
   public static String documentation()
   {
-    return "Generate DBApi Code for Python";
+    return "Generate DBApi Code for MySQL Python";
   }
 
   /**
@@ -63,66 +66,6 @@ public class MySqlPyCode extends Generator
     for (int i = s.length(); i < length - 1; i++)
       s = s + " ";
     return s + " ";
-  }
-
-  /**
-   * Generates the procedure classes for each table present.
-   */
-  static private void setParamStyle(String flag)
-  {
-    switch (flag.toLowerCase())
-    {
-      case "qmark" -> paramStyle = QUESTION;
-      case "numeric" -> paramStyle = COLON_NO;
-      case "named" -> paramStyle = COLON;
-      case "atnamed" -> paramStyle = AT_NAMED;
-      case "format" -> paramStyle = FORMAT;
-      case "pyformat" -> paramStyle = PYFORMAT;
-      case "odbc" -> {paramStyle = QUESTION; useFetchall = true;}
-    }
-  }
-
-  static private String getParamStyle()
-  {
-    return switch (paramStyle)
-    {
-      case QUESTION -> "qmark";
-      case COLON_NO -> "numeric";
-      case COLON -> "named";
-      case AT_NAMED -> "atnamed";
-      case FORMAT -> "format";
-      case PYFORMAT -> "pyformat";
-      default -> "qmark";
-    };
-  }
-
-  static private void setVendor(String vendor)
-  {
-    switch (vendor.toLowerCase())
-    {
-      case "db2" -> {dbVendor = DB2; paramStyle = QUESTION;}
-      case "oracle" -> {dbVendor = ORACLE; paramStyle = COLON;}
-      case "mssql" -> {dbVendor = MSSQL; paramStyle = COLON_NO;}
-      case "odbc" -> {dbVendor = ODBC; paramStyle = QUESTION; useFetchall = true;}
-      case "postgre" -> {dbVendor = POSTGRE; paramStyle = PYFORMAT;}
-      case "mysql" -> {dbVendor = MYSQL; paramStyle = FORMAT;}
-      case "lite3" -> {dbVendor = LITE3; paramStyle = AT_NAMED;}
-    }
-  }
-
-  static private String getVendor()
-  {
-    return switch (dbVendor)
-    {
-      case DB2 -> "db2";
-      case ORACLE -> "oracle";
-      case MSSQL -> "mssql";
-      case POSTGRE -> "postgre";
-      case MYSQL -> "mysql";
-      case LITE3 -> "lite3";
-      case ODBC -> "odbc";
-      default -> "oracle";
-    };
   }
 
   static public void generate(Database database, String output, PrintWriter outLog)
@@ -168,16 +111,6 @@ public class MySqlPyCode extends Generator
       ex.printStackTrace(outLog);
     }
   }
-
-  private static void setMSSql(String mssql)
-  {
-    switch (mssql)
-    {
-      case "sequence" -> mssqlSequence=true;
-      case "identity" -> mssqlSequence=false;
-    }
-  }
-
 
   static private String getProperty(String propName, String propDefault)
   {
@@ -280,6 +213,13 @@ public class MySqlPyCode extends Generator
       }
       generateEnums(database);
       generateEnums(table);
+      for (Proc proc: table.procs)
+      {
+        if (proc.isInsert)
+          upsert = proc.useUpsert;
+        if (proc.isMerge)
+          hasMerge = true;
+      }
       if (table.hasStdProcs)
         generateStdOutputRec(table);
       generateUserOutputRecs(table);
@@ -316,11 +256,13 @@ public class MySqlPyCode extends Generator
     return "";
   }
 
-  static private void generateAnnotates(Vector allFields)
+  static private void generateAnnotates(Vector allFields, boolean setpkey)
   {
     for (int i = 0; i < allFields.size(); i++)
     {
       Field field = (Field) allFields.elementAt(i);
+      if (setpkey && field.isPrimaryKey)
+        primaryKeys.addElement(field);
       write(1, format("%s: ", field.useName()));
       switch (field.type)
       {
@@ -442,7 +384,8 @@ public class MySqlPyCode extends Generator
   static private void generateStdOutputRec(Table table)
   {
     writeln("class D" + table.useName() + "():");
-    generateAnnotates(table.fields);
+    primaryKeys = new Vector<Field>();
+    generateAnnotates(table.fields, true);
     writeln(1, "def _make(self): return D" + table.useName() + "()");
     generateDataFields(table.fields, "", table.useName());
     writeln();
@@ -455,6 +398,8 @@ public class MySqlPyCode extends Generator
       Proc proc = table.procs.elementAt(i);
       if (proc.isData || proc.isStd || proc.hasNoData())
         continue;
+//      if (proc.isMerge && upsert)
+//        continue;
       if (proc.isStdExtended())
         continue;
       String superName = table.useName() + proc.upperFirst();
@@ -479,7 +424,7 @@ public class MySqlPyCode extends Generator
         f.type = Field.CHAR;
         procFields.addElement(f);
       }
-      generateAnnotates(procFields);
+      generateAnnotates(procFields, false);
       writeln(1, "def _make(self): return D" + superName + "()");
       generateDataFields(procFields, superName, table.useName());
       writeln();
@@ -567,7 +512,7 @@ public class MySqlPyCode extends Generator
     for (int i = 0; i < table.procs.size(); i++)
     {
       Proc proc = table.procs.elementAt(i);
-      if (proc.isData)
+      if (proc.isData || proc.isMerge)
         continue;
       PlaceHolder holder = new PlaceHolder(proc, paramStyle, "");
       Vector pairs = holder.getPairs();
@@ -752,20 +697,8 @@ public class MySqlPyCode extends Generator
     for (int i = 0; i < lines.size(); i++)
     {
       String string = lines.elementAt(i);
-      if (i == 0 & holder.limit != null & dbVendor == MSSQL)
-      {
-        if (string.toLowerCase().startsWith("\"select"))
-        {
-          String[] code = holder.limit.topRowsLinesDBApi();
-          writeln("SELECT ");
-          string = string.replaceAll("\"", "").substring(7);
-          for (String line : code)
-            writeln(line);
-          if (string.length() > 0)
-            writeln(string);
-          continue;
-        }
-      }
+      if (i == 0 && upsert && proc.isInsert && proc.inputs.size() == primaryKeys.size())
+        string = string.replaceFirst("into","ignore into");
       if (string.charAt(0) == '"')
         writeln(string.replaceAll("\"", ""));
       else
@@ -777,14 +710,20 @@ public class MySqlPyCode extends Generator
         writeln(format("%1$s{self.%2$s}%1$s", quotes, l));
       }
     }
+    if (upsert && proc.isInsert && proc.inputs.size() > primaryKeys.size())
+    {
+      writeln("on duplicate key update");
+      for (int i=0;i<proc.inputs.size();i++)
+      {
+        Field field = (Field) proc.inputs.elementAt(i);
+        if (field.isPrimaryKey) continue;
+        writeln(1, format("%1$s=@%1$s", field.name));
+      }
+    }
     if (holder.limit != null)
     {
       String[] code = {};
-      switch (dbVendor)
-      {
-        case ORACLE, DB2 -> code = holder.limit.fetchRowsLinesDBApi();
-        case MYSQL, POSTGRE, LITE3 -> code = holder.limit.limitRowsLinesDBApi();
-      }
+      code = holder.limit.limitRowsLinesDBApi();
       for (String line : code)
         writeln(line);
     }

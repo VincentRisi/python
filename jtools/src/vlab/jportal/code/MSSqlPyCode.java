@@ -29,6 +29,8 @@ public class MSSqlPyCode extends Generator
   static private byte dbVendor = MSSQL;
   static private boolean useEnum = false;
   static private boolean enumImport = false;
+  static private boolean upsert = false;
+  static private boolean hasMerge = false;
 
   /**
    * DBApi param styles
@@ -45,12 +47,12 @@ public class MSSqlPyCode extends Generator
    */
   public static String description()
   {
-    return "Generate DBApi Code for Python";
+    return "Generate DBApi Code for MSSQL Python";
   }
 
   public static String documentation()
   {
-    return "Generate DBApi Code for Python";
+    return "Generate DBApi Code for MSSQL Python";
   }
 
   /**
@@ -83,7 +85,6 @@ public class MSSqlPyCode extends Generator
       {
         String flag = database.flags.elementAt(i);
         flag = flag.toLowerCase();
-        boolean dropParameter = false;
         if (flag.startsWith("%"))
         {
           flag = flag.substring(1);
@@ -97,6 +98,17 @@ public class MSSqlPyCode extends Generator
       {
         Table table = database.tables.elementAt(i);
         generateStructs(database, table, output);
+        if (table.hasIdentity || table.hasSequence) continue;
+        for (Proc proc : table.procs)
+        {
+          if (proc.isInsert)
+          {
+            if (proc.useUpsert)
+            {
+              writeln("# upserts");
+            }
+          }
+        }
       }
     }
     catch (Exception ex)
@@ -183,7 +195,7 @@ public class MSSqlPyCode extends Generator
         writeln(1, "def _copy_input(self, record):");
         writeln(2, "record.tableSeq = self.tableSeq");
         writeln(1, "def execute(self, connect):");
-        writeln(2, "_command = f'select nextval from {self.tableSeq}'");
+        writeln(2, "_command = f'select nextval for {self.tableSeq}'");
         writeln(2, "cursor = connect.cursor()");
         writeln(2, "cursor.execute(_command)");
         writeln(2, "record = util_sequence()");
@@ -204,6 +216,13 @@ public class MSSqlPyCode extends Generator
       }
       generateEnums(database);
       generateEnums(table);
+      for (Proc proc: table.procs)
+      {
+        if (proc.isInsert)
+          upsert = proc.useUpsert;
+        if (proc.isMerge)
+          hasMerge = true;
+      }
       if (table.hasStdProcs)
         generateStdOutputRec(table);
       generateUserOutputRecs(table);
@@ -379,6 +398,8 @@ public class MSSqlPyCode extends Generator
       Proc proc = table.procs.elementAt(i);
       if (proc.isData || proc.isStd || proc.hasNoData())
         continue;
+//      if (proc.isMerge && upsert)
+//        continue;
       if (proc.isStdExtended())
         continue;
       String superName = table.useName() + proc.upperFirst();
@@ -493,6 +514,8 @@ public class MSSqlPyCode extends Generator
       Proc proc = table.procs.elementAt(i);
       if (proc.isData)
         continue;
+      if (proc.isInsert && hasMerge)
+        continue;
       PlaceHolder holder = new PlaceHolder(proc, paramStyle, "");
       Vector pairs = holder.getPairs();
       String parent = "";
@@ -501,6 +524,10 @@ public class MSSqlPyCode extends Generator
       {
         parent = "object";
         current = table.useName() + proc.upperFirst();
+      } else if (proc.isMerge && upsert)
+      {
+        parent = "D" + table.useName();
+        current = table.useName() + "Insert";
       } else if (proc.isStd == true || proc.isStdExtended() == true)
       {
         parent = "D" + table.useName();
@@ -555,6 +582,7 @@ public class MSSqlPyCode extends Generator
       int inouts = 0;
       boolean hasInputs = false;
       writeln(1, "def execute(self, connect): # " + proc.lowerFirst());
+      writeln(2, "self.DUAL_TYPE = ''");
       if (proc.outputs.size() > 0)
       {
         writeln(2, "def _get_output(_result):");
@@ -671,7 +699,7 @@ public class MSSqlPyCode extends Generator
     for (int i = 0; i < lines.size(); i++)
     {
       String string = lines.elementAt(i);
-      if (i == 0 & holder.limit != null & dbVendor == MSSQL)
+      if (i == 0 & holder.limit != null)
       {
         if (string.toLowerCase().startsWith("\"select"))
         {
@@ -695,17 +723,6 @@ public class MSSqlPyCode extends Generator
           quotes = "'";
         writeln(format("%1$s{self.%2$s}%1$s", quotes, l));
       }
-    }
-    if (holder.limit != null)
-    {
-      String[] code = {};
-      switch (dbVendor)
-      {
-        case ORACLE, DB2 -> code = holder.limit.fetchRowsLinesDBApi();
-        case MYSQL, POSTGRE, LITE3 -> code = holder.limit.limitRowsLinesDBApi();
-      }
-      for (String line : code)
-        writeln(line);
     }
     writeln("'''");
   }
