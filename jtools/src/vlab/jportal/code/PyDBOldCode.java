@@ -353,7 +353,7 @@ public class PyDBOldCode extends Generator
     if (proc.isSingle) prefix = "read";
     else if (proc.outputs.size() > 0) prefix = "load";
     code.append(format("%s%sself.exec%s()\n", indent(2), ret, proc.name));
-    writeln(1, format("def %s%s(self%s)", prefix, proc.name, parms));
+    writeln(1, format("def %s%s(self%s):", prefix, proc.name, parms));
     write(code.toString());
   }
 

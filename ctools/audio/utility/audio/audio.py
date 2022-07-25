@@ -1,10 +1,4 @@
-import sys, os, os.path
-audio_dir = r'C:\vlab\python\ctools\audio\utility\audio'
-pyasdata_dir = rf'{audio_dir}\pyasdata'
-generated_dir = rf'{audio_dir}\generated'
-sys.path.append(pyasdata_dir)
-sys.path.append(generated_dir)
-import re, sqlite3
+import sys, os, os.path, re
 from aaxlist import books
 class _obj: pass
 
@@ -14,8 +8,6 @@ series = dict()
 coauthors = list()
 conarrators = list()
 ids = dict()
-if os.path.exists(rf'{pyasdata_dir}\ids_list.py'):
-  from ids_list import ids
 
 def make_id(data):
   r = re.findall('([A-Z])', data)
@@ -115,8 +107,8 @@ def run(con, command):
   cursor.execute(command.replace('main.',''))
 
 def make_tables():
-  table_sql = (r'C:\vlab\python\jtools\out\audio\sql\ddl\lite3\audio.sql')
-  con = sqlite3.connect(r'C:\vlab\python\ctools\audio\utility\audio\books.db')
+  table_sql = (r'C:\vlab\python\jtools\out\audio\sql\ddl\mssql\audio.sql')
+  con = sqmssql.connect(r'C:\vlab\python\ctools\audio\utility\audio\books.db')
   with open(table_sql, 'rt') as ifile: lines = ifile.readlines()
   NONE, START, NEXT = range(3) 
   state = START
@@ -141,8 +133,9 @@ def make_tables():
         run (con, command)
         state = NONE
 
-
-def main():
+def main(pyasdata_dir):
+  if os.path.exists(rf'{pyasdata_dir}\ids_list.py'):
+    from ids_list import ids
   for bk in books:
     book = books[bk]
     process(book)
@@ -164,6 +157,3 @@ def main():
     for key in sorted(ids):
       x = repr(ids[key])
       ofile.write(f'ids[{repr(key)}]={x}\n')
-
-
-main()
