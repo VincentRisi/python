@@ -1,0 +1,92 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>469ad583-bfb3-43ba-a52b-683052f3a0f9</ProjectGuid>
+    <ProjectHome>
+    </ProjectHome>
+    <StartupFile>audio_postgre.py</StartupFile>
+    <SearchPath>D:\vlab\python\ctools\audio\utility\audio\pyasdata</SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <Name>audio_postgre</Name>
+    <RootNamespace>audio</RootNamespace>
+    <IsWindowsApplication>False</IsWindowsApplication>
+    <InterpreterId>Global|PythonCore|3.10</InterpreterId>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_AUTHOR.py">
+      <Link>dbapi\DB_AUTHOR.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_BOOK.py">
+      <Link>dbapi\DB_BOOK.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_COAUTHORS.py">
+      <Link>dbapi\DB_COAUTHORS.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_CONARRATORS.py">
+      <Link>dbapi\DB_CONARRATORS.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_NARRATOR.py">
+      <Link>dbapi\DB_NARRATOR.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_SERIES.py">
+      <Link>dbapi\DB_SERIES.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\postgre\AuthorDBApi.py">
+      <Link>dbapi\postgre\AuthorDBApi.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\postgre\BookDBApi.py">
+      <Link>dbapi\postgre\BookDBApi.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\postgre\CoAuthorsDBApi.py">
+      <Link>dbapi\postgre\CoAuthorsDBApi.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\postgre\CoNarratorsDBApi.py">
+      <Link>dbapi\postgre\CoNarratorsDBApi.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\postgre\NarratorDBApi.py">
+      <Link>dbapi\postgre\NarratorDBApi.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\postgre\SeriesDBApi.py">
+      <Link>dbapi\postgre\SeriesDBApi.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\pytools\dbapi_annotate.py">
+      <Link>support\dbapi_annotate.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\pytools\dbapi_util.py">
+      <Link>support\dbapi_util.py</Link>
+    </Compile>
+    <Compile Include="audio.py" />
+    <Compile Include="audio_postgre.py" />
+    <Compile Include="pyasdata\aaxlist.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="dbapi\" />
+    <Folder Include="dbapi\postgre\" />
+    <Folder Include="support\" />
+    <Folder Include="pyasdata\" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="Global|PythonCore|3.10" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+  <!-- Uncomment the CoreCompile target to enable the Build command in
+       Visual Studio and specify your pre- and post-build commands in
+       the BeforeBuild and AfterBuild targets below. -->
+  <!--<Target Name="CoreCompile" />-->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+</Project>

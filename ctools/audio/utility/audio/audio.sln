@@ -3,7 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "audio", "audio.pyproj", "{469AD583-BFB3-43BA-A52B-683052F3A0F9}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "audio_postgre", "audio_postgre.pyproj", "{469AD583-BFB3-43BA-A52B-683052F3A0F9}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "audio_db2", "audio_db2.pyproj", "{3847297C-3414-404E-9444-C5E879EC6C9C}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "audio_lite3", "audio_lite3.pyproj", "{BECE4684-1C05-4A18-9BC5-04A409D7239D}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "audio_mssql", "audio_mssql.pyproj", "{2F9DED4B-0F0A-402F-AA10-D9868835CF94}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "audio_mysql", "audio_mysql.pyproj", "{E2C32C35-5B27-49F9-B5B5-215AC6B477F6}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "audio_odbc", "audio_odbc.pyproj", "{F727770C-EFE6-4ABA-828B-572EF7431A34}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "audio_oracle", "audio_oracle.pyproj", "{FB641629-6F4B-447E-96FE-C1FCEB8EA38A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +25,18 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{469AD583-BFB3-43BA-A52B-683052F3A0F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{469AD583-BFB3-43BA-A52B-683052F3A0F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3847297C-3414-404E-9444-C5E879EC6C9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3847297C-3414-404E-9444-C5E879EC6C9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BECE4684-1C05-4A18-9BC5-04A409D7239D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BECE4684-1C05-4A18-9BC5-04A409D7239D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F9DED4B-0F0A-402F-AA10-D9868835CF94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F9DED4B-0F0A-402F-AA10-D9868835CF94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2C32C35-5B27-49F9-B5B5-215AC6B477F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2C32C35-5B27-49F9-B5B5-215AC6B477F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F727770C-EFE6-4ABA-828B-572EF7431A34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F727770C-EFE6-4ABA-828B-572EF7431A34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB641629-6F4B-447E-96FE-C1FCEB8EA38A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB641629-6F4B-447E-96FE-C1FCEB8EA38A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
