@@ -2,6 +2,13 @@ import sys, os, os.path, re
 from aaxlist import books
 class _obj: pass
 
+from DB_BOOK import DBBook
+from DB_AUTHOR import DBAuthor
+from DB_COAUTHORS import DBCoAuthors
+from DB_NARRATOR import DBNarrator
+from DB_CONARRATORS import DBCoNarrators
+from DB_SERIES import DBSeries
+
 authors = dict()
 narrators = dict()
 series = dict()
@@ -102,38 +109,13 @@ def process(book):
   book.narrators = ids
   do_book(book)
 
-def run(con, command):
-  cursor = con.cursor()
-  cursor.execute(command.replace('main.',''))
-
-def make_tables():
-  table_sql = (r'C:\vlab\python\jtools\out\audio\sql\ddl\mssql\audio.sql')
-  con = sqmssql.connect(r'C:\vlab\python\ctools\audio\utility\audio\books.db')
-  with open(table_sql, 'rt') as ifile: lines = ifile.readlines()
-  NONE, START, NEXT = range(3) 
-  state = START
-  command = ''
-  for line in lines:
-    line = line.rstrip()
-    if len(line) == 0:
-      state = START
-      command = ''
-      continue
-    if state == START:
-      command += f'{line}\n'
-      if line[-1] == ';':
-        run (con, command)
-        state = NONE
-      else:
-        state = NEXT
-      continue
-    if state == NEXT:
-      command += f'{line}\n'
-      if line[-1] == ';':
-        run (con, command)
-        state = NONE
+def set_connect(_conn):
+  global conn
+  conn = _conn
 
 def main(pyasdata_dir):
+  global conn
+  print (dir(conn))
   if os.path.exists(rf'{pyasdata_dir}\ids_list.py'):
     from ids_list import ids
   for bk in books:

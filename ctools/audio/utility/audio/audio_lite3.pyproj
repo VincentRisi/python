@@ -6,7 +6,7 @@
     <ProjectHome>
     </ProjectHome>
     <StartupFile>audio_lite3.py</StartupFile>
-    <SearchPath>D:\vlab\python\ctools\audio\utility\audio\pyasdata</SearchPath>
+    <SearchPath>pyasdata</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>audio_lite3</Name>
@@ -15,6 +15,7 @@
     <InterpreterId>Global|PythonCore|3.10</InterpreterId>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+    <CommandLineArguments>-a c:\vlab\python\ctools\audio\utility\audio -d c:\vlab\python\ctools\audio\utility\audio\books.db -g C:\vlab\python\jtools\out\audio\sql\py -t c:\vlab\python\jtools\out\audio\sql\ddl\mssql\audio.sql</CommandLineArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>

@@ -626,7 +626,14 @@ public class CliCCode extends Generator
         }
     }
     if (proc.outputs.size() > 0)
+    {
       writeln(1, "bool Fetch();");
+      if (proc.isSingle)
+      {
+        writeln(1, "bool ReadOne() {Exec();return Fetch();}");
+        writeln(1, "bool ReadOne(" + dataStruct + "& Rec) {*DRec() = Rec;Exec();return Fetch();}");
+      }
+    }
     writeln(1, "T" + table.useName() + proc.upperFirst() + "(TJConnector &conn, char *aFile=__FILE__, long aLine=__LINE__)");
     writeln(1, ": q_(conn)");
     writeln(1, "{Clear();q_.FileAndLine(aFile,aLine);}");
