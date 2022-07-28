@@ -398,8 +398,6 @@ public class MySqlPyCode extends Generator
       Proc proc = table.procs.elementAt(i);
       if (proc.isData || proc.isStd || proc.hasNoData())
         continue;
-//      if (proc.isMerge && upsert)
-//        continue;
       if (proc.isStdExtended())
         continue;
       String superName = table.useName() + proc.upperFirst();
@@ -713,11 +711,13 @@ public class MySqlPyCode extends Generator
     if (upsert && proc.isInsert && proc.inputs.size() > primaryKeys.size())
     {
       writeln("on duplicate key update");
+      String comma = "  ";
       for (int i=0;i<proc.inputs.size();i++)
       {
         Field field = (Field) proc.inputs.elementAt(i);
         if (field.isPrimaryKey) continue;
-        writeln(1, format("%1$s=@%1$s", field.name));
+        writeln(1, format("%s%2$s=@%2$s", comma, field.name));
+        comma = ", ";
       }
     }
     if (holder.limit != null)

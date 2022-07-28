@@ -16,6 +16,104 @@ coauthors = list()
 conarrators = list()
 ids = dict()
 
+def make_list(data):
+    result = ''
+    for i, entry in enumerate(data):
+        if i > 0:
+            result += ', '
+        result += entry
+    return result
+
+def add_authors():
+  global conn
+  conn.rollback()
+  count = 0
+  for authorId in authors:
+    entry = authors[authorId]
+    rec = DBAuthor(conn)
+    extra = make_list(entry.extra)
+    authorName = entry.author
+    print (authorId, authorName, extra)
+    rec.runInsert(authorId, authorName, extra)
+    count += 1
+    if count > 100:
+      count = 0
+      conn.commit()
+  if count > 0:
+    conn.commit()
+
+def add_narrators():
+  global conn
+  conn.rollback()
+  count = 0
+  for narratorId in narrators:
+    narratorName = narrators[narratorId]
+    rec = DBNarrator(conn)
+    print (narratorId, narratorName)
+    rec.runInsert(narratorId, narratorName)
+    count += 1
+    if count > 100:
+      count = 0
+      conn.commit()
+  if count > 0:
+    conn.commit()
+
+def add_series():
+  global conn
+  conn.rollback()
+  count = 0
+  for seriesId in series:
+    entry = series[seriesId]
+    seriesName = entry.series
+    rec = DBSeries(conn)
+    print (seriesId, seriesName)
+    rec.runInsert(seriesId, seriesName)
+    count += 1
+    if count > 100:
+      count = 0
+      conn.commit()
+  if count > 0:
+    conn.commit()
+
+def add_books():
+  global conn
+  conn.rollback()
+  count = 0
+  for key in books:
+    book = books[key]
+    rec = DBBook(conn)
+    rec.bookId = book.id
+    rec.bookName = book.name
+    rec.authorId = book.authors[0]
+    rec.narratorId = book.narrators[0]
+    if hasattr(book, 'series'):
+      rec.seriesId = book.series
+      rec.bookSeq = book.book
+    else:
+      rec.seriesId = ''
+      rec.bookSeq = ''
+    if hasattr(book, 'comment'):
+      rec.comment = book.comment
+    else:
+      rec.comment = ''
+    rec.description = book.description
+    if hasattr(book, 'genre'):
+      rec.genre = book.genre
+    else:
+      rec.genre = ''
+    if hasattr(book, 'released'):
+      rec.released = book.released
+    else:
+      rec.released = ''
+    rec.execInsert()
+    count += 1
+    if count > 100:
+      count = 0
+      conn.commit()
+  if count > 0:
+    conn.commit()
+ 
+
 def make_id(data):
   r = re.findall('([A-Z])', data)
   if len(r) > 0:
@@ -134,6 +232,10 @@ def main(pyasdata_dir):
   for ss in sorted(series):
     obj = series[ss]
     print (ss, obj.series)
+  add_authors()
+  add_narrators()
+  add_series()
+  add_books()
   with open(rf'{pyasdata_dir}\ids_list.py', 'wt') as ofile:
     ofile.write('ids = dict()\n')
     for key in sorted(ids):

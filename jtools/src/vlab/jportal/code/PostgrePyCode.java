@@ -697,11 +697,13 @@ public class PostgrePyCode extends Generator
       if (proc.inputs.size() > primaryKeys.size())
       {
         writeln(") do update set");
+        String comma = "  ";
         for (int i = 0; i < proc.inputs.size(); i++)
         {
           Field field = (Field) proc.inputs.elementAt(i);
           if (field.isPrimaryKey) continue;
-          writeln(1, format("%1$s=@%1$s", field.name));
+          writeln(1, format("%s%2$s=@%2$s", comma, field.name));
+          comma = ", ";
         }
       }
       else

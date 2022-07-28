@@ -383,8 +383,6 @@ public class Lite3PyCode extends Generator
       Proc proc = table.procs.elementAt(i);
       if (proc.isData || proc.isStd || proc.hasNoData())
         continue;
-//      if (proc.isMerge && upsert)
-//        continue;
       if (proc.isStdExtended())
         continue;
       String superName = table.useName() + proc.upperFirst();
@@ -700,11 +698,21 @@ public class Lite3PyCode extends Generator
       if (proc.inputs.size() > primaryKeys.size())
       {
         writeln(") do update set");
+        String comma = "  ";
         for (int i = 0; i < proc.inputs.size(); i++)
         {
           Field field = (Field) proc.inputs.elementAt(i);
           if (field.isPrimaryKey) continue;
-          writeln(1, format("%1$s=excluded.%1$s", field.name));
+          writeln(1, format("%s%2$s=excluded.%2$s", comma, field.name));
+          comma = ", ";
+        }
+        comma = "where ";
+        for (int i = 0; i < proc.inputs.size(); i++)
+        {
+          Field field = (Field) proc.inputs.elementAt(i);
+          if (field.isPrimaryKey) continue;
+          writeln(1, format("%sexcluded.%2$s=%2$s", comma, field.name));
+          comma = "   or ";
         }
       }
       else

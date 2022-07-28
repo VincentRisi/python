@@ -308,8 +308,6 @@ public class PyDBOldCode extends Generator
       if (proc.isStd == false && proc.isStdExtended() == false && proc.hasNoData() == false)
         continue;
       _callDBApi(table, proc);
-      //PlaceHolder holder = new PlaceHolder(proc, paramStyle, "");
-      //Vector pairs = holder.getPairs();
     }
     for (int i = 0; i < table.procs.size(); i++)
     {
@@ -332,15 +330,53 @@ public class PyDBOldCode extends Generator
   {
     writeln(1, format("def exec%s(self):", proc.name));
     writeln(2, format("dbapi = %s%s()", table.useName(), proc.name));
+    for (int i=0; i < proc.inputs.size(); i++)
+    {
+      Field field = proc.inputs.elementAt(i);
+      writeln(2, format("dbapi.%1$s = self.%1$s", field.name));
+    }
+    for (int i=0; i < proc.dynamics.size(); i++)
+    {
+      String dynamic = proc.dynamics.elementAt(i);
+      writeln(2, format("dbapi.%1$s = self.%1$s", dynamic));
+    }
     if (proc.hasNoData())
     {
       writeln(2, format("dbapi.execute(self.connect)"));
       return;
     }
     String ret = "";
-    if (proc.outputs.size() > 0)
+    String res = "";
+    if (proc.outputs.size() > 0  && proc.isSingle == false)
+    {
+      res = "records=";
       ret = "return ";
-    writeln(2, format("%sdbapi.execute(self.connect)", ret));
+    }
+    writeln(2, format("%sdbapi.execute(self.connect)", res));
+    if (proc.isSingle)
+    {
+      for (int i = 0; i < proc.outputs.size(); i++)
+      {
+        Field field = proc.outputs.elementAt(i);
+        writeln(2, format("self.%1$s = dbapi.%1$s", field.name));
+      }
+    }
+    else if (ret.length() > 0)
+    {
+      writeln(2, "others = list()");
+      writeln(2, "for rec in records:");
+      if (proc.isStd || proc.isStdExtended())
+        writeln(3, format("other = D%s()", table.useName()));
+      else
+        writeln(3, format("other = D%s%s()", table.useName(), proc.name));
+      for (int i = 0; i < proc.outputs.size(); i++)
+      {
+        Field field = proc.outputs.elementAt(i);
+        writeln(3, format("other.%1$s = rec.%1$s", field.name));
+      }
+      writeln(3, "others.append(other)");
+      writeln(2, "return others");
+    }
     String prefix = "run";
     String parms = "";
     var code = new StringBuilder();

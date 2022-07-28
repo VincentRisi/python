@@ -3,13 +3,15 @@ arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument('-a', '--audio_dir',   type=str, default=r'C:\vlab\python\ctools\audio\utility\audio')
 arg_parser.add_argument('-d', '--audio_db',    type=str, default=r'C:\vlab\python\ctools\audio\utility\audio\books.db')
 arg_parser.add_argument('-g', '--genned_dir',  type=str, default=r'C:\vlab\python\jtools\out\audio\sql\py')
+arg_parser.add_argument('-p', '--pytools_dir', type=str, default=r'C:\vlab\python\pytools')
 arg_parser.add_argument('-t', '--table_sqldb', type=str, default=r'C:\vlab\python\jtools\out\audio\sql\ddl\mssql\audio.sql')
 args = arg_parser.parse_args()
 
 audio_dir = args.audio_dir
 genned_dir = args.genned_dir
+pytools_dir = args.pytools_dir
 pyasdata_dir = rf'{audio_dir}\pyasdata'
-support_dir = rf'{audio_dir}\support'
+support_dir = rf'{pytools_dir}'
 dbapi_dir =  rf'{genned_dir}\dbapi'
 lite3_dir =  rf'{dbapi_dir}\lite3'
 import sys
