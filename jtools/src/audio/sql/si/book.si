@@ -2,15 +2,16 @@ DATABASE audio
 PACKAGE  vlab.audio
 OUTPUT   audio
 SERVER   audio
-schema   audio
+//schema   audio
 
 DECLARE
     _Id   char 10
     _Book char 16
     _Name char 120
     _List char 250
-    _Des  char 1024
-    _Cmt  char 250
+    _Des  char 4000
+    _Cmt  char 500
+    _No   short
 
 TABLE Author
     authorId    =(_Id)
@@ -56,15 +57,16 @@ TABLE Book
     authorId    =(_Id)
     narratorId  =(_Id)
     seriesId    =(_Id) null
-    bookSeq     =(_Book)
+    bookSeq     =(_Book) null
     comment     =(_Cmt) null
     description =(_Des)
     genre       =(_List) null
     released    Date null
 
 KEY  BookPK PRIMARY bookId
-LINK Series seriesID
-LINK Author authorId    
+LINK Series DELETE CASCADE seriesID
+LINK Author DELETE CASCADE authorId
+LINK Narrator DELETE CASCADE narratorId
 
 PROC Insert upsert
 PROC Update
@@ -90,10 +92,11 @@ ENDCODE
 TABLE CoAuthors
     bookId    =(_Id)
     authorId  =(_Id)
+    noOf      =(_No)
 
 KEY CoAuthorsPK PRIMARY bookId authorId
 LINK Book bookId
-LINK Author authorId    
+LINK Author authorId
 
 PROC Insert upsert
 PROC Update
@@ -105,10 +108,11 @@ PROC Merge
 TABLE CoNarrators
     bookId     =(_Id)
     narratorId =(_Id)
+    noOf       =(_No)
 
 KEY CoNarratorsPK PRIMARY bookId narratorId
 LINK Book bookId
-LINK Narrator narratorId    
+LINK Narrator narratorId
 
 PROC Insert upsert
 PROC Update

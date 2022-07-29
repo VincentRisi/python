@@ -87,29 +87,71 @@ def add_books():
     rec.authorId = book.authors[0]
     rec.narratorId = book.narrators[0]
     if hasattr(book, 'series'):
-      rec.seriesId = book.series
-      rec.bookSeq = book.book
+      rec.seriesId = book.series_id
+      rec.bookSeq = book.book[0:16]
     else:
-      rec.seriesId = ''
-      rec.bookSeq = ''
+      rec.seriesId = None
+      rec.bookSeq = None
     if hasattr(book, 'comment'):
-      rec.comment = book.comment
+      rec.comment = book.comment[0:500]
     else:
-      rec.comment = ''
-    rec.description = book.description
+      rec.comment = None
+    rec.description = book.description[0:4000]
     if hasattr(book, 'genre'):
       rec.genre = book.genre
     else:
-      rec.genre = ''
+      rec.genre = None
     if hasattr(book, 'released'):
       rec.released = book.released
     else:
-      rec.released = ''
-    rec.execInsert()
-    count += 1
-    if count > 100:
-      count = 0
-      conn.commit()
+      rec.released = None
+    print (rec.bookId, rec.bookName, rec.authorId)
+    try:
+      rec.execInsert()
+      count += 1
+      if count > 100:
+        count = 0
+        conn.commit()
+    except:
+      print ('ouch')
+  if count > 0:
+    conn.commit()
+
+def add_coauthors():
+  global conn
+  conn.rollback()
+  count = 0
+  for entry in coauthors:
+    bookId, authorId, no = entry
+    rec = DBCoAuthors(conn)
+    print (bookId, authorId, no)
+    try:
+      rec.runInsert(bookId, authorId, no)
+      count += 1
+      if count > 100:
+        count = 0
+        conn.commit()
+    except:
+      print ('ouch')
+  if count > 0:
+    conn.commit()
+
+def add_conarrators():
+  global conn
+  conn.rollback()
+  count = 0
+  for entry in conarrators:
+    bookId, narratorId, no = entry
+    rec = DBCoNarrators(conn)
+    print (bookId, narratorId, no)
+    try:
+      rec.runInsert(bookId, narratorId, no)
+      count += 1
+      if count > 100:
+        count = 0
+        conn.commit()
+    except:
+      print ('ouch')
   if count > 0:
     conn.commit()
  
@@ -219,10 +261,12 @@ def main(pyasdata_dir):
   for bk in books:
     book = books[bk]
     process(book)
-    for a in book.authors:
-      coauthors.append([book.id,a])
-    for n in book.narrators:
-      conarrators.append([book.id,n])
+    if len(book.authors) > 1:
+      for i, a in enumerate(book.authors):
+        coauthors.append([book.id,a,i])
+    if len(book.narrators) > 1:
+      for i, n in enumerate(book.narrators):
+        conarrators.append([book.id,n,i])
   for au in sorted(authors):
     author = authors[au]
     print (au, author.author, author.extra)
@@ -236,6 +280,8 @@ def main(pyasdata_dir):
   add_narrators()
   add_series()
   add_books()
+  add_coauthors()
+  add_conarrators()
   with open(rf'{pyasdata_dir}\ids_list.py', 'wt') as ofile:
     ofile.write('ids = dict()\n')
     for key in sorted(ids):

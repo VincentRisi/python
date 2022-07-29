@@ -376,6 +376,11 @@ public class OciCCode extends Generator
         generateImplementation(table, proc);
     }
   }
+  static public Lines insertReturning(Proc proc)
+  {
+    var lines = new Lines();
+    return lines;
+  }
 
   static private void generateCommand(Proc proc)
   {

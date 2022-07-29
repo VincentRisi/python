@@ -1,0 +1,129 @@
+//#  $Revision: 359 $
+//#
+//#  $Date: 2011-11-04 09:06:04 +0200 (Fri, 04 Nov 2011) $
+//#
+//$PARMS 1
+//$LOOKUP "Name Ref"
+//$DESCR 'User Lookup Table'
+//
+//SERVER   @DN29_ATLAS
+//CONNECT  NPUD00/CONTROL
+
+DATABASE MCPE 
+//FLAGS "xmlValue"
+PACKAGE  putty.bulk
+//USING    Bbd.Portal
+OUTPUT   Lookup
+SERVER   PUTTY
+
+TABLE Lookup
+  Name         Char(255)
+  Ref(Refs)    Char(255)
+  Value        Char(255)
+  USId         Char(16)
+  TmStamp      DateTime
+
+KEY LookupKey PRIMARY
+  Name
+  Ref
+
+PROC Insert
+PROC Update//  $PYTHON
+PROC SelectOne//  $PYTHON
+PROC DeleteOne//  $PYTHON
+PROC DeleteAll//  $PYTHON
+
+PROC SelectList //  $PYTHON
+INPUT
+  Name         Char(255)
+OUTPUT //(Multiple)
+  Ref(Refs)    Char(255)
+  Value        Char(255)
+SQLCODE
+  select Ref, Value from Lookup where Name = :Name
+ENDCODE
+
+//# (moved from LookupProc.si)
+//# used by Rutter
+PROC Get//  $PYTHON
+INPUT
+  Name Char(256)
+  Ref Char(256)
+OUTPUT (single)
+  Value Char(256)
+SQLCODE
+  SELECT
+     Value
+  FROM
+     Lookup
+  Where
+     Name = :Name
+     and Ref = :Ref
+ENDCODE
+
+PROC NameList//  $PYTHON
+OUTPUT //(Multiple)
+  Name Char(256)
+SQLCODE
+  SELECT distinct Name FROM Lookup
+ENDCODE
+
+PROC SelectIBAN //  $PYTHON
+INPUT
+  Ref          Char(255)
+OUTPUT //(Multiple)
+  Name         Char(255)
+  Value        Char(255)
+SQLCODE
+  select Name, Value from Lookup where Ref = :Ref
+  and name like 'IBAN%'
+ENDCODE
+
+PROC SelectVatAccNumber
+INPUT 
+Ref       Char(255)
+OUTPUT (Single)
+Value     Char(255) 
+USid      Char(16)
+TmStamp   Char(18)
+SQLCODE
+SELECT
+ Value
+ , USId
+ , Tmstamp TmStamp
+ FROM Lookup
+ WHERE Name = 'VAT ACCOUNT NUMBERS'
+ AND Lookup.Ref = :Ref
+ENDCODE
+
+PROC SelectAllVatAccNumber
+OUTPUT //(Multiple)
+Value     Char(255) 
+USid      Char(16)
+TmStamp   Char(18)
+SQLCODE
+SELECT
+ Value
+ , USId
+ , Tmstamp TmStamp
+ FROM Lookup
+ WHERE Name = 'VAT ACCOUNT NUMBERS'
+ENDCODE
+
+SQLDATA
+insert into lookup values ('ACCOUNT SYSTEM'  , 'CA'     , '001'  , USER, CURRENT_TIMESTAMP);
+insert into lookup values ('ACCOUNT SYSTEM'  , 'GL'     , '009'  , USER, CURRENT_TIMESTAMP);
+insert into lookup values ('ACCOUNT SYSTEM'  , 'MCA'    , '?'    , USER, CURRENT_TIMESTAMP);
+insert into lookup values ('ACCOUNT SYSTEM'  , 'SA'     , '002'  , USER, CURRENT_TIMESTAMP);
+insert into lookup values ('TRANSACTION TYPE', 'DT'     , 'YES'  , USER, CURRENT_TIMESTAMP);
+insert into lookup values ('TRANSACTION TYPE', 'MCT'    , 'YES'  , USER, CURRENT_TIMESTAMP);
+insert into lookup values ('TRANSACTION TYPE', 'OT'     , 'YES'  , USER, CURRENT_TIMESTAMP);
+insert into lookup values ('TRANSACTION TYPE', 'PRODCHG', 'YES'  , USER, CURRENT_TIMESTAMP);
+insert into lookup values ('VAT'             , 'NOVAT'  , '0.00%', USER, CURRENT_TIMESTAMP);
+insert into lookup values ('VAT'             , 'VAT'    , '14.00', USER, CURRENT_TIMESTAMP);
+insert into lookup values ('WASTE TRAN CODE' , 'DT'     , '1234' , USER, CURRENT_TIMESTAMP);
+insert into lookup values ('WASTE TRAN CODE' , 'OT'     , '5678' , USER, CURRENT_TIMESTAMP);
+insert into lookup values ('WASTE TRAN CODE' , 'RT'     , '8765' , USER, CURRENT_TIMESTAMP);
+commit;
+enddata
+

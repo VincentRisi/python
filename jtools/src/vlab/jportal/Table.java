@@ -625,8 +625,8 @@ public class Table implements Serializable
       }
     }
     proc.lines.addElement(new Line(")"));
-    proc.lines.addElement(new Line(" when matched then"));
-    proc.lines.addElement(new Line("  update set"));
+    proc.lines.addElement(new Line(" when matched"));
+    proc.lines.addElement(new Line("  then update set"));
     comma = "    ";
     for (i = 0; i < fields.size(); i++)
     {
@@ -638,19 +638,19 @@ public class Table implements Serializable
         comma = "  , ";
       }
     }
-    comma = "  where ";
-    for (i = 0; i < fields.size(); i++)
-    {
-      Field field = fields.elementAt(i);
-      if (field.isPrimaryKey == false)
-      {
-        proc.lines.addElement(new Line(comma + name + "." + field.useLiteral(true)
-                + " <> temp_" + proc.table.name + "." + field.useLiteral(true)));
-        comma = "     or ";
-      }
-    }
-    proc.lines.addElement(new Line(" when not matched then"));
-    proc.lines.addElement(new Line("  insert"));
+//    comma = "  where ";
+//    for (i = 0; i < fields.size(); i++)
+//    {
+//      Field field = fields.elementAt(i);
+//      if (field.isPrimaryKey == false)
+//      {
+//        proc.lines.addElement(new Line(comma + name + "." + field.useLiteral(true)
+//                + " <> temp_" + proc.table.name + "." + field.useLiteral(true)));
+//        comma = "     or ";
+//      }
+//    }
+    proc.lines.addElement(new Line(" when not matched"));
+    proc.lines.addElement(new Line("  then insert"));
     proc.lines.addElement(new Line("  ("));
     comma = "    ";
     for (i = 0; i < fields.size(); i++)
@@ -669,9 +669,8 @@ public class Table implements Serializable
       proc.lines.addElement(new Line(comma + "temp_" + proc.table.name + "." + field.useLiteral(true)));
       comma = "  , ";
     }
-    proc.lines.addElement(new Line("  )"));
+    proc.lines.addElement(new Line("  );"));
   }
-
   /**
    * Builds an insert proc generated as part of standard record class
    */
