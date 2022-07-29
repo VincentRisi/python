@@ -99,16 +99,6 @@ public class OdbcPyCode extends Generator
         Table table = database.tables.elementAt(i);
         generateStructs(database, table, output);
         if (table.hasIdentity || table.hasSequence) continue;
-        for (Proc proc : table.procs)
-        {
-          if (proc.isInsert)
-          {
-            if (proc.useUpsert)
-            {
-              writeln("# upserts");
-            }
-          }
-        }
       }
     }
     catch (Exception ex)
@@ -398,8 +388,6 @@ public class OdbcPyCode extends Generator
       Proc proc = table.procs.elementAt(i);
       if (proc.isData || proc.isStd || proc.hasNoData())
         continue;
-//      if (proc.isMerge && upsert)
-//        continue;
       if (proc.isStdExtended())
         continue;
       String superName = table.useName() + proc.upperFirst();
@@ -581,40 +569,39 @@ public class OdbcPyCode extends Generator
       }
       int inouts = 0;
       boolean hasInputs = false;
-      writeln(1, "def execute(self, connect): # " + proc.lowerFirst());
-      writeln(2, "self.DUAL_TYPE = ''");
       if (proc.outputs.size() > 0)
       {
-        writeln(2, "def _get_output(_result):");
+        writeln(1, "def _get_output(self, _result):");
         for (int j = 0; j < proc.outputs.size(); j++)
         {
           Field field = proc.outputs.elementAt(j);
-          writeln(3, "self." + field.useName() + " = _result[" + j + "]");
+          writeln(2, "self." + field.useName() + " = _result[" + j + "]");
           if (proc.hasInput(field.name) == true)
             inouts++;
         }
-        writeln(3, "return " + proc.outputs.size());
+        writeln(2, "return " + proc.outputs.size());
       }
       if (proc.outputs.size() > 0 && proc.inputs.size() + proc.dynamics.size() - inouts > 0)
       {
         hasInputs = true;
-        writeln(2, "def _copy_input(record):");
+        writeln(1, "def _copy_input(self, record):");
         for (int j = 0; j < proc.inputs.size(); j++)
         {
           Field field = proc.inputs.elementAt(j);
           if (proc.hasOutput(field.name) == true)
           {
-            writeln(3, "# " + field.name + " is an output");
+            writeln(2, "# " + field.name + " is an output");
             continue;
           }
-          writeln(3, "record." + field.name + " = self." + field.name);
+          writeln(2, "record." + field.name + " = self." + field.name);
         }
         for (int j = 0; j < proc.dynamics.size(); j++)
         {
           String name = proc.dynamics.elementAt(j);
-          writeln(3, "record." + name + " = self." + name);
+          writeln(2, "record." + name + " = self." + name);
         }
       }
+      writeln(1, "def execute(self, connect): # " + proc.lowerFirst());
       String command = "_command";
       generateCommand(proc, command, holder);
       writeln(2, "cursor = connect.cursor()");
@@ -716,7 +703,7 @@ public class OdbcPyCode extends Generator
       }
       if (string.charAt(0) == '"')
         writeln(string.replaceAll("\"", ""));
-      else
+      else if (proc.isMerge == false || upsert == false)
       {
         String l = string.trim();
         String quotes = "";

@@ -4,6 +4,7 @@ set (root ${JTOOLS_DIR})
 set (logFile ${root}/out/audio/sql/build.log)
 set (siFiles
   ${root}/src/audio/sql/si/book.si
+  ${root}/src/audio/sql/si/lookup.si
   ${root}/src/audio/sql/si/message.si
   ${root}/src/audio/sql/si/reply.si
   ${root}/src/audio/sql/si/response.si

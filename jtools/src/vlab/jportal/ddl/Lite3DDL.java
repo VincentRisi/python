@@ -51,9 +51,9 @@ public class Lite3DDL extends Generator
         fileName = database.output;
       else
         fileName = database.name;
-      if (database.schema.length() > 0) // does not have multiple schemas - main or temp only
-        tableOwner = database.schema + ".";
-      else
+//      if (database.schema.length() > 0) // does not have multiple schemas - main or temp only
+//        tableOwner = database.schema + ".";
+//      else
         tableOwner = "";
       outLog.println("DDL: " + output + fileName + ".sql");
       try (OutputStream outFile = new FileOutputStream(output + fileName + ".sql"))
