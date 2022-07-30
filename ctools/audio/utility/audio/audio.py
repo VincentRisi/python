@@ -154,6 +154,38 @@ def add_conarrators():
       print ('ouch')
   if count > 0:
     conn.commit()
+
+def add_coauthors():
+  global conn
+  conn.rollback()
+  count = 0
+  for entry in coauthors:
+    bookId, authorId = entry
+    rec = DBCoAuthors(conn)
+    print (bookId, authorId)
+    rec.runInsert(bookId, authorId)
+    count += 1
+    if count > 100:
+      count = 0
+      conn.commit()
+  if count > 0:
+    conn.commit()
+
+def add_conarrators():
+  global conn
+  conn.rollback()
+  count = 0
+  for entry in conarrators:
+    bookId, narratorId = entry
+    rec = DBCoNarrators(conn)
+    print (bookId, narratorId)
+    rec.runInsert(bookId, narratorId)
+    count += 1
+    if count > 100:
+      count = 0
+      conn.commit()
+  if count > 0:
+    conn.commit()
  
 
 def make_id(data):

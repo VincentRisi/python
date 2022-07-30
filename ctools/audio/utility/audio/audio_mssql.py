@@ -29,7 +29,6 @@ test = AuthorExists()
 test.authorId='XX001'
 rec = test.execute(conn)
 print (rec.noOf)
-
 from audio import *
 set_connect(conn)
 main(pyasdata_dir)
