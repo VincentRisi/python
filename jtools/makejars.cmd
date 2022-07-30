@@ -13,4 +13,10 @@ jar cfe %build%\jportal.jar vlab/jportal/Compiler vlab/jportal/*.class vlab/jpor
 jar cfe %build%\crackle.jar vlab/crackle/Compiler vlab/crackle/*.class vlab/crackle/http/*.class
 @popd
 
+@PATH="C:\java\jdk-11\bin"
+
+@pushd %source%
+jar cfe %build%\jportal-11.jar vlab/jportal/Compiler vlab/jportal/*.class vlab/jportal/code/*.class vlab/jportal/ddl/*.class
+@popd
+
 @pause
