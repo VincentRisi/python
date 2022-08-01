@@ -376,44 +376,6 @@ public class OciCCode extends Generator
         generateImplementation(table, proc);
     }
   }
-  static public StringBuffer insertCommand(Proc proc)
-  {
-    String name = proc.table.tableName();
-    StringBuffer _command = new StringBuffer();
-    _command.append(format("insert into %s\n", name));
-    Vector<Field> fields = proc.table.fields;
-    String comma = "( ";
-    for (int i=0; i < fields.size(); i++)
-    {
-      Field field = fields.elementAt(i);
-      _command.append(format("%s%s\n", comma, field.useName()));
-      comma = ", ";
-    }
-    _command.append(")\n");
-    _command.append("values\n");
-    comma = "( ";
-    boolean returnSeq = false;
-    Field retField = null;
-    for (int i=0; i < fields.size(); i++)
-    {
-      Field field = fields.elementAt(i);
-      if (field.isSequence)
-      {
-        _command.append(format("%s%sSeq.nextval.", comma, name));
-        returnSeq = true;
-        retField = field;
-      }
-      else
-      {
-        _command.append(format("%s:%s", comma, field.useName()));
-      }
-      comma = ", ";
-    }
-    _command.append(")\n");
-    if (returnSeq)
-      _command.append(format("returning %1$s into :%1$s", retField.useName()));
-    return _command;
-  }
 
   static private void generateCommand(Proc proc)
   {
