@@ -20,6 +20,7 @@ import java.util.Vector;
 
 import static vlab.jportal.TJCStructs.*;
 import static vlab.jportal.Writer.*;
+
 import vlab.jportal.*;
 
 public class MSSqlCCode extends Generator
@@ -412,6 +413,51 @@ public class MSSqlCCode extends Generator
     writeln(3, "return \"\";");
     writeln(2, "}");
     writeln(1, "} _ret;");
+  }
+
+  static public StringBuffer insertCommand(Proc proc)
+  {
+    String name = proc.table.tableName();
+    StringBuffer _command = new StringBuffer();
+    _command.append(format("insert into %s\n", name));
+    Vector<Field> fields = proc.table.fields;
+    boolean returnSeq = false;
+    Field retField = null;
+    String comma = "( ";
+    for (int i = 0; i < fields.size(); i++)
+    {
+      Field field = fields.elementAt(i);
+      if (field.isSequence)
+      {
+        returnSeq = true;
+        retField = field;
+      }
+      else if (field.isIdentity)
+      {
+        retField = field;
+        continue;
+      }
+      _command.append(format("%s%s\n", comma, field.useName()));
+      comma = ", ";
+    }
+    _command.append(")\n");
+    if (retField != null)
+      _command.append(format("output inserted.%s", retField.useName()));
+    _command.append("values\n");
+    comma = "( ";
+    for (int i = 0; i < fields.size(); i++)
+    {
+      Field field = fields.elementAt(i);
+      if (field.isIdentity)
+        continue;
+      if (field.isSequence)
+        _command.append(format("%s%sSeq.nextval.", comma, name));
+      else
+        _command.append(format("%s:%s", comma, field.useName()));
+      comma = ", ";
+    }
+    _command.append(")\n");
+    return _command;
   }
 
   static void generateCommand(Proc proc)

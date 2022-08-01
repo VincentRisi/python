@@ -682,6 +682,19 @@ public class Table implements Serializable
     proc.isStd = true;
     proc.isSql = true;
     proc.isInsert = true;
+    if (proc.hasReturning)
+    {
+      boolean allow_ret = false;
+      for (Field field : fields)
+      {
+        if (field.isSequence || field.isIdentity)
+        {
+          allow_ret = true;
+          break;
+        }
+      }
+      proc.hasReturning = allow_ret;
+    }
     if (proc.hasReturning && proc.table.hasIdentity == false)
       proc.lines.add(new Line("_ret.head", true));
     String identityName = "";

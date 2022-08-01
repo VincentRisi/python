@@ -41,7 +41,7 @@ KEY  KEY01
 link Message
    MessageID
 
-PROC    Insert//  $PYTHON
+PROC    Insert returning
 PROC    Update
 PROC    DeleteOne
 PROC    SelectOne//  $PYTHON

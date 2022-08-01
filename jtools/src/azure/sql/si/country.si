@@ -42,7 +42,7 @@ KEY KEY02
 LINK Currency
   CurrId
 
-PROC Insert
+PROC Insert returning
 PROC Update
 PROC SelectOne
 PROC DeleteOne
