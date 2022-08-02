@@ -328,12 +328,28 @@ public class PyDBOldCode extends Generator
 
   private static void _callDBApi(Table table, Proc proc)
   {
-    writeln(1, format("def exec%s(self):", proc.name));
+    String withParms = "run";
+    String hasData = "exec";
+    if (proc.isSingle)
+    {
+      if (proc.isInsert)
+        withParms = "run";
+      else
+        withParms = "read";
+    }
+    else if (proc.outputs.size() > 0)
+    {
+      hasData = "load";
+      withParms = "exec";
+    }
+    if (proc.hasNoData())
+      hasData = "run";
+    writeln(1, format("def %s%s(self):", hasData, proc.name));
     writeln(2, format("dbapi = %s%s()", table.useName(), proc.name));
     for (int i=0; i < proc.inputs.size(); i++)
     {
       Field field = proc.inputs.elementAt(i);
-      writeln(2, format("dbapi.%1$s = self.%1$s", field.name));
+      writeln(2, format("dbapi.%1$s = self.%1$s", field.useName()));
     }
     for (int i=0; i < proc.dynamics.size(); i++)
     {
@@ -358,7 +374,7 @@ public class PyDBOldCode extends Generator
       for (int i = 0; i < proc.outputs.size(); i++)
       {
         Field field = proc.outputs.elementAt(i);
-        writeln(2, format("self.%1$s = dbapi.%1$s", field.name));
+        writeln(2, format("self.%1$s = dbapi.%1$s", field.useName()));
       }
     }
     else if (ret.length() > 0)
@@ -372,24 +388,21 @@ public class PyDBOldCode extends Generator
       for (int i = 0; i < proc.outputs.size(); i++)
       {
         Field field = proc.outputs.elementAt(i);
-        writeln(3, format("other.%1$s = rec.%1$s", field.name));
+        writeln(3, format("other.%1$s = rec.%1$s", field.useName()));
       }
       writeln(3, "others.append(other)");
       writeln(2, "return others");
     }
-    String prefix = "run";
     String parms = "";
     var code = new StringBuilder();
     for (int i=0; i < proc.inputs.size(); i++)
     {
       Field field = proc.inputs.elementAt(i);
-      parms += format(", %s", field.name);
-      code.append(format("%sself.%2$s = %2$s\n", indent(2), field.name));
+      parms += format(", %s", field.useName());
+      code.append(format("%sself.%2$s = %2$s\n", indent(2), field.useName()));
     }
-    if (proc.isSingle) prefix = "read";
-    else if (proc.outputs.size() > 0) prefix = "load";
-    code.append(format("%s%sself.exec%s()\n", indent(2), ret, proc.name));
-    writeln(1, format("def %s%s(self%s):", prefix, proc.name, parms));
+    code.append(format("%s%sself.%s%s()\n", indent(2), ret, hasData, proc.name));
+    writeln(1, format("def %s%s(self%s):", withParms, proc.name, parms));
     write(code.toString());
   }
 
