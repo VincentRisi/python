@@ -9,7 +9,7 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "audio_db2", "audio_db2.pypr
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "audio_lite3", "audio_lite3.pyproj", "{BECE4684-1C05-4A18-9BC5-04A409D7239D}"
 EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "audio_mssql", "audio_mssql.pyproj", "{2F9DED4B-0F0A-402F-AA10-D9868835CF94}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "lookup_mssql", "lookup_mssql.pyproj", "{2F9DED4B-0F0A-402F-AA10-D9868835CF94}"
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "audio_mysql", "audio_mysql.pyproj", "{E2C32C35-5B27-49F9-B5B5-215AC6B477F6}"
 EndProject

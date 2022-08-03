@@ -363,19 +363,24 @@ public class PyDBOldCode extends Generator
     }
     String ret = "";
     String res = "";
-    if (proc.outputs.size() > 0  && proc.isSingle == false)
+    if (proc.outputs.size() > 0)
     {
-      res = "records=";
+      if (proc.isSingle == false)
+          res = "records = ";
+      else
+          res = "record = ";
       ret = "return ";
     }
     writeln(2, format("%sdbapi.execute(self.connect)", res));
     if (proc.isSingle)
     {
+      writeln(2, "if record == None: return 0");
       for (int i = 0; i < proc.outputs.size(); i++)
       {
         Field field = proc.outputs.elementAt(i);
-        writeln(2, format("self.%1$s = dbapi.%1$s", field.useName()));
+        writeln(2, format("self.%1$s = record.%1$s", field.useName()));
       }
+      writeln(2, "return 1");
     }
     else if (ret.length() > 0)
     {
@@ -385,9 +390,11 @@ public class PyDBOldCode extends Generator
         writeln(3, format("other = D%s()", table.useName()));
       else
         writeln(3, format("other = D%s%s()", table.useName(), proc.name));
-      for (int i = 0; i < proc.outputs.size(); i++)
+      for (Field field: proc.outputs)
+        writeln(3, format("other.%1$s = rec.%1$s", field.useName()));
+      for (Field field: proc.inputs)
       {
-        Field field = proc.outputs.elementAt(i);
+        if (proc.hasOutput(field.name)) continue;
         writeln(3, format("other.%1$s = rec.%1$s", field.useName()));
       }
       writeln(3, "others.append(other)");

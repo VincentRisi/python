@@ -1,26 +1,7 @@
-//#
-//# File : $URL: http://cdssvnmaster/MCPE/trunk/targsrc/sql/si/dates.si $
-//#
-//# $Author: simon $
-//#
-//# $Revision: 99 $
-//#
-//# $Date: 2007-06-29 09:59:40 +0200 (Fri, 29 Jun 2007) $
-//
-//# revision date 22/03/1996
-////$PARMS 1
-////$DESCR 'Dates'
-//
-//server @dn29
-//connect npud00/control
-
-DATABASE MCPE FLAGS "param=pyodbc"
-//FLAGS "xmlValue"
+DATABASE MCPE
 PACKAGE  putty.bulk
-//USING    Bbd.Portal
 OUTPUT   Dates
 SERVER   PUTTY
-
 
 table Dates
 
@@ -35,12 +16,11 @@ DateType
 
 proc Insert
 proc Update
-proc SelectOne//  $PYTHON
+proc SelectOne
 proc Exists
 proc SelectAll
 
-//#Used by appsyndate,ide, router
-PROC Get//  $PYTHON
+PROC Get
 INPUT
   DateType =
 OUTPUT (single)
@@ -54,7 +34,6 @@ SQLCODE
       DateType = :DateType
 ENDCODE
 
-//#Used by appsyndate
 PROC SetOracleDate
 INPUT
   DateType int
@@ -69,7 +48,6 @@ SQLCODE
       DateType = :DateType
 ENDCODE
 
-//#Used by appsyndate
 PROC Inc
 INPUT
   DateType    int
