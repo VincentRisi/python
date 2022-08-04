@@ -15,7 +15,7 @@
     <InterpreterId>Global|PythonCore|3.10</InterpreterId>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
-    <CommandLineArguments>-s 192.168.1.102 -u sa -P WelcomeVR@0195</CommandLineArguments>
+    <CommandLineArguments>-d "ODBC Driver 17 for SQL Server" -D mcpe -s "192.168.1.102" -u sa -p "WelcomeVR@0195"</CommandLineArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>

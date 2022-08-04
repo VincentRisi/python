@@ -144,129 +144,6 @@ public class PyDBOldCode extends Generator
     return "";
   }
 
-  static private void generateAnnotates(Vector allFields)
-  {
-    for (int i = 0; i < allFields.size(); i++)
-    {
-      Field field = (Field) allFields.elementAt(i);
-      write(1, format("%s: ", field.useName()));
-      switch (field.type)
-      {
-        case Field.ANSICHAR:
-          writeln(format("Char(%d%s%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
-          break;
-        case Field.AUTOTIMESTAMP:
-          writeln(format("TimeStamp(%s%s%s)", _null(field), _pkey(field)));
-          break;
-        case Field.BIGIDENTITY:
-        case Field.BIGSEQUENCE:
-        case Field.LONG:
-          writeln(format("LongInt(%d%s%s)", field.length, _commanull(field), _commapkey(field)));
-          break;
-        case Field.BIGXML:
-          writeln(format("XMLTYPE(%d%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
-          break;
-        case Field.BLOB:
-          writeln(format("Blob(%d%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
-          break;
-        case Field.BOOLEAN:
-          writeln(format("Boolean(%d%s%s)", field.length, _commanull(field), _commapkey(field)));
-          break;
-        case Field.BYTE:
-          writeln(format("TinyInt(%d%s%s)", field.length, _commanull(field), _commapkey(field)));
-          break;
-        case Field.CHAR:
-          writeln(format("Char(%d%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
-          break;
-        case Field.DATE:
-          writeln(format("Date(%s%s)", _null(field), _pkey(field)));
-          break;
-        case Field.DATETIME:
-          writeln(format("DateTime(%s%s)", _null(field), _pkey(field)));
-          break;
-        case Field.DOUBLE:
-        case Field.FLOAT:
-          writeln(format("Float(%d, %d%s%s)", field.precision, field.scale, _commanull(field), _commapkey(field)));
-          break;
-        case Field.DYNAMIC:
-          writeln(format("Unhandled('Dynamic', %d%s%s)", field.length, _commanull(field), _commapkey(field)));
-          break;
-        case Field.IDENTITY:
-        case Field.INT:
-        case Field.SEQUENCE:
-          writeln(format("Int(%s%s%s)", field.length, _commanull(field), _commapkey(field)));
-          break;
-        case Field.IMAGE:
-          writeln(format("Image(%s%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
-          break;
-        case Field.MONEY:
-          writeln(format("Char(%s%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
-          break;
-        case Field.SHORT:
-          writeln(format("SmallInt(%s%s%s)", field.length, _commanull(field), _commapkey(field)));
-          break;
-        case Field.STATUS:
-          writeln(format("Status(%s%s%s)", field.length, _commanull(field), _commapkey(field)));
-          break;
-        case Field.TIME:
-          writeln(format("Time(%s%s)", _null(field), _pkey(field)));
-          break;
-        case Field.TIMESTAMP:
-          writeln(format("TimeStamp(%s%s)", _null(field), _pkey(field)));
-          break;
-        case Field.TLOB:
-          writeln(format("Clob(%s%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
-          break;
-        case Field.UID:
-          writeln(format("Unhandled('UID', %s%sV)", field.length, _commanull(field), _commapkey(field)));
-          break;
-        case Field.USERSTAMP:
-          writeln(format("UserStamp(%s%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
-          break;
-        case Field.UTF8:
-          writeln(format("Unhandled('UTF8', %s%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
-          break;
-        case Field.WANSICHAR:
-          writeln(format("Unhandled('WANSICHAR', %s%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
-          break;
-        case Field.WCHAR:
-          writeln(format("Unhandled('WCHAR', %s%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
-          break;
-        case Field.XML:
-          writeln(format("XMLTYPE(%s%s%s)", field.length + 1, _commanull(field), _commapkey(field)));
-          break;
-      }
-    }
-  }
-
-  static private void generateDataFields(Vector allFields, String superName, String tableName)
-  {
-    String recName = superName.length() > 0 ? superName : tableName;
-    write(1, "__slots__ = [");
-    for (int i = 0; i < allFields.size(); i++)
-    {
-      Field field = (Field) allFields.elementAt(i);
-      if (i != 0)
-      {
-        writeln(",");
-        write(2, "");
-      }
-      write("'" + field.useName() + "'");
-    }
-    writeln("]");
-    writeln(1, "def __init__(self):");
-    for (int i = 0; i < allFields.size(); i++)
-    {
-      Field field = (Field) allFields.elementAt(i);
-      if (isNull(field) == true)
-        writeln(2, "self." + field.useName() + " = None");
-      else
-        writeln(2, "self." + field.useName() + " = ''");
-    }
-    writeln(1, "def _fields(self):");
-    writeln(2, "return D" + recName + ".__slots__");
-  }
-
   static private void generateDBEnums(Table table)
   {
     for (int i = 0; i < table.fields.size(); i++)
@@ -307,7 +184,7 @@ public class PyDBOldCode extends Generator
         continue;
       if (proc.isStd == false && proc.isStdExtended() == false && proc.hasNoData() == false)
         continue;
-      _callDBApi(table, proc);
+      callDBApiIO(table, proc);
     }
     for (int i = 0; i < table.procs.size(); i++)
     {
@@ -322,11 +199,11 @@ public class PyDBOldCode extends Generator
       writeln(2, "self.connect = connect");
       writeln(1, "def set_connect(self, connect):");
       writeln(2, "self.connect = connect");
-      _callDBApi(table, proc);
+      callDBApiIO(table, proc);
     }
   }
 
-  private static void _callDBApi(Table table, Proc proc)
+  private static void callDBApiIO(Table table, Proc proc)
   {
     String withParms = "run";
     String hasData = "exec";
@@ -346,16 +223,21 @@ public class PyDBOldCode extends Generator
       hasData = "run";
     writeln(1, format("def %s%s(self):", hasData, proc.name));
     writeln(2, format("dbapi = %s%s()", table.useName(), proc.name));
-    for (int i=0; i < proc.inputs.size(); i++)
+    for (Field field: proc.inputs)
     {
-      Field field = proc.inputs.elementAt(i);
-      writeln(2, format("dbapi.%1$s = self.%1$s", field.useName()));
+      switch(field.type)
+      {
+        case Field.IDENTITY, Field.BIGIDENTITY -> { if (proc.isInsert == false) writeln(2, format("dbapi.%1$s = self.%1$s", field.useName()));}
+        case Field.SEQUENCE, Field.BIGSEQUENCE -> { if (proc.isInsert == false || proc.hasReturning == false) writeln(2, format("dbapi.%1$s = self.%1$s", field.useName()));}
+        case Field.TIMESTAMP, Field.USERSTAMP -> {}
+        case Field.DATETIME -> writeln(2, format("dbapi.%1$s = dbapi_util.to_date14(self.%1$s)", field.useName()));
+        case Field.DATE -> writeln(2, format("dbapi.%1$s = dbapi_util.to_date8(self.%1$s)", field.useName()));
+        case Field.TIME -> writeln(2, format("dbapi.%1$s = dbapi_util.to_time6(self.%1$s)", field.useName()));
+        default -> writeln(2, format("dbapi.%1$s = self.%1$s", field.useName()));
+      };
     }
-    for (int i=0; i < proc.dynamics.size(); i++)
-    {
-      String dynamic = proc.dynamics.elementAt(i);
+    for (String dynamic: proc.dynamics)
       writeln(2, format("dbapi.%1$s = self.%1$s", dynamic));
-    }
     if (proc.hasNoData())
     {
       writeln(2, format("dbapi.execute(self.connect)"));
@@ -375,10 +257,15 @@ public class PyDBOldCode extends Generator
     if (proc.isSingle)
     {
       writeln(2, "if record == None: return 0");
-      for (int i = 0; i < proc.outputs.size(); i++)
+      for (Field field: proc.outputs)
       {
-        Field field = proc.outputs.elementAt(i);
-        writeln(2, format("self.%1$s = record.%1$s", field.useName()));
+        switch(field.type)
+        {
+          case Field.DATETIME, Field.TIMESTAMP -> writeln(2, format("self.%1$s = dbapi_util.to_char14(record.%1$s)", field.useName()));
+          case Field.DATE -> writeln(2, format("self.%1$s = dbapi_util.to_char8(record.%1$s)", field.useName()));
+          case Field.TIME -> writeln(2, format("self.%1$s = dbapi_util.to_char6(record.%1$s)", field.useName()));
+          default -> writeln(2, format("self.%1$s = record.%1$s", field.useName()));
+        };
       }
       writeln(2, "return 1");
     }
@@ -391,22 +278,47 @@ public class PyDBOldCode extends Generator
       else
         writeln(3, format("other = D%s%s()", table.useName(), proc.name));
       for (Field field: proc.outputs)
-        writeln(3, format("other.%1$s = rec.%1$s", field.useName()));
+      {
+        switch(field.type)
+        {
+          case Field.DATETIME, Field.TIMESTAMP -> writeln(3, format("other.%1$s = dbapi_util.to_char14(rec.%1$s)", field.useName()));
+          case Field.DATE -> writeln(3, format("other.%1$s = dbapi_util.to_char8(rec.%1$s)", field.useName()));
+          case Field.TIME -> writeln(3, format("other.%1$s = dbapi_util.to_char6(rec.%1$s)", field.useName()));
+          default -> writeln(3, format("other.%1$s = rec.%1$s", field.useName()));
+        };
+      }
       for (Field field: proc.inputs)
       {
         if (proc.hasOutput(field.name)) continue;
-        writeln(3, format("other.%1$s = rec.%1$s", field.useName()));
+        switch(field.type)
+        {
+          case Field.DATETIME, Field.TIMESTAMP -> writeln(3, format("other.%1$s = dbapi_util.to_char14(rec.%1$s)", field.useName()));
+          case Field.DATE -> writeln(3, format("other.%1$s = dbapi_util.to_char8(rec.%1$s)", field.useName()));
+          case Field.TIME -> writeln(3, format("other.%1$s = dbapi_util.to_char6(rec.%1$s)", field.useName()));
+          default -> writeln(3, format("other.%1$s = rec.%1$s", field.useName()));
+        };
       }
       writeln(3, "others.append(other)");
       writeln(2, "return others");
     }
     String parms = "";
     var code = new StringBuilder();
-    for (int i=0; i < proc.inputs.size(); i++)
+    for (Field field: proc.inputs)
     {
-      Field field = proc.inputs.elementAt(i);
+      if (proc.isInsert && (field.type == Field.SEQUENCE || field.type == Field.IDENTITY
+      || field.type == Field.BIGSEQUENCE || field.type == Field.BIGIDENTITY
+      || field.type == Field.TIMESTAMP || field.type == Field.USERSTAMP))
+        continue;
+      if (proc.isUpdate && (field.type == Field.TIMESTAMP || field.type == Field.USERSTAMP))
+        continue;
       parms += format(", %s", field.useName());
-      code.append(format("%sself.%2$s = %2$s\n", indent(2), field.useName()));
+      switch (field.type)
+      {
+        case Field.DATETIME, Field.TIMESTAMP -> code.append(format("%sself.%2$s = dbapi_util.to_char14(%2$s)\n", indent(2), field.useName()));
+        case Field.DATE -> code.append(format("%sself.%2$s = dbapi_util.to_char8(%2$s)\n", indent(2), field.useName()));
+        case Field.TIME -> code.append(format("%sself.%2$s = dbapi_util.to_char6(%2$s)\n", indent(2), field.useName()));
+        default -> code.append(format("%sself.%2$s = %2$s\n", indent(2), field.useName()));
+      }
     }
     code.append(format("%s%sself.%s%s()\n", indent(2), ret, hasData, proc.name));
     writeln(1, format("def %s%s(self%s):", withParms, proc.name, parms));

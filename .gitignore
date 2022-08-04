@@ -5,3 +5,4 @@ target
 *.suo
 *.pyc
 __pycache__
+.vs
