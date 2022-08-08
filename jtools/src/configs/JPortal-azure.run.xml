@@ -4,7 +4,7 @@
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="vlab.jportal.Compiler" />
     <module name="jtools" />
-    <option name="PROGRAM_PARAMETERS" value="-R $PROJECT_DIR$ -f {root}/src/azure/inputs.list -o {root}/out/azure/sql/ddl/mssql ddl.MSSqlDDL -o {root}/out/azure/sql/py/dbapi code.PyDBOldCode -o {root}/out/azure/sql/py/dbapi/mssql code.MSSqlPyCode -o {root}/out/azure/sql/py/dbapi/odbc code.OdbcPyCode -o {root}/out/azure/sql/msssh code.MSSqlCCode" />
+    <option name="PROGRAM_PARAMETERS" value="-R $PROJECT_DIR$ -f {root}/src/azure/inputs.list -f dbapi=lowercase -o {root}/out/azure/sql/ddl/mssql ddl.MSSqlDDL -o {root}/out/azure/sql/py/dbapi code.PyDBOldCode -o {root}/out/azure/sql/py/dbapi/mssql code.MSSqlPyCode -o {root}/out/azure/sql/py/dbapi/odbc code.OdbcPyCode -o {root}/out/azure/sql/msssh code.MSSqlCCode" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

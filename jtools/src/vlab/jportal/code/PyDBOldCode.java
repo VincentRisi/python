@@ -25,6 +25,8 @@ public class PyDBOldCode extends Generator
 {
   private static PrintWriter outLog;
   static private Properties properties;
+  private static boolean dbapiLowercase = false;
+  private static boolean dbapiUppercase = false;
 
   public static String description()
   {
@@ -62,6 +64,10 @@ public class PyDBOldCode extends Generator
           flag = flag.substring(1);
           dropParameter = true;
         }
+        if (flag.equals("dbapi=lowercase"))
+          dbapiLowercase = true;
+        if (flag.equals("dbapi=uppercase"))
+          dbapiUppercase = true;
         if (dropParameter)
           database.flags.remove(i);
       }
@@ -79,6 +85,9 @@ public class PyDBOldCode extends Generator
   }
   private static void generateDB(Table table, String output) throws Exception
   {
+    String dbapiTableName = table.useName();
+    if (dbapiLowercase) dbapiTableName = table.useName().toLowerCase();
+    else if (dbapiUppercase) dbapiTableName = table.useName().toUpperCase();
     String fileName = output + "DB_" + table.useName().toUpperCase() + ".py";
     outLog.println("Code: " + fileName);
     try (OutputStream outFile = new FileOutputStream(fileName))
@@ -88,7 +97,7 @@ public class PyDBOldCode extends Generator
       writeln("# This code was generated, do not modify it, modify it at source and regenerate it.");
       writeln("# see " + table.useName() + " source file");
       writeln();
-      writeln(format("from %sDBApi import *", table.useName()));
+      writeln(format("from %sDBApi import *", dbapiTableName));
       writeln();
       generateDBEnums(table);
       generateDBCode(table);

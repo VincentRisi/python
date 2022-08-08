@@ -31,6 +31,8 @@ public class OciPyCode extends Generator
   static private boolean enumImport = false;
   static private boolean upsert = false;
   static private boolean hasMerge = false;
+  private static boolean dbapiLowercase = false;
+  private static boolean dbapiUppercase = false;
 
   /**
    * DBApi param styles
@@ -93,6 +95,10 @@ public class OciPyCode extends Generator
         }
         if (flag.equalsIgnoreCase("useenum") || flag.equalsIgnoreCase("use enum"))
           useEnum = true;
+        if (flag.equals("dbapi=lowercase"))
+          dbapiLowercase = true;
+        if (flag.equals("dbapi=uppercase"))
+          dbapiUppercase = true;
       }
       useEnum = getProperty("useenum", useEnum);
       for (int i = 0; i < database.tables.size(); i++)
@@ -145,8 +151,11 @@ public class OciPyCode extends Generator
    */
   static private void generateStructs(Database database, Table table, String output) throws Exception
   {
-    outLog.println("Code: " + output + table.useName() + "DBApi.py");
-    try (OutputStream outFile = new FileOutputStream(output + table.useName() + "DBApi.py"))
+    String dbapiTableName = table.useName();
+    if (dbapiLowercase) dbapiTableName = table.useName().toLowerCase();
+    else if (dbapiUppercase) dbapiTableName = table.useName().toUpperCase();
+    outLog.println("Code: " + output + dbapiTableName + "DBApi.py");
+    try (OutputStream outFile = new FileOutputStream(output + dbapiTableName + "DBApi.py"))
     {
       writer = new PrintWriter(outFile);
       indent_size = 4;

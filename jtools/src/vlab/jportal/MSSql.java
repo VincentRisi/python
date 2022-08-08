@@ -31,9 +31,8 @@ public class MSSql implements Serializable
     boolean returnSeq = false;
     Field retField = null;
     String comma = "( ";
-    for (int i = 0; i < fields.size(); i++)
+    for (Field field : fields)
     {
-      Field field = fields.elementAt(i);
       if (field.isSequence)
       {
         returnSeq = true;
@@ -52,13 +51,12 @@ public class MSSql implements Serializable
       _command.append(format("output inserted.%s", retField.useName()));
     _command.append("values\n");
     comma = "( ";
-    for (int i = 0; i < fields.size(); i++)
+    for (Field field : fields)
     {
-      Field field = fields.elementAt(i);
       if (field.isIdentity)
         continue;
       if (field.isSequence)
-        _command.append(format("%s%sSeq.nextval.", comma, name));
+        _command.append(format("%snextval for %sSeq", comma, name));
       else
         _command.append(format("%s:%s", comma, field.useName()));
       comma = ", ";

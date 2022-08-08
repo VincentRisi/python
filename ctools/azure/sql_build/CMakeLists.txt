@@ -91,6 +91,7 @@ function (jportal projectName siFiles)
     get_filename_component (filename ${temp1} NAME_WE)
     set (logFile ${CMAKE_CURRENT_BINARY_DIR}/${filename}.log)
     list (APPEND logFiles ${logFile})
+    MESSAGE (STATUS "COMMAND java -jar ${jportal_jar} ${siFile} -l ${logFile} ${switches}")
     add_custom_command (
       OUTPUT  ${logFile}
       COMMAND java -jar ${jportal_jar} ${siFile} -l ${logFile} ${switches}
@@ -113,6 +114,8 @@ pathed(SQL_PYMSSQL  ${JTOOLS_DIR}/out/azure/sql/py/dbapi/mssql)
 pathed(SQL_PYODBC   ${JTOOLS_DIR}/out/azure/sql/py/dbapi/odbc)
 
 set (switches
+  "-f"
+  "dbapi=lowercase"
   "${SQL_MSSSH}|code.MSSqlCCode|Msql C Files"
   "${DDL_MSSQL}|ddl.MSSqlDDL|Msql SQL Files"
   "${SQL_DBAPI}|code.PyDBOldCode|DBOld PY Files"

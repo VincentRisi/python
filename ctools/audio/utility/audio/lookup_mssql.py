@@ -24,7 +24,7 @@ import pymssql
 conn = pymssql.connect(host=args.server, user=args.user, password=args.password)
 cursor = conn.cursor()
 cursor.execute('use mcpe')
-from DB_LOOKUP import DBLookupSelectList
+from DB_LOOKUP import DBLookupSelectList, DBLookup
 from DB_DATES  import DBDatesGet, DatesDateTypeConst, DBDatesSetOracleDate
 from DatesDBApi import *
 selectList = DBLookupSelectList(conn)
@@ -33,6 +33,14 @@ for rec in recs:
     print ('Name: ', repr(rec.Name))
     print ('Refs: ', repr(rec.Refs))
     print ('Value:', repr(rec.Value))
+lookup = DBLookup(conn)
+recs = lookup.execSelectName('ACCOUNT SYSTEM')
+for rec in recs:
+    print ('Name:    ', repr(rec.Name))
+    print ('Refs:    ', repr(rec.Refs))
+    print ('Value:   ', repr(rec.Value))
+    #print ('USId:    ', repr(rec.USId))
+    #print ('TmStamp: ', repr(rec.TmStamp))
 getter = DBDatesGet(conn)
 result = getter.readGet(DatesDateTypeConst['RunDate'])
 print (getter.Value)

@@ -74,6 +74,8 @@ PROC SelectOne
 PROC DeleteOne
 PROC Exists
 PROC Merge
+PROC DeleteSeries DeleteBy seriesId
+PROC SelectSeries SelectBy seriesId Order bookSeq Returning BookId AuthorId SeriesId bookSeq comment
 
 PROC ByAuthor
 INPUT

@@ -31,16 +31,11 @@ public class Lite3 implements Serializable
     boolean returnSeq = false;
     Field retField = null;
     String comma = "( ";
-    for (int i = 0; i < fields.size(); i++)
+    for (Field field: fields)
     {
-      Field field = fields.elementAt(i);
       if (field.isSequence)
       {
         returnSeq = true;
-        retField = field;
-      }
-      else if (field.isIdentity)
-      {
         retField = field;
         continue;
       }
@@ -48,22 +43,18 @@ public class Lite3 implements Serializable
       comma = ", ";
     }
     _command.append(")\n");
-    //if (retField != null)
-    //  _command.append(format("output inserted.%s", retField.useName()));
     _command.append("values\n");
     comma = "( ";
-    for (int i = 0; i < fields.size(); i++)
+    for (Field field: fields)
     {
-      Field field = fields.elementAt(i);
-      if (field.isIdentity)
-        continue;
       if (field.isSequence)
-        _command.append(format("%s%sSeq.nextval.", comma, name));
-      else
-        _command.append(format("%s:%s", comma, field.useName()));
+        continue;
+      _command.append(format("%s:%s", comma, field.useName()));
       comma = ", ";
     }
     _command.append(")\n");
+    if (retField != null)
+      _command.append(format("returning %s\n", retField.useName()));
     return _command;
   }
 }

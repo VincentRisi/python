@@ -33,6 +33,8 @@ public class MySqlPyCode extends Generator
   static private boolean enumImport = false;
   static private boolean upsert = false;
   static private boolean hasMerge = false;
+  private static boolean dbapiLowercase = false;
+  private static boolean dbapiUppercase = false;
   static private Vector<Field> primaryKeys;
 
   /**
@@ -97,6 +99,10 @@ public class MySqlPyCode extends Generator
         }
         if (flag.equalsIgnoreCase("useenum") || flag.equalsIgnoreCase("use enum"))
           useEnum = true;
+        if (flag.equals("dbapi=lowercase"))
+          dbapiLowercase = true;
+        if (flag.equals("dbapi=uppercase"))
+          dbapiUppercase = true;
       }
       useEnum = getProperty("useenum", useEnum);
       for (int i = 0; i < database.tables.size(); i++)
@@ -137,9 +143,13 @@ public class MySqlPyCode extends Generator
    */
   static private void generateStructs(Database database, Table table, String output) throws Exception
   {
-    outLog.println("Code: " + output + table.useName() + "DBApi.py");
-    try (OutputStream outFile = new FileOutputStream(output + table.useName() + "DBApi.py"))
+    String dbapiTableName = table.useName();
+    if (dbapiLowercase) dbapiTableName = table.useName().toLowerCase();
+    else if (dbapiUppercase) dbapiTableName = table.useName().toUpperCase();
+    outLog.println("Code: " + output + dbapiTableName + "DBApi.py");
+    try (OutputStream outFile = new FileOutputStream(output + dbapiTableName + "DBApi.py"))
     {
+      outLog.println("Code: " + output + table.useName() + "DBApi.py");
       writer = new PrintWriter(outFile);
       indent_size = 4;
       writeln("# This code was generated, do not modify it, modify it at source and regenerate it.");
@@ -213,7 +223,7 @@ public class MySqlPyCode extends Generator
       }
       generateEnums(database);
       generateEnums(table);
-      for (Proc proc: table.procs)
+      for (Proc proc : table.procs)
       {
         if (proc.isInsert)
           upsert = proc.useUpsert;
@@ -635,6 +645,7 @@ public class MySqlPyCode extends Generator
       writeln();
     }
   }
+
   static private void checkPythonSingle(Table table, Proc proc, String current, boolean hasInputs)
   {
     if (proc.hasReturning && proc.isInsert == true)
@@ -696,7 +707,7 @@ public class MySqlPyCode extends Generator
     {
       String string = lines.elementAt(i);
       if (i == 0 && upsert && proc.isInsert && proc.inputs.size() == primaryKeys.size())
-        string = string.replaceFirst("into","ignore into");
+        string = string.replaceFirst("into", "ignore into");
       if (string.charAt(0) == '"')
         writeln(string.replaceAll("\"", ""));
       else
@@ -712,7 +723,7 @@ public class MySqlPyCode extends Generator
     {
       writeln("on duplicate key update");
       String comma = "  ";
-      for (int i=0;i<proc.inputs.size();i++)
+      for (int i = 0; i < proc.inputs.size(); i++)
       {
         Field field = (Field) proc.inputs.elementAt(i);
         if (field.isPrimaryKey) continue;

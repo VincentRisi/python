@@ -28,15 +28,16 @@ KEY LookupKey PRIMARY
   Ref
 
 PROC Insert
-PROC Update//  $PYTHON
-PROC SelectOne//  $PYTHON
-PROC DeleteOne//  $PYTHON
-PROC DeleteAll//  $PYTHON
+PROC Update
+PROC SelectOne
+PROC DeleteOne
+PROC DeleteAll
+PROC SelectName SelectBy Name ORDER Ref RETURNING Name Ref Value
 
-PROC SelectList //  $PYTHON
+PROC SelectList
 INPUT
   Name         Char(255)
-OUTPUT //(Multiple)
+OUTPUT (1000)
   Ref(Refs)    Char(255)
   Value        Char(255)
 SQLCODE
@@ -45,7 +46,7 @@ ENDCODE
 
 //# (moved from LookupProc.si)
 //# used by Rutter
-PROC Get//  $PYTHON
+PROC Get
 INPUT
   Name Char(256)
   Ref Char(256)
@@ -61,17 +62,17 @@ SQLCODE
      and Ref = :Ref
 ENDCODE
 
-PROC NameList//  $PYTHON
-OUTPUT //(Multiple)
+PROC NameList
+OUTPUT (1000)
   Name Char(256)
 SQLCODE
   SELECT distinct Name FROM Lookup
 ENDCODE
 
-PROC SelectIBAN //  $PYTHON
+PROC SelectIBAN
 INPUT
   Ref          Char(255)
-OUTPUT //(Multiple)
+OUTPUT (1000)
   Name         Char(255)
   Value        Char(255)
 SQLCODE
@@ -97,7 +98,7 @@ SELECT
 ENDCODE
 
 PROC SelectAllVatAccNumber
-OUTPUT //(Multiple)
+OUTPUT (1000)
 Value     Char(255) 
 USid      Char(16)
 TmStamp   Char(18)
