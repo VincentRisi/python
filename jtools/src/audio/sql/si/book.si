@@ -12,6 +12,8 @@ DECLARE
     _Des  char 4000
     _Cmt  char 500
     _No   short
+    _Len  int
+    _Date char 20
 
 TABLE Author
     authorId    =(_Id)
@@ -61,7 +63,7 @@ TABLE Book
     comment     =(_Cmt) null
     description =(_Des)
     genre       =(_List) null
-    released    Date null
+    released    =(_Date) null
 
 KEY  BookPK PRIMARY bookId
 LINK Series DELETE CASCADE seriesID
@@ -90,6 +92,20 @@ SQLCODE
   order seriesId, bookSeq, bookName
 ENDCODE
 
+TABLE Cover
+    bookId      =(_Id)
+    coverLen    =(_Len)
+    cover       blob  (128000)
+
+KEY  CoverPK PRIMARY bookId
+LINK Book bookId
+
+PROC Insert upsert
+PROC Update
+PROC SelectOne
+PROC DeleteOne
+PROC Exists
+PROC Merge
 
 TABLE CoAuthors
     bookId    =(_Id)

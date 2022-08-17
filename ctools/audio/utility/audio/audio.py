@@ -1,8 +1,11 @@
+from sqlite3 import DatabaseError
 import sys, os, os.path, re
 from aaxlist import books
 class _obj: pass
+import dbapi_util as util
 
 from DB_BOOK import DBBook
+from DB_COVER import DBCover
 from DB_AUTHOR import DBAuthor
 from DB_COAUTHORS import DBCoAuthors
 from DB_NARRATOR import DBNarrator
@@ -105,15 +108,24 @@ def add_books():
       rec.released = book.released
     else:
       rec.released = None
+    ucover = util.a85decode(book.cover)
+    zcover = util.compress(ucover)
+    crec = DBCover(conn)
+    crec.bookId = rec.bookId
+    crec.coverLen = len(ucover)
+    crec.cover = zcover
     print (rec.bookId, rec.bookName, rec.authorId)
     try:
       rec.execInsert()
+      crec.execInsert()
       count += 1
       if count > 100:
         count = 0
         conn.commit()
-    except:
-      print ('ouch')
+    except Exception as error:
+      print (error)
+      print ('ouch', rec.bookId, repr(rec.bookName), rec.authorId)
+      
   if count > 0:
     conn.commit()
 
@@ -133,7 +145,7 @@ def add_coauthors():
         count = 0
         conn.commit()
     except:
-      print ('ouch')
+      print ('ouch', bookId, authorId, no)
   if count > 0:
     conn.commit()
 
@@ -153,7 +165,7 @@ def add_conarrators():
         count = 0
         conn.commit()
     except:
-      print ('ouch')
+      print ('ouch', bookId, narratorId, no)
   if count > 0:
     conn.commit()
 
@@ -161,20 +173,20 @@ def add_conarrators():
 def make_id(data):
   r = re.findall('([A-Z])', data)
   if len(r) > 0:
-    x = ''.join(r)
+    keyAZ = ''.join(r)
   elif len(data) > 0:
-    x = data.replace(')','')
+    keyAZ = data.replace(')','')
   else:
-    x = 'ANON'
-  key = x[:7]
+    keyAZ = 'ANON'
+  key = keyAZ[:7]
   r = re.findall('([A-Za-z0-9])', data)
   if len(r) > 0:
-    x = ''.join(r)
+    dataAnum = ''.join(r)
   elif len(data) > 0:
-    x = data.replace(')','')
+    dataAnum = data.replace(')','')
   else:
-    x = 'ANON'
-  data = x
+    dataAnum = 'ANON'
+  data = dataAnum
   if not key in ids:
     ids[key] = list()
   if not data in ids[key]:
@@ -248,6 +260,8 @@ def process(book):
   book.authors = ids
   if hasattr(book, 'narrator'):
     ids = do_narrator(book.narrator)
+  else:
+    ids = do_narrator('Audible')
   book.narrators = ids
   do_book(book)
 
@@ -257,9 +271,13 @@ def set_connect(_conn):
 
 def main(pyasdata_dir):
   global conn
-  print (dir(conn))
-  if os.path.exists(rf'{pyasdata_dir}\ids_list.py'):
-    from ids_list import ids
+  #print (dir(conn))
+  if os.path.exists(rf'{pyasdata_dir}\ids_list.txt'):
+    with open(rf'{pyasdata_dir}\ids_list.txt', 'rt') as ifile:
+      lines=ifile.readlines()
+    for line in lines:
+      key, data = line[:-1].split('=')
+      ids[key] = data.split('|')
   for bk in books:
     book = books[bk]
     process(book)
@@ -284,8 +302,7 @@ def main(pyasdata_dir):
   add_books()
   add_coauthors()
   add_conarrators()
-  with open(rf'{pyasdata_dir}\ids_list.py', 'wt') as ofile:
-    ofile.write('ids = dict()\n')
+  with open(rf'{pyasdata_dir}\ids_list.txt', 'wt') as ofile:
     for key in sorted(ids):
-      x = repr(ids[key])
-      ofile.write(f'ids[{repr(key)}]={x}\n')
+      data = repr(ids[key]).replace("['",'').replace("']",'').replace("', '",'|')
+      ofile.write(f'{key}={data}\n')

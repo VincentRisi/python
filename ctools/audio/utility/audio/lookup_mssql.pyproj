@@ -5,7 +5,7 @@
     <ProjectGuid>{2f9ded4b-0f0a-402f-aa10-d9868835cf94}</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>lookup_mssql.py</StartupFile>
+    <StartupFile>struct_test.py</StartupFile>
     <SearchPath>D:\vlab\python\ctools\audio\utility\audio\pyasdata</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -16,6 +16,7 @@
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
     <CommandLineArguments>-s 192.168.1.102 -u sa -P WelcomeVR@0195</CommandLineArguments>
+    <TestFramework>Pytest</TestFramework>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -74,15 +75,27 @@
     <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\SeriesDBApi.py">
       <Link>dbapi\mssql\SeriesDBApi.py</Link>
     </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_MESSAGE.py">
+      <Link>dbapi\DB_MESSAGE.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\MessageDBApi.py">
+      <Link>dbapi\mssql\MessageDBApi.py</Link>
+    </Compile>
     <Compile Include="..\..\..\..\pytools\dbapi_annotate.py">
       <Link>support\dbapi_annotate.py</Link>
     </Compile>
     <Compile Include="..\..\..\..\pytools\dbapi_util.py">
       <Link>support\dbapi_util.py</Link>
     </Compile>
+    <Compile Include="..\..\..\..\walker.py">
+      <Link>walker.py</Link>
+    </Compile>
     <Compile Include="audio.py" />
     <Compile Include="lookup_mssql.py" />
     <Compile Include="pyasdata\aaxlist.py" />
+    <Compile Include="struct_test.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dbapi\" />

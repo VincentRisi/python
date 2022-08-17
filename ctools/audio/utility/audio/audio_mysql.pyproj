@@ -5,7 +5,7 @@
     <ProjectGuid>{e2c32c35-5b27-49f9-b5b5-215ac6b477f6}</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>audio_mssql.py</StartupFile>
+    <StartupFile>audio_mysql.py</StartupFile>
     <SearchPath>D:\vlab\python\ctools\audio\utility\audio\pyasdata</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>

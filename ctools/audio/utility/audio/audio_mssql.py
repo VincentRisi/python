@@ -24,11 +24,6 @@ import pymssql
 conn = pymssql.connect(host=args.server, user=args.user, password=args.password)
 cursor = conn.cursor()
 cursor.execute('use audio')
-from AuthorDBApi import AuthorExists
-test = AuthorExists()
-test.authorId='XX001'
-rec = test.execute(conn)
-print (rec.noOf)
 from audio import *
 set_connect(conn)
 main(pyasdata_dir)

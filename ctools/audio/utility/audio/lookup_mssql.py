@@ -39,8 +39,6 @@ for rec in recs:
     print ('Name:    ', repr(rec.Name))
     print ('Refs:    ', repr(rec.Refs))
     print ('Value:   ', repr(rec.Value))
-    #print ('USId:    ', repr(rec.USId))
-    #print ('TmStamp: ', repr(rec.TmStamp))
 getter = DBDatesGet(conn)
 result = getter.readGet(DatesDateTypeConst['RunDate'])
 print (getter.Value)

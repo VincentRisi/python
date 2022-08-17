@@ -17,6 +17,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "audio_odbc", "audio_odbc.py
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "audio_oracle", "audio_oracle.pyproj", "{FB641629-6F4B-447E-96FE-C1FCEB8EA38A}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "audio_mssql", "audio_mssql.pyproj", "{8EDC08BA-9EE2-4C29-8740-4858D1D30545}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,8 @@ Global
 		{F727770C-EFE6-4ABA-828B-572EF7431A34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB641629-6F4B-447E-96FE-C1FCEB8EA38A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FB641629-6F4B-447E-96FE-C1FCEB8EA38A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EDC08BA-9EE2-4C29-8740-4858D1D30545}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EDC08BA-9EE2-4C29-8740-4858D1D30545}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

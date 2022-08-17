@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2f9ded4b-0f0a-402f-aa10-d9868835cf94}</ProjectGuid>
+    <ProjectGuid>{8edc08ba-9ee2-4c29-8740-4858d1d30545}</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
     <StartupFile>audio_mssql.py</StartupFile>
@@ -38,6 +38,9 @@
     <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_CONARRATORS.py">
       <Link>dbapi\DB_CONARRATORS.py</Link>
     </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_COVER.py">
+      <Link>dbapi\DB_COVER.py</Link>
+    </Compile>
     <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_LOOKUP.py">
       <Link>dbapi\DB_LOOKUP.py</Link>
     </Compile>
@@ -59,6 +62,9 @@
     <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\CoNarratorsDBApi.py">
       <Link>dbapi\mssql\CoNarratorsDBApi.py</Link>
     </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\CoverDBApi.py">
+      <Link>dbapi\mssql\CoverDBApi.py</Link>
+    </Compile>
     <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\LookupDBApi.py">
       <Link>dbapi\mssql\LookupDBApi.py</Link>
     </Compile>
@@ -77,6 +83,7 @@
     <Compile Include="audio.py" />
     <Compile Include="audio_mssql.py" />
     <Compile Include="pyasdata\aaxlist.py" />
+    <Compile Include="pyasdata\ids_list.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dbapi\" />
