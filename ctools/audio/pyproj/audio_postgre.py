@@ -1,6 +1,6 @@
 import argparse
 arg_parser = argparse.ArgumentParser()
-arg_parser.add_argument('-a', '--audio_dir',  type=str, default=r'C:\vlab\python\ctools\audio\utility\audio')
+arg_parser.add_argument('-a', '--audio_dir',  type=str, default=r'C:\vlab\python\ctools\audio\pyproj')
 args = arg_parser.parse_args()
 
 audio_dir = args.audio_dir

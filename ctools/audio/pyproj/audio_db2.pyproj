@@ -2,14 +2,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>469ad583-bfb3-43ba-a52b-683052f3a0f9</ProjectGuid>
+    <ProjectGuid>{3847297c-3414-404e-9444-c5e879ec6c9c}</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>audio_postgre.py</StartupFile>
-    <SearchPath>D:\vlab\python\ctools\audio\utility\audio\pyasdata</SearchPath>
+    <StartupFile>audio_db2.py</StartupFile>
+    <SearchPath>D:\vlab\python\ctools\audio\pyproj\pyasdata</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>audio_postgre</Name>
+    <Name>audio_db2</Name>
     <RootNamespace>audio</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
     <InterpreterId>Global|PythonCore|3.10</InterpreterId>
@@ -25,6 +25,24 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\db2\AuthorDBApi.py">
+      <Link>dbapi\db2\AuthorDBApi.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\db2\BookDBApi.py">
+      <Link>dbapi\db2\BookDBApi.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\db2\CoAuthorsDBApi.py">
+      <Link>dbapi\db2\CoAuthorsDBApi.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\db2\CoNarratorsDBApi.py">
+      <Link>dbapi\db2\CoNarratorsDBApi.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\db2\NarratorDBApi.py">
+      <Link>dbapi\db2\NarratorDBApi.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\db2\SeriesDBApi.py">
+      <Link>dbapi\db2\SeriesDBApi.py</Link>
+    </Compile>
     <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_AUTHOR.py">
       <Link>dbapi\DB_AUTHOR.py</Link>
     </Compile>
@@ -43,24 +61,6 @@
     <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_SERIES.py">
       <Link>dbapi\DB_SERIES.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\postgre\AuthorDBApi.py">
-      <Link>dbapi\postgre\AuthorDBApi.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\postgre\BookDBApi.py">
-      <Link>dbapi\postgre\BookDBApi.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\postgre\CoAuthorsDBApi.py">
-      <Link>dbapi\postgre\CoAuthorsDBApi.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\postgre\CoNarratorsDBApi.py">
-      <Link>dbapi\postgre\CoNarratorsDBApi.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\postgre\NarratorDBApi.py">
-      <Link>dbapi\postgre\NarratorDBApi.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\postgre\SeriesDBApi.py">
-      <Link>dbapi\postgre\SeriesDBApi.py</Link>
-    </Compile>
     <Compile Include="..\..\..\..\pytools\dbapi_annotate.py">
       <Link>support\dbapi_annotate.py</Link>
     </Compile>
@@ -68,14 +68,14 @@
       <Link>support\dbapi_util.py</Link>
     </Compile>
     <Compile Include="audio.py" />
-    <Compile Include="audio_postgre.py" />
+    <Compile Include="audio_db2.py" />
     <Compile Include="pyasdata\aaxlist.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dbapi\" />
-    <Folder Include="dbapi\postgre\" />
-    <Folder Include="support\" />
+    <Folder Include="dbapi\db2\" />
     <Folder Include="pyasdata\" />
+    <Folder Include="support\" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="Global|PythonCore|3.10" />

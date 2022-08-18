@@ -52,6 +52,7 @@ set (switches
   "-o {root}/out/audio/sql/py/dbapi/oracle code.OciPyCode"
   "-o {root}/out/audio/sql/py/dbapi/postgre code.PostgrePyCode"
   "-o {root}/out/audio/sql/clish code.CliCCode"
+  "-o {root}/out/audio/sql/lite3sh code.Lite3CCode"
   "-o {root}/out/audio/sql/msssh code.MSSqlCCode"
   "-o {root}/out/audio/sql/myssh code.MySqlCCode"
   "-o {root}/out/audio/sql/ocish code.OciCCode"
@@ -78,4 +79,4 @@ add_custom_target (audio_sql_build ALL
   SOURCES ${siFiles} ${logFile} ${inputList}
 )
 
-set_property(TARGET audio_sql_build  PROPERTY FOLDER "audio/sql_build")
+set_property(TARGET audio_sql_build  PROPERTY FOLDER "audio/sql/build")

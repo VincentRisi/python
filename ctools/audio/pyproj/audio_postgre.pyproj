@@ -2,20 +2,19 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8edc08ba-9ee2-4c29-8740-4858d1d30545}</ProjectGuid>
+    <ProjectGuid>469ad583-bfb3-43ba-a52b-683052f3a0f9</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>audio_mssql.py</StartupFile>
-    <SearchPath>D:\vlab\python\ctools\audio\utility\audio\pyasdata</SearchPath>
+    <StartupFile>audio_postgre.py</StartupFile>
+    <SearchPath>D:\vlab\python\ctools\audio\pyproj\pyasdata</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>audio_mssql</Name>
+    <Name>audio_postgre</Name>
     <RootNamespace>audio</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
     <InterpreterId>Global|PythonCore|3.10</InterpreterId>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
-    <CommandLineArguments>-s 192.168.1.102 -u sa -P WelcomeVR@0195</CommandLineArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,41 +37,29 @@
     <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_CONARRATORS.py">
       <Link>dbapi\DB_CONARRATORS.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_COVER.py">
-      <Link>dbapi\DB_COVER.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_LOOKUP.py">
-      <Link>dbapi\DB_LOOKUP.py</Link>
-    </Compile>
     <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_NARRATOR.py">
       <Link>dbapi\DB_NARRATOR.py</Link>
     </Compile>
     <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_SERIES.py">
       <Link>dbapi\DB_SERIES.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\AuthorDBApi.py">
-      <Link>dbapi\mssql\AuthorDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\postgre\AuthorDBApi.py">
+      <Link>dbapi\postgre\AuthorDBApi.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\BookDBApi.py">
-      <Link>dbapi\mssql\BookDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\postgre\BookDBApi.py">
+      <Link>dbapi\postgre\BookDBApi.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\CoAuthorsDBApi.py">
-      <Link>dbapi\mssql\CoAuthorsDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\postgre\CoAuthorsDBApi.py">
+      <Link>dbapi\postgre\CoAuthorsDBApi.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\CoNarratorsDBApi.py">
-      <Link>dbapi\mssql\CoNarratorsDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\postgre\CoNarratorsDBApi.py">
+      <Link>dbapi\postgre\CoNarratorsDBApi.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\CoverDBApi.py">
-      <Link>dbapi\mssql\CoverDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\postgre\NarratorDBApi.py">
+      <Link>dbapi\postgre\NarratorDBApi.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\LookupDBApi.py">
-      <Link>dbapi\mssql\LookupDBApi.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\NarratorDBApi.py">
-      <Link>dbapi\mssql\NarratorDBApi.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\SeriesDBApi.py">
-      <Link>dbapi\mssql\SeriesDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\postgre\SeriesDBApi.py">
+      <Link>dbapi\postgre\SeriesDBApi.py</Link>
     </Compile>
     <Compile Include="..\..\..\..\pytools\dbapi_annotate.py">
       <Link>support\dbapi_annotate.py</Link>
@@ -81,13 +68,12 @@
       <Link>support\dbapi_util.py</Link>
     </Compile>
     <Compile Include="audio.py" />
-    <Compile Include="audio_mssql.py" />
+    <Compile Include="audio_postgre.py" />
     <Compile Include="pyasdata\aaxlist.py" />
-    <Compile Include="pyasdata\ids_list.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dbapi\" />
-    <Folder Include="dbapi\mssql\" />
+    <Folder Include="dbapi\postgre\" />
     <Folder Include="support\" />
     <Folder Include="pyasdata\" />
   </ItemGroup>

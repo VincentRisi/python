@@ -2,21 +2,20 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2f9ded4b-0f0a-402f-aa10-d9868835cf94}</ProjectGuid>
+    <ProjectGuid>{bece4684-1c05-4a18-9bc5-04a409d7239d}</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>struct_test.py</StartupFile>
-    <SearchPath>D:\vlab\python\ctools\audio\utility\audio\pyasdata</SearchPath>
+    <StartupFile>audio_lite3.py</StartupFile>
+    <SearchPath>pyasdata</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>lookup_mssql</Name>
+    <Name>audio_lite3</Name>
     <RootNamespace>audio</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
     <InterpreterId>Global|PythonCore|3.10</InterpreterId>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
-    <CommandLineArguments>-s 192.168.1.102 -u sa -P WelcomeVR@0195</CommandLineArguments>
-    <TestFramework>Pytest</TestFramework>
+    <CommandLineArguments>-a C:\vlab\python\ctools\audio\pyproj -d C:\vlab\python\ctools\audio\pyproj\books.db -g C:\vlab\python\jtools\out\audio\sql\py -p C:\vlab\python\pytools -t c:\vlab\python\jtools\out\audio\sql\ddl\mssql\audio.sql</CommandLineArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,47 +38,29 @@
     <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_CONARRATORS.py">
       <Link>dbapi\DB_CONARRATORS.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_DATES.py">
-      <Link>dbapi\DB_DATES.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_LOOKUP.py">
-      <Link>dbapi\DB_LOOKUP.py</Link>
-    </Compile>
     <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_NARRATOR.py">
       <Link>dbapi\DB_NARRATOR.py</Link>
     </Compile>
     <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_SERIES.py">
       <Link>dbapi\DB_SERIES.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\AuthorDBApi.py">
-      <Link>dbapi\mssql\AuthorDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\lite3\AuthorDBApi.py">
+      <Link>dbapi\lite3\AuthorDBApi.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\BookDBApi.py">
-      <Link>dbapi\mssql\BookDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\lite3\BookDBApi.py">
+      <Link>dbapi\lite3\BookDBApi.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\CoAuthorsDBApi.py">
-      <Link>dbapi\mssql\CoAuthorsDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\lite3\CoAuthorsDBApi.py">
+      <Link>dbapi\lite3\CoAuthorsDBApi.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\CoNarratorsDBApi.py">
-      <Link>dbapi\mssql\CoNarratorsDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\lite3\CoNarratorsDBApi.py">
+      <Link>dbapi\lite3\CoNarratorsDBApi.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\DatesDBApi.py">
-      <Link>dbapi\mssql\DatesDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\lite3\NarratorDBApi.py">
+      <Link>dbapi\lite3\NarratorDBApi.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\LookupDBApi.py">
-      <Link>dbapi\mssql\LookupDBApi.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\NarratorDBApi.py">
-      <Link>dbapi\mssql\NarratorDBApi.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\SeriesDBApi.py">
-      <Link>dbapi\mssql\SeriesDBApi.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_MESSAGE.py">
-      <Link>dbapi\DB_MESSAGE.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\MessageDBApi.py">
-      <Link>dbapi\mssql\MessageDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\lite3\SeriesDBApi.py">
+      <Link>dbapi\lite3\SeriesDBApi.py</Link>
     </Compile>
     <Compile Include="..\..\..\..\pytools\dbapi_annotate.py">
       <Link>support\dbapi_annotate.py</Link>
@@ -87,19 +68,13 @@
     <Compile Include="..\..\..\..\pytools\dbapi_util.py">
       <Link>support\dbapi_util.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\walker.py">
-      <Link>walker.py</Link>
-    </Compile>
     <Compile Include="audio.py" />
-    <Compile Include="lookup_mssql.py" />
+    <Compile Include="audio_lite3.py" />
     <Compile Include="pyasdata\aaxlist.py" />
-    <Compile Include="struct_test.py">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dbapi\" />
-    <Folder Include="dbapi\mssql\" />
+    <Folder Include="dbapi\lite3\" />
     <Folder Include="support\" />
     <Folder Include="pyasdata\" />
   </ItemGroup>

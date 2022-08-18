@@ -163,3 +163,5 @@ message (status "${SQL_MSSSH}")
 message (status "${CPP_MSSSH}")
 
 add_subdirectory (check_sh)
+
+set_property(TARGET azure_sql_build  PROPERTY FOLDER "azure/sql/build")

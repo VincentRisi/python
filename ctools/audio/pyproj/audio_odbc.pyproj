@@ -2,20 +2,20 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{bece4684-1c05-4a18-9bc5-04a409d7239d}</ProjectGuid>
+    <ProjectGuid>{f727770c-efe6-4aba-828b-572ef7431a34}</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>audio_lite3.py</StartupFile>
-    <SearchPath>pyasdata</SearchPath>
+    <StartupFile>audio_odbc.py</StartupFile>
+    <SearchPath>D:\vlab\python\ctools\audio\pyproj\pyasdata</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>audio_lite3</Name>
+    <Name>audio_odbc</Name>
     <RootNamespace>audio</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
     <InterpreterId>Global|PythonCore|3.10</InterpreterId>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
-    <CommandLineArguments>-a c:\vlab\python\ctools\audio\utility\audio -d c:\vlab\python\ctools\audio\utility\audio\books.db -g C:\vlab\python\jtools\out\audio\sql\py -p C:\vlab\python\pytools -t c:\vlab\python\jtools\out\audio\sql\ddl\mssql\audio.sql</CommandLineArguments>
+    <CommandLineArguments>-d "ODBC Driver 17 for SQL Server" -D mcpe -s "192.168.1.102" -u sa -p "WelcomeVR@0195"</CommandLineArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,23 +44,23 @@
     <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_SERIES.py">
       <Link>dbapi\DB_SERIES.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\lite3\AuthorDBApi.py">
-      <Link>dbapi\lite3\AuthorDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\odbc\AuthorDBApi.py">
+      <Link>dbapi\odbc\AuthorDBApi.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\lite3\BookDBApi.py">
-      <Link>dbapi\lite3\BookDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\odbc\BookDBApi.py">
+      <Link>dbapi\odbc\BookDBApi.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\lite3\CoAuthorsDBApi.py">
-      <Link>dbapi\lite3\CoAuthorsDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\odbc\CoAuthorsDBApi.py">
+      <Link>dbapi\odbc\CoAuthorsDBApi.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\lite3\CoNarratorsDBApi.py">
-      <Link>dbapi\lite3\CoNarratorsDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\odbc\CoNarratorsDBApi.py">
+      <Link>dbapi\odbc\CoNarratorsDBApi.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\lite3\NarratorDBApi.py">
-      <Link>dbapi\lite3\NarratorDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\odbc\NarratorDBApi.py">
+      <Link>dbapi\odbc\NarratorDBApi.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\lite3\SeriesDBApi.py">
-      <Link>dbapi\lite3\SeriesDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\odbc\SeriesDBApi.py">
+      <Link>dbapi\odbc\SeriesDBApi.py</Link>
     </Compile>
     <Compile Include="..\..\..\..\pytools\dbapi_annotate.py">
       <Link>support\dbapi_annotate.py</Link>
@@ -69,12 +69,12 @@
       <Link>support\dbapi_util.py</Link>
     </Compile>
     <Compile Include="audio.py" />
-    <Compile Include="audio_lite3.py" />
+    <Compile Include="audio_odbc.py" />
     <Compile Include="pyasdata\aaxlist.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dbapi\" />
-    <Folder Include="dbapi\lite3\" />
+    <Folder Include="dbapi\odbc\" />
     <Folder Include="support\" />
     <Folder Include="pyasdata\" />
   </ItemGroup>

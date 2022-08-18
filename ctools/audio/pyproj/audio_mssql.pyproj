@@ -2,19 +2,20 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{e2c32c35-5b27-49f9-b5b5-215ac6b477f6}</ProjectGuid>
+    <ProjectGuid>{8edc08ba-9ee2-4c29-8740-4858d1d30545}</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>audio_mysql.py</StartupFile>
-    <SearchPath>D:\vlab\python\ctools\audio\utility\audio\pyasdata</SearchPath>
+    <StartupFile>audio_mssql.py</StartupFile>
+    <SearchPath>D:\vlab\python\ctools\audio\pyproj\pyasdata</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>audio_mysql</Name>
+    <Name>audio_mssql</Name>
     <RootNamespace>audio</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
     <InterpreterId>Global|PythonCore|3.10</InterpreterId>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+    <CommandLineArguments>-s 192.168.1.102 -u sa -P WelcomeVR@0195</CommandLineArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,29 +38,41 @@
     <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_CONARRATORS.py">
       <Link>dbapi\DB_CONARRATORS.py</Link>
     </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_COVER.py">
+      <Link>dbapi\DB_COVER.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_LOOKUP.py">
+      <Link>dbapi\DB_LOOKUP.py</Link>
+    </Compile>
     <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_NARRATOR.py">
       <Link>dbapi\DB_NARRATOR.py</Link>
     </Compile>
     <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_SERIES.py">
       <Link>dbapi\DB_SERIES.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mysql\AuthorDBApi.py">
-      <Link>dbapi\mysql\AuthorDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\AuthorDBApi.py">
+      <Link>dbapi\mssql\AuthorDBApi.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mysql\BookDBApi.py">
-      <Link>dbapi\mysql\BookDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\BookDBApi.py">
+      <Link>dbapi\mssql\BookDBApi.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mysql\CoAuthorsDBApi.py">
-      <Link>dbapi\mysql\CoAuthorsDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\CoAuthorsDBApi.py">
+      <Link>dbapi\mssql\CoAuthorsDBApi.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mysql\CoNarratorsDBApi.py">
-      <Link>dbapi\mysql\CoNarratorsDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\CoNarratorsDBApi.py">
+      <Link>dbapi\mssql\CoNarratorsDBApi.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mysql\NarratorDBApi.py">
-      <Link>dbapi\mysql\NarratorDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\CoverDBApi.py">
+      <Link>dbapi\mssql\CoverDBApi.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mysql\SeriesDBApi.py">
-      <Link>dbapi\mysql\SeriesDBApi.py</Link>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\LookupDBApi.py">
+      <Link>dbapi\mssql\LookupDBApi.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\NarratorDBApi.py">
+      <Link>dbapi\mssql\NarratorDBApi.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\SeriesDBApi.py">
+      <Link>dbapi\mssql\SeriesDBApi.py</Link>
     </Compile>
     <Compile Include="..\..\..\..\pytools\dbapi_annotate.py">
       <Link>support\dbapi_annotate.py</Link>
@@ -68,12 +81,13 @@
       <Link>support\dbapi_util.py</Link>
     </Compile>
     <Compile Include="audio.py" />
-    <Compile Include="audio_mysql.py" />
+    <Compile Include="audio_mssql.py" />
     <Compile Include="pyasdata\aaxlist.py" />
+    <Compile Include="pyasdata\ids_list.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dbapi\" />
-    <Folder Include="dbapi\mysql\" />
+    <Folder Include="dbapi\mssql\" />
     <Folder Include="support\" />
     <Folder Include="pyasdata\" />
   </ItemGroup>

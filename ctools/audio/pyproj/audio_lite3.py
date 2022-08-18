@@ -1,7 +1,7 @@
 import argparse
 arg_parser = argparse.ArgumentParser()
-arg_parser.add_argument('-a', '--audio_dir',   type=str, default=r'C:\vlab\python\ctools\audio\utility\audio')
-arg_parser.add_argument('-d', '--audio_db',    type=str, default=r'C:\vlab\python\ctools\audio\utility\audio\books.db')
+arg_parser.add_argument('-a', '--audio_dir',   type=str, default=r'C:\vlab\python\ctools\audio\pyproj')
+arg_parser.add_argument('-d', '--audio_db',    type=str, default=r'C:\vlab\python\ctools\audio\pyproj\books.db')
 arg_parser.add_argument('-g', '--genned_dir',  type=str, default=r'C:\vlab\python\jtools\out\audio\sql\py')
 arg_parser.add_argument('-p', '--pytools_dir', type=str, default=r'C:\vlab\python\pytools')
 arg_parser.add_argument('-t', '--table_sqldb', type=str, default=r'C:\vlab\python\jtools\out\audio\sql\ddl\mssql\audio.sql')
