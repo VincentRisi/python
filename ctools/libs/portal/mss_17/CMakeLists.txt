@@ -6,9 +6,9 @@ include_directories (
   )
 
 if (WIN32)
-  include_directories (${LIBS_SOURCE_DIR}/portal/mss_17/win/include)
+  include_directories (${LIBS_SOURCE_DIR}/portal/mss_17/mss/win/include)
 else ()
-  include_directories (${LIBS_SOURCE_DIR}/portal/mss_17/include)
+  include_directories (${LIBS_SOURCE_DIR}/portal/mss_17/mss/include)
 endif ()
 
 add_library (mss_17

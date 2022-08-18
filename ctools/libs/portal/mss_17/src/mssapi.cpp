@@ -1842,7 +1842,7 @@ JP_INTERNAL(void) JP_Sequence(TJQuery& qry, int32 &sequence, const char *sequenc
   };
   TJQuery q(qry.conn);
   q.command = TJAlloc::newChar(128);
-  strcpy(q.command, "SELECT NEXTVAL FOR ");
+  strcpy(q.command, "SELECT NEXT VALUE FOR ");
   strcat(q.command, sequencer);
   q.Open(q.command, NO_BINDS, NO_DEFINES, NO_ROWS, ROW_SIZE);
   q.Define(0, (int32*) (q.data));
@@ -1862,7 +1862,7 @@ JP_INTERNAL(void) JP_BigSequence(TJQuery& qry, int64 &sequence, const char *sequ
   };
   TJQuery q(qry.conn);
   q.command = TJAlloc::newChar(128);
-  strcpy(q.command, "SELECT NEXTVAL FOR ");
+  strcpy(q.command, "SELECT NEXT VALUE FOR ");
   strcat(q.command, sequencer);
   q.Open(q.command, NO_BINDS, NO_DEFINES, NO_ROWS, ROW_SIZE);
   q.Define(0, (int64*) (q.data));

@@ -428,7 +428,7 @@ public class MSSqlCCode extends Generator
       if (field.isSequence == true)
       {
         isReturning = true;
-        sequencer = "nextval for " + proc.table.tableName() + "seq";
+        sequencer = "next value for " + proc.table.tableName() + "seq";
         output = format("output Inserted.%s ", field.name);
         size += sequencer.length();
         size += output.length();
@@ -437,7 +437,7 @@ public class MSSqlCCode extends Generator
     if (proc.isMultipleInput == true && proc.isInsert == true)
     {
       isBulkSequence = true;
-      sequencer = "nextval for " + proc.table.tableName() + "seq ";
+      sequencer = "next value for " + proc.table.tableName() + "seq ";
       size += sequencer.length();
     }
     for (int i = 0; i < lines.size(); i++)

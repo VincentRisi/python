@@ -1,7 +1,4 @@
 project (cpp)
 
-add_executable(main_props main_props.cpp)
-set_property(TARGET main_props PROPERTY FOLDER "audio/cpp/main_props")
-
-add_executable(main_times main_times.cpp)
-set_property(TARGET main_times PROPERTY FOLDER "audio/cpp/main_times")
+add_subdirectory (aax_utilities)
+add_subdirectory (mssql_tests)

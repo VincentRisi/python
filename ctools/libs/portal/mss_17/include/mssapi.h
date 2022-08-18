@@ -386,7 +386,7 @@ struct JP_XML_FORMAT
 	}
 	JP_XML_FORMAT(int64 value)
 	{
-		sprintf(result, "%" PRId64, value);
+    sprintf(result, "%lld" /*PRId64*/, value);
 	}
 	JP_XML_FORMAT(double value)
 	{

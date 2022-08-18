@@ -163,7 +163,7 @@ struct JP_CHAR
 struct TCliApiException : public xDBException
 {
   TCliApiException(int aErrorNo, char const* state, char const* allow, char const* error, char const* aFile, int aLine)
-  : xDBException(aFile, aLine, "CliApiException", aErrorNo, error)
+  : xDBException(aFile, aLine, "CliApiException", aErrorNo, (char*)error)
   {
     osErr << "STATE (" << state << ")"  << endl;
     osErr << "ALLOW (" << allow << ")"  << endl;

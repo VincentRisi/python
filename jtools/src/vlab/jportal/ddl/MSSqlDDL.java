@@ -169,9 +169,9 @@ public class MSSqlDDL extends Generator
       writeln();
       writeln("CREATE SEQUENCE " + tableOwner + table.name + "Seq");
       if (bigSequence == true)
-        writeln("  AS BIGINT");
+        writeln("  AS BIGINT START WITH 0 INCREMENT BY 1");
       else
-        writeln("  AS INT");
+        writeln("  AS INT START WITH 0 INCREMENT BY 1");
       writeln("GO");
       writeln();
       if (tableOwner.length() > 0)

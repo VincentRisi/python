@@ -22,8 +22,15 @@ sys.path.append(support_dir)
 sys.path.append(dbapi_dir)
 sys.path.append(odbc_dir)
 import pyodbc
-print (args.driver,args.server, args.database, args.user, args.password)
-conn = pyodbc.connect(driver=args.driver, server=args.server, database=args.database, uid=args.user, pwd=args.password)
+connstr = f'''\
+Driver={args.driver};\
+Server={args.server};\
+Database={args.database};\
+UID={args.user};\
+PWD={args.password};\
+'''
+print (connstr)
+conn = pyodbc.connect(connstr)
 cursor = conn.cursor()
 cursor.execute('use mcpe')
 from DB_LOOKUP import DBLookupSelectList
