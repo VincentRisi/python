@@ -1,6 +1,7 @@
 from sqlite3 import DatabaseError
 import sys, os, os.path, re
 from aaxlist import books
+from math import ceil
 class _obj: pass
 import dbapi_util as util
 
@@ -108,20 +109,30 @@ def add_books():
       rec.released = book.released
     else:
       rec.released = None
-    ucover = util.a85decode(book.cover)
-    zcover = util.compress(ucover)
-    crec = DBCover(conn)
-    crec.bookId = rec.bookId
-    crec.coverLen = len(ucover)
-    crec.cover = zcover
-    print (rec.bookId, rec.bookName, rec.authorId)
     try:
+      print (rec.bookId, rec.bookName, rec.authorId)
       rec.execInsert()
-      crec.execInsert()
-      count += 1
-      if count > 100:
-        count = 0
-        conn.commit()
+      ucover = util.a85decode(book.cover)
+      coverLen = len(ucover)
+      noParts = ceil(coverLen / 64000)
+      partNo = 0
+      while noParts > 0:
+        partNo += 1
+        noParts -= 1
+        part = ucover[:64000]
+        ucover = ucover[64000:]
+        zcover = util.compress(part)
+        crec = DBCover(conn)
+        crec.bookId = rec.bookId
+        crec.partNo = partNo
+        crec.coverLen = coverLen
+        crec.cover = zcover
+        crec.status = 0
+        crec.execInsert()
+        count += 1
+        if count > 100:
+          count = 0
+          conn.commit()
     except Exception as error:
       print (error)
       print ('ouch', rec.bookId, repr(rec.bookName), rec.authorId)
@@ -246,14 +257,16 @@ def do_author(data):
   return return_id
 
 def do_book(book):
-  data = book.album.replace(' and ',',').replace(' ','').replace('.','')
+  data = book.album.replace(' and ',',').replace(' ','').replace('.','').replace(':','')
   book.id = make_id(data)
-  if hasattr(book, 'series'):
-    book.series_id = make_id(book.series)
-    if not book.series_id in series:
-      s = _obj()
-      series[book.series_id] = s
-      s.series = book.series
+  if hasattr(book, 'series') == False:
+    book.series = data
+    book.book = 'Single'
+  book.series_id = make_id(book.series)
+  if not book.series_id in series:
+    s = _obj()
+    series[book.series_id] = s
+    s.series = book.series
   
 def process(book):
   ids = do_author(book.author)
@@ -269,7 +282,9 @@ def set_connect(_conn):
   global conn
   conn = _conn
 
+import time
 def main(pyasdata_dir):
+  start_time = time.time()
   global conn
   #print (dir(conn))
   if os.path.exists(rf'{pyasdata_dir}\ids_list.txt'):
@@ -302,6 +317,8 @@ def main(pyasdata_dir):
   add_books()
   add_coauthors()
   add_conarrators()
+  end_time = time.time()
+  print (f'seconds:{end_time - start_time}')
   with open(rf'{pyasdata_dir}\ids_list.txt', 'wt') as ofile:
     for key in sorted(ids):
       data = repr(ids[key]).replace("['",'').replace("']",'').replace("', '",'|')

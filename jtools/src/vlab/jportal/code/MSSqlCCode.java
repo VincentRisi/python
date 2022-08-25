@@ -84,6 +84,7 @@ public class MSSqlCCode extends Generator
         generateStdOutputRec(table);
       generateUserOutputRecs(table);
       generateInterface(table);
+      writeln(format("#include \"%s_snips.h\"", table.useName().toLowerCase()));
       writeln("#endif");
       writer.flush();
     }
@@ -648,13 +649,14 @@ public class MSSqlCCode extends Generator
           writeln(1, ");");
         }
     }
+    writeln(1, "void Close() {q_.Close();}");
     if (proc.outputs.size() > 0)
     {
       writeln(1, "bool Fetch();");
       if (proc.isSingle)
       {
-        writeln(1, "bool ReadOne() {Exec();return Fetch();}");
-        writeln(1, "bool ReadOne(" + dataStruct + "& Rec) {*DRec() = Rec;Exec();return Fetch();}");
+        writeln(1, "bool ReadOne() {Exec();bool result = Fetch(); Close(); return result;}");
+        writeln(1, "bool ReadOne(" + dataStruct + "& Rec) {*DRec() = Rec;Exec();bool result = Fetch(); Close(); return result;;}");
       }
     }
     writeln(1, "T" + table.useName() + proc.upperFirst() + "(TJConnector &conn, char *aFile=__FILE__, long aLine=__LINE__)");

@@ -27,3 +27,4 @@ cursor.execute('use audio')
 from audio import *
 set_connect(conn)
 main(pyasdata_dir)
+#seconds:188.450932264328

@@ -1,10 +1,17 @@
 import argparse
+x = '''
+-a C:\vlab\python\ctools\audio\pyproj 
+-d C:\vlab\python\ctools\audio\pyproj\books.db 
+-g C:\vlab\python\jtools\out\audio\sql\py 
+-p C:\vlab\python\pytools 
+-t c:\vlab\python\jtools\out\audio\sql\ddl\lite3\audio.sql
+'''
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument('-a', '--audio_dir',   type=str, default=r'C:\vlab\python\ctools\audio\pyproj')
 arg_parser.add_argument('-d', '--audio_db',    type=str, default=r'C:\vlab\python\ctools\audio\pyproj\books.db')
 arg_parser.add_argument('-g', '--genned_dir',  type=str, default=r'C:\vlab\python\jtools\out\audio\sql\py')
 arg_parser.add_argument('-p', '--pytools_dir', type=str, default=r'C:\vlab\python\pytools')
-arg_parser.add_argument('-t', '--table_sqldb', type=str, default=r'C:\vlab\python\jtools\out\audio\sql\ddl\mssql\audio.sql')
+arg_parser.add_argument('-t', '--table_sqldb', type=str, default=r'C:\vlab\python\jtools\out\audio\sql\ddl\lite3\audio.sql')
 args = arg_parser.parse_args()
 
 audio_dir = args.audio_dir
@@ -31,8 +38,8 @@ def run(conn, command, remove=''):
   cursor.execute(command)
 
 def make_tables():
-  table_sql = (args.table_sql)
-  conn = sqlite3.connect(args.audio.db)
+  table_sql = args.table_sqldb
+  conn = sqlite3.connect(args.audio_db)
   with open(table_sql, 'rt') as ifile: lines = ifile.readlines()
   NONE, START, NEXT = range(3) 
   state = START
@@ -57,4 +64,6 @@ def make_tables():
         run (conn, command)
         state = NONE
 
+#make_tables()
 main(pyasdata_dir)
+#seconds:102.00064086914062

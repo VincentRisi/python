@@ -626,6 +626,7 @@ void TJQuery::Define(int32 defineNo, TIMESTAMP_STRUCT *data)
 
 void TJQuery::Exec()
 {
+  ///if (isOpen) JP_Close(*this);
   conn.ThrowOnError(JP_Exec(*this), file, line);
 }
 
@@ -633,7 +634,9 @@ bool TJQuery::Fetch()
 {
   SQLRETURN result = JP_Fetch(*this);
   if (result == SQL_NO_DATA_FOUND)
+  {
     return false;
+  }
   conn.ThrowOnError(result, file, line);
   return true;
 }
@@ -1023,19 +1026,21 @@ JP_EXTERNAL(SQLRETURN) JP_Error(TJConnector &conn, char *Msg, int32 MsgLen)
   return conn.result;
 }
 
-JP_INTERNAL(SQLRETURN) JP_Open(TJQuery &qry, const char* Query)
+JP_INTERNAL(SQLRETURN) JP_Open(TJQuery& qry, const char* Query)
 {
+  if (qry.isOpen)
+    SQLFreeHandle(SQL_HANDLE_STMT, qry.cliStmt);
+  qry.conn.ForDiagnosis(SQL_HANDLE_DBC, qry.conn.cliDbc);
+  qry.conn.result = SQLAllocHandle(SQL_HANDLE_STMT, qry.conn.cliDbc, &qry.cliStmt);
+  if (qry.conn.Allow(qry.conn.result) == true)
+  {
+    qry.conn.ForDiagnosis(SQL_HANDLE_STMT, qry.cliStmt);
+    qry.conn.result = SQLPrepare(qry.cliStmt
+      , JP_CHAR(Query).data
+      , SQL_NTS);
+  }
   if (qry.isOpen == 0)
   {
-    qry.conn.ForDiagnosis(SQL_HANDLE_DBC, qry.conn.cliDbc);
-    qry.conn.result = SQLAllocHandle(SQL_HANDLE_STMT, qry.conn.cliDbc, &qry.cliStmt);
-    if (qry.conn.Allow(qry.conn.result) == true)
-    {
-      qry.conn.ForDiagnosis(SQL_HANDLE_STMT, qry.cliStmt);
-      qry.conn.result = SQLPrepare(qry.cliStmt
-        , JP_CHAR(Query).data
-        , SQL_NTS);
-    }
     if (qry.conn.Allow(qry.conn.result) == true)
       qry.isOpen = 1;
   }
@@ -1099,12 +1104,12 @@ JP_INTERNAL(SQLRETURN) JP_Fetch(TJQuery &qry)
     if (qry.rowsDone > 0)
       qry.Clear();
     qry.conn.result = SQLFetch(qry.cliStmt);
+    if (qry.conn.result == SQL_NO_DATA)
+      return SQL_NO_DATA_FOUND;
     if (qry.conn.result != SQL_SUCCESS && qry.conn.result != SQL_SUCCESS_WITH_INFO)
     {
       qry.error = _Result(qry);
-      //if (qry.error != SQL_NO_DATA_FOUND)
-        return qry.error;
-      //qry.conn.result = SQL_SUCCESS;
+      return qry.error;
     }
     qry.totalRowsRead += qry.rowsRead;
     qry.rowsIndex = 0;
@@ -1115,7 +1120,10 @@ JP_INTERNAL(SQLRETURN) JP_Fetch(TJQuery &qry)
     qry.rowsIndex++;
   qry.rowsDone++;
   if (qry.conn.result == SQL_NO_DATA_FOUND)
-	    qry.conn.result = SQL_SUCCESS;
+  {
+    qry.conn.result = SQL_SUCCESS;
+    qry.Close();
+  }
   return _Result(qry);
 }
 

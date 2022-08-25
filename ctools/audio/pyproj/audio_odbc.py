@@ -32,19 +32,8 @@ PWD={args.password};\
 print (connstr)
 conn = pyodbc.connect(connstr)
 cursor = conn.cursor()
-cursor.execute('use mcpe')
-from DB_LOOKUP import DBLookupSelectList
-from DB_DATES  import DBDatesGet
-from DatesDBApi import DatesDateType
-import dbapi_util
-selectList = DBLookupSelectList(conn)
-recs = selectList.execSelectList('ACCOUNT SYSTEM')
-for rec in recs:
-    print ('Name: ', repr(rec.Name))
-    print ('Refs: ', repr(rec.Refs))
-    print ('Value:', repr(rec.Value))
-getter = DBDatesGet(conn)
-result = getter.readGet(DatesDateType['RunDate'])
-x = dbapi_util.to_char14(getter.Value)
-print (x)
-pass
+cursor.execute('use audio')
+from audio import *
+set_connect(conn)
+main(pyasdata_dir)
+#seconds:190.55233788490295

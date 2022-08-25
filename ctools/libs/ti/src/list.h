@@ -1,7 +1,6 @@
 #ifndef _LIST_H_
-#define _LIST_H_ "$Revision: 92 $ $Date: 2005-04-21 11:34:40 +0200 (Thu, 21 Apr 2005) $"
-#include "versions.h"
-HEADER_VERSION(_LIST_H_);
+#define _LIST_H_
+#include "machine.h"
 
 // Index and Start initialized to 0
 // Start is a pointer to type T (a struct so that assignment is defined)
@@ -42,4 +41,26 @@ void SnipAddList(TYPE * &List, INDEX & Index, const TYPE & Rec, const INDEX Delt
     }
     List[Index++] = Rec;
 }
+
+template <class T>
+struct autoList
+{
+  int noOf;
+  T* outRecs;
+  autoList()
+  {
+    noOf = 0;
+    outRecs = 0;
+  }
+  ~autoList()
+  {
+    if (noOf > 0)
+    {
+      noOf = 0;
+      free(outRecs);
+      outRecs = 0;
+    }
+  }
+};
+
 #endif

@@ -5,15 +5,17 @@ SERVER   audio
 //schema   audio
 
 DECLARE
-    _Id   char 10
-    _Book char 16
-    _Name char 120
-    _List char 250
-    _Des  char 4000
-    _Cmt  char 500
-    _No   short
-    _Len  int
-    _Date char 20
+    _Id     char 10
+    _Book   char 16
+    _Name   char 120
+    _List   char 250
+    _Des    char 4000
+    _Cmt    char 500
+    _No     short
+    _Len    int
+    _Date   char 20
+    _Status int
+    _Cover  blob  (65500)
 
 TABLE Author
     authorId    =(_Id)
@@ -94,10 +96,12 @@ ENDCODE
 
 TABLE Cover
     bookId      =(_Id)
+    partNo      =(_No)
     coverLen    =(_Len)
-    cover       blob  (128000)
+    cover       =(_Cover)
+    status      =(_Status)
 
-KEY  CoverPK PRIMARY bookId
+KEY  CoverPK PRIMARY bookId partNo
 LINK Book bookId
 
 PROC Insert upsert
@@ -106,6 +110,53 @@ PROC SelectOne
 PROC DeleteOne
 PROC Exists
 PROC Merge
+
+PROC SelectUnPosted
+output (2000)
+    bookId     =(_Id)
+    authorName =(_Name)
+    bookName   =(_Name)
+    partNo     =(_No)
+    coverLen   =(_Len)
+sqlcode
+ Select Cover.bookId, isnull(authorName,''), isnull(bookName,''), partNo, coverLen
+   from Cover, Book, Author
+  where Status = 0
+  and Book.bookId = Cover.bookId
+  and Author.authorId = Book.authorId
+  order by authorName, bookName, partNo
+endcode
+
+proc GetCover
+input
+  bookId   =(_Id)
+output (10)
+  status   =(_Status)
+  partNo   =(_No)
+  cover    =(_Cover)
+sqlcode
+  select status, partNo, cover from Cover where bookId = :bookId order by partNo
+endcode
+
+proc GetSeries
+input
+  seriesId =(_Id)
+output (single)
+  seriesName =(_Name)
+  bookSeq    =(_Book)
+sqlcode
+  select seriesName, bookSeq
+    from Series, Book
+   where Series.seriesId = :seriesId
+     and Book.seriesId = Series.seriesId
+endcode
+
+PROC UpdatePosted
+input
+  bookId =(_Id)
+sqlcode
+  update Cover set status=1 where bookId = :bookId
+endcode
 
 TABLE CoAuthors
     bookId    =(_Id)

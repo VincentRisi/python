@@ -15,7 +15,7 @@
     <InterpreterId>Global|PythonCore|3.10</InterpreterId>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
-    <CommandLineArguments>-a C:\vlab\python\ctools\audio\pyproj -d C:\vlab\python\ctools\audio\pyproj\books.db -g C:\vlab\python\jtools\out\audio\sql\py -p C:\vlab\python\pytools -t c:\vlab\python\jtools\out\audio\sql\ddl\mssql\audio.sql</CommandLineArguments>
+    <CommandLineArguments>-a C:\vlab\python\ctools\audio\pyproj -d C:\vlab\python\ctools\audio\pyproj\books.db -g C:\vlab\python\jtools\out\audio\sql\py -p C:\vlab\python\pytools -t c:\vlab\python\jtools\out\audio\sql\ddl\lite3\audio.sql</CommandLineArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
