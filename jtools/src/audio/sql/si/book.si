@@ -8,6 +8,7 @@ DECLARE
     _Id     char 10
     _Book   char 16
     _Name   char 120
+    _BName  char 250
     _List   char 250
     _Des    char 4000
     _Cmt    char 500
@@ -57,7 +58,7 @@ PROC Merge
 
 TABLE Book
     bookId      =(_Id)
-    bookName    =(_Name)
+    bookName    =(_BName)
     authorId    =(_Id)
     narratorId  =(_Id)
     seriesId    =(_Id) null
@@ -85,7 +86,7 @@ PROC ByAuthor
 INPUT
   authorId =(_Id)
 OUTPUT
-  bookName =(_Name)
+  bookName =(_BName)
   seriesId =(_Id)
   bookSeq  =(_Book)
 SQLCODE
@@ -115,7 +116,7 @@ PROC SelectUnPosted
 output (2000)
     bookId     =(_Id)
     authorName =(_Name)
-    bookName   =(_Name)
+    bookName   =(_BName)
     partNo     =(_No)
     coverLen   =(_Len)
 sqlcode

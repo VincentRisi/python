@@ -84,7 +84,7 @@ public class MSSqlCCode extends Generator
         generateStdOutputRec(table);
       generateUserOutputRecs(table);
       generateInterface(table);
-      writeln(format("#include \"%s_snips.h\"", table.useName().toLowerCase()));
+      //writeln(format("#include \"%s_snips.h\"", table.useName().toLowerCase()));
       writeln("#endif");
       writer.flush();
     }

@@ -1,4 +1,4 @@
-from sqlite3 import DatabaseError
+#from sqlite3 import DatabaseError
 import sys, os, os.path, re
 from aaxlist import books
 from math import ceil
@@ -18,6 +18,7 @@ narrators = dict()
 series = dict()
 coauthors = list()
 conarrators = list()
+filenames = dict()
 ids = dict()
 
 def make_list(data):
@@ -229,7 +230,14 @@ def do_narrator(data):
       narrators[id] = narrator
     return return_id
 
-def do_author(data):
+def partsof(filename):
+  filename = filename.replace('Series','').replace('FREE','')
+  m = re.search('(.+)(Book)s?([0-9]+\.|-?[0-9]*)(.*)', filename)
+  if m:
+      filename = f'{m.group(1)}|{m.group(2)}={m.group(3)}|{m.group(4)}'
+  return filename
+
+def do_author(data, filename):
   data = data.replace(', and more','')
   n = data.find(' and ')
   if n > 0:
@@ -241,9 +249,15 @@ def do_author(data):
   arr = data.split(',')
   return_id = list()
   extras = list()
-  for author in arr:
+  for i, author in enumerate(arr):
     author, extra = get_extra(author)
     id = make_id(author)
+    if i == 0:
+      if not id in filenames:
+        filenames[id] = [filename]
+      else:
+        filenames[id].append(filename)
+    print (f'{id}|{partsof(filename)}')
     return_id.append(id)
     if not id in authors:
       a = _obj() 
@@ -260,7 +274,7 @@ def do_book(book):
   data = book.album.replace(' and ',',').replace(' ','').replace('.','').replace(':','')
   book.id = make_id(data)
   if hasattr(book, 'series') == False:
-    book.series = data
+    book.series = 'NotOne'
     book.book = 'Single'
   book.series_id = make_id(book.series)
   if not book.series_id in series:
@@ -269,13 +283,15 @@ def do_book(book):
     s.series = book.series
   
 def process(book):
-  ids = do_author(book.author)
+  ids = do_author(book.author, book.filename)
   book.authors = ids
   if hasattr(book, 'narrator'):
     ids = do_narrator(book.narrator)
   else:
     ids = do_narrator('Audible')
   book.narrators = ids
+  
+def process2(book):
   do_book(book)
 
 def set_connect(_conn):
@@ -296,21 +312,25 @@ def main(pyasdata_dir):
   for bk in books:
     book = books[bk]
     process(book)
+  return
+  for bk in books:
+    book = books[bk]
+    process2(book)
     if len(book.authors) > 1:
       for i, a in enumerate(book.authors):
         coauthors.append([book.id,a,i])
     if len(book.narrators) > 1:
       for i, n in enumerate(book.narrators):
         conarrators.append([book.id,n,i])
-  for au in sorted(authors):
-    author = authors[au]
-    print (au, author.author, author.extra)
-  for nr in sorted(narrators):
-    narrator = narrators[nr]
-    print (nr, narrator)
-  for ss in sorted(series):
-    obj = series[ss]
-    print (ss, obj.series)
+  #for au in sorted(authors):
+  #  author = authors[au]
+  #  print (au, author.author, author.extra)
+  #for nr in sorted(narrators):
+  #  narrator = narrators[nr]
+  #  print (nr, narrator)
+  #for ss in sorted(series):
+  #  obj = series[ss]
+  #  print (ss, obj.series)
   add_authors()
   add_narrators()
   add_series()
