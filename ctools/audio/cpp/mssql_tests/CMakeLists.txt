@@ -4,7 +4,7 @@ set (MSSSH_DIR ${JTOOLS_DIR}/out/audio/sql/msssh)
 
 set (source
   ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/main.h
-  ${MSSSH_DIR}/cover.cpp ${MSSSH_DIR}/cover.sh ${MSSSH_DIR}/cover_snips.h
+  #${MSSSH_DIR}/cover.cpp ${MSSSH_DIR}/cover.sh ${MSSSH_DIR}/cover_snips.h
   ${MSSSH_DIR}/message.cpp ${MSSSH_DIR}/message.sh ${MSSSH_DIR}/message_snips.h
   ${MSSSH_DIR}/reply.cpp ${MSSSH_DIR}/reply.sh ${MSSSH_DIR}/reply_snips.h
   ${MSSSH_DIR}/response.cpp ${MSSSH_DIR}/response.sh ${MSSSH_DIR}/response_snips.h

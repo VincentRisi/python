@@ -1104,8 +1104,6 @@ JP_INTERNAL(SQLRETURN) JP_Fetch(TJQuery &qry)
     if (qry.rowsDone > 0)
       qry.Clear();
     qry.conn.result = SQLFetch(qry.cliStmt);
-    if (qry.conn.result == SQL_NO_DATA)
-      return SQL_NO_DATA_FOUND;
     if (qry.conn.result != SQL_SUCCESS && qry.conn.result != SQL_SUCCESS_WITH_INFO)
     {
       qry.error = _Result(qry);
@@ -1120,10 +1118,7 @@ JP_INTERNAL(SQLRETURN) JP_Fetch(TJQuery &qry)
     qry.rowsIndex++;
   qry.rowsDone++;
   if (qry.conn.result == SQL_NO_DATA_FOUND)
-  {
     qry.conn.result = SQL_SUCCESS;
-    qry.Close();
-  }
   return _Result(qry);
 }
 

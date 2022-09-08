@@ -20,3 +20,13 @@ PRIMARY
   ID
 
 PROC    Insert
+
+PROC SelectSome
+output (523)
+  Id         =
+  MessageLen =
+sqlcode
+  select Id, MessageLen
+    from Streams
+endcode
+

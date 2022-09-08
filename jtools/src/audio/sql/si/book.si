@@ -2,13 +2,13 @@ DATABASE audio
 PACKAGE  vlab.audio
 OUTPUT   audio
 SERVER   audio
-//schema   audio
 
 DECLARE
     _Id     char 10
-    _Book   char 16
     _Name   char 120
+    _AName  char 250
     _BName  char 250
+    _FName  char 250
     _List   char 250
     _Des    char 4000
     _Cmt    char 500
@@ -16,12 +16,10 @@ DECLARE
     _Len    int
     _Date   char 20
     _Status int
-    _Cover  blob  (65500)
 
 TABLE Author
     authorId    =(_Id)
     authorName  =(_Name)
-    authorExtra =(_List)
 KEY AuthorPK PRIMARY authorId
 
 PROC Insert upsert
@@ -32,157 +30,20 @@ PROC DeleteOne
 PROC Exists
 PROC Merge
 
-TABLE Narrator
-    narratorId    =(_Id)
-    narratorName  =(_Name)
-KEY NarratorPK PRIMARY narratorId
-
-PROC Insert upsert
-PROC Update
-PROC SelectOne
-PROC DeleteOne
-PROC Exists
-PROC Merge
-
-TABLE Series    
-    seriesId    =(_Id)
-    seriesName  =(_Name)
-KEY SeriesPK PRIMARY seriesId
-
-PROC Insert upsert
-PROC Update
-PROC SelectOne
-PROC DeleteOne
-PROC Exists
-PROC Merge
-
 TABLE Book
-    bookId      =(_Id)
-    bookName    =(_BName)
     authorId    =(_Id)
-    narratorId  =(_Id)
-    seriesId    =(_Id) null
-    bookSeq     =(_Book) null
-    comment     =(_Cmt) null
-    description =(_Des)
-    genre       =(_List) null
-    released    =(_Date) null
-
-KEY  BookPK PRIMARY bookId
-LINK Series DELETE CASCADE seriesID
-LINK Author DELETE CASCADE authorId
-LINK Narrator DELETE CASCADE narratorId
-
-PROC Insert upsert
-PROC Update
-PROC SelectOne
-PROC DeleteOne
-PROC Exists
-PROC Merge
-PROC DeleteSeries DeleteBy seriesId
-PROC SelectSeries SelectBy seriesId Order bookSeq Returning BookId AuthorId SeriesId bookSeq comment
-
-PROC ByAuthor
-INPUT
-  authorId =(_Id)
-OUTPUT
-  bookName =(_BName)
-  seriesId =(_Id)
-  bookSeq  =(_Book)
-SQLCODE
-  select bookName, seriesId, bookSeq from Book
-  where authorId = :authorId
-  order seriesId, bookSeq, bookName
-ENDCODE
-
-TABLE Cover
     bookId      =(_Id)
     partNo      =(_No)
-    coverLen    =(_Len)
-    cover       =(_Cover)
-    status      =(_Status)
+    bookName    =(_BName)
+    fileName    =(_FName)
+    album       =(_AName)
+    narrator    =(_List)
+    comment     =(_Cmt) null
+    description =(_Des)
 
-KEY  CoverPK PRIMARY bookId partNo
-LINK Book bookId
-
-PROC Insert upsert
-PROC Update
-PROC SelectOne
-PROC DeleteOne
-PROC Exists
-PROC Merge
-
-PROC SelectUnPosted
-output (2000)
-    bookId     =(_Id)
-    authorName =(_Name)
-    bookName   =(_BName)
-    partNo     =(_No)
-    coverLen   =(_Len)
-sqlcode
- Select Cover.bookId, isnull(authorName,''), isnull(bookName,''), partNo, coverLen
-   from Cover, Book, Author
-  where Status = 0
-  and Book.bookId = Cover.bookId
-  and Author.authorId = Book.authorId
-  order by authorName, bookName, partNo
-endcode
-
-proc GetCover
-input
-  bookId   =(_Id)
-output (10)
-  status   =(_Status)
-  partNo   =(_No)
-  cover    =(_Cover)
-sqlcode
-  select status, partNo, cover from Cover where bookId = :bookId order by partNo
-endcode
-
-proc GetSeries
-input
-  seriesId =(_Id)
-output (single)
-  seriesName =(_Name)
-  bookSeq    =(_Book)
-sqlcode
-  select seriesName, bookSeq
-    from Series, Book
-   where Series.seriesId = :seriesId
-     and Book.seriesId = Series.seriesId
-endcode
-
-PROC UpdatePosted
-input
-  bookId =(_Id)
-sqlcode
-  update Cover set status=1 where bookId = :bookId
-endcode
-
-TABLE CoAuthors
-    bookId    =(_Id)
-    authorId  =(_Id)
-    noOf      =(_No)
-
-KEY CoAuthorsPK PRIMARY bookId authorId
-LINK Book bookId
-LINK Author authorId
-
-PROC Insert upsert
-PROC Update
-PROC SelectOne
-PROC DeleteOne
-PROC Exists
-PROC Merge
-
-TABLE CoNarrators
-    bookId     =(_Id)
-    narratorId =(_Id)
-    noOf       =(_No)
-
-KEY CoNarratorsPK PRIMARY bookId narratorId
-LINK Book bookId
-LINK Narrator narratorId
+KEY  AuthorBookPK PRIMARY authorId bookId partNo
+LINK Author DELETE CASCADE authorId
+LINK Narrator DELETE CASCADE narratorId
 
 PROC Insert upsert
 PROC Update

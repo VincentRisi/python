@@ -26,30 +26,6 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_AUTHOR.py">
-      <Link>dbapi\DB_AUTHOR.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_BOOK.py">
-      <Link>dbapi\DB_BOOK.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_COAUTHORS.py">
-      <Link>dbapi\DB_COAUTHORS.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_CONARRATORS.py">
-      <Link>dbapi\DB_CONARRATORS.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_COVER.py">
-      <Link>dbapi\DB_COVER.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_LOOKUP.py">
-      <Link>dbapi\DB_LOOKUP.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_NARRATOR.py">
-      <Link>dbapi\DB_NARRATOR.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\DB_SERIES.py">
-      <Link>dbapi\DB_SERIES.py</Link>
-    </Compile>
     <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\AuthorDBApi.py">
       <Link>dbapi\mssql\AuthorDBApi.py</Link>
     </Compile>
@@ -82,8 +58,9 @@
     </Compile>
     <Compile Include="audio.py" />
     <Compile Include="audio_mssql.py" />
-    <Compile Include="pyasdata\aaxlist.py" />
-    <Compile Include="pyasdata\ids_list.py" />
+    <Compile Include="filenames.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dbapi\" />

@@ -1,4 +1,4 @@
-#from sqlite3 import DatabaseError
+from sqlite3 import DatabaseError
 import sys, os, os.path, re
 from aaxlist import books
 from math import ceil
@@ -6,19 +6,9 @@ class _obj: pass
 import dbapi_util as util
 
 from DB_BOOK import DBBook
-from DB_COVER import DBCover
 from DB_AUTHOR import DBAuthor
-from DB_COAUTHORS import DBCoAuthors
-from DB_NARRATOR import DBNarrator
-from DB_CONARRATORS import DBCoNarrators
-from DB_SERIES import DBSeries
 
 authors = dict()
-narrators = dict()
-series = dict()
-coauthors = list()
-conarrators = list()
-filenames = dict()
 ids = dict()
 
 def make_list(data):
@@ -47,39 +37,6 @@ def add_authors():
   if count > 0:
     conn.commit()
 
-def add_narrators():
-  global conn
-  conn.rollback()
-  count = 0
-  for narratorId in narrators:
-    narratorName = narrators[narratorId]
-    rec = DBNarrator(conn)
-    print (narratorId, narratorName)
-    rec.runInsert(narratorId, narratorName)
-    count += 1
-    if count > 100:
-      count = 0
-      conn.commit()
-  if count > 0:
-    conn.commit()
-
-def add_series():
-  global conn
-  conn.rollback()
-  count = 0
-  for seriesId in series:
-    entry = series[seriesId]
-    seriesName = entry.series
-    rec = DBSeries(conn)
-    print (seriesId, seriesName)
-    rec.runInsert(seriesId, seriesName)
-    count += 1
-    if count > 100:
-      count = 0
-      conn.commit()
-  if count > 0:
-    conn.commit()
-
 def add_books():
   global conn
   conn.rollback()
@@ -91,12 +48,6 @@ def add_books():
     rec.bookName = book.name
     rec.authorId = book.authors[0]
     rec.narratorId = book.narrators[0]
-    if hasattr(book, 'series'):
-      rec.seriesId = book.series_id
-      rec.bookSeq = book.book[0:16]
-    else:
-      rec.seriesId = None
-      rec.bookSeq = None
     if hasattr(book, 'comment'):
       rec.comment = book.comment[0:500]
     else:
@@ -141,47 +92,6 @@ def add_books():
   if count > 0:
     conn.commit()
 
-def add_coauthors():
-  global conn
-  conn.rollback()
-  count = 0
-  for entry in coauthors:
-    bookId, authorId, no = entry
-    if no == 0: continue
-    rec = DBCoAuthors(conn)
-    print (bookId, authorId, no)
-    try:
-      rec.runInsert(bookId, authorId, no)
-      count += 1
-      if count > 100:
-        count = 0
-        conn.commit()
-    except:
-      print ('ouch', bookId, authorId, no)
-  if count > 0:
-    conn.commit()
-
-def add_conarrators():
-  global conn
-  conn.rollback()
-  count = 0
-  for entry in conarrators:
-    bookId, narratorId, no = entry
-    if no == 0: continue
-    rec = DBCoNarrators(conn)
-    print (bookId, narratorId, no)
-    try:
-      rec.runInsert(bookId, narratorId, no)
-      count += 1
-      if count > 100:
-        count = 0
-        conn.commit()
-    except:
-      print ('ouch', bookId, narratorId, no)
-  if count > 0:
-    conn.commit()
-
-
 def make_id(data):
   r = re.findall('([A-Z])', data)
   if len(r) > 0:
@@ -218,80 +128,18 @@ def get_extra(author):
     author = author[:n]
   return author, extra
 
-def do_narrator(data):
-  data = data.replace(', and more','')
-  data = data.replace(' and ',',').replace(' ','').replace('.','')
+def do_author(data):
   arr = data.split(',')
   return_id = list()
-  for narrator in arr:
-    id = make_id(narrator)
-    return_id.append(id)
-    if  not id in narrators:
-      narrators[id] = narrator
-    return return_id
-
-def partsof(filename):
-  filename = filename.replace('Series','').replace('FREE','')
-  m = re.search('(.+)(Book)s?([0-9]+\.|-?[0-9]*)(.*)', filename)
-  if m:
-      filename = f'{m.group(1)}|{m.group(2)}={m.group(3)}|{m.group(4)}'
-  return filename
-
-def do_author(data, filename):
-  data = data.replace(', and more','')
-  n = data.find(' and ')
-  if n > 0:
-    b = data.find('(')
-    e = data.find(')')
-    if b > 0 and e > 0 and n > b and n < e:
-      data = data.replace(' and ', ':')
-  data = data.replace(' and ',',').replace(' ','').replace('.','')
-  arr = data.split(',')
-  return_id = list()
-  extras = list()
-  for i, author in enumerate(arr):
-    author, extra = get_extra(author)
+  for author in arr:
     id = make_id(author)
-    if i == 0:
-      if not id in filenames:
-        filenames[id] = [filename]
-      else:
-        filenames[id].append(filename)
-    print (f'{id}|{partsof(filename)}')
-    return_id.append(id)
-    if not id in authors:
-      a = _obj() 
-      authors[id] = a
-      a.author = author
-      a.extra = list()
-    else:
-      a = authors[id]
-    if len(extra) > 0:
-      a.extra.append(extra)
-  return return_id
+    return id
 
 def do_book(book):
-  data = book.album.replace(' and ',',').replace(' ','').replace('.','').replace(':','')
-  book.id = make_id(data)
-  if hasattr(book, 'series') == False:
-    book.series = 'NotOne'
-    book.book = 'Single'
-  book.series_id = make_id(book.series)
-  if not book.series_id in series:
-    s = _obj()
-    series[book.series_id] = s
-    s.series = book.series
+  book.id = make_id(book.filename)
   
 def process(book):
-  ids = do_author(book.author, book.filename)
-  book.authors = ids
-  if hasattr(book, 'narrator'):
-    ids = do_narrator(book.narrator)
-  else:
-    ids = do_narrator('Audible')
-  book.narrators = ids
-  
-def process2(book):
+  authorId = do_author(book.author)
   do_book(book)
 
 def set_connect(_conn):
@@ -302,7 +150,6 @@ import time
 def main(pyasdata_dir):
   start_time = time.time()
   global conn
-  #print (dir(conn))
   if os.path.exists(rf'{pyasdata_dir}\ids_list.txt'):
     with open(rf'{pyasdata_dir}\ids_list.txt', 'rt') as ifile:
       lines=ifile.readlines()
@@ -312,31 +159,6 @@ def main(pyasdata_dir):
   for bk in books:
     book = books[bk]
     process(book)
-  return
-  for bk in books:
-    book = books[bk]
-    process2(book)
-    if len(book.authors) > 1:
-      for i, a in enumerate(book.authors):
-        coauthors.append([book.id,a,i])
-    if len(book.narrators) > 1:
-      for i, n in enumerate(book.narrators):
-        conarrators.append([book.id,n,i])
-  #for au in sorted(authors):
-  #  author = authors[au]
-  #  print (au, author.author, author.extra)
-  #for nr in sorted(narrators):
-  #  narrator = narrators[nr]
-  #  print (nr, narrator)
-  #for ss in sorted(series):
-  #  obj = series[ss]
-  #  print (ss, obj.series)
-  add_authors()
-  add_narrators()
-  add_series()
-  add_books()
-  add_coauthors()
-  add_conarrators()
   end_time = time.time()
   print (f'seconds:{end_time - start_time}')
   with open(rf'{pyasdata_dir}\ids_list.txt', 'wt') as ofile:
