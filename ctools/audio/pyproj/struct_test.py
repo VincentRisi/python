@@ -1,4 +1,7 @@
 from struct import pack, unpack, calcsize
+from array import array
+
+##xyz = array('b', 1000)
 
 lsb = pack('!LL10s',0x7f,0xacededac,b'1234567890')
 s = pack('!L10s',0xacededac,b'0987654321')

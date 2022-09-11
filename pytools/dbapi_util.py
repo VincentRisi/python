@@ -48,4 +48,6 @@ def to_char6(data, format='%H%M%S'):
     return datetime.strftime(data, format)
 
 def get_timestamp():
-    return datetime
+    now = datetime.now()
+    return now
+

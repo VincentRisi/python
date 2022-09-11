@@ -1,4 +1,4 @@
-from sqlite3 import DatabaseError
+#from sqlite3 import DatabaseError
 import sys, os, os.path, re
 from aaxlist import books
 from math import ceil

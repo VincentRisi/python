@@ -3,11 +3,16 @@ PACKAGE  putty.bulk
 OUTPUT   Message
 SERVER   PUTTY
 
+DECLARE
+  _NO   int
+  _DATA blob(8000)
+  _USID char(48)
+
 TABLE Message
   Id            Identity
-  MessageLen    int
-  MessageData   blob  (64000)
-  USId          char  (16)
+  MessageLen    =(_NO)
+  MessageData   =(_DATA)
+  USId          =(_USID)
   TMStamp       timestamp
 
 GRANT DELETE TO PUBLIC
@@ -19,7 +24,8 @@ KEY MessageKey
 PRIMARY
   Id
 
-PROC    Insert RETURNING
+PROC Insert RETURNING
+PROC SelectOne
 
 PROC SelectSome
 output (555)
@@ -30,3 +36,86 @@ sqlcode
     from Message
 endcode
 
+TABLE   Reply
+  Id            Sequence
+  MessageLen    =(_NO)
+  MessageData   =(_DATA)
+  USId          =(_USID)
+  TMStamp       timestamp
+
+GRANT DELETE TO PUBLIC
+GRANT INSERT TO PUBLIC
+GRANT SELECT TO PUBLIC
+GRANT UPDATE TO PUBLIC
+
+KEY ReplyKey
+PRIMARY
+  ID
+
+PROC    Insert returning
+PROC SelectOne
+
+PROC SelectSome
+output (555)
+  Id         =
+  MessageLen =
+sqlcode
+  select Id, MessageLen
+    from Reply
+endcode
+
+TABLE   Response
+  Id            Identity
+  MessageLen    =(_NO)
+  MessageData   =(_DATA)
+  USId          =(_USID)
+  TMStamp       timestamp
+
+GRANT DELETE TO PUBLIC
+GRANT INSERT TO PUBLIC
+GRANT SELECT TO PUBLIC
+GRANT UPDATE TO PUBLIC
+
+KEY ResponseKey
+PRIMARY
+  ID
+
+PROC    Insert
+PROC SelectOne
+
+PROC SelectSome
+output (543)
+  Id         =
+  MessageLen =
+sqlcode
+  select Id, MessageLen
+    from Response
+endcode
+
+TABLE   Streams
+  Id           sequence
+  MessageLen    =(_NO)
+  MessageData   =(_DATA)
+  USId          =(_USID)
+  TMStamp       timestamp
+
+GRANT DELETE TO PUBLIC
+GRANT INSERT TO PUBLIC
+GRANT SELECT TO PUBLIC
+GRANT UPDATE TO PUBLIC
+
+KEY StreamsKey
+PRIMARY
+  ID
+
+PROC    Insert
+PROC SelectOne
+
+PROC SelectSome
+output (523)
+  Id         =
+  MessageLen =
+sqlcode
+  select Id, MessageLen
+    from Streams
+endcode

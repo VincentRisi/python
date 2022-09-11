@@ -67,12 +67,14 @@ void add_messages(TJConnector& conn)
   printf("\n");
 }
 
+//#undef _SKIP_SNIPS_
 void list_messages(TJConnector& conn)
 {
   try
   {
     int32 noOf=0;
-    OMessageSelectSome* outRec;
+    OMessageSelectSome* outRec=0;
+#if defined _SKIP_SNIPS_
     TMessageSelectSome q(conn, JP_MARK);
     q.Exec();
     while (q.Fetch())
@@ -81,6 +83,11 @@ void list_messages(TJConnector& conn)
       outRec = q.ORec();
       printf("%d: %d, %d\n", noOf, outRec->Id, outRec->MessageLen);
     }
+#else
+    MessageSelectSome(&conn, &noOf, outRec);
+    for (int i=0; i<noOf;i++)
+      printf("%d: %d, %d\n", i, outRec[i].Id, outRec[i].MessageLen);
+#endif
   }
   catch (TCliApiException ex)
   {
@@ -93,6 +100,7 @@ void list_messages(TJConnector& conn)
   printf("\n");
 }
 
+#define _SKIP_SNIPS_
 void add_replies(TJConnector& conn)
 {
   try

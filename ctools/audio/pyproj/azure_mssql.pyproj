@@ -2,14 +2,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2f9ded4b-0f0a-402f-aa10-d9868835cf94}</ProjectGuid>
+    <ProjectGuid>{2f9ded4b-0f0a-402f-aa00-d9868835cf94}</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>azure.py</StartupFile>
+    <StartupFile>azure_mssql.py</StartupFile>
     <SearchPath>D:\vlab\python\ctools\audio\pyproj\pyasdata</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>lookup_mssql</Name>
+    <Name>azure_odbc</Name>
     <RootNamespace>audio</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
     <InterpreterId>Global|PythonCore|3.10</InterpreterId>
@@ -29,12 +29,6 @@
   <ItemGroup>
     <Compile Include="..\..\..\..\pytools\dbapi_annotate.py">
       <Link>support\dbapi_annotate.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\pytools\dbapi_util.py">
-      <Link>support\dbapi_util.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\walker.py">
-      <Link>walker.py</Link>
     </Compile>
     <Compile Include="..\..\..\jtools\out\audio\sql\py\dbapi\DB_AUTHOR.py">
       <Link>dbapi\DB_AUTHOR.py</Link>
@@ -84,12 +78,16 @@
     <Compile Include="..\..\..\jtools\out\audio\sql\py\dbapi\mssql\StreamsDBApi.py">
       <Link>dbapi\mssql\StreamsDBApi.py</Link>
     </Compile>
-    <Compile Include="audio.py" />
-    <Compile Include="azure.py">
+    <Compile Include="..\..\..\pytools\dbapi_util.py">
+      <Link>support\dbapi_util.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\pytools\dbapi_util_mssql.py">
+      <Link>support\dbapi_util_odbc.py</Link>
+    </Compile>
+    <Compile Include="azure_mssql.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="lookup_mssql.py" />
-    <Compile Include="pyasdata\aaxlist.py" />
     <Compile Include="struct_test.py">
       <SubType>Code</SubType>
     </Compile>
