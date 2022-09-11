@@ -84,6 +84,9 @@
     <Compile Include="..\..\..\pytools\dbapi_util_mssql.py">
       <Link>support\dbapi_util_odbc.py</Link>
     </Compile>
+    <Compile Include="..\..\..\pytools\dbapi_util_mssql.py">
+      <Link>support\dbapi_util_mssql.py</Link>
+    </Compile>
     <Compile Include="azure_mssql.py">
       <SubType>Code</SubType>
     </Compile>
