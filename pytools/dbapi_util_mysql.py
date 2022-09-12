@@ -44,26 +44,7 @@ class util_sequence(Dutil_sequence):
 def get_sequence(connect, table):
     query = util_sequence(table)
     query.tableSeq = f'{table}Seq'
-    query.execute(connect)
-    return query.seq
+    query = query.execute(connect)
+    seq = query.seq
+    return seq
 
-def to_date14(data, format='%Y%m%d%H%M%S'):
-    return datetime.strptime(data, format)
-
-def to_date8(data, format='%Y%m%d'):
-    return datetime.strptime(data, format)
-
-def to_time6(data, format='%H%M%S'):
-    return datetime.strptime(data, format)
-
-def to_char14(data, format='%Y%m%d%H%M%S'):
-    return datetime.strftime(data, format)
-
-def to_char8(data, format='%Y%m%d'):
-    return datetime.strftime(data, format)
-
-def to_char6(data, format='%H%M%S'):
-    return datetime.strftime(data, format)
-
-def get_timestamp():
-    return datetime

@@ -94,6 +94,7 @@
     <Compile Include="struct_test.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="support\fixer.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dbapi\" />

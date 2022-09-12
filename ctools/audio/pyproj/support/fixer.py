@@ -1,23 +1,15 @@
 xxx='''
-("class ODBCReturning():");
+("class OciSqlReturning():");
 (1, "def __init__(self, table, field):");
 (2, "self.head = ''");
-(2, "self.output = f'  output Inserted.{field}'");
-if (table.hasSequence)
-(2, "self.sequence = f'  nextval for {table}Seq'");
-(2, "self.doesGeneratedKeys = False"); 
-else
-(2, "self.sequence = ''");
-(2, "self.doesGeneratedKeys = True");
-(2, "self.tail = ''");
+(2, "self.output = ''");
+(2, "self.sequence = f'  {table}Seq.nextval'");
+(2, "self.tail = 'returning {field} into :{field} '");
 (2, "self.dropField = ''");
-(2, "self.usesPlSql = False");
+(2, "self.usesPlSql = True");
 (1, "def check_use(self, value):");
-if (table.hasSequence)
 (2, "return value");
-else
-(2, "return ''");
-("dbapi_util.returning = ODBCReturning");
+("dbapi_util.returning = OciSqlReturning");
 ();
 ("class Dutil_sequence(object):");
 (1, "def _make(self): return Dutil_sequence()");
@@ -35,7 +27,7 @@ else
 (1, "def _copy_input(self, record):");
 (2, "record.tableSeq = self.tableSeq");
 (1, "def execute(self, connect):");
-(2, "_command = f'select nextval for {self.tableSeq}'");
+(2, "_command = f'select {self.tableSeq}.nextval from dual'");
 (2, "cursor = connect.cursor()");
 (2, "cursor.execute(_command)");
 (2, "record = util_sequence()");
@@ -51,6 +43,7 @@ else
 (1, "query.tableSeq = f'{table}Seq'");
 (1, "query.execute(connect)");
 (1, "return query.seq");
+("dbapi_util.get_sequence = get_sequence");
 ();
 '''.splitlines()
 for line in xxx:
