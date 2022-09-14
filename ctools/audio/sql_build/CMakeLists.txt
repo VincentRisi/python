@@ -7,9 +7,9 @@ set (siFiles
   ${root}/src/audio/sql/si/dates.si
   ${root}/src/audio/sql/si/lookup.si
   ${root}/src/audio/sql/si/message.si
-  ${root}/src/audio/sql/si/reply.si
-  ${root}/src/audio/sql/si/response.si
-  ${root}/src/audio/sql/si/streams.si
+  #${root}/src/audio/sql/si/reply.si
+  #${root}/src/audio/sql/si/response.si
+  #${root}/src/audio/sql/si/streams.si
   )
 set (inputList ${root}/src/audio/inputs.list)
 source_group ("SI Files" FILES ${siFiles} ${logFile} ${inputList})

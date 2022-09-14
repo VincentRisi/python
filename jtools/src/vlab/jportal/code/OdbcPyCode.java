@@ -620,6 +620,7 @@ public class OdbcPyCode extends Generator
     writeln(2, "if result == None:");
     writeln(3, "return None");
     writeln(2, "record._get_output(result)");
+    writeln(2, "self._get_output(result)");
     writeln(2, "return record");
   }
 

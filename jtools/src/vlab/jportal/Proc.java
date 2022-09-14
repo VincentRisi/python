@@ -208,6 +208,44 @@ public class Proc implements Serializable
     start = 0;
     useUpsert = false;
   }
+  public void copy(Proc from)
+  {
+    name = from.name;
+    noRows = from.noRows;
+    inputs = from.inputs;
+    outputs = from.outputs;
+    dynamics = from.dynamics;
+    dynamicSizes = from.dynamicSizes;
+    dynamicStrung = from.dynamicStrung;
+    placeHolders = from.placeHolders;
+    lines = from.lines;
+    comments = from.comments;
+    options = from.options;
+    fields = from.fields;
+    updateFields = from.updateFields;
+    orderFields = from.orderFields;
+    withs = from.withs;
+    isProc = from.isProc;
+    isSProc = from.isSProc;
+    isData = from.isData;
+    isIdlCode = from.isIdlCode;
+    isSql = from.isSql;
+    isAction = from.isAction;
+    isSingle = from.isSingle;
+    isUpdate = from.isUpdate;
+    isStd = from.isStd;
+    useStd = from.useStd;
+    extendsStd = from.extendsStd;
+    useKey = from.useKey;
+    hasImage = from.hasImage;
+    isInsert = from.isInsert;
+    isMerge = from.isMerge;
+    isMultipleInput = from.isMultipleInput;
+    hasReturning = from.hasReturning;
+    hasUpdates = from.hasUpdates;
+    start = from.start;
+    useUpsert = from.useUpsert;
+  }
 
   public void addLine(Line line)
   {

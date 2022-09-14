@@ -22,8 +22,10 @@ public class Lite3 implements Serializable
   public Lite3()
   {
   }
-  static public StringBuffer insertCommand(Proc proc)
+  static public Proc insertCommand(Proc proc)
   {
+    Proc result = new Proc();
+    result.copy(proc);
     String name = proc.table.tableName();
     StringBuffer _command = new StringBuffer();
     _command.append(format("insert into %s\n", name));
@@ -55,7 +57,7 @@ public class Lite3 implements Serializable
     _command.append(")\n");
     if (retField != null)
       _command.append(format("returning %s\n", retField.useName()));
-    return _command;
+    return result;
   }
 }
 

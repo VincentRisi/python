@@ -8,6 +8,7 @@ set (projects
   "audio_postgre|469ad583-bfb3-43ba-a52b-683052f3a0f9"
   "azure_odbc|2f9ded4b-0f0a-402f-aa11-d9868835cf94"
   "azure_mssql|2f9ded4b-0f0a-402f-aa00-d9868835cf94"
+  "azure_lite3|2f9ded4b-0f0a-402f-dddd-d9868835cf94"
   )
 
 set (PYPROJ_DIR ${CMAKE_SOURCE_DIR}/ctools/audio/pyproj)

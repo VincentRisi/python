@@ -1,0 +1,113 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2f9ded4b-0f0a-402f-dddd-d9868835cf94}</ProjectGuid>
+    <ProjectHome>
+    </ProjectHome>
+    <StartupFile>azure_lite3.py</StartupFile>
+    <SearchPath>D:\vlab\python\ctools\audio\pyproj\pyasdata</SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <Name>azure_lite3</Name>
+    <RootNamespace>audio</RootNamespace>
+    <IsWindowsApplication>False</IsWindowsApplication>
+    <InterpreterId>Global|PythonCore|3.10</InterpreterId>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+    <CommandLineArguments>-a C:\vlab\python\ctools\audio\pyproj -d C:\vlab\python\ctools\audio\pyproj\books.db -g C:\vlab\python\jtools\out\audio\sql\py -p C:\vlab\python\pytools -t c:\vlab\python\jtools\out\audio\sql\ddl\lite3\audio.sql</CommandLineArguments>
+    <TestFramework>Pytest</TestFramework>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\..\pytools\dbapi_annotate.py">
+      <Link>support\dbapi_annotate.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\jtools\out\audio\sql\py\dbapi\DB_AUTHOR.py">
+      <Link>dbapi\DB_AUTHOR.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\jtools\out\audio\sql\py\dbapi\DB_BOOK.py">
+      <Link>dbapi\DB_BOOK.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\jtools\out\audio\sql\py\dbapi\DB_DATES.py">
+      <Link>dbapi\DB_DATES.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\jtools\out\audio\sql\py\dbapi\DB_LOOKUP.py">
+      <Link>dbapi\DB_LOOKUP.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\jtools\out\audio\sql\py\dbapi\DB_MESSAGE.py">
+      <Link>dbapi\DB_MESSAGE.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\jtools\out\audio\sql\py\dbapi\DB_REPLY.py">
+      <Link>dbapi\DB_REPLY.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\jtools\out\audio\sql\py\dbapi\DB_RESPONSE.py">
+      <Link>dbapi\DB_RESPONSE.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\jtools\out\audio\sql\py\dbapi\DB_STREAMS.py">
+      <Link>dbapi\DB_STREAMS.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\jtools\out\audio\sql\py\dbapi\lite3\AuthorDBApi.py">
+      <Link>dbapi\lite3\AuthorDBApi.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\jtools\out\audio\sql\py\dbapi\lite3\BookDBApi.py">
+      <Link>dbapi\lite3\BookDBApi.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\jtools\out\audio\sql\py\dbapi\lite3\DatesDBApi.py">
+      <Link>dbapi\lite3\DatesDBApi.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\jtools\out\audio\sql\py\dbapi\lite3\LookupDBApi.py">
+      <Link>dbapi\lite3\LookupDBApi.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\jtools\out\audio\sql\py\dbapi\lite3\MessageDBApi.py">
+      <Link>dbapi\lite3\MessageDBApi.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\jtools\out\audio\sql\py\dbapi\lite3\ReplyDBApi.py">
+      <Link>dbapi\lite3\ReplyDBApi.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\jtools\out\audio\sql\py\dbapi\lite3\ResponseDBApi.py">
+      <Link>dbapi\lite3\ResponseDBApi.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\jtools\out\audio\sql\py\dbapi\lite3\StreamsDBApi.py">
+      <Link>dbapi\lite3\StreamsDBApi.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\pytools\dbapi_util.py">
+      <Link>support\dbapi_util.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\pytools\dbapi_util_lite3.py">
+      <Link>support\dbapi_util_lite3.py</Link>
+    </Compile>
+    <Compile Include="azure_lite3.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="lookup_mssql.py" />
+    <Compile Include="struct_test.py">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="dbapi\" />
+    <Folder Include="dbapi\lite3\" />
+    <Folder Include="support\" />
+    <Folder Include="pyasdata\" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="Global|PythonCore|3.10" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+  <!-- Uncomment the CoreCompile target to enable the Build command in
+       Visual Studio and specify your pre- and post-build commands in
+       the BeforeBuild and AfterBuild targets below. -->
+  <!--<Target Name="CoreCompile" />-->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+</Project>

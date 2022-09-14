@@ -502,7 +502,7 @@ public class CliPyCode extends Generator
             else if (field.type == Field.TIMESTAMP)
               timestampName = field.useName();
           }
-          writeln(1, "def __init__(self, ret=dbapi_util.returning()):");
+          writeln(1, "def __init__(self, ret=dbapi_util.returning):");
           writeln(2, parent + ".__init__(self)");
           writeln(2, "self._ret = ret('" + table.name + "', '" + returningName + "')");
           if (timestampName.length() > 0)
@@ -622,6 +622,7 @@ public class CliPyCode extends Generator
     writeln(2, "if result == None:");
     writeln(3, "return None");
     writeln(2, "record._get_output(result)");
+    writeln(2, "self._get_output(result)");
     writeln(2, "return record");
   }
 
