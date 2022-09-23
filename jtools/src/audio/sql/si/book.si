@@ -43,7 +43,6 @@ TABLE Book
 
 KEY  AuthorBookPK PRIMARY authorId bookId partNo
 LINK Author DELETE CASCADE authorId
-LINK Narrator DELETE CASCADE narratorId
 
 PROC Insert upsert
 PROC Update
@@ -51,3 +50,11 @@ PROC SelectOne
 PROC DeleteOne
 PROC Exists
 PROC Merge
+PROC AuthorCount
+input
+  authorId =(_Id)
+output (single)
+  noOf =(_No)
+sqlcode
+  select count(*) noOf from Book where authorId = :authorId
+endcode

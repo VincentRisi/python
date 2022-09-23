@@ -527,7 +527,7 @@ public class Lite3PyCode extends Generator
         }
         writeln(2, "return " + proc.outputs.size());
       }
-      if (proc.outputs.size() > 0 && proc.inputs.size() + proc.dynamics.size() - inouts > 0)
+      if (proc.isSingle == false && proc.outputs.size() > 0 && proc.inputs.size() + proc.dynamics.size() - inouts > 0)
       {
         hasInputs = true;
         writeln(1, "def _copy_input(self, record):");
@@ -578,6 +578,7 @@ public class Lite3PyCode extends Generator
     }
   }
 
+
   static private void checkPythonSingle(Table table, Proc proc, String current, boolean hasInputs)
   {
     if (proc.hasReturning && proc.isInsert == true)
@@ -599,15 +600,15 @@ public class Lite3PyCode extends Generator
 
   static private void generatePythonSingle(Table table, Proc proc, String current, boolean hasInputs)
   {
-    writeln(2, "record = " + current + "()");
-    if (hasInputs)
-      writeln(2, "self._copy_input(record)");
+    //writeln(2, "record = " + current + "()");
+    //if (hasInputs)
+    //  writeln(2, "self._copy_input(record)");
     writeln(2, "result = cursor.fetchone()");
     writeln(2, "if result == None:");
-    writeln(3, "return None");
-    writeln(2, "record._get_output(result)");
+    writeln(3, "return False");
+    //writeln(2, "record._get_output(result)");
     writeln(2, "self._get_output(result)");
-    writeln(2, "return record");
+    writeln(2, "return True");
   }
 
   static private void generatePythonMultiple(Table table, Proc proc, String current, boolean hasInputs)

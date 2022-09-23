@@ -254,18 +254,22 @@ public class PyDBOldCode extends Generator
     }
     String ret = "";
     String res = "";
+    String execute="execute";
     if (proc.outputs.size() > 0)
     {
       if (proc.isSingle == false)
           res = "records = ";
       else
-          res = "record = ";
+      {
+        res = "rc, record = ";
+        execute = "readone";
+      }
       ret = "return ";
     }
-    writeln(2, format("%sdbapi.execute(self.connect)", res));
+    writeln(2, format("%sdbapi.%s(self.connect)", res, execute));
     if (proc.isSingle)
     {
-      writeln(2, "if record == None: return 0");
+      writeln(2, "if rc == False: return 0");
       for (Field field: proc.outputs)
       {
         switch(field.type)
