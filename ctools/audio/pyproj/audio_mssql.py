@@ -24,6 +24,7 @@ import pymssql
 conn = pymssql.connect(host=args.server, user=args.user, password=args.password)
 cursor = conn.cursor()
 cursor.execute('use audio')
+import dbapi_util_mssql as util
 from audio import *
 set_connect(conn)
 main(pyasdata_dir)

@@ -32,23 +32,8 @@
     <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\BookDBApi.py">
       <Link>dbapi\mssql\BookDBApi.py</Link>
     </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\CoAuthorsDBApi.py">
-      <Link>dbapi\mssql\CoAuthorsDBApi.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\CoNarratorsDBApi.py">
-      <Link>dbapi\mssql\CoNarratorsDBApi.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\CoverDBApi.py">
-      <Link>dbapi\mssql\CoverDBApi.py</Link>
-    </Compile>
     <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\LookupDBApi.py">
       <Link>dbapi\mssql\LookupDBApi.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\NarratorDBApi.py">
-      <Link>dbapi\mssql\NarratorDBApi.py</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\jtools\out\audio\sql\py\dbapi\mssql\SeriesDBApi.py">
-      <Link>dbapi\mssql\SeriesDBApi.py</Link>
     </Compile>
     <Compile Include="..\..\..\..\pytools\dbapi_annotate.py">
       <Link>support\dbapi_annotate.py</Link>
@@ -56,11 +41,27 @@
     <Compile Include="..\..\..\..\pytools\dbapi_util.py">
       <Link>support\dbapi_util.py</Link>
     </Compile>
+    <Compile Include="..\..\..\jtools\out\audio\sql\py\dbapi\DB_AUTHOR.py">
+      <Link>dbapi\DB_AUTHOR.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\jtools\out\audio\sql\py\dbapi\DB_BOOK.py">
+      <Link>dbapi\DB_BOOK.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\jtools\out\audio\sql\py\dbapi\DB_NARRATOR.py">
+      <Link>dbapi\DB_NARRATOR.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\jtools\out\audio\sql\py\dbapi\mssql\NarratorDBApi.py">
+      <Link>dbapi\mssql\NarratorDBApi.py</Link>
+    </Compile>
+    <Compile Include="..\..\..\pytools\dbapi_util_mssql.py">
+      <Link>support\dbapi_util_mssql.py</Link>
+    </Compile>
     <Compile Include="audio.py" />
     <Compile Include="audio_mssql.py" />
     <Compile Include="filenames.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="pyasdata\aaxlist.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dbapi\" />

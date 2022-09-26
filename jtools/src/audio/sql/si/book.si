@@ -30,6 +30,19 @@ PROC DeleteOne
 PROC Exists
 PROC Merge
 
+TABLE Narrator
+    narratorId    =(_Id)
+    narratorName  =(_Name)
+KEY NarratorPK PRIMARY narratorId
+
+PROC Insert upsert
+PROC Update
+PROC SelectOne
+PROC SelectAll
+PROC DeleteOne
+PROC Exists
+PROC Merge
+
 TABLE Book
     authorId    =(_Id)
     bookId      =(_Id)
@@ -37,7 +50,8 @@ TABLE Book
     bookName    =(_BName)
     fileName    =(_FName)
     album       =(_AName)
-    narrator    =(_List)
+    authors     =(_List)
+    narrators   =(_List)
     comment     =(_Cmt) null
     description =(_Des)
 
