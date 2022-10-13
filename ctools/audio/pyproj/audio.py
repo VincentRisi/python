@@ -3,7 +3,7 @@ from aaxlist import books
 from math import ceil
 class _obj: pass
 
-from DB_BOOK import DBBook
+from DB_BOOK import DBBook, DBBookAuthorCount
 from DB_AUTHOR import DBAuthor
 from DB_NARRATOR import DBNarrator
 
@@ -168,8 +168,14 @@ def get_extra(author):
     author = author[:n]
   return author, extra
 
+def clear_id(data):
+  data = data.strip().replace(' and',',')
+  for drop in ('author', 'cast', 'editor', 'full','more'):
+    data = data.replace(drop,'')
+  return data
+
 def do_author(data):
-  arr = data.split(',')
+  arr = clear_id(data).split(',')
   for i, author in enumerate(arr):
     id = make_id(author)
     if i == 0:
@@ -179,7 +185,7 @@ def do_author(data):
   return result
 
 def do_narrator(data):
-  arr = data.split(',')
+  arr = clear_id(data).split(',')
   for i, narrator in enumerate(arr):
     id = make_id(narrator)
     if i == 0:
@@ -214,9 +220,13 @@ def main(pyasdata_dir):
       ids[key] = data.split('|')
   for book in books:
     process(book)
-  #add_authors()
-  #add_narrators()
+  add_authors()
+  add_narrators()
   add_books()
+  '''ACC002'''
+  ac = DBBookAuthorCount(conn)
+  result = ac.readAuthorCount('ACC002')
+  if result == 1: print(ac.noOf)
   end_time = time.time()
   print (f'seconds:{end_time - start_time}')
   with open(rf'{pyasdata_dir}\ids_list.txt', 'wt') as ofile:

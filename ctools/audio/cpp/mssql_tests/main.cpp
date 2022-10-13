@@ -324,6 +324,16 @@ void do_mcpe_sequences()
   try
   {
     conn.Logon(0, 0, 0, 0, 0, connectString);
+    try
+    {
+      MessageBeginTran(&conn);
+    }
+    catch (TCliApiException ex)
+    {
+      printf("%s", ex.ErrorStr());
+      conn.Logoff();
+      conn.Logon(0, 0, 0, 0, 0, connectString);
+    }
     add_messages(conn);
     add_replies(conn);
     add_responses(conn);

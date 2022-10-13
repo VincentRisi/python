@@ -171,7 +171,7 @@ public class JPortal
     {
       if (cB > 0)
       {
-        buffer.append(s.substring(0,cB));
+        buffer.append(s,0,cB);
         s = s.substring(cB+1);
       }
       // Looking for %xxx%
@@ -389,6 +389,7 @@ public class JPortal
       e.printStackTrace();
     }
   }
+}}
 }
 PARSER_END(JPortal)
 
@@ -1180,22 +1181,20 @@ void jEnumValue() :  // (a=1[,] b=2 c=3)
 }
 {
   <LEFTPAREN>
+  ( <LINK> s = jIdent()
+    {
+      field.enumLink = s;
+    }
+  )?
   (
-    ( <LINK> s = jIdent()
-      {
-        field.enumLink = s;
-      }  
-    )?
-    (
-      s = jIdent() <EQUALS> n=jNumber() (<COMMA>)?
-      {
-        entry = new Enumerator();
-        entry.name = s;
-        entry.value = n;
-        field.enums.addElement(entry);
-      }
-    )+
-  )
+    s = jIdent() <EQUALS> n=jNumber() (<COMMA>)?
+    {
+      entry = new Enumerator();
+      entry.name = s;
+      entry.value = n;
+      field.enums.addElement(entry);
+    }
+  )+
   <RIGHTPAREN>
 }
 

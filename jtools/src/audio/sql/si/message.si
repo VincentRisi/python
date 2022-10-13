@@ -36,6 +36,11 @@ sqlcode
     from Message
 endcode
 
+PROC BeginTran
+sqlcode
+begin transaction commit transaction
+endcode
+
 TABLE   Reply
   Id            Sequence
   MessageLen    =(_NO)
