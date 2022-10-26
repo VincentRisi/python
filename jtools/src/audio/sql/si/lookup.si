@@ -78,6 +78,7 @@ OUTPUT (1000)
 SQLCODE
   select Name, Value from Lookup where Ref = :Ref
   and name like 'IBAN%'
+  &EXTRAS
 ENDCODE
 
 PROC SelectVatAccNumber

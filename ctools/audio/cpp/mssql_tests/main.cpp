@@ -414,10 +414,23 @@ inline char* reduce(char* work, char* data)
   return work;
 }
 
+#include <math.h>
+double dsqrt(double no)
+{
+  double o = sqrt(no);
+  printf("%f -> %f\n", no, o);
+  return o;
+}
+
 int main(int argc, char* argv[])
 {
-  const int noArgs = sizeof(argtab) / sizeof(ARG);
-  argc = GetArgs(argc, argv, argtab, noArgs);
-  do_mcpe_sequences();
+  //const int noArgs = sizeof(argtab) / sizeof(ARG);
+  //argc = GetArgs(argc, argv, argtab, noArgs);
+  //do_mcpe_sequences();
+  dsqrt(141414);
+  dsqrt(14414);
+  dsqrt(144);
+  dsqrt(120);
+  dsqrt(169);
   return 0;
 }

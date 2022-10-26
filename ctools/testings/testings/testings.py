@@ -9,9 +9,17 @@ def nsqrt(no, guess=0):
 
 def qsqrt(no):
     x = repr(no)
-    print (x, len(x))
+    y = len(x) % 2
+    if y == 1: x = '0'+x
+    no = int(len(x) /2)
+    parts = []
+    for i in range(no):
+        p = i*2
+        parts.append(int(x[p:p+2]))
+    print (parts)
+    pass
 
 
 #print (nsqrt(144164, 1))
-qsqrt(144164)
+qsqrt(141414)
 
