@@ -1,11 +1,3 @@
-///
-/// System : JPortal
-/// $Source: /main/nedcor/cvsroot/dev/jportal/JavaCode.java,v $
-/// $Author: vince $
-/// $Date: 2003/02/12 16:02:30 $
-/// $Revision: 1.4 $
-///
-
 package vlab.jportal.code;
 
 import java.io.FileOutputStream;
