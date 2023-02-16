@@ -19,6 +19,10 @@ def qsqrt(no):
     print (parts)
     pass
 
+class Class: pass
+obj = Class()
+obj.pick = 1
+print (obj.pick)
 
 #print (nsqrt(144164, 1))
 qsqrt(141414)

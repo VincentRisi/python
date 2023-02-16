@@ -3,52 +3,52 @@
 
 char* splits(const char *readbuff, char delim, int fldc, const char** flds, int *no_flds)
 {
-  int i,j,n,m,q,s,d;
+  int i,j,n,m,quote_index,has_single,has_double;
   char* result = strdup(readbuff); // "a|b|c0" 0 is the null
   n = strlen(result);              // n=5
   while (result[n - 1] == '\n' || result[n - 1] == '\r')
     result[--n] = 0;
   strtrim(result);
-  s = d = q = 0;
+  has_single = has_double = quote_index = 0;
   for (i=0; i<n; i++)
   {
-    q++;
+    quote_index++;
     // if first char is single quote s == 1
-    if (q == 1 && result[i] == '\'')
+    if (quote_index == 1 && result[i] == '\'')
     {
-      s = 1;
+      has_single = 1;
       continue;
     }
     // if first char is double quote d == 1
-    if (q == 1 && result[i] == '"')
+    if (quote_index == 1 && result[i] == '"')
     {
-      d = 1;
+      has_double = 1;
       continue;
     }
     // if looking for and find single quote s == 0
-    if (s == 1 && result[i] == '\'')
+    if (has_single == 1 && result[i] == '\'')
     {
-      s = 0;
+      has_single = 0;
       continue;
     }
     // if looking for and find double quote d == 0
-    if (d == 1 && result[i] == '"')
+    if (has_double == 1 && result[i] == '"')
     {
-      d = 0;
+      has_double = 0;
       continue;
     }
     // if in looking for single or double quote
-    if (s == 1 || d == 1)
+    if (has_single == 1 || has_double == 1)
       continue;
     // not looking for quotes check if delimiter
     if (result[i] == delim)
     {
       result[i] = 0;           // "a0b0c0"
-      s = d = q = 0;
+      has_single = has_double = quote_index = 0;
     }
   }
   for (i=0; i<fldc; i++)
-    flds[i] = &result[n];      // assuming arg=3 all three point to last null terminator 
+    flds[i] = &result[n];      // assuming fldc=3 all three point to last null terminator 
   flds[0] = result;            // "a0"
   for (i=1,j=0; i<fldc; i++,j++)  
   {

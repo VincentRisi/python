@@ -26,30 +26,34 @@ void do_mcpe_sequences();
 
 void hex_dump_buffer(char* tag, unsigned char* buffer, int size);
 
+template <class T>
+struct HeapData
+{
+  T* record;
+  HeapData()
+  {
+    record = new(T);
+  }
+  ~HeapData()
+  {
+    delete record;
+  }
+};
 void add_messages(TJConnector& conn)
 {
   try
   {
-    DMessage rec;
-#if defined _SKIP_SNIPS_
-    TMessageInsert szq(conn, JP_MARK);
-#endif
+    HeapData<DMessage> hd; hd.record->MessageData.len;
+    DMessage& rec = *hd.record;
+    rec.MessageData.len = rec.MessageLen = sizeof(rec.MessageData.data);
     for (int i = 0; i < 10; i++)
     {
-      unsigned char buff[8000]; buff[7999] = 0;
-      for (int j = 0; j < 7999; j++)
-        buff[j] = (91 * i + j) % 255;
-      memcpy(rec.MessageData.data, buff, sizeof(buff));
-      rec.MessageData.len = 8000;
-      rec.MessageLen = 8000;
+      int j;
+      for (j = 0; j < rec.MessageLen-1; j++)
+        rec.MessageData.data[j] = (91 * i + j) % 255;
+      rec.MessageData.data[j] = 0;
       memcpy(rec.USId, "BANDIT", 7);
-#if defined _SKIP_SNIPS_
-      //szq.Exec(rec);
-      if (szq.ReadOne(rec))
-        rec = *szq.DRec();
-#else
       MessageInsert(&conn, &rec);
-#endif
       printf("%d", rec.Id);
     }
     conn.Commit();
@@ -67,14 +71,12 @@ void add_messages(TJConnector& conn)
   printf("\n");
 }
 
-//#undef _SKIP_SNIPS_
 void list_messages(TJConnector& conn)
 {
   try
   {
     int32 noOf=0;
     OMessageSelectSome* outRec=0;
-#if defined _SKIP_SNIPS_
     TMessageSelectSome q(conn, JP_MARK);
     q.Exec();
     while (q.Fetch())
@@ -83,11 +85,6 @@ void list_messages(TJConnector& conn)
       outRec = q.ORec();
       printf("%d: %d, %d\n", noOf, outRec->Id, outRec->MessageLen);
     }
-#else
-    MessageSelectSome(&conn, &noOf, outRec);
-    for (int i=0; i<noOf;i++)
-      printf("%d: %d, %d\n", i, outRec[i].Id, outRec[i].MessageLen);
-#endif
   }
   catch (TCliApiException ex)
   {
@@ -100,31 +97,21 @@ void list_messages(TJConnector& conn)
   printf("\n");
 }
 
-#define _SKIP_SNIPS_
 void add_replies(TJConnector& conn)
 {
   try
   {
-    DReply rec;
-#if defined _SKIP_SNIPS_
-    TReplyInsert szq(conn, JP_MARK);
-#endif
+    HeapData<DReply> hd; hd.record->MessageData.len;
+    DReply& rec = *hd.record;
+    rec.MessageData.len = rec.MessageLen = sizeof(rec.MessageData.data);
     for (int i = 0; i < 10; i++)
     {
-      unsigned char buff[8000]; buff[7999] = 0;
-      for (int j = 0; j < 7999; j++)
-        buff[j] = (23 * i + j) % 255;
-      memcpy(rec.MessageData.data, buff, sizeof(buff));
-      rec.MessageData.len = 8000;
-      rec.MessageLen = 8000;
+      int j;
+      for (j = 0; j < rec.MessageLen - 1; j++)
+        rec.MessageData.data[j] = (91 * i + j) % 255;
+      rec.MessageData.data[j] = 0;
       memcpy(rec.USId, "BANDIT", 7);
-#if defined _SKIP_SNIPS_
-      //szq.Exec(rec);
-      if (szq.ReadOne(rec))
-        rec = *szq.DRec();
-#else
       ReplyInsert(&conn, &rec);
-#endif
       printf("%d", rec.Id);
     }
     conn.Commit();
@@ -172,36 +159,17 @@ void add_responses(TJConnector& conn)
 {
   try
   {
-    DResponse rec;
-#if defined _SKIP_SNIPS_
-    TResponseInsert szq(conn, JP_MARK);
-#endif
+    HeapData<DResponse> hd; hd.record->MessageData.len;
+    DResponse& rec = *hd.record;
+    rec.MessageData.len = rec.MessageLen = sizeof(rec.MessageData.data);
     for (int i = 0; i < 10; i++)
     {
-      unsigned char buff[8000]; buff[7999] = 0;
-      for (int j = 0; j < 7999; j++)
-        buff[j] = (47 * i + j) % 255;
-      memcpy(rec.MessageData.data, buff, sizeof(buff));
-      rec.MessageData.len = 8000;
-      rec.MessageLen = 8000;
+      int j;
+      for (j = 0; j < rec.MessageLen - 1; j++)
+        rec.MessageData.data[j] = (91 * i + j) % 255;
+      rec.MessageData.data[j] = 0;
       memcpy(rec.USId, "BANDIT", 7);
-#if defined _SKIP_SNIPS_
-      //if (szq.q_.isOpen)
-      //  szq.Close();
-      szq.Exec(rec);
-      //if (szq.ReadOne(rec))
-      //  rec = *szq.DRec();
-#else
       ResponseInsert(&conn, &rec);
-#endif
-      //DResponseIdentity* idrec;
-      //TResponseIdentity idq(conn, JP_MARK);
-      //idq.Exec();
-      //if (idq.Fetch())
-      //{
-      //  idrec = idq.DRec();
-      //  rec.Id = idrec->Id;
-      //}
       printf("%d", rec.Id);
     }
     conn.Commit();
@@ -249,25 +217,17 @@ void add_streams(TJConnector& conn)
 {
   try
   {
-    DStreams rec;
-#if defined _SKIP_SNIPS_
-    TStreamsInsert szq(conn, JP_MARK);
-#endif
+    HeapData<DStreams> hd; hd.record->MessageData.len;
+    DStreams& rec = *hd.record;
+    rec.MessageData.len = rec.MessageLen = sizeof(rec.MessageData.data);
     for (int i = 0; i < 10; i++)
     {
-      unsigned char buff[8000]; buff[7999] = 0;
-      for (int j = 0; j < 7999; j++)
-        buff[j] = (47 * i + j) % 255;
-      memcpy(rec.MessageData.data, buff, sizeof(buff));
-      rec.MessageData.len = 8000;
-      rec.MessageLen = 8000;
+      int j;
+      for (j = 0; j < rec.MessageLen - 1; j++)
+        rec.MessageData.data[j] = (91 * i + j) % 255;
+      rec.MessageData.data[j] = 0;
       memcpy(rec.USId, "BANDIT", 7);
-#if defined _SKIP_SNIPS_
-      szq.Exec(rec);
-      rec = *szq.DRec();
-#else
       StreamsInsert(&conn, &rec);
-#endif
       printf("%d", rec.Id);
     }
     conn.Commit();
@@ -424,13 +384,13 @@ double dsqrt(double no)
 
 int main(int argc, char* argv[])
 {
-  //const int noArgs = sizeof(argtab) / sizeof(ARG);
-  //argc = GetArgs(argc, argv, argtab, noArgs);
-  //do_mcpe_sequences();
-  dsqrt(141414);
-  dsqrt(14414);
-  dsqrt(144);
-  dsqrt(120);
-  dsqrt(169);
+  const int noArgs = sizeof(argtab) / sizeof(ARG);
+  argc = GetArgs(argc, argv, argtab, noArgs);
+  do_mcpe_sequences();
+  //dsqrt(141414);
+  //dsqrt(14414);
+  //dsqrt(144);
+  //dsqrt(120);
+  //dsqrt(169);
   return 0;
 }

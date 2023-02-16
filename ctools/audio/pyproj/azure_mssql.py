@@ -55,6 +55,15 @@ try:
     rec.USId = 'MEME'
     rec.execute(conn)
     conn.commit()
+    getRecs = MessageSelectSome()
+    records = getRecs.execute(conn)
+    for got in records:
+        getRec = MessageSelectOne()
+        getRec.Id = got.Id
+        result = getRec.readone(conn)
+        result = dbapi_util.decompress(getRec.MessageLen, getRec.MessageData)
+        print (len(result), result)
+
 except Exception as e:
     print('Message:', e)
     conn.rollback()
