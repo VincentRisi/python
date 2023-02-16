@@ -3,13 +3,15 @@ from datetime import datetime, date, time
 from struct import unpack, pack
 
 def decompress(length, data):
-    sign = unpack('!L', data[:4])[0]
-    if sign == 0xEDACACED:
+    sign1, sign2 = unpack('!LL', data[:8])
+    if sign1 == 0xEDACACED:
         result = "".join(chr(x) for x in zlib.decompress(data[4:]))
         return result
-    sign = unpack('!L', data[4:8])[0]
-    if sign == 0xEDACACED:
-        result = "".join(chr(x) for x in zlib.decompress(data[8:]))
+    elif sign1 <= length:
+        if sign2 == 0xEDACACED:
+             result = "".join(chr(x) for x in zlib.decompress(data[8:]))
+             return result
+        result = "".join(chr(x) for x in data[4:])
         return result
     result = "".join(chr(x) for x in data)
     return result
