@@ -456,9 +456,9 @@ public class Java3Code extends Generator
       }
     }
     if (useBuf)
-      writeln(3, format("statement = String.format(%s", trip));
+      writeln(2, format("String statement = String.format(%s", trip));
     else
-      writeln(3, format("statement = %s", trip));
+      writeln(2, format("String statement = %s", trip));
     String plus = "    ";
     for (int i = 0; i < lines.size(); i++)
     {

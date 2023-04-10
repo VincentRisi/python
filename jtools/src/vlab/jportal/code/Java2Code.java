@@ -229,9 +229,9 @@ public class Java2Code extends Generator
       }
     }
     if (useBuf)
-      writeln(3, format("%s = String.format(%s", name, trip));
+      writeln(2, format("String %s = String.format(%s", name, trip));
     else
-      writeln(3, format("%s = %s", name, trip));
+      writeln(2, format("String %s = %s", name, trip));
     for (int i = 0; i < lines.size(); i++)
     {
       String string = lines.elementAt(i);

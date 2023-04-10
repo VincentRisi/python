@@ -1,115 +1,102 @@
-//#  $Revision: 359 $
-//#
-//#  $Date: 2011-11-04 09:06:04 +0200 (Fri, 04 Nov 2011) $
-//#
-//$PARMS 1
-//$LOOKUP "Name Ref"
-//$DESCR 'User Lookup Table'
-//
-//SERVER   @DN29_ATLAS
-//CONNECT  NPUD00/CONTROL
-
-DATABASE MCPE 
-//FLAGS "xmlValue"
+DATABASE MCPE FLAGS "param=pyodbc"
 PACKAGE  putty.bulk
-//USING    Bbd.Portal
 OUTPUT   Lookup
 SERVER   PUTTY
 
 TABLE Lookup
-  Name         Char(255)
-  Ref(Refs)    Char(255)
-  Value        Char(255)
-  USId         Char(16)
-  TmStamp      DateTime
+  name         Char(255)
+  ref(refs)    Char(255)
+  value        Char(255)
+  usId         Char(16)
+  tmStamp      DateTime
 
 KEY LookupKey PRIMARY
-  Name
-  Ref
+  name
+  ref
 
 PROC Insert
 PROC Update
 PROC SelectOne
 PROC DeleteOne
 PROC DeleteAll
-PROC SelectName SelectBy Name ORDER Ref RETURNING Name Ref Value
+PROC Selectname SelectBy name ORDER ref RETURNING name ref value
 
 PROC SelectList
 INPUT
-  Name         Char(255)
+  name         Char(255)
 OUTPUT (1000)
-  Ref(Refs)    Char(255)
-  Value        Char(255)
+  ref(refs)    Char(255)
+  value        Char(255)
 SQLCODE
-  select Ref, Value from Lookup where Name = :Name
+  select ref, value from Lookup where name = :name
 ENDCODE
 
 //# (moved from LookupProc.si)
 //# used by Rutter
 PROC Get
 INPUT
-  Name Char(256)
-  Ref Char(256)
+  name Char(256)
+  ref Char(256)
 OUTPUT (single)
-  Value Char(256)
+  value Char(256)
 SQLCODE
   SELECT
-     Value
+     value
   FROM
      Lookup
   Where
-     Name = :Name
-     and Ref = :Ref
+     name = :name
+     and ref = :ref
 ENDCODE
 
 PROC NameList
 OUTPUT (1000)
-  Name Char(256)
+  name Char(256)
 SQLCODE
-  SELECT distinct Name FROM Lookup
+  SELECT distinct name FROM Lookup
 ENDCODE
 
 PROC SelectIBAN
 INPUT
-  Ref          Char(255)
+  ref          Char(255)
 OUTPUT (1000)
-  Name         Char(255)
-  Value        Char(255)
+  name         Char(255)
+  value        Char(255)
 SQLCODE
-  select Name, Value from Lookup where Ref = :Ref
+  select name, value from Lookup where ref = :ref
   and name like 'IBAN%'
   &EXTRAS
 ENDCODE
 
 PROC SelectVatAccNumber
 INPUT 
-Ref       Char(255)
+ref       Char(255)
 OUTPUT (Single)
-Value     Char(255) 
+value     Char(255) 
 USid      Char(16)
-TmStamp   Char(18)
+tmStamp   Char(18)
 SQLCODE
 SELECT
- Value
- , USId
- , Tmstamp TmStamp
+ value
+ , usId
+ , Tmstamp tmStamp
  FROM Lookup
- WHERE Name = 'VAT ACCOUNT NUMBERS'
- AND Lookup.Ref = :Ref
+ WHERE name = 'VAT ACCOUNT NUMBERS'
+ AND Lookup.ref = :ref
 ENDCODE
 
 PROC SelectAllVatAccNumber
 OUTPUT (1000)
-Value     Char(255) 
+value     Char(255) 
 USid      Char(16)
-TmStamp   Char(18)
+tmStamp   Char(18)
 SQLCODE
 SELECT
- Value
- , USId
- , Tmstamp TmStamp
+ value
+ , usId
+ , Tmstamp tmStamp
  FROM Lookup
- WHERE Name = 'VAT ACCOUNT NUMBERS'
+ WHERE name = 'VAT ACCOUNT NUMBERS'
 ENDCODE
 
 SQLDATA

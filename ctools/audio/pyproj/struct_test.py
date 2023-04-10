@@ -1,25 +1,42 @@
-from struct import pack, unpack, calcsize
-from array import array
+'''
+int32 JulDate(int16 day, int16 month, int16 year)
+{
+  int32 lYear, lMonth, lDay, lCentury, lCy;
 
-##xyz = array('b', 1000)
+  lDay = day;
+  if (year < 1)
+    year = 1;
+  lYear = year;
 
-lsb = pack('!LL10s',0x7f,0xacededac,b'1234567890')
-s = pack('!L10s',0xacededac,b'0987654321')
+  if (month > 2)
+    lMonth = month - 3;
+  else
+  {
+    lMonth = month + 9;
+    lYear = year - 1;
+  }
+  lCentury = lYear / 100;
+  lCy = lYear - 100 * lCentury;
+  return (146097 * lCentury) / 4 + (1461 * lCy) / 4 + (153 * lMonth + 2) / 5 + lDay + 1721119;
+}
+'''
 
-def tester(bub):
-    p = unpack('!L', bub[:4])[0]
-    if p == 0xacededac:
-        n = len(bub)-4
-        t = unpack(f'!L{n}s', bub)
-        return t[1]
-    p = unpack('!L', bub[4:8])[0]
-    if p == 0xacededac:
-        n = len(bub)-8
-        t = unpack(f'!LL{n}s',bub)
-        return t[2]
+def juldate(day, month, year):
+    if year < 1:
+        year = 1
+    if month > 2:
+        month -= 3
+    else:
+        month += 9
+        year -= 1
+    century = year / 100
+    cy = year - 100 * century
+    return (146097 * century) / 4 + (1461 * cy) / 4 + (153 * month + 2) / 5 + day + 1721119
 
-x = tester(lsb)
-y = tester(s)
-print (repr(x), repr(y))
 
-pass
+lyn = int(juldate(17, 6, 1953))
+vince = int(juldate(7, 6, 1949))
+now = int(juldate(8, 3, 2023))
+print ((now - vince) / 29.5)
+print ((now - lyn) / 29.5)
+

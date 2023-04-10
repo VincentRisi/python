@@ -91,7 +91,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="lookup_mssql.py" />
-    <Compile Include="struct_test.py">
+    <Compile Include="support\struct_test.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="support\fixer.py" />

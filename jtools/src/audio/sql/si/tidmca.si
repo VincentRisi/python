@@ -1,9 +1,9 @@
 // An example of the usage of with and partion over
 
-DATABASE smdb
-PACKAGE  vlab
+DATABASE audio
+PACKAGE  vlab.audio
 OUTPUT   tidmca
-SERVER   nap
+SERVER   audio
 SCHEMA   napd00
 
 table mcca
@@ -95,7 +95,7 @@ sqlcode
    where maxtotdate = prevtotdate  
 endcode
 
-proc CountAccnos_curr
+proc CountAccnosCurr
 input 
   BatchDate char(8)
 output
@@ -136,7 +136,7 @@ sqlcode
     from odlimit_max
 endcode
 
-proc MCA_NameInfo
+proc McaNameInfo
 input
    BatchDate      char(8)
 output

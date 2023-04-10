@@ -5,7 +5,7 @@
     <ProjectGuid>{2f9ded4b-0f0a-402f-dddd-d9868835cf94}</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>azure_lite3.py</StartupFile>
+    <StartupFile>struct_test.py</StartupFile>
     <SearchPath>D:\vlab\python\ctools\audio\pyproj\pyasdata</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -88,9 +88,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="lookup_mssql.py" />
-    <Compile Include="struct_test.py">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="struct_test.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dbapi\" />

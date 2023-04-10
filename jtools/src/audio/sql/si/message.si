@@ -9,11 +9,11 @@ DECLARE
   _USID char(48)
 
 TABLE Message
-  Id            Identity
-  MessageLen    =(_NO)
-  MessageData   =(_DATA)
-  USId          =(_USID)
-  TMStamp       timestamp
+  id            Identity
+  messageLen    =(_NO)
+  messageData   =(_DATA)
+  usId          =(_USID)
+  tmStamp       timestamp
 
 GRANT DELETE TO PUBLIC
 GRANT INSERT TO PUBLIC
@@ -22,17 +22,17 @@ GRANT UPDATE TO PUBLIC
 
 KEY MessageKey
 PRIMARY
-  Id
+  id
 
 PROC Insert RETURNING
 PROC SelectOne
 
 PROC SelectSome
 output (555)
-  Id         =
-  MessageLen =
+  id         =
+  messageLen =
 sqlcode
-  select Id, MessageLen
+  select id, messageLen
     from Message
 endcode
 
@@ -42,11 +42,11 @@ begin transaction commit transaction
 endcode
 
 TABLE   Reply
-  Id            Sequence
-  MessageLen    =(_NO)
-  MessageData   =(_DATA)
-  USId          =(_USID)
-  TMStamp       timestamp
+  id            Sequence
+  messageLen    =(_NO)
+  messageData   =(_DATA)
+  usId          =(_USID)
+  tmStamp       timestamp
 
 GRANT DELETE TO PUBLIC
 GRANT INSERT TO PUBLIC
@@ -62,19 +62,19 @@ PROC SelectOne
 
 PROC SelectSome
 output (555)
-  Id         =
-  MessageLen =
+  id         =
+  messageLen =
 sqlcode
-  select Id, MessageLen
+  select id, messageLen
     from Reply
 endcode
 
 TABLE   Response
-  Id            Identity
-  MessageLen    =(_NO)
-  MessageData   =(_DATA)
-  USId          =(_USID)
-  TMStamp       timestamp
+  id            Identity
+  messageLen    =(_NO)
+  messageData   =(_DATA)
+  usId          =(_USID)
+  tmStamp       timestamp
 
 GRANT DELETE TO PUBLIC
 GRANT INSERT TO PUBLIC
@@ -90,19 +90,19 @@ PROC SelectOne
 
 PROC SelectSome
 output (543)
-  Id         =
-  MessageLen =
+  id         =
+  messageLen =
 sqlcode
-  select Id, MessageLen
+  select id, messageLen
     from Response
 endcode
 
 TABLE   Streams
-  Id           sequence
-  MessageLen    =(_NO)
-  MessageData   =(_DATA)
-  USId          =(_USID)
-  TMStamp       timestamp
+  id           sequence
+  messageLen    =(_NO)
+  messageData   =(_DATA)
+  usId          =(_USID)
+  tmStamp       timestamp
 
 GRANT DELETE TO PUBLIC
 GRANT INSERT TO PUBLIC
@@ -118,9 +118,9 @@ PROC SelectOne
 
 PROC SelectSome
 output (523)
-  Id         =
-  MessageLen =
+  id         =
+  messageLen =
 sqlcode
-  select Id, MessageLen
+  select id, messageLen
     from Streams
 endcode
