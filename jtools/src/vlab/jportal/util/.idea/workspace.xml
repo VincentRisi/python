@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b9521c10-5d6a-4053-81c7-9cd6ba5c9b3c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../../../.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../.idea/kotlinc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../.idea/libraries/KotlinJavaRuntime.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../lib/kotlin-reflect-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../lib/kotlin-reflect.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../lib/kotlin-stdlib-jdk7-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../lib/kotlin-stdlib-jdk7.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../lib/kotlin-stdlib-jdk8-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../lib/kotlin-stdlib-jdk8.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../lib/kotlin-stdlib-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../lib/kotlin-stdlib.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../lib/kotlin-test-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../lib/kotlin-test.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../code/KotlinCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../ctools/audio/pyproj/azure_lite3.pyproj" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../ctools/audio/pyproj/azure_lite3.pyproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../ctools/audio/pyproj/azure_mssql.pyproj" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../ctools/audio/pyproj/azure_mssql.pyproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../ctools/audio/pyproj/struct_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../ctools/audio/pyproj/struct_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../ctools/libs/main/src/databuilderjp.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../ctools/libs/main/src/databuilderjp.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../jtools.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../jtools.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../audio/inputs.list" beforeDir="false" afterPath="$PROJECT_DIR$/../../../audio/inputs.list" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../audio/sql/si/dates.si" beforeDir="false" afterPath="$PROJECT_DIR$/../../../audio/sql/si/dates.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../audio/sql/si/lookup.si" beforeDir="false" afterPath="$PROJECT_DIR$/../../../audio/sql/si/lookup.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../audio/sql/si/message.si" beforeDir="false" afterPath="$PROJECT_DIR$/../../../audio/sql/si/message.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../audio/sql/si/tidmca.si" beforeDir="false" afterPath="$PROJECT_DIR$/../../../audio/sql/si/tidmca.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../configs/JPortal-audio.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../configs/JPortal-audio.run.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../code/Java2Code.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code/Java2Code.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../code/Java3Code.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code/Java3Code.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../code/JavaCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/../code/JavaCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../pytools/pytools.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../pytools/pytools.iml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../../.." />
+  </component>
+  <component name="ProjectId" id="2MzwIow5W0XbDSUuK83hi6333aH" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="flattenPackages" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../../utility/jtools" />
+    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b9521c10-5d6a-4053-81c7-9cd6ba5c9b3c" name="Changes" comment="" />
+      <created>1678783644944</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1678783644944</updated>
+    </task>
+    <servers />
+  </component>
+</project>

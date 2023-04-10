@@ -183,6 +183,7 @@ public class PyDBOldCode extends Generator
     String current = "";
     writeln(format("class DB%1$s(D%1$s):", table.useName()));
     writeln(1, "def __init__(self, connect):");
+    writeln(2, format("D%s.__init__(self)", table.useName()));
     writeln(2, "self.connect = connect");
     writeln(1, "def set_connect(self, connect):");
     writeln(2, "self.connect = connect");
@@ -205,6 +206,7 @@ public class PyDBOldCode extends Generator
       writeln();
       writeln(format("class DB%1$s%2$s(D%1$s%2$s):", table.useName(), proc.name));
       writeln(1, "def __init__(self, connect):");
+      writeln(2, format("D%s%s.__init__(self)", table.useName(), proc.name));
       writeln(2, "self.connect = connect");
       writeln(1, "def set_connect(self, connect):");
       writeln(2, "self.connect = connect");
@@ -254,18 +256,22 @@ public class PyDBOldCode extends Generator
     }
     String ret = "";
     String res = "";
+    String execute="execute";
     if (proc.outputs.size() > 0)
     {
       if (proc.isSingle == false)
           res = "records = ";
       else
-          res = "record = ";
+      {
+        res = "rc, record = ";
+        execute = "readone";
+      }
       ret = "return ";
     }
-    writeln(2, format("%sdbapi.execute(self.connect)", res));
+    writeln(2, format("%sdbapi.%s(self.connect)", res, execute));
     if (proc.isSingle)
     {
-      writeln(2, "if record == None: return 0");
+      writeln(2, "if rc == False: return 0");
       for (Field field: proc.outputs)
       {
         switch(field.type)
