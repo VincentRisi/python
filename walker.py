@@ -2,7 +2,7 @@ import sys, os, os.path
 from datetime import date
 
 def main():
-    for dirpath,dirnames,filenames in os.walk(r"c:\vlab\python"):
+    for dirpath,dirnames,filenames in os.walk(r"d:\vlab\python"):
         if r'\vlab\jportal' in dirpath: continue
         if r'\jtools\out' in dirpath: continue
         for file in filenames:

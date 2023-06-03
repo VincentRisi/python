@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="build">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/jtools/build/jportal-11.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jtools/build/crackle.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jtools/build/jportal.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/jtools/jtools.iml" filepath="$PROJECT_DIR$/jtools/jtools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/python.iml" filepath="$PROJECT_DIR$/python.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jtools/out/audio/sql/java/sql.iml" filepath="$PROJECT_DIR$/jtools/out/audio/sql/java/sql.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jtools/out/audio/sql/sql1.iml" filepath="$PROJECT_DIR$/jtools/out/audio/sql/sql1.iml" />
+    </modules>
+  </component>
+</project>

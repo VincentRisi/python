@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="dbportal_linux_5.4_v00012">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/jtools/out/production/pytools/xsd_py_gen/data/dbportal_linux_5.4_v0001.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

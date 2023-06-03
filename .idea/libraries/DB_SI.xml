@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="DB_SI">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/jtools/dbportal/DB_SI.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
