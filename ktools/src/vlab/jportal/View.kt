@@ -20,8 +20,7 @@ import java.util.*
 /**
  * Views of table
  */
-class View : Serializable
-{
+class View : Serializable {
     /**
      * Name of view
      */
@@ -51,25 +50,22 @@ class View : Serializable
      */
     @JvmField
     var start: Int
+
     @Throws(IOException::class)
-    fun reader(ids: DataInputStream)
-    {
+    fun reader(ids: DataInputStream) {
         name = ids.readUTF()
         var noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val value = ids.readUTF()
             aliases.addElement(value as Nothing?)
         }
         noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val value = ids.readUTF()
             lines.addElement(value as Nothing?)
         }
         noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val value = ids.readUTF()
             users.addElement(value as Nothing?)
         }
@@ -77,24 +73,20 @@ class View : Serializable
     }
 
     @Throws(IOException::class)
-    fun writer(ods: DataOutputStream)
-    {
+    fun writer(ods: DataOutputStream) {
         ods.writeUTF(name)
         ods.writeInt(aliases.size)
-        for (i in aliases.indices)
-        {
+        for (i in aliases.indices) {
             val value = aliases.elementAt(i) as String
             ods.writeUTF(value)
         }
         ods.writeInt(lines.size)
-        for (i in lines.indices)
-        {
+        for (i in lines.indices) {
             val value = lines.elementAt(i) as String
             ods.writeUTF(value)
         }
         ods.writeInt(users.size)
-        for (i in users.indices)
-        {
+        for (i in users.indices) {
             val value = users.elementAt(i) as String
             ods.writeUTF(value)
         }
@@ -104,12 +96,10 @@ class View : Serializable
     /**
      * Checks if view has alias
      */
-    fun hasAlias(s: String?): Boolean
-    {
+    fun hasAlias(s: String?): Boolean {
         var i: Int
         i = 0
-        while (i < aliases.size)
-        {
+        while (i < aliases.size) {
             val alias = aliases.elementAt(i) as String
             if (alias.equals(s, ignoreCase = true)) return true
             i++
@@ -120,12 +110,10 @@ class View : Serializable
     /**
      * Checks if view has user
      */
-    fun hasUser(s: String?): Boolean
-    {
+    fun hasUser(s: String?): Boolean {
         var i: Int
         i = 0
-        while (i < users.size)
-        {
+        while (i < users.size) {
             val name = users.elementAt(i) as String
             if (name.equals(s, ignoreCase = true)) return true
             i++
@@ -133,13 +121,11 @@ class View : Serializable
         return false
     }
 
-    override fun toString(): String
-    {
+    override fun toString(): String {
         return name
     }
 
-    companion object
-    {
+    companion object {
         /**
          *
          */
@@ -149,8 +135,7 @@ class View : Serializable
     /**
      * Constructs the view with proper defaults
      */
-    init
-    {
+    init {
         aliases = Vector<Any?>()
         lines = Vector<Any?>()
         users = Vector<Any?>()

@@ -16,10 +16,8 @@ import java.io.Serializable
 /**
  * @author vince
  */
-class Flag(var name: String, var value: Any, var description: String) : Serializable
-{
-    companion object
-    {
+class Flag(var name: String, var value: Any, var description: String) : Serializable {
+    companion object {
         /**
          *
          */

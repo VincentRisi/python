@@ -21,8 +21,7 @@ import java.util.*
  * Keys and Indexes used for the database (if its not primary or unique then it is
  * an index)
  */
-class Key : Serializable
-{
+class Key : Serializable {
     /**
      * Name of index or key
      */
@@ -34,6 +33,7 @@ class Key : Serializable
      */
     @JvmField
     var fields: Vector<String>
+
     @JvmField
     var options: Vector<String>
 
@@ -54,19 +54,17 @@ class Key : Serializable
      */
     @JvmField
     var isClustered: Boolean
+
     @Throws(IOException::class)
-    fun reader(ids: DataInputStream)
-    {
+    fun reader(ids: DataInputStream) {
         name = ids.readUTF()
         var noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val value = ids.readUTF()
             fields.addElement(value)
         }
         noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val value = ids.readUTF()
             options.addElement(value)
         }
@@ -76,18 +74,15 @@ class Key : Serializable
     }
 
     @Throws(IOException::class)
-    fun writer(ods: DataOutputStream)
-    {
+    fun writer(ods: DataOutputStream) {
         ods.writeUTF(name)
         ods.writeInt(fields.size)
-        for (i in fields.indices)
-        {
+        for (i in fields.indices) {
             val value = fields.elementAt(i)
             ods.writeUTF(value)
         }
         ods.writeInt(options.size)
-        for (i in options.indices)
-        {
+        for (i in options.indices) {
             val value = options.elementAt(i)
             ods.writeUTF(value)
         }
@@ -99,12 +94,10 @@ class Key : Serializable
     /**
      * Checks if field is already used
      */
-    fun hasField(s: String?): Boolean
-    {
+    fun hasField(s: String?): Boolean {
         var i: Int
         i = 0
-        while (i < fields.size)
-        {
+        while (i < fields.size) {
             val name = fields.elementAt(i)
             if (name.equals(s, ignoreCase = true)) return true
             i++
@@ -112,8 +105,7 @@ class Key : Serializable
         return false
     }
 
-    companion object
-    {
+    companion object {
         /**
          *
          */
@@ -123,8 +115,7 @@ class Key : Serializable
     /**
      * Contructs with default values
      */
-    init
-    {
+    init {
         fields = Vector()
         options = Vector()
         isPrimary = false

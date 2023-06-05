@@ -20,8 +20,7 @@ import java.util.*
 /**
  * The hearts and souls. Holds the procedures for accessing the table.
  */
-class Proc : Serializable
-{
+class Proc : Serializable {
     /**
      * parent table
      */
@@ -225,10 +224,10 @@ class Proc : Serializable
      */
     @JvmField
     var start: Int
+
     @JvmField
     var useUpsert: Boolean
-    fun copy(from: Proc)
-    {
+    fun copy(from: Proc) {
         name = from.name
         noRows = from.noRows
         inputs = from.inputs
@@ -266,94 +265,79 @@ class Proc : Serializable
         useUpsert = from.useUpsert
     }
 
-    fun addLine(line: Line)
-    {
+    fun addLine(line: Line) {
         lines.addElement(line)
     }
 
-    fun addLine(data: String?, isVar: Boolean)
-    {
+    fun addLine(data: String?, isVar: Boolean) {
         val value = Line(data!!, isVar)
         addLine(value)
     }
 
-    fun addLine(line: String?)
-    {
+    fun addLine(line: String?) {
         addLine(line, false)
     }
 
     @Throws(IOException::class)
-    fun reader(ids: DataInputStream)
-    {
+    fun reader(ids: DataInputStream) {
         name = ids.readUTF()
         noRows = ids.readInt()
         var noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val value = Field()
             value.reader(ids)
             inputs.addElement(value)
         }
         noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val value = Field()
             value.reader(ids)
             outputs.addElement(value)
         }
         noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val value = ids.readUTF()
             dynamics.addElement(value)
         }
         noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val value = ids.readInt()
             dynamicSizes.addElement(value)
         }
         noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val value = ids.readBoolean()
             dynamicStrung.addElement(value)
         }
         noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val value = ids.readUTF()
             placeHolders.addElement(value)
         }
         noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val data = ids.readUTF()
             val isVar = ids.readBoolean()
             val value = Line(data, isVar)
             addLine(value)
         }
         noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val value = ids.readUTF()
             comments.addElement(value)
         }
         noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val value = ids.readUTF()
             options.addElement(value)
         }
         noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val value = ids.readUTF()
             fields.addElement(value)
         }
         noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val value = ids.readUTF()
             updateFields.addElement(value)
         }
@@ -378,73 +362,61 @@ class Proc : Serializable
     }
 
     @Throws(IOException::class)
-    fun writer(ods: DataOutputStream)
-    {
+    fun writer(ods: DataOutputStream) {
         ods.writeUTF(name)
         ods.writeInt(noRows)
         ods.writeInt(inputs.size)
-        for (i in inputs.indices)
-        {
+        for (i in inputs.indices) {
             val value = inputs.elementAt(i)
             value.writer(ods)
         }
         ods.writeInt(outputs.size)
-        for (i in outputs.indices)
-        {
+        for (i in outputs.indices) {
             val value = outputs.elementAt(i)
             value.writer(ods)
         }
         ods.writeInt(dynamics.size)
-        for (i in dynamics.indices)
-        {
+        for (i in dynamics.indices) {
             val value = dynamics.elementAt(i)
             ods.writeUTF(value)
         }
         ods.writeInt(dynamicSizes.size)
-        for (i in dynamicSizes.indices)
-        {
+        for (i in dynamicSizes.indices) {
             val value = dynamicSizes.elementAt(i)
             ods.writeInt(value.toInt())
         }
         ods.writeInt(dynamicStrung.size)
-        for (i in dynamicStrung.indices)
-        {
+        for (i in dynamicStrung.indices) {
             val value = dynamicStrung.elementAt(i)
             ods.writeBoolean(value)//.toBoolean())
         }
         ods.writeInt(placeHolders.size)
-        for (i in placeHolders.indices)
-        {
+        for (i in placeHolders.indices) {
             val value = placeHolders.elementAt(i)
             ods.writeUTF(value)
         }
         ods.writeInt(lines.size)
-        for (i in lines.indices)
-        {
+        for (i in lines.indices) {
             val value = lines.elementAt(i)
             value.writer(ods)
         }
         ods.writeInt(comments.size)
-        for (i in comments.indices)
-        {
+        for (i in comments.indices) {
             val value = comments.elementAt(i)
             ods.writeUTF(value)
         }
         ods.writeInt(options.size)
-        for (i in options.indices)
-        {
+        for (i in options.indices) {
             val value = options.elementAt(i)
             ods.writeUTF(value)
         }
         ods.writeInt(fields.size)
-        for (i in fields.indices)
-        {
+        for (i in fields.indices) {
             val value = fields.elementAt(i)
             ods.writeUTF(value)
         }
         ods.writeInt(updateFields.size)
-        for (i in updateFields.indices)
-        {
+        for (i in updateFields.indices) {
             val value = updateFields.elementAt(i)
             ods.writeUTF(value)
         }
@@ -471,10 +443,8 @@ class Proc : Serializable
     /**
      * Folds the first character of name to an upper case character
      */
-    fun upperFirst(): String
-    {
-        if (name.length < 1)
-        {
+    fun upperFirst(): String {
+        if (name.length < 1) {
             println("Table:$table name length appears to be less than 1")
             return name
         }
@@ -485,10 +455,8 @@ class Proc : Serializable
     /**
      * Folds the first character of name to an upper case character
      */
-    fun upperFirstOnly(): String
-    {
-        if (name.length < 1)
-        {
+    fun upperFirstOnly(): String {
+        if (name.length < 1) {
             println("Table:$table name length appears to be less than 1")
             return name
         }
@@ -499,10 +467,8 @@ class Proc : Serializable
     /**
      * Folds the first character of name to an lower case character
      */
-    fun lowerFirst(): String
-    {
-        if (name.length < 1)
-        {
+    fun lowerFirst(): String {
+        if (name.length < 1) {
             println("Table:$table name length appears to be less than 1")
             return name
         }
@@ -513,30 +479,24 @@ class Proc : Serializable
     /**
      * Checks for for name in input list
      */
-    fun hasInput(s: String?): Boolean
-    {
-        for (i in inputs.indices)
-        {
+    fun hasInput(s: String?): Boolean {
+        for (i in inputs.indices) {
             val field = inputs.elementAt(i)
             if (field.name.equals(s, ignoreCase = true)) return true
         }
         return false
     }
 
-    fun getInput(s: String?): Field?
-    {
-        for (i in inputs.indices)
-        {
+    fun getInput(s: String?): Field? {
+        for (i in inputs.indices) {
             val field = inputs.elementAt(i)
             if (field.name.equals(s, ignoreCase = true)) return field
         }
         return null
     }
 
-    fun hasModifieds(): Boolean
-    {
-        for (i in inputs.indices)
-        {
+    fun hasModifieds(): Boolean {
+        for (i in inputs.indices) {
             val field = inputs.elementAt(i)
             if (field.type == Field.SEQUENCE && isInsert == true
                 || field.type == Field.BIGSEQUENCE && isInsert == true
@@ -549,10 +509,8 @@ class Proc : Serializable
     /**
      * Checks for for name in input list
      */
-    fun indexOf(s: String?): Int
-    {
-        for (i in inputs.indices)
-        {
+    fun indexOf(s: String?): Int {
+        for (i in inputs.indices) {
             val field = inputs.elementAt(i)
             if (field.name.equals(s, ignoreCase = true)) return i
         }
@@ -562,10 +520,8 @@ class Proc : Serializable
     /**
      * Checks for for name in output list
      */
-    fun hasOutput(s: String?): Boolean
-    {
-        for (i in outputs.indices)
-        {
+    fun hasOutput(s: String?): Boolean {
+        for (i in outputs.indices) {
             val field = outputs.elementAt(i)
             if (field.name.equals(s, ignoreCase = true)) return true
         }
@@ -575,10 +531,8 @@ class Proc : Serializable
     /**
      * Checks for for name in output list
      */
-    fun getOutput(s: String?): Field?
-    {
-        for (i in outputs.indices)
-        {
+    fun getOutput(s: String?): Field? {
+        for (i in outputs.indices) {
             val field = outputs.elementAt(i)
             if (field.name.equals(s, ignoreCase = true)) return field
         }
@@ -588,10 +542,8 @@ class Proc : Serializable
     /**
      * Checks for for name in dynamics list
      */
-    fun hasDynamic(s: String): Boolean
-    {
-        for (i in dynamics.indices)
-        {
+    fun hasDynamic(s: String): Boolean {
+        for (i in dynamics.indices) {
             val name = dynamics.elementAt(i)
             if (name == s) return true
         }
@@ -601,13 +553,10 @@ class Proc : Serializable
     /**
      * Checks for for name in dynamics list
      */
-    fun getDynamicSize(s: String): Int
-    {
-        for (i in dynamics.indices)
-        {
+    fun getDynamicSize(s: String): Int {
+        for (i in dynamics.indices) {
             val name = dynamics.elementAt(i)
-            if (name == s)
-            {
+            if (name == s) {
                 val n = dynamicSizes.elementAt(i)
                 return n.toInt()
             }
@@ -618,13 +567,10 @@ class Proc : Serializable
     /**
      * Checks if a strung dynamic
      */
-    fun isStrung(s: String): Boolean
-    {
-        for (i in dynamics.indices)
-        {
+    fun isStrung(s: String): Boolean {
+        for (i in dynamics.indices) {
             val name = dynamics.elementAt(i)
-            if (name == s)
-            {
+            if (name == s) {
                 val b = dynamicStrung.elementAt(i)
                 return b //.toBoolean()
             }
@@ -635,19 +581,16 @@ class Proc : Serializable
     /**
      * Checks if proc uses data
      */
-    fun hasNoData(): Boolean
-    {
+    fun hasNoData(): Boolean {
         return inputs.size == 0 && outputs.size == 0 && dynamics.size == 0
     }
 
     /**
      * Checks if proc has unique input ie. not already in output
      */
-    fun hasDiscreteInput(): Boolean
-    {
+    fun hasDiscreteInput(): Boolean {
         if (dynamics.size > 0) return true
-        for (i in inputs.indices)
-        {
+        for (i in inputs.indices) {
             val field = inputs.elementAt(i)
             if (hasOutput(field.name)) continue
             return true
@@ -658,10 +601,8 @@ class Proc : Serializable
     /**
      *
      */
-    fun checkPlaceHolders()
-    {
-        for (i in lines.indices)
-        {
+    fun checkPlaceHolders() {
+        for (i in lines.indices) {
             val code = lines.elementAt(i)
             if (code.isVar == true) continue
             var work = code.line.uppercase(Locale.getDefault())
@@ -669,22 +610,18 @@ class Proc : Serializable
             val alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_#$"
             val alphanum = alpha + "0123456789"
             var n = work.indexOf(':')
-            while (n != -1)
-            {
+            while (n != -1) {
                 work = work.substring(n + 1)
                 work2 = work2.substring(n + 1)
                 var p = 0
-                if (alpha.indexOf(work[0]) != -1)
-                {
+                if (alpha.indexOf(work[0]) != -1) {
                     p = 1
-                    while (p < work.length)
-                    {
+                    while (p < work.length) {
                         if (alphanum.indexOf(work[p]) == -1) break
                         p++
                     }
                 }
-                if (p > 1)
-                {
+                if (p > 1) {
                     val placeHolder = work2.substring(0, p)
                     if (hasInput(placeHolder)) placeHolders.addElement(placeHolder) else println("placeHolder($placeHolder) is not defined as an Input for proc($name)")
                 }
@@ -693,45 +630,36 @@ class Proc : Serializable
         }
     }
 
-    override fun toString(): String
-    {
+    override fun toString(): String {
         return name
     }
 
-    fun hasOption(value: String): Boolean
-    {
-        for (i in options.indices)
-        {
+    fun hasOption(value: String): Boolean {
+        for (i in options.indices) {
             val option = options.elementAt(i)
             if (option.lowercase(Locale.getDefault()).compareTo(value.lowercase(Locale.getDefault())) == 0) return true
         }
         return false
     }
 
-    fun hasFields(value: String): Boolean
-    {
-        for (i in fields.indices)
-        {
+    fun hasFields(value: String): Boolean {
+        for (i in fields.indices) {
             val option = fields.elementAt(i)
             if (option.lowercase(Locale.getDefault()).compareTo(value.lowercase(Locale.getDefault())) == 0) return true
         }
         return false
     }
 
-    fun hasOrders(value: String): Boolean
-    {
-        for (i in orderFields.indices)
-        {
+    fun hasOrders(value: String): Boolean {
+        for (i in orderFields.indices) {
             val option = orderFields.elementAt(i)
             if (option.lowercase(Locale.getDefault()).compareTo(value.lowercase(Locale.getDefault())) == 0) return true
         }
         return false
     }
 
-    fun hasUpdateFields(value: String): Boolean
-    {
-        for (i in updateFields.indices)
-        {
+    fun hasUpdateFields(value: String): Boolean {
+        for (i in updateFields.indices) {
             val option = updateFields.elementAt(i)
             if (option.lowercase(Locale.getDefault()).compareTo(value.lowercase(Locale.getDefault())) == 0) return true
         }
@@ -739,20 +667,16 @@ class Proc : Serializable
     }
 
     val isStdExtended: Boolean
-        get()
-        {
+        get() {
             if (isStd == true) return true
-            if (extendsStd == true)
-            {
+            if (extendsStd == true) {
                 if (useStd == true) return true
                 if (dynamics.size > 0) return false
-                for (i in inputs.indices)
-                {
+                for (i in inputs.indices) {
                     val field = inputs.elementAt(i)
                     if (table!!.hasField(field.name) == false) return false
                 }
-                for (i in outputs.indices)
-                {
+                for (i in outputs.indices) {
                     val field = outputs.elementAt(i)
                     if (table!!.hasField(field.name) == false) return false
                 }
@@ -761,8 +685,7 @@ class Proc : Serializable
             return false
         }
 
-    companion object
-    {
+    companion object {
         /**
          *
          */
@@ -772,8 +695,7 @@ class Proc : Serializable
     /**
      * Constructs with default values
      */
-    init
-    {
+    init {
         inputs = Vector()
         outputs = Vector()
         dynamics = Vector()

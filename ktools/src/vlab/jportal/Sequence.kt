@@ -13,8 +13,7 @@ package vlab.jportal
 
 import java.io.Serializable
 
-class Sequence : Serializable
-{
+class Sequence : Serializable {
     var name = ""
     var minValue = 0
     var maxValue = 999999999
@@ -28,8 +27,7 @@ class Sequence : Serializable
      */
     var start = 0
 
-    companion object
-    {
+    companion object {
         /**
          *
          */

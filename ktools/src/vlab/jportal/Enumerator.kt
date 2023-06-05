@@ -24,28 +24,26 @@ class Enumerator
 /**
  * constructor ensures fields have correct default values
  */
-    : Serializable
-{
+    : Serializable {
     @JvmField
     var name = ""
+
     @JvmField
     var value = 0
+
     @Throws(IOException::class)
-    fun reader(ids: DataInputStream)
-    {
+    fun reader(ids: DataInputStream) {
         name = ids.readUTF()
         value = ids.readInt()
     }
 
     @Throws(IOException::class)
-    fun writer(ods: DataOutputStream)
-    {
+    fun writer(ods: DataOutputStream) {
         ods.writeUTF(name)
         ods.writeInt(value)
     }
 
-    companion object
-    {
+    companion object {
         private const val serialVersionUID = 1L
     }
 }

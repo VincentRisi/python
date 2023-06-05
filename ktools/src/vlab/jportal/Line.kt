@@ -19,18 +19,17 @@ import java.io.Serializable
 /**
  * Lines of SQL Code
  */
-class Line : Serializable
-{
+class Line : Serializable {
     @JvmField
     var line: String
+
     @JvmField
     var isVar: Boolean
 
     /**
      * Constructs line needed to be enclosed in double quotes
      */
-    constructor(l: String)
-    {
+    constructor(l: String) {
         line = l
         isVar = false
     }
@@ -38,28 +37,24 @@ class Line : Serializable
     /**
      * Constructs line used in variable substitution
      */
-    constructor(l: String, t: Boolean)
-    {
+    constructor(l: String, t: Boolean) {
         line = l
         isVar = t
     }
 
     @Throws(IOException::class)
-    fun reader(ids: DataInputStream)
-    {
+    fun reader(ids: DataInputStream) {
         line = ids.readUTF()
         isVar = ids.readBoolean()
     }
 
     @Throws(IOException::class)
-    fun writer(ods: DataOutputStream)
-    {
+    fun writer(ods: DataOutputStream) {
         ods.writeUTF(line)
         ods.writeBoolean(isVar)
     }
 
-    companion object
-    {
+    companion object {
         private const val serialVersionUID = 1L
     }
 }

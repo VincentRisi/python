@@ -16,28 +16,26 @@ import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.io.Serializable
 
-class Value : Serializable
-{
+class Value : Serializable {
     @JvmField
     var key = ""
+
     @JvmField
     var value = ""
+
     @Throws(IOException::class)
-    fun reader(ids: DataInputStream)
-    {
+    fun reader(ids: DataInputStream) {
         key = ids.readUTF()
         value = ids.readUTF()
     }
 
     @Throws(IOException::class)
-    fun writer(ods: DataOutputStream)
-    {
+    fun writer(ods: DataOutputStream) {
         ods.writeUTF(key)
         ods.writeUTF(value)
     }
 
-    companion object
-    {
+    companion object {
         private const val serialVersionUID = 1L
     }
 }

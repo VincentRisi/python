@@ -21,19 +21,18 @@ import java.io.IOException
 import java.io.Serializable
 import java.util.*
 
-class Const : Serializable
-{
+class Const : Serializable {
     @JvmField
     var name = ""
+
     @JvmField
     var values: Vector<Value>
+
     @Throws(IOException::class)
-    fun reader(ids: DataInputStream)
-    {
+    fun reader(ids: DataInputStream) {
         name = ids.readUTF()
         val noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val v = Value()
             v.reader(ids)
             values.addElement(v)
@@ -41,24 +40,20 @@ class Const : Serializable
     }
 
     @Throws(IOException::class)
-    fun writer(ods: DataOutputStream)
-    {
+    fun writer(ods: DataOutputStream) {
         ods.writeUTF(name)
         ods.writeInt(values.size)
-        for (i in values.indices)
-        {
+        for (i in values.indices) {
             val v = values.elementAt(i)
             v.writer(ods)
         }
     }
 
-    companion object
-    {
+    companion object {
         private const val serialVersionUID = 1L
     }
 
-    init
-    {
+    init {
         values = Vector()
     }
 }

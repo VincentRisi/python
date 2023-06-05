@@ -21,40 +21,42 @@ import java.util.*
 /**
  * Foreign keys used in database
  */
-class Link : Serializable
-{
+class Link : Serializable {
     /**
      * Name of foreign table
      */
     @JvmField
     var name = ""
     var linkName = ""
+
     @JvmField
     var fields: Vector<String>
+
     @JvmField
     var linkFields: Vector<String>
+
     @JvmField
     var options: Vector<*>
+
     @JvmField
     var isDeleteCascade: Boolean
+
     @JvmField
     var isUpdateCascade: Boolean
     var isProc: Boolean
     var isDProc: Boolean
+
     @Throws(IOException::class)
-    fun reader(ids: DataInputStream)
-    {
+    fun reader(ids: DataInputStream) {
         name = ids.readUTF()
         linkName = ids.readUTF()
         var noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val value = ids.readUTF()
             fields.addElement(value)
         }
         noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val value = ids.readUTF()
             linkFields.addElement(value)
         }
@@ -62,30 +64,25 @@ class Link : Serializable
     }
 
     @Throws(IOException::class)
-    fun writer(ods: DataOutputStream)
-    {
+    fun writer(ods: DataOutputStream) {
         ods.writeUTF(name)
         ods.writeUTF(linkName)
         ods.writeInt(fields.size)
-        for (i in fields.indices)
-        {
+        for (i in fields.indices) {
             val value = fields.elementAt(i)
             ods.writeUTF(value)
         }
-        for (i in linkFields.indices)
-        {
+        for (i in linkFields.indices) {
             val value = linkFields.elementAt(i)
             ods.writeUTF(value)
         }
         ods.writeBoolean(isDeleteCascade)
     }
 
-    fun hasField(s: String?): Boolean
-    {
+    fun hasField(s: String?): Boolean {
         var i: Int
         i = 0
-        while (i < fields.size)
-        {
+        while (i < fields.size) {
             val name = fields.elementAt(i)
             if (name.equals(s, ignoreCase = true)) return true
             i++
@@ -96,8 +93,7 @@ class Link : Serializable
     /**
      * If there is an alias uses that else returns name
      */
-    fun useName(): String
-    {
+    fun useName(): String {
         var n = name
         n = replaceAll(n, ".", "_")
         return n
@@ -107,16 +103,13 @@ class Link : Serializable
         haystack: String,  // String to search in
         needle: String,  // Substring to find
         replacement: String?
-    ): String
-    {         // Substring to replace with
+    ): String {         // Substring to replace with
         var haystack = haystack
         var i = haystack.lastIndexOf(needle)
-        if (i != -1)
-        {
+        if (i != -1) {
             val buffer = StringBuffer(haystack)
             buffer.replace(i, i + needle.length, replacement)
-            while (haystack.lastIndexOf(needle, i - 1).also { i = it } != -1)
-            {
+            while (haystack.lastIndexOf(needle, i - 1).also { i = it } != -1) {
                 buffer.replace(i, i + needle.length, replacement)
             }
             haystack = buffer.toString()
@@ -124,16 +117,14 @@ class Link : Serializable
         return haystack
     }
 
-    companion object
-    {
+    companion object {
         /**
          *
          */
         private const val serialVersionUID = 1L
     }
 
-    init
-    {
+    init {
         fields = Vector()
         linkFields = Vector()
         options = Vector<Any?>()

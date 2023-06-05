@@ -17,41 +17,42 @@ import java.io.IOException
 import java.io.Serializable
 import java.util.*
 
-class With : Serializable
-{
+class With : Serializable {
     @JvmField
     var table: Table? = null
+
     @JvmField
     var name = ""
+
     @JvmField
     var lines: Vector<*>
+
     @JvmField
     var comments: Vector<*>
+
     @JvmField
     var options: Vector<*>
+
     @JvmField
     var start: Int
+
     @Throws(IOException::class)
-    fun reader(ids: DataInputStream)
-    {
+    fun reader(ids: DataInputStream) {
         name = ids.readUTF()
         var noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val data = ids.readUTF()
             val isVar = ids.readBoolean()
             val value = Line(data, isVar)
             lines.addElement(value as Nothing?)
         }
         noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val value = ids.readUTF()
             comments.addElement(value as Nothing?)
         }
         noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val value = ids.readUTF()
             options.addElement(value as Nothing?)
         }
@@ -59,24 +60,20 @@ class With : Serializable
     }
 
     @Throws(IOException::class)
-    fun writer(ods: DataOutputStream)
-    {
+    fun writer(ods: DataOutputStream) {
         ods.writeUTF(name)
         ods.writeInt(lines.size)
-        for (i in lines.indices)
-        {
+        for (i in lines.indices) {
             val value = lines.elementAt(i) as Line
             value.writer(ods)
         }
         ods.writeInt(comments.size)
-        for (i in comments.indices)
-        {
+        for (i in comments.indices) {
             val value = comments.elementAt(i) as String
             ods.writeUTF(value)
         }
         ods.writeInt(options.size)
-        for (i in options.indices)
-        {
+        for (i in options.indices) {
             val value = options.elementAt(i) as String
             ods.writeUTF(value)
         }
@@ -86,8 +83,7 @@ class With : Serializable
     /**
      * Folds the first character of name to an upper case character
      */
-    fun upperFirst(): String
-    {
+    fun upperFirst(): String {
         val f = name.substring(0, 1)
         return f.uppercase(Locale.getDefault()) + name.substring(1)
     }
@@ -95,8 +91,7 @@ class With : Serializable
     /**
      * Folds the first character of name to an upper case character
      */
-    fun upperFirstOnly(): String
-    {
+    fun upperFirstOnly(): String {
         val f = name.substring(0, 1)
         return f.uppercase(Locale.getDefault())
     }
@@ -104,19 +99,16 @@ class With : Serializable
     /**
      * Folds the first character of name to an lower case character
      */
-    fun lowerFirst(): String
-    {
+    fun lowerFirst(): String {
         val f = name.substring(0, 1)
         return f.lowercase(Locale.getDefault()) + name.substring(1)
     }
 
-    companion object
-    {
+    companion object {
         private const val serialVersionUID = 1L
     }
 
-    init
-    {
+    init {
         lines = Vector<Any?>()
         comments = Vector<Any?>()
         options = Vector<Any?>()

@@ -21,8 +21,7 @@ import java.util.*
  * This holds the field definition. It also supplies methods for the
  * Java format and various SQL formats.
  */
-class Field : Serializable
-{
+class Field : Serializable {
     /**
      * Name to use in the database
      */
@@ -84,10 +83,13 @@ class Field : Serializable
      */
     @JvmField
     var comments: Vector<String>
+
     @JvmField
     var enums: Vector<Enumerator>
+
     @JvmField
     var valueList: Vector<String>
+
     @JvmField
     var enumLink = ""
 
@@ -101,6 +103,7 @@ class Field : Serializable
      */
     @JvmField
     var isSequence: Boolean
+
     @JvmField
     var isIdentity: Boolean
 
@@ -140,9 +143,9 @@ class Field : Serializable
     @JvmField
     var isExtStd: Boolean
     var isExtStdOut: Boolean
+
     @Throws(IOException::class)
-    fun reader(ids: DataInputStream)
-    {
+    fun reader(ids: DataInputStream) {
         name = ids.readUTF()
         literalName = ids.readUTF()
         alias = ids.readUTF()
@@ -156,21 +159,18 @@ class Field : Serializable
         bindPos = ids.readInt()
         definePos = ids.readInt()
         var noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val value = ids.readUTF()
             comments.addElement(value)
         }
         noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val value = Enumerator()
             value.reader(ids)
             enums.addElement(value)
         }
         noOf = ids.readInt()
-        for (i in 0 until noOf)
-        {
+        for (i in 0 until noOf) {
             val value = ids.readUTF()
             valueList.addElement(value)
         }
@@ -186,8 +186,7 @@ class Field : Serializable
     }
 
     @Throws(IOException::class)
-    fun writer(ods: DataOutputStream)
-    {
+    fun writer(ods: DataOutputStream) {
         ods.writeUTF(name)
         ods.writeUTF(literalName)
         ods.writeUTF(alias)
@@ -201,20 +200,17 @@ class Field : Serializable
         ods.writeInt(bindPos)
         ods.writeInt(definePos)
         ods.writeInt(comments.size)
-        for (i in comments.indices)
-        {
+        for (i in comments.indices) {
             val value = comments.elementAt(i)
             ods.writeUTF(value)
         }
         ods.writeInt(enums.size)
-        for (i in enums.indices)
-        {
+        for (i in enums.indices) {
             val value = enums.elementAt(i)
             value.writer(ods)
         }
         ods.writeInt(valueList.size)
-        for (i in valueList.indices)
-        {
+        for (i in valueList.indices) {
             val value = valueList.elementAt(i)
             ods.writeUTF(value)
         }
@@ -232,20 +228,17 @@ class Field : Serializable
     /**
      * If there is an alias uses that else returns name
      */
-    fun useName(): String
-    {
+    fun useName(): String {
         return if (alias.length > 0) alias else name
     }
 
     /**
      * If there is an alias uses that else returns name
      */
-    fun useLowerName(): String
-    {
+    fun useLowerName(): String {
         var n = useName()
         val f = n.substring(0, 1)
-        if (isExtStd)
-        {
+        if (isExtStd) {
             n = replaceAll(n, ".", "")
         }
         return f.lowercase(Locale.getDefault()) + n.substring(1)
@@ -254,12 +247,10 @@ class Field : Serializable
     /**
      * If there is an alias uses that else returns name
      */
-    fun useUpperName(): String
-    {
+    fun useUpperName(): String {
         var n = useName()
         val f = n.substring(0, 1)
-        if (isExtStd)
-        {
+        if (isExtStd) {
             n = replaceAll(n, ".", "")
         }
         return f.uppercase(Locale.getDefault()) + n.substring(1)
@@ -269,16 +260,13 @@ class Field : Serializable
         haystack: String,  // String to search in
         needle: String,  // Substring to find
         replacement: String?
-    ): String
-    {         // Substring to replace with
+    ): String {         // Substring to replace with
         var haystack = haystack
         var i = haystack.lastIndexOf(needle)
-        if (i != -1)
-        {
+        if (i != -1) {
             val buffer = StringBuffer(haystack)
             buffer.replace(i, i + needle.length, replacement)
-            while (haystack.lastIndexOf(needle, i - 1).also { i = it } != -1)
-            {
+            while (haystack.lastIndexOf(needle, i - 1).also { i = it } != -1) {
                 buffer.replace(i, i + needle.length, replacement)
             }
             haystack = buffer.toString()
@@ -290,13 +278,10 @@ class Field : Serializable
      * Check for empty string as null type fields.
      */
     val isEmptyAsNull: Boolean
-        get()
-        {
+        get() {
             if (isNull == false) return false
-            when (type)
-            {
-                ANSICHAR ->
-                {
+            when (type) {
+                ANSICHAR -> {
                     if (length == 1) return false
                     return true
                 }
@@ -309,13 +294,10 @@ class Field : Serializable
      * Check for empty string as null type fields.
      */
     val isCharEmptyAsNull: Boolean
-        get()
-        {
+        get() {
             if (isNull == false) return false
-            when (type)
-            {
-                ANSICHAR ->
-                {
+            when (type) {
+                ANSICHAR -> {
                     if (length == 1) return false
                     return true
                 }
@@ -327,8 +309,7 @@ class Field : Serializable
     /**
      * Check for empty string as null type fields.
      */
-    fun ansiIsNull(): Boolean
-    {
+    fun ansiIsNull(): Boolean {
         return if (isNull == false) false else type == ANSICHAR && length == 1
     }
 
@@ -343,12 +324,9 @@ class Field : Serializable
      * returning escaped quotes or double quotes
      */
     @JvmOverloads
-    fun useLiteral(inString: Boolean = false): String
-    {
-        if (isLiteral)
-        {
-            if (inString)
-            {
+    fun useLiteral(inString: Boolean = false): String {
+        if (isLiteral) {
+            if (inString) {
                 val first = literalName[0]
                 val no = literalName.length - 1
                 val last = literalName[no]
@@ -362,8 +340,7 @@ class Field : Serializable
         return name
     }
 
-    fun fixEscape(): String
-    {
+    fun fixEscape(): String {
         var result = useLiteral(false)
         if (result[0] == '[') result = result.replace('[', '"').replace(']', '"')
         else if (result[0] == '`') result = result.replace('`', '"')
@@ -373,8 +350,7 @@ class Field : Serializable
     val isEnum: Boolean
         get() = enums.size > 0
 
-    companion object
-    {
+    companion object {
         const val BLOB: Byte = 1
         const val BOOLEAN: Byte = 2
         const val BYTE: Byte = 3
@@ -419,8 +395,7 @@ class Field : Serializable
     /**
      * constructor ensures fields have correct default values
      */
-    init
-    {
+    init {
         comments = Vector()
         enums = Vector()
         valueList = Vector()
