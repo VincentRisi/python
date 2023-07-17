@@ -5,8 +5,8 @@ unit WordleUnit;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Grids, StdCtrls,
-  ExtCtrls;
+  Classes, SysUtils, SQLite3Conn, Forms, Controls, Graphics, Dialogs, //Grids,
+  StdCtrls, ExtCtrls;
 
 type
 
@@ -59,6 +59,7 @@ type
     Result4: TEdit;
     Result5: TEdit;
     Result6: TEdit;
+    SQLite3Connection: TSQLite3Connection;
     TBA: TPanel;
     TBB: TPanel;
     TBC: TPanel;
@@ -346,7 +347,7 @@ var
   w,no: integer;
   guess, answer : ansistring;
   guesslist, resultlist : array [0..5] of string;
-  word : string;
+  //word : string;
 begin
   LogMemo.Clear;
   ClearWordLetters;
@@ -388,12 +389,14 @@ procedure TWordleForm.FormActivate(Sender: TObject);
 begin
    if (FirstTime = False) then Exit;
    FirstTime := False;
+   SQLite3Connection.Open;
    Load;
 end;
 
 procedure TWordleForm.FormCreate(Sender: TObject);
 begin
    FirstTime := True;
+   SQLiteLibraryName := '.\sqlite3.dll';
    GameWords     := TStringList.Create;
    UsedWords     := TStringList.Create;
    CollWords  := TStringList.Create;
