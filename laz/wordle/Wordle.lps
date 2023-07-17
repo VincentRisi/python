@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="12"/>
+    <BuildModes Active="Default"/>
+    <Units>
+      <Unit>
+        <Filename Value="Wordle.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="169"/>
+      </Unit>
+      <Unit>
+        <Filename Value="wordleunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="WordleForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="WordleUnit"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="482"/>
+        <CursorPos X="19" Y="505"/>
+        <UsageCount Value="169"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="wordleunit.lfm"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="5"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit>
+      <Unit>
+        <Filename Value="D:\lazarus\lcl\include\control.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="3596"/>
+        <CursorPos Y="3612"/>
+        <UsageCount Value="27"/>
+      </Unit>
+      <Unit>
+        <Filename Value="D:\lazarus\lcl\include\customedit.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="518"/>
+        <CursorPos Y="540"/>
+        <UsageCount Value="27"/>
+      </Unit>
+      <Unit>
+        <Filename Value="wordle.py"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="79"/>
+        <CursorPos Y="171"/>
+        <UsageCount Value="54"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Python"/>
+      </Unit>
+    </Units>
+    <JumpHistory HistoryIndex="29">
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="260" TopLine="244"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="226" TopLine="207"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="189" Column="6" TopLine="170"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="146" Column="19" TopLine="128"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="452" Column="43" TopLine="421"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="451" TopLine="421"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="441" Column="59" TopLine="421"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="451" TopLine="420"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="452" Column="32" TopLine="421"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="451" TopLine="421"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="107" Column="11" TopLine="81"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="295" Column="36" TopLine="264"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="327" Column="20" TopLine="296"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="466" Column="23" TopLine="441"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="470" Column="24" TopLine="440"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="453" Column="11" TopLine="434"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="454" Column="30" TopLine="437"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="470" Column="34" TopLine="442"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="471" Column="34" TopLine="443"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="470" Column="34" TopLine="442"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="471" Column="34" TopLine="443"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="478" Column="34" TopLine="450"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="165" Column="108" TopLine="108"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="368" Column="42" TopLine="350"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="370" Column="10" TopLine="351"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="376" Column="11" TopLine="352"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="384" Column="12" TopLine="367"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="371" Column="16" TopLine="354"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="380" Column="37" TopLine="361"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="384" Column="7" TopLine="367"/>
+      </Position>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>
