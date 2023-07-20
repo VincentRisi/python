@@ -5,8 +5,8 @@ unit WordleUnit;
 interface
 
 uses
-  Classes, SysUtils, SQLite3Conn, Forms, Controls, Graphics, Dialogs, //Grids,
-  StdCtrls, ExtCtrls;
+  Classes, SysUtils, SQLite3Conn, SQLDB, Forms, Controls, Graphics, Dialogs,
+  StdCtrls, ExtCtrls, Word5;
 
 type
 
@@ -16,6 +16,8 @@ type
     BEnter: TButton;
     Button1: TButton;
     Button2: TButton;
+    CreateButton: TButton;
+    LoadButton: TButton;
     Guess1: TEdit;
     Guess2: TEdit;
     Guess3: TEdit;
@@ -59,7 +61,6 @@ type
     Result4: TEdit;
     Result5: TEdit;
     Result6: TEdit;
-    SQLite3Connection: TSQLite3Connection;
     TBA: TPanel;
     TBB: TPanel;
     TBC: TPanel;
@@ -90,10 +91,12 @@ type
     TBY: TPanel;
     TBZ: TPanel;
     procedure BEnterClick(Sender: TObject);
+    procedure CreateButtonClick(Sender: TObject);
     procedure GuessBackspaceClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure LettersClick(Sender: TObject);
+    procedure LoadButtonClick(Sender: TObject);
     procedure ResultBackspaceClick(Sender: TObject);
   private
     procedure Load;
@@ -115,6 +118,8 @@ var
   CollWords : TStringList;
   CurrWords : TStringList;
   Distrib   : array ['A'..'Z'] of integer;
+  Conn      : TSQLite3Connection;
+  Tran      : TSQLTransaction;
 
 
 implementation
@@ -258,6 +263,8 @@ procedure TWordleForm.Load;
 var
   i : integer;
   word : string;
+  //status : integer;
+  //word5 : TWord5;
   procedure LoadWords(wordList: TStringList; fileName: ansistring);
   var
     i : integer;
@@ -367,6 +374,60 @@ begin
   Process(no, guesslist, resultlist);
 end;
 
+var
+  CreateTables: String =
+  'DROP TABLE IF EXISTS Word5;#13#10'+
+  '#13#10'+
+  'CREATE TABLE Word5#13#10'+
+  '( word  VARCHAR(5) NOT NULL#13#10'+
+  ', status INTEGER NOT NULL#13#10'+
+  ', PRIMARY KEY (word)#13#10'+
+  ');#13#10'+
+  '#13#10'+
+  'DROP TABLE IF EXISTS Word6;#13#10'+
+  '#13#10'+
+  'CREATE TABLE Word6#13#10'+
+  '( word  VARCHAR(6) NOT NULL#13#10'+
+  ', status INTEGER NOT NULL#13#10'+
+  ', PRIMARY KEY (word)#13#10'+
+  ');#13#10'+
+  '#13#10'+
+  'DROP TABLE IF EXISTS Word7;#13#10'+
+  '#13#10'+
+  'CREATE TABLE Word7#13#10'+
+  '( word  VARCHAR(7) NOT NULL#13#10'+
+  ', status INTEGER NOT NULL#13#10'+
+  ', PRIMARY KEY (word)#13#10'+
+  ');#13#10'+
+  '#13#10'+
+  'DROP TABLE IF EXISTS Word8;#13#10'+
+  '#13#10'+
+  'CREATE TABLE Word8#13#10'+
+  '( word  VARCHAR(8) NOT NULL#13#10'+
+  ', status INTEGER NOT NULL#13#10'+
+  ', PRIMARY KEY (word)#13#10'+
+  ');#13#10';
+
+procedure TWordleForm.CreateButtonClick(Sender: TObject);
+var
+  Query : TSQLQuery;
+begin
+  Query := TSQLQuery.Create(nil);
+  try
+    try
+      Query.SQL.Text := CreateTables;
+      Query.Database := Conn;
+      Query.ExecSQL;
+    except
+      On E: Exception do begin
+        LogMemo.Append(E.Message);
+      end;
+    end;
+  finally
+    Query.Destroy;
+  end;
+end;
+
 procedure TWordleForm.GuessBackspaceClick(Sender: TObject);
 var
   i, len : integer;
@@ -389,14 +450,20 @@ procedure TWordleForm.FormActivate(Sender: TObject);
 begin
    if (FirstTime = False) then Exit;
    FirstTime := False;
-   SQLite3Connection.Open;
+   Conn   := TSQLite3Connection.Create(nil);
+   Tran   := TSQLTransaction.Create(nil);
+   Conn.Transaction := Tran;
+   Tran.Database := Conn;
+   Conn.DatabaseName := '.\wordle.db';
+   Conn.Hostname := 'localhost';
+   Conn.Open;
+   Tran.Active := True;
    Load;
 end;
 
 procedure TWordleForm.FormCreate(Sender: TObject);
 begin
    FirstTime := True;
-   SQLiteLibraryName := '.\sqlite3.dll';
    GameWords     := TStringList.Create;
    UsedWords     := TStringList.Create;
    CollWords  := TStringList.Create;
@@ -497,6 +564,34 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TWordleForm.LoadButtonClick(Sender: TObject);
+var
+  i : integer;
+  word : string;
+  status : integer;
+  word5 : TWord5;
+begin
+  word5 := TWord5.Create(Conn, Tran);
+  for i := 0 to CollWords.Count-1 do begin
+    word := CollWords.Strings[i];
+    status := 2;
+    if UsedWords.IndexOf(word) >= 0 then
+      status := 1
+    else if GameWords.IndexOf(word) >= 0 then
+      status := 0;
+    if word5.wpSelectOne(word) then begin
+      if word5.status <> status then begin
+        word5.wpUpdate(status, word);
+      end;
+    end
+    else begin
+      word5.wpInsert(word, status);
+    end;
+    if (i mod 500 = 499) then Tran.Commit;
+  end;
+  Tran.Commit;
 end;
 
 procedure TWordleForm.ResultBackspaceClick(Sender: TObject);

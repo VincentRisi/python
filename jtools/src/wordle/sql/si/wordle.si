@@ -1,0 +1,44 @@
+DATABASE wordle
+PACKAGE  vlab.wordle
+OUTPUT   wordle
+SERVER   wordle
+
+TABLE Word5
+      word   char 5
+      status int (game=0 used=1 coll=2)
+KEY word5pk PRIMARY word
+
+PROC Insert
+PROC Update
+PROC SelectOne
+PROC SelectAll
+
+TABLE Word6
+      word   char 6
+      status int (game=0 used=1 coll=2)
+KEY word6pk PRIMARY word
+
+PROC Insert
+PROC Update
+PROC SelectOne
+PROC SelectAll
+
+TABLE Word7
+      word   char 7
+      status int (game=0 used=1 coll=2)
+KEY word7pk PRIMARY word
+
+PROC Insert
+PROC Update
+PROC SelectOne
+PROC SelectAll
+
+TABLE Word8
+      word   char 8
+      status int (game=0 used=1 coll=2)
+KEY word8pk PRIMARY word
+
+PROC Insert
+PROC Update
+PROC SelectOne
+PROC SelectAll
