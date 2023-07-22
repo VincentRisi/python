@@ -290,16 +290,16 @@ begin
   LoadWords(GameWords, 'gamewords.txt');
   LoadWords(UsedWords, 'usedwords.txt');
   LoadWords(CollWords, 'collins2019.txt');
-  LogMemo.Append(format('GameWords: %d', [GameWords.Count-1]));
-  LogMemo.Append(format('UsedWords: %d', [UsedWords.Count-1]));
-  LogMemo.Append(format('CollWords: %d', [CollWords.Count-1]));
+  LogMemo.Append(format('GameWords: %d', [GameWords.Count]));
+  LogMemo.Append(format('UsedWords: %d', [UsedWords.Count]));
+  LogMemo.Append(format('CollWords: %d', [CollWords.Count]));
   CurrWords := TStringList.Create;
   for i := 0 to GameWords.Count-1 do begin
     word := GameWords.Strings[i];
     if UsedWords.IndexOf(word) >= 0 then continue;
     CurrWords.Add(word);
   end;
-  LogMemo.Append(format('CurrWords: %d', [CurrWords.Count-1]));
+  LogMemo.Append(format('CurrWords: %d', [CurrWords.Count]));
 end;
 
 procedure SetWordLetter(letter, w, l, colour : integer);
@@ -583,10 +583,12 @@ begin
       status := 0;
     if word5.wpSelectOne(word) then begin
       if word5.status <> status then begin
+        LogMemo.Append(Format('Word %s changed status from %d to %d',[word, word5.status, status]));
         word5.wpUpdate(status, word);
       end;
     end
     else begin
+      LogMemo.Append(Format('Word %s inserted status %d',[word, status]));
       word5.wpInsert(word, status);
     end;
     if (i mod 500 = 499) then Tran.Commit;
