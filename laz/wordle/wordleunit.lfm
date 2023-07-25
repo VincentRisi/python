@@ -1,7 +1,7 @@
 object WordleForm: TWordleForm
-  Left = 803
+  Left = 962
   Height = 400
-  Top = 304
+  Top = 310
   Width = 884
   Align = alClient
   BorderWidth = 2

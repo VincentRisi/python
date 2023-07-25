@@ -18,7 +18,6 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="WordleUnit"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="571"/>
         <CursorPos Y="592"/>
         <UsageCount Value="218"/>
@@ -55,8 +54,8 @@
       </Unit>
       <Unit>
         <Filename Value="..\..\jtools\out\wordle\sql\pas\Word5.pas"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="138"/>
         <CursorPos X="71" Y="24"/>
         <UsageCount Value="35"/>
         <Loaded Value="True"/>
