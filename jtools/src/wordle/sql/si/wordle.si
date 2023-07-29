@@ -3,6 +3,16 @@ PACKAGE  vlab.wordle
 OUTPUT   wordle
 SERVER   wordle
 
+TABLE Dictionary
+      word    char 8
+      meaning char 4096
+KEY dictpk PRIMARY word
+
+PROC Insert
+PROC Update
+PROC SelectOne
+PROC Exists
+
 TABLE Word5
       word   char 5
       status int (game=0 used=1 coll=2)
@@ -42,3 +52,4 @@ PROC Insert
 PROC Update
 PROC SelectOne
 PROC SelectAll
+

@@ -48,6 +48,14 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="WordleUnit"/>
       </Unit>
+      <Unit>
+        <Filename Value="..\..\jtools\out\wordle\sql\pas\Word5.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\jtools\out\wordle\sql\pas\Dictionary.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

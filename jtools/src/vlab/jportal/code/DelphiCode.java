@@ -83,7 +83,7 @@ public class DelphiCode extends Generator
           if (proc.dynamics.size() < 1)
           {
             writeln("var");
-            writeln(1, table.useName()+proc.upperFirst()+" : String =");
+            writeln(1, table.useName()+proc.upperFirst()+" : AnsiString =");
             generateSQLCode(proc);
             writeln();
           }
@@ -212,7 +212,7 @@ public class DelphiCode extends Generator
       for (int j=0; j<proc.dynamics.size(); j++)
       {
         String s = (String) proc.dynamics.elementAt(j);
-        writeln(1, s+" : String;");
+        writeln(1, s+" ;");
       }
       writeln("  constructor Create(const aConn : TSQLite3Connection; const aTran : TSQLTransaction);");
       generateInterface(proc);
@@ -270,7 +270,7 @@ public class DelphiCode extends Generator
     for (int j=0; j<proc.dynamics.size(); j++)
     {
       String s = (String) proc.dynamics.elementAt(j);
-      writeln(1, semicolon+"const a"+s+" : String");
+      writeln(1, semicolon+"const a"+s+" : AnsiString");
     }
   }
   /** Emits class method for processing the database activity */
@@ -293,9 +293,9 @@ public class DelphiCode extends Generator
       writeln(1, "procedure "+proc.upperFirst()+";");
       if ((proc.inputs.size() > 0) || proc.dynamics.size() > 0)
       {
-        writeln(1, "procedure wp"+proc.upperFirst()+"(");
+        writeln(1, "procedure "+proc.upperFirst()+"(");
         generateWithParms(proc);
-        writeln(1, ");");
+        writeln(1, "); overload;");
       }
     }
     else if (proc.isSingle)
@@ -303,9 +303,9 @@ public class DelphiCode extends Generator
       writeln(1, "function "+proc.upperFirst()+" : Boolean;");
       if ((proc.inputs.size() > 0) || proc.dynamics.size() > 0)
       {
-        writeln(1, "function wp"+proc.upperFirst()+"(");
+        writeln(1, "function "+proc.upperFirst()+"(");
         generateWithParms(proc);
-        writeln(1, ") : Boolean;");
+        writeln(1, ") : Boolean; overload;");
       }
     }
     else
@@ -313,9 +313,9 @@ public class DelphiCode extends Generator
       writeln(1, "function "+proc.upperFirst()+" : TSQLQuery;");
       if ((proc.inputs.size() > 0) || proc.dynamics.size() > 0)
       {
-        writeln(1, "function wp"+proc.upperFirst()+"(");
+        writeln(1, "function "+proc.upperFirst()+"(");
         generateWithParms(proc);
-        writeln(1, ") : TSQLQuery;");
+        writeln(1, ") : TSQLQuery; overload;");
       }
       writeln(1, "function next"+proc.upperFirst()+"(const Query : TSQLQuery) : Boolean;");
     }
@@ -360,7 +360,7 @@ public class DelphiCode extends Generator
     if (proc.outputs.size() == 0 || proc.isSingle)
       writeln(1, "Query : TSQLQuery;");
     if (proc.dynamics.size() > 0)
-      writeln(1, tableName+proc.upperFirst()+" : String;");
+      writeln(1, tableName+proc.upperFirst()+" : AnsiString;");
     writeln("begin");
     if (proc.dynamics.size() > 0)
     {
@@ -447,19 +447,19 @@ public class DelphiCode extends Generator
     {
       if (proc.outputs.size() == 0)
       {
-        writeln("procedure T" + fullName + ".wp" + proc.upperFirst() + "(");
+        writeln("procedure T" + fullName + "." + proc.upperFirst() + "(");
         generateWithParms(proc);
-        writeln(");");
+        writeln("); overload;");
       }
       else if (proc.isSingle)
       {
-        writeln("function T" + fullName + ".wp" + proc.upperFirst() + "(");
+        writeln("function T" + fullName + "." + proc.upperFirst() + "(");
         generateWithParms(proc);
-        writeln(") : Boolean;");
+        writeln(") : Boolean; overload;");
       }
       else
       {
-        writeln("function T" + fullName + ".wp" + proc.upperFirst() + "(");
+        writeln("procedure T" + fullName + "." + proc.upperFirst() + "(");
         generateWithParms(proc);
         writeln(");");
       }
@@ -566,7 +566,7 @@ public class DelphiCode extends Generator
       return field.useName() + " : Longint";
     case Field.CHAR:
     case Field.ANSICHAR:
-      return field.useName() + " : String";
+      return field.useName() + " : AnsiString";
     case Field.DATE:
     case Field.DATETIME:
     case Field.TIME:
@@ -577,11 +577,11 @@ public class DelphiCode extends Generator
       return field.useName() + " : Double";
     case Field.BLOB:
     case Field.TLOB:
-      return field.useName() + " : String";
+      return field.useName() + " : AnsiString";
     case Field.MONEY:
       return field.useName() + " : Double";
     case Field.USERSTAMP:
-      return field.useName() + " : String";
+      return field.useName() + " : AnsiString";
     }
     return field.useName() + " : <unsupported>";
   }

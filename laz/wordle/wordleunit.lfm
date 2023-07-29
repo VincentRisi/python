@@ -1191,16 +1191,18 @@ object WordleForm: TWordleForm
     Left = 256
     Height = 25
     Top = 128
-    Width = 86
-    Caption = 'Create'
+    Width = 126
+    Caption = 'Dictionary'
+    Enabled = False
     Font.CharSet = ANSI_CHARSET
     Font.Height = -16
     Font.Name = 'Lucida Console'
     Font.Pitch = fpFixed
     Font.Quality = fqDraft
-    OnClick = CreateButtonClick
+    OnClick = LoadDictionaryButtonClick
     ParentFont = False
     TabOrder = 75
+    Visible = False
   end
   object LoadButton: TButton
     Left = 256
@@ -1211,6 +1213,7 @@ object WordleForm: TWordleForm
     BorderSpacing.CellAlignHorizontal = ccaCenter
     BorderSpacing.CellAlignVertical = ccaCenter
     Caption = 'Load'
+    Enabled = False
     Font.CharSet = ANSI_CHARSET
     Font.Height = -16
     Font.Name = 'Lucida Console'
@@ -1219,5 +1222,6 @@ object WordleForm: TWordleForm
     OnClick = LoadButtonClick
     ParentFont = False
     TabOrder = 76
+    Visible = False
   end
 end

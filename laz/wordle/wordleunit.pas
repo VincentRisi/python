@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, SQLite3Conn, SQLDB, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, ExtCtrls, Word5;
+  StdCtrls, ExtCtrls, Word5, Dictionary, IniFiles;
 
 type
 
@@ -91,7 +91,7 @@ type
     TBY: TPanel;
     TBZ: TPanel;
     procedure BEnterClick(Sender: TObject);
-    procedure CreateButtonClick(Sender: TObject);
+    procedure LoadDictionaryButtonClick(Sender: TObject);
     procedure GuessBackspaceClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -100,26 +100,32 @@ type
     procedure ResultBackspaceClick(Sender: TObject);
   private
     procedure Load;
+    procedure LoadTexts;
     procedure Process(no: integer; guesslist, resultlist : array of string);
+    procedure SetUsed(word: string);
+    function iniRead(key: string): string;
   public
 
   end;
 
 var
-  FirstTime: boolean;
-  WordleForm: TWordleForm;
-  WordLetter: Array [1..6, 1..5] of TEdit;
-  Guesses   : Array [1..6] of TEdit;
-  Results   : Array [1..6] of TEdit;
-  Letters   : Array [1..26] of TPanel;
-  Alphabet  : AnsiString;
-  GameWords : TStringList;
-  UsedWords : TStringList;
-  CollWords : TStringList;
-  CurrWords : TStringList;
-  Distrib   : array ['A'..'Z'] of integer;
-  Conn      : TSQLite3Connection;
-  Tran      : TSQLTransaction;
+  INI          : TINIFile;
+  iniPath      : String;
+  DatabaseName : String;
+  FirstTime    : boolean;
+  WordleForm   : TWordleForm;
+  WordLetter   : Array [1..6, 1..5] of TEdit;
+  Guesses      : Array [1..6] of TEdit;
+  Results      : Array [1..6] of TEdit;
+  Letters      : Array [1..26] of TPanel;
+  Alphabet     : AnsiString;
+  GameWords    : TStringList;
+  UsedWords    : TStringList;
+  CollWords    : TStringList;
+  CurrWords    : TStringList;
+  Distrib      : array ['A'..'Z'] of integer;
+  Conn         : TSQLite3Connection;
+  Tran         : TSQLTransaction;
 
 
 implementation
@@ -259,7 +265,7 @@ begin
   end;
 end;
 
-procedure TWordleForm.Load;
+procedure TWordleForm.LoadTexts;
 var
   i : integer;
   word : string;
@@ -293,7 +299,6 @@ begin
   LogMemo.Append(format('GameWords: %d', [GameWords.Count-1]));
   LogMemo.Append(format('UsedWords: %d', [UsedWords.Count-1]));
   LogMemo.Append(format('CollWords: %d', [CollWords.Count-1]));
-  CurrWords := TStringList.Create;
   for i := 0 to GameWords.Count-1 do begin
     word := GameWords.Strings[i];
     if UsedWords.IndexOf(word) >= 0 then continue;
@@ -354,7 +359,6 @@ var
   w,no: integer;
   guess, answer : ansistring;
   guesslist, resultlist : array [0..5] of string;
-  //word : string;
 begin
   LogMemo.Clear;
   ClearWordLetters;
@@ -362,6 +366,9 @@ begin
   for w := 1 to 6 do begin
     guess := guesses[w].Text;
     answer := results[w].Text;
+    if (answer = '22222') then begin
+       setUsed(guess);
+    end;
     if (length(guess) = 5) and (length(answer) = 5) then no := w else break;
   end;
   for w := 1 to no do begin
@@ -372,60 +379,6 @@ begin
     DisplayGuess(w, guess, answer);
   end;
   Process(no, guesslist, resultlist);
-end;
-
-var
-  CreateTables: String =
-  'DROP TABLE IF EXISTS Word5;#13#10'+
-  '#13#10'+
-  'CREATE TABLE Word5#13#10'+
-  '( word  VARCHAR(5) NOT NULL#13#10'+
-  ', status INTEGER NOT NULL#13#10'+
-  ', PRIMARY KEY (word)#13#10'+
-  ');#13#10'+
-  '#13#10'+
-  'DROP TABLE IF EXISTS Word6;#13#10'+
-  '#13#10'+
-  'CREATE TABLE Word6#13#10'+
-  '( word  VARCHAR(6) NOT NULL#13#10'+
-  ', status INTEGER NOT NULL#13#10'+
-  ', PRIMARY KEY (word)#13#10'+
-  ');#13#10'+
-  '#13#10'+
-  'DROP TABLE IF EXISTS Word7;#13#10'+
-  '#13#10'+
-  'CREATE TABLE Word7#13#10'+
-  '( word  VARCHAR(7) NOT NULL#13#10'+
-  ', status INTEGER NOT NULL#13#10'+
-  ', PRIMARY KEY (word)#13#10'+
-  ');#13#10'+
-  '#13#10'+
-  'DROP TABLE IF EXISTS Word8;#13#10'+
-  '#13#10'+
-  'CREATE TABLE Word8#13#10'+
-  '( word  VARCHAR(8) NOT NULL#13#10'+
-  ', status INTEGER NOT NULL#13#10'+
-  ', PRIMARY KEY (word)#13#10'+
-  ');#13#10';
-
-procedure TWordleForm.CreateButtonClick(Sender: TObject);
-var
-  Query : TSQLQuery;
-begin
-  Query := TSQLQuery.Create(nil);
-  try
-    try
-      Query.SQL.Text := CreateTables;
-      Query.Database := Conn;
-      Query.ExecSQL;
-    except
-      On E: Exception do begin
-        LogMemo.Append(E.Message);
-      end;
-    end;
-  finally
-    Query.Destroy;
-  end;
 end;
 
 procedure TWordleForm.GuessBackspaceClick(Sender: TObject);
@@ -447,9 +400,14 @@ begin
 end;
 
 procedure TWordleForm.FormActivate(Sender: TObject);
+var
+  callResult : string;
 begin
    if (FirstTime = False) then Exit;
    FirstTime := False;
+   iniPath   := Application.Location;
+   callResult := iniRead(iniPath);
+   LogMemo.Append(callResult);
    Conn   := TSQLite3Connection.Create(nil);
    Tran   := TSQLTransaction.Create(nil);
    Conn.Transaction := Tran;
@@ -464,9 +422,10 @@ end;
 procedure TWordleForm.FormCreate(Sender: TObject);
 begin
    FirstTime := True;
-   GameWords     := TStringList.Create;
-   UsedWords     := TStringList.Create;
-   CollWords  := TStringList.Create;
+   GameWords := TStringList.Create;
+   UsedWords := TStringList.Create;
+   CollWords := TStringList.Create;
+   CurrWords := TStringList.Create;
    Alphabet :=  ' ABCDEFGHIJKLMNOPQRSTUVWXYZ';
    WordLetter[1, 1] := L1W1;
    WordLetter[1, 2] := L2W1;
@@ -566,10 +525,83 @@ begin
   end;
 end;
 
+procedure TWordleForm.Load;
+var
+  word5 : TWord5;
+  query : TSQLQuery;
+begin
+  word5 := TWord5.Create(Conn, Tran);
+  query := word5.SelectAll;
+  while (word5.NextSelectAll(query) = True) do begin
+    CollWords.Append(word5.word);
+    case word5.status of
+      0: begin
+        CurrWords.Append(word5.word);
+        GameWords.Append(word5.word);
+      end;
+      1: begin
+        UsedWords.Append(word5.word);
+        GameWords.Append(word5.word);
+      end;
+    end;
+  end;
+  CurrWords.Sort;
+  CollWords.Sort;
+  UsedWords.Sort;
+  Gamewords.Sort;
+  LogMemo.Append(format('GameWords: %d', [GameWords.Count-1]));
+  LogMemo.Append(format('UsedWords: %d', [UsedWords.Count-1]));
+  LogMemo.Append(format('CollWords: %d', [CollWords.Count-1]));
+  LogMemo.Append(format('CurrWords: %d', [CurrWords.Count-1]));
+end;
+
+procedure TWordleForm.SetUsed(word: string);
+var
+  word5 : TWord5;
+begin
+  word5 := TWord5.Create(Conn, Tran);
+  word5.Update(1, word);
+  Tran.Commit;
+  LogMemo.Append(format('Word %s marked as used',[word]));
+end;
+
+function TWordleForm.iniRead(key: string): string;
+begin
+  result := 'Loaded';
+end;
+
+procedure TWordleForm.LoadDictionaryButtonClick(Sender: TObject);
+var
+  dictIn: TextFile;
+  dictionary : TDictionary;
+  exq : TDictionaryExists;
+  data, word, meaning : ansistring;
+  p, count : Integer;
+begin
+  assignFile(dictIn, 'dictionary.txt');
+  dictionary := TDictionary.Create(Conn, Tran);
+  exq := TDictionaryExists.Create(Conn, Tran);
+  reset(dictIn);
+  count := 0;
+  while not EOF(dictIn) do begin
+    readln(dictIn, data);
+    p := data.IndexOf(' ');
+    word := data.Substring(0, p);
+    if (exq.Exists(word) = True) and (exq.noOf = 0) then begin
+      meaning := data.Substring(p+1);
+      dictionary.Insert(word, meaning);
+      if (count mod 500 = 499) then Tran.Commit;
+      inc(count);
+    end;
+  end;
+  CloseFile(dictIn);
+  Tran.Commit;
+end;
+
 procedure TWordleForm.LoadButtonClick(Sender: TObject);
 var
   i : integer;
-  word : string;
+  word : ansistring;
   status : integer;
   word5 : TWord5;
 begin
@@ -581,13 +613,13 @@ begin
       status := 1
     else if GameWords.IndexOf(word) >= 0 then
       status := 0;
-    if word5.wpSelectOne(word) then begin
+    if word5.SelectOne(word) then begin
       if word5.status <> status then begin
-        word5.wpUpdate(status, word);
+        word5.Update(status, word);
       end;
     end
     else begin
-      word5.wpInsert(word, status);
+      word5.Insert(word, status);
     end;
     if (i mod 500 = 499) then Tran.Commit;
   end;
