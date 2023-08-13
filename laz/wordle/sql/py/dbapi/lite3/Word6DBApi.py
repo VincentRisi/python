@@ -99,3 +99,49 @@ select
             records.append(record)
         return records
 
+class Word6SelectAllSorted(DWord6):
+    def _get_output(self, _result):
+        self.word = _result[0]
+        self.status = _result[1]
+        return 2
+    def execute(self, connect): # selectAllSorted
+        _command = f'''\
+select
+  word
+, status
+ from Word6
+ order by word
+'''
+        cursor = connect.cursor()
+        cursor.execute(_command)
+        records = []
+        for row in cursor:
+            record = Word6SelectAllSorted()
+            record._get_output(row)
+            records.append(record)
+        return records
+
+class Word6ByStatus(DWord6):
+    def _get_output(self, _result):
+        self.word = _result[0]
+        self.status = _result[1]
+        return 2
+    def execute(self, connect): # byStatus
+        _command = f'''\
+select
+  word
+, status
+ from Word6
+ where status = @status
+ order by word
+'''
+        cursor = connect.cursor()
+        cursor.execute(_command, [
+            self.status])
+        records = []
+        for row in cursor:
+            record = Word6ByStatus()
+            record._get_output(row)
+            records.append(record)
+        return records
+
