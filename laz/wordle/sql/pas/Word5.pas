@@ -29,6 +29,13 @@ type TWord5 = Class
   ) : Boolean; overload;
   function SelectAll : TSQLQuery;
   function nextSelectAll(const Query : TSQLQuery) : Boolean;
+  function SelectAllSorted : TSQLQuery;
+  function nextSelectAllSorted(const Query : TSQLQuery) : Boolean;
+  function ByStatus : TSQLQuery;
+  function ByStatus(
+    const astatus : Integer
+  ) : TSQLQuery; overload;
+  function nextByStatus(const Query : TSQLQuery) : Boolean;
 end;
 
 var
@@ -62,6 +69,23 @@ var
     '  word' +
     ', status' +
     ' from Word5';
+
+var
+  Word5SelectAllSorted : AnsiString =
+    'select' +
+    '  word' +
+    ', status' +
+    ' from Word5' +
+    ' order by word';
+
+var
+  Word5ByStatus : AnsiString =
+    'select' +
+    '  word' +
+    ', status' +
+    ' from Word5' +
+    ' where status = :status' +
+    ' order by word';
 
 implementation
 
@@ -167,6 +191,63 @@ begin
 end;
 
 function TWord5.nextSelectAll(const Query : TSQLQuery) : Boolean;
+begin
+  if not Query.eof then begin
+      word := Query.FieldByName('word').AsString;
+      status := Query.FieldByName('status').AsInteger;
+    result := true;
+    Query.next;
+  end
+  else
+    result := false;
+end;
+
+function TWord5.SelectAllSorted : TSQLQuery;
+begin
+  result := TSQLQuery.Create(nil);
+  try
+    result.Database := Conn;
+    result.SQL.Text := Word5SelectAllSorted;
+    result.Open;
+  except
+    result.Destroy;
+  end;
+end;
+
+function TWord5.nextSelectAllSorted(const Query : TSQLQuery) : Boolean;
+begin
+  if not Query.eof then begin
+      word := Query.FieldByName('word').AsString;
+      status := Query.FieldByName('status').AsInteger;
+    result := true;
+    Query.next;
+  end
+  else
+    result := false;
+end;
+
+function TWord5.ByStatus : TSQLQuery;
+begin
+  result := TSQLQuery.Create(nil);
+  try
+    result.Database := Conn;
+    result.SQL.Text := Word5ByStatus;
+    result.Params.ParamByName('status').AsInteger := status;
+    result.Open;
+  except
+    result.Destroy;
+  end;
+end;
+
+procedure TWord5.ByStatus(
+    const astatus : Integer
+);
+begin
+  status := astatus;
+  result := ByStatus;
+end;
+
+function TWord5.nextByStatus(const Query : TSQLQuery) : Boolean;
 begin
   if not Query.eof then begin
       word := Query.FieldByName('word').AsString;

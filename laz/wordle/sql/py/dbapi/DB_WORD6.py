@@ -51,3 +51,29 @@ class DBWord6(DWord6):
         return others
     def execSelectAll(self):
         return self.loadSelectAll()
+    def loadSelectAllSorted(self):
+        dbapi = Word6SelectAllSorted()
+        records = dbapi.execute(self.connect)
+        others = list()
+        for rec in records:
+            other = DWord6()
+            other.word = rec.word
+            other.status = rec.status
+            others.append(other)
+        return others
+    def execSelectAllSorted(self):
+        return self.loadSelectAllSorted()
+    def loadByStatus(self):
+        dbapi = Word6ByStatus()
+        dbapi.status = self.status
+        records = dbapi.execute(self.connect)
+        others = list()
+        for rec in records:
+            other = DWord6()
+            other.word = rec.word
+            other.status = rec.status
+            others.append(other)
+        return others
+    def execByStatus(self, status):
+        self.status = status
+        return self.loadByStatus()

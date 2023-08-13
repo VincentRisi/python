@@ -51,3 +51,29 @@ class DBWord5(DWord5):
         return others
     def execSelectAll(self):
         return self.loadSelectAll()
+    def loadSelectAllSorted(self):
+        dbapi = Word5SelectAllSorted()
+        records = dbapi.execute(self.connect)
+        others = list()
+        for rec in records:
+            other = DWord5()
+            other.word = rec.word
+            other.status = rec.status
+            others.append(other)
+        return others
+    def execSelectAllSorted(self):
+        return self.loadSelectAllSorted()
+    def loadByStatus(self):
+        dbapi = Word5ByStatus()
+        dbapi.status = self.status
+        records = dbapi.execute(self.connect)
+        others = list()
+        for rec in records:
+            other = DWord5()
+            other.word = rec.word
+            other.status = rec.status
+            others.append(other)
+        return others
+    def execByStatus(self, status):
+        self.status = status
+        return self.loadByStatus()

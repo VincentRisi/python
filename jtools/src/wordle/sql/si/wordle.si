@@ -22,6 +22,8 @@ PROC Insert
 PROC Update
 PROC SelectOne
 PROC SelectAll
+PROC SelectAll in order word
+PROC ByStatus SELECTBY status in order word
 
 TABLE Word6
       word   char 6
@@ -32,6 +34,8 @@ PROC Insert
 PROC Update
 PROC SelectOne
 PROC SelectAll
+PROC SelectAll in order word
+PROC ByStatus SELECTBY status in order word
 
 TABLE Word7
       word   char 7
@@ -42,6 +46,8 @@ PROC Insert
 PROC Update
 PROC SelectOne
 PROC SelectAll
+PROC SelectAll in order word
+PROC ByStatus SELECTBY status in order word
 
 TABLE Word8
       word   char 8
@@ -52,4 +58,6 @@ PROC Insert
 PROC Update
 PROC SelectOne
 PROC SelectAll
+PROC SelectAll in order word
+PROC ByStatus SELECTBY status in order word
 
