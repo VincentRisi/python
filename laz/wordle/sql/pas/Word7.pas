@@ -31,11 +31,11 @@ type TWord7 = Class
   function nextSelectAll(const Query : TSQLQuery) : Boolean;
   function SelectAllSorted : TSQLQuery;
   function nextSelectAllSorted(const Query : TSQLQuery) : Boolean;
-  function ByStatus : TSQLQuery;
-  function ByStatus(
+  function ListByStatus : TSQLQuery;
+  function ListByStatus(
     const astatus : Integer
   ) : TSQLQuery; overload;
-  function nextByStatus(const Query : TSQLQuery) : Boolean;
+  function nextListByStatus(const Query : TSQLQuery) : Boolean;
 end;
 
 var
@@ -79,7 +79,7 @@ var
     ' order by word';
 
 var
-  Word7ByStatus : AnsiString =
+  Word7ListByStatus : AnsiString =
     'select' +
     '  word' +
     ', status' +
@@ -226,12 +226,12 @@ begin
     result := false;
 end;
 
-function TWord7.ByStatus : TSQLQuery;
+function TWord7.ListByStatus : TSQLQuery;
 begin
   result := TSQLQuery.Create(nil);
   try
     result.Database := Conn;
-    result.SQL.Text := Word7ByStatus;
+    result.SQL.Text := Word7ListByStatus;
     result.Params.ParamByName('status').AsInteger := status;
     result.Open;
   except
@@ -239,15 +239,15 @@ begin
   end;
 end;
 
-procedure TWord7.ByStatus(
+function TWord7.ListByStatus(
     const astatus : Integer
-);
+) : TSQLQuery;
 begin
   status := astatus;
-  result := ByStatus;
+  result := ListByStatus;
 end;
 
-function TWord7.nextByStatus(const Query : TSQLQuery) : Boolean;
+function TWord7.nextListByStatus(const Query : TSQLQuery) : Boolean;
 begin
   if not Query.eof then begin
       word := Query.FieldByName('word').AsString;

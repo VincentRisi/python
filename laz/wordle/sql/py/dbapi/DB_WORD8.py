@@ -63,8 +63,8 @@ class DBWord8(DWord8):
         return others
     def execSelectAllSorted(self):
         return self.loadSelectAllSorted()
-    def loadByStatus(self):
-        dbapi = Word8ByStatus()
+    def loadListByStatus(self):
+        dbapi = Word8ListByStatus()
         dbapi.status = self.status
         records = dbapi.execute(self.connect)
         others = list()
@@ -74,6 +74,6 @@ class DBWord8(DWord8):
             other.status = rec.status
             others.append(other)
         return others
-    def execByStatus(self, status):
+    def execListByStatus(self, status):
         self.status = status
-        return self.loadByStatus()
+        return self.loadListByStatus()

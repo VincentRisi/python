@@ -459,9 +459,9 @@ public class DelphiCode extends Generator
       }
       else
       {
-        writeln("procedure T" + fullName + "." + proc.upperFirst() + "(");
+        writeln("function T" + fullName + "." + proc.upperFirst() + "(");
         generateWithParms(proc);
-        writeln(");");
+        writeln(") : TSQLQuery;");
       }
       writeln("begin");
       for (int j=0; j<proc.inputs.size(); j++)
