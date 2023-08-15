@@ -31,11 +31,11 @@ type TWord8 = Class
   function nextSelectAll(const Query : TSQLQuery) : Boolean;
   function SelectAllSorted : TSQLQuery;
   function nextSelectAllSorted(const Query : TSQLQuery) : Boolean;
-  function ByStatus : TSQLQuery;
-  function ByStatus(
+  function ListByStatus : TSQLQuery;
+  function ListByStatus(
     const astatus : Integer
   ) : TSQLQuery; overload;
-  function nextByStatus(const Query : TSQLQuery) : Boolean;
+  function nextListByStatus(const Query : TSQLQuery) : Boolean;
 end;
 
 var
@@ -79,7 +79,7 @@ var
     ' order by word';
 
 var
-  Word8ByStatus : AnsiString =
+  Word8ListByStatus : AnsiString =
     'select' +
     '  word' +
     ', status' +
@@ -109,7 +109,7 @@ begin
     Query.Params.ParamByName('status').AsInteger := status;
     Query.ExecSQL;
   finally
-    Query.Destroy;
+    Query.Free;
   end;
 end;
 
@@ -135,7 +135,7 @@ begin
     Query.Params.ParamByName('word').AsString := word;
     Query.ExecSQL;
   finally
-    Query.Destroy;
+    Query.Free;
   end;
 end;
 
@@ -166,7 +166,7 @@ begin
     else
       result := false;
   finally
-    Query.Destroy;
+    Query.Free;
   end;
 end;
 
@@ -186,7 +186,7 @@ begin
     result.SQL.Text := Word8SelectAll;
     result.Open;
   except
-    result.Destroy;
+    result.Free;
   end;
 end;
 
@@ -210,7 +210,7 @@ begin
     result.SQL.Text := Word8SelectAllSorted;
     result.Open;
   except
-    result.Destroy;
+    result.Free;
   end;
 end;
 
@@ -226,28 +226,28 @@ begin
     result := false;
 end;
 
-function TWord8.ByStatus : TSQLQuery;
+function TWord8.ListByStatus : TSQLQuery;
 begin
   result := TSQLQuery.Create(nil);
   try
     result.Database := Conn;
-    result.SQL.Text := Word8ByStatus;
+    result.SQL.Text := Word8ListByStatus;
     result.Params.ParamByName('status').AsInteger := status;
     result.Open;
   except
-    result.Destroy;
+    result.Free;
   end;
 end;
 
-procedure TWord8.ByStatus(
+function TWord8.ListByStatus(
     const astatus : Integer
-);
+) : TSQLQuery;
 begin
   status := astatus;
-  result := ByStatus;
+  result := ListByStatus;
 end;
 
-function TWord8.nextByStatus(const Query : TSQLQuery) : Boolean;
+function TWord8.nextListByStatus(const Query : TSQLQuery) : Boolean;
 begin
   if not Query.eof then begin
       word := Query.FieldByName('word').AsString;

@@ -433,12 +433,12 @@ public class DelphiCode extends Generator
     if (proc.outputs.size() == 0 || proc.isSingle)
     {
       writeln(1, "finally");
-      writeln(2, "Query.Destroy;");
+      writeln(2, "Query.Free;");
     }
     else
     {
       writeln(1, "except");
-      writeln(2, "result.Destroy;");
+      writeln(2, "result.Free;");
     }
     writeln(1, "end;");
     writeln("end;");
@@ -459,9 +459,9 @@ public class DelphiCode extends Generator
       }
       else
       {
-        writeln("procedure T" + fullName + "." + proc.upperFirst() + "(");
+        writeln("function T" + fullName + "." + proc.upperFirst() + "(");
         generateWithParms(proc);
-        writeln(");");
+        writeln(") : TSQLQuery;");
       }
       writeln("begin");
       for (int j=0; j<proc.inputs.size(); j++)

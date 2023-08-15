@@ -121,12 +121,12 @@ select
             records.append(record)
         return records
 
-class Word8ByStatus(DWord8):
+class Word8ListByStatus(DWord8):
     def _get_output(self, _result):
         self.word = _result[0]
         self.status = _result[1]
         return 2
-    def execute(self, connect): # byStatus
+    def execute(self, connect): # listByStatus
         _command = f'''\
 select
   word
@@ -140,7 +140,7 @@ select
             self.status])
         records = []
         for row in cursor:
-            record = Word8ByStatus()
+            record = Word8ListByStatus()
             record._get_output(row)
             records.append(record)
         return records
