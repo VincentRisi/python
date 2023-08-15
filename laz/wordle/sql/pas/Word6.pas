@@ -109,7 +109,7 @@ begin
     Query.Params.ParamByName('status').AsInteger := status;
     Query.ExecSQL;
   finally
-    Query.Destroy;
+    Query.Free;
   end;
 end;
 
@@ -135,7 +135,7 @@ begin
     Query.Params.ParamByName('word').AsString := word;
     Query.ExecSQL;
   finally
-    Query.Destroy;
+    Query.Free;
   end;
 end;
 
@@ -166,7 +166,7 @@ begin
     else
       result := false;
   finally
-    Query.Destroy;
+    Query.Free;
   end;
 end;
 
@@ -186,7 +186,7 @@ begin
     result.SQL.Text := Word6SelectAll;
     result.Open;
   except
-    result.Destroy;
+    result.Free;
   end;
 end;
 
@@ -210,7 +210,7 @@ begin
     result.SQL.Text := Word6SelectAllSorted;
     result.Open;
   except
-    result.Destroy;
+    result.Free;
   end;
 end;
 
@@ -235,7 +235,7 @@ begin
     result.Params.ParamByName('status').AsInteger := status;
     result.Open;
   except
-    result.Destroy;
+    result.Free;
   end;
 end;
 

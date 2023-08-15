@@ -93,7 +93,7 @@ begin
     Query.Params.ParamByName('meaning').AsString := meaning;
     Query.ExecSQL;
   finally
-    Query.Destroy;
+    Query.Free;
   end;
 end;
 
@@ -119,7 +119,7 @@ begin
     Query.Params.ParamByName('word').AsString := word;
     Query.ExecSQL;
   finally
-    Query.Destroy;
+    Query.Free;
   end;
 end;
 
@@ -150,7 +150,7 @@ begin
     else
       result := false;
   finally
-    Query.Destroy;
+    Query.Free;
   end;
 end;
 
@@ -187,7 +187,7 @@ begin
     else
       result := false;
   finally
-    Query.Destroy;
+    Query.Free;
   end;
 end;
 
