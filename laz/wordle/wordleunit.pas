@@ -111,7 +111,8 @@ type
 var
   INI          : TINIFile;
   iniPath      : String;
-  DatabaseName : String;
+  dbName       : String;
+  hostName     : String;
   FirstTime    : boolean;
   WordleForm   : TWordleForm;
   WordLetter   : Array [1..6, 1..5] of TEdit;
@@ -412,8 +413,8 @@ begin
    Tran   := TSQLTransaction.Create(nil);
    Conn.Transaction := Tran;
    Tran.Database := Conn;
-   Conn.DatabaseName := '.\wordle.db';
-   Conn.Hostname := 'localhost';
+   Conn.DatabaseName := dbName;
+   Conn.Hostname := hostName;
    Conn.Open;
    Tran.Active := True;
    Load;
@@ -567,6 +568,10 @@ end;
 
 function TWordleForm.iniRead(key: string): string;
 begin
+  INI := TINIFile.Create('wordle.ini');
+  dbName := INI.ReadString('database','dbName','./wordle.db');
+  hostName := INI.ReadString('database','hostName','localhost');
+  INI.Destroy;
   result := 'Loaded';
 end;
 
