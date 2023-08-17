@@ -16,7 +16,7 @@ object WordleForm: TWordleForm
   Font.Quality = fqDraft
   OnActivate = FormActivate
   OnCreate = FormCreate
-  LCLVersion = '3.0.0.1'
+  LCLVersion = '2.2.6.0'
   object Guess1: TEdit
     Left = 8
     Height = 21

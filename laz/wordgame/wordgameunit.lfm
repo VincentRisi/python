@@ -1,0 +1,413 @@
+object Form1: TForm1
+  Left = 827
+  Height = 511
+  Top = 262
+  Width = 903
+  Caption = 'Word Game based on Scrabble Official Words'
+  ClientHeight = 511
+  ClientWidth = 903
+  Constraints.MinHeight = 500
+  Constraints.MinWidth = 900
+  Font.CharSet = ANSI_CHARSET
+  Font.Height = -16
+  Font.Name = 'Lucida Console'
+  Font.Pitch = fpFixed
+  Font.Quality = fqDraft
+  OnActivate = FormActivate
+  OnCreate = FormCreate
+  PopupMenu = PopupMenu1
+  LCLVersion = '2.2.6.0'
+  object BEnter: TButton
+    Left = 24
+    Height = 31
+    Top = 459
+    Width = 51
+    Anchors = [akLeft, akBottom]
+    Caption = 'enter'
+    Font.CharSet = ANSI_CHARSET
+    Font.Height = -11
+    Font.Name = 'Courier New'
+    Font.Pitch = fpFixed
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 1
+    TabStop = False
+  end
+  object TBQ: TPanel
+    Left = 24
+    Height = 32
+    Top = 387
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'Q'
+    TabOrder = 2
+  end
+  object TBW: TPanel
+    Left = 64
+    Height = 32
+    Top = 387
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'W'
+    TabOrder = 3
+  end
+  object TBE: TPanel
+    Left = 104
+    Height = 32
+    Top = 387
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'E'
+    TabOrder = 4
+  end
+  object TBR: TPanel
+    Left = 144
+    Height = 32
+    Top = 387
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'R'
+    TabOrder = 5
+  end
+  object TBT: TPanel
+    Left = 184
+    Height = 32
+    Top = 387
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'T'
+    TabOrder = 6
+  end
+  object TBY: TPanel
+    Left = 224
+    Height = 32
+    Top = 387
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'Y'
+    TabOrder = 7
+  end
+  object TBU: TPanel
+    Left = 264
+    Height = 32
+    Top = 387
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'U'
+    TabOrder = 8
+  end
+  object TBI: TPanel
+    Left = 304
+    Height = 32
+    Top = 387
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'I'
+    TabOrder = 9
+  end
+  object TBO: TPanel
+    Left = 344
+    Height = 32
+    Top = 387
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'O'
+    TabOrder = 10
+  end
+  object TBP: TPanel
+    Left = 384
+    Height = 32
+    Top = 387
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'P'
+    TabOrder = 11
+  end
+  object TBA: TPanel
+    Left = 37
+    Height = 32
+    Top = 424
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'A'
+    TabOrder = 12
+  end
+  object TBS: TPanel
+    Left = 77
+    Height = 32
+    Top = 424
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'S'
+    TabOrder = 13
+  end
+  object TBD: TPanel
+    Left = 117
+    Height = 32
+    Top = 424
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'D'
+    TabOrder = 14
+  end
+  object TBF: TPanel
+    Left = 157
+    Height = 32
+    Top = 424
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'F'
+    TabOrder = 15
+  end
+  object TBG: TPanel
+    Left = 197
+    Height = 32
+    Top = 424
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'G'
+    TabOrder = 16
+  end
+  object TBH: TPanel
+    Left = 237
+    Height = 32
+    Top = 424
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'H'
+    TabOrder = 17
+  end
+  object TBJ: TPanel
+    Left = 277
+    Height = 32
+    Top = 424
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'J'
+    TabOrder = 18
+  end
+  object TBK: TPanel
+    Left = 320
+    Height = 32
+    Top = 424
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'K'
+    TabOrder = 19
+  end
+  object TBL: TPanel
+    Left = 360
+    Height = 32
+    Top = 424
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'L'
+    TabOrder = 20
+  end
+  object TBZ: TPanel
+    Left = 80
+    Height = 32
+    Top = 459
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'Z'
+    TabOrder = 21
+  end
+  object TBX: TPanel
+    Left = 120
+    Height = 32
+    Top = 459
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'X'
+    TabOrder = 22
+  end
+  object TBC: TPanel
+    Left = 160
+    Height = 32
+    Top = 459
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'C'
+    TabOrder = 23
+  end
+  object TBV: TPanel
+    Left = 200
+    Height = 32
+    Top = 459
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'V'
+    TabOrder = 24
+  end
+  object TBB: TPanel
+    Left = 240
+    Height = 32
+    Top = 459
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'B'
+    TabOrder = 25
+  end
+  object TBN: TPanel
+    Left = 280
+    Height = 32
+    Top = 459
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'N'
+    TabOrder = 26
+  end
+  object TBM: TPanel
+    Left = 323
+    Height = 32
+    Top = 459
+    Width = 35
+    Anchors = [akLeft, akBottom]
+    BevelColor = clGray
+    BorderStyle = bsSingle
+    Caption = 'M'
+    TabOrder = 27
+  end
+  object LogMemo: TMemo
+    Left = 440
+    Height = 511
+    Top = 0
+    Width = 463
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    Font.CharSet = ANSI_CHARSET
+    Font.Height = -16
+    Font.Name = 'Lucida Console'
+    Font.Pitch = fpFixed
+    Font.Quality = fqDraft
+    Lines.Strings = (
+      'Top 48 Left 48 Width 32 Height 32'
+    )
+    ParentFont = False
+    TabOrder = 28
+  end
+  object WL: TEdit
+    Left = 8
+    Height = 30
+    Top = 8
+    Width = 32
+    Alignment = taCenter
+    CharCase = ecUppercase
+    Color = clWhite
+    Font.CharSet = ANSI_CHARSET
+    Font.Height = -19
+    Font.Name = 'Courier New'
+    Font.Pitch = fpFixed
+    Font.Quality = fqProof
+    Font.Style = [fsBold]
+    MaxLength = 1
+    ParentFont = False
+    ReadOnly = True
+    TabStop = False
+    TabOrder = 29
+    Visible = False
+  end
+  object BBack: TButton
+    Left = 368
+    Height = 31
+    Top = 459
+    Width = 51
+    Anchors = [akLeft, akBottom]
+    Caption = '<x]'
+    Font.CharSet = ANSI_CHARSET
+    Font.Height = -11
+    Font.Name = 'Courier New'
+    Font.Pitch = fpFixed
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 0
+    TabStop = False
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 48
+    Top = 8
+    object Sizer: TMenuItem
+      Caption = 'Word Size'
+      object Five: TMenuItem
+        Tag = 5
+        Caption = 'Five'
+        OnClick = WordSizeClick
+      end
+      object Six: TMenuItem
+        Tag = 6
+        Caption = 'Six'
+        OnClick = WordSizeClick
+      end
+      object Seven: TMenuItem
+        Tag = 7
+        Caption = 'Seven'
+        OnClick = WordSizeClick
+      end
+      object Eight: TMenuItem
+        Tag = 8
+        Caption = 'Eight'
+        OnClick = WordSizeClick
+      end
+    end
+    object Possible: TMenuItem
+      Caption = 'Possible'
+      Enabled = False
+    end
+    object Clear: TMenuItem
+      Caption = 'Clear'
+      Enabled = False
+    end
+  end
+end

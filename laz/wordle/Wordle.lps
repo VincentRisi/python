@@ -8,7 +8,8 @@
       <Unit>
         <Filename Value="Wordle.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="89" Y="10"/>
         <UsageCount Value="218"/>
         <Loaded Value="True"/>
       </Unit>
@@ -20,7 +21,8 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="WordleUnit"/>
         <IsVisibleTab Value="True"/>
-        <CursorPos X="59" Y="561"/>
+        <TopLine Value="556"/>
+        <CursorPos Y="416"/>
         <UsageCount Value="218"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -28,20 +30,18 @@
       <Unit>
         <Filename Value="..\..\jtools\out\wordle\sql\pas\Word5.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="24"/>
         <CursorPos X="71" Y="24"/>
-        <UsageCount Value="68"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="71"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\jtools\out\wordle\sql\pas\Dictionary.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="135"/>
         <CursorPos Y="200"/>
-        <UsageCount Value="53"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="56"/>
       </Unit>
       <Unit>
         <Filename Value="wordleunit.lfm"/>
@@ -95,16 +95,29 @@
         <CursorPos Y="118"/>
         <UsageCount Value="6"/>
       </Unit>
+      <Unit>
+        <Filename Value="sql\pas\Dictionary.pas"/>
+        <EditorIndex Value="3"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="sql\pas\Word5.pas"/>
+        <EditorIndex Value="4"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\wordgame\wordgameunit.pas"/>
+        <UnitName Value="WordGameUnit"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="205"/>
+        <CursorPos Y="239"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
     </Units>
-    <JumpHistory HistoryIndex="28">
-      <Position>
-        <Filename Value="wordleunit.pas"/>
-        <Caret Line="581" TopLine="563"/>
-      </Position>
-      <Position>
-        <Filename Value="wordleunit.pas"/>
-        <Caret Line="579" TopLine="563"/>
-      </Position>
+    <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="wordleunit.pas"/>
         <Caret Line="580" TopLine="563"/>
@@ -202,10 +215,6 @@
         <Caret Line="220" Column="30" TopLine="213"/>
       </Position>
       <Position>
-        <Filename Value="..\..\jtools\out\wordle\sql\pas\Dictionary.pas"/>
-        <Caret Line="200" TopLine="166"/>
-      </Position>
-      <Position>
         <Filename Value="wordleunit.pas"/>
         <Caret Line="463" Column="31" TopLine="444"/>
       </Position>
@@ -213,17 +222,31 @@
         <Filename Value="wordleunit.pas"/>
         <Caret Line="106" Column="20" TopLine="95"/>
       </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="568" Column="29" TopLine="543"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Column="20"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="106" Column="21" TopLine="76"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="417" TopLine="396"/>
+      </Position>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode=""/>
     </RunParams>
     <HistoryLists>
-      <List Name="WorkingDirectory" Type="File" Count="1"/>
       <List Name="LaunchingApplication" Type="File" Count="1">
         <Item1 Value="C:\Windows\system32\cmd.exe /C ${TargetCmdLine}"/>
       </List>
-      <List Name="CommandLineParameters" Count="1"/>
     </HistoryLists>
   </ProjectSession>
 </CONFIG>
