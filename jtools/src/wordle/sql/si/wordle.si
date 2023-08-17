@@ -25,6 +25,14 @@ PROC SelectOne
 PROC SelectAll
 PROC SelectAll in order word
 PROC ListByStatus SELECTBY status in order word
+PROC DictList
+OUTPUT
+   word char 5
+SQLCODE
+  select w.word
+  from Word5 w, Dictionary d
+  where w.word = d.word
+ENDCODE
 
 TABLE Word6
       word   char 6
@@ -37,6 +45,14 @@ PROC SelectOne
 PROC SelectAll
 PROC SelectAll in order word
 PROC ListByStatus SELECTBY status in order word
+PROC DictList
+OUTPUT
+   word char 6
+SQLCODE
+  select w.word
+  from Word6 w, Dictionary d
+  where w.word = d.word
+ENDCODE
 
 TABLE Word7
       word   char 7
@@ -49,6 +65,14 @@ PROC SelectOne
 PROC SelectAll
 PROC SelectAll in order word
 PROC ListByStatus SELECTBY status in order word
+PROC DictList
+OUTPUT
+   word char 7
+SQLCODE
+  select w.word
+  from Word7 w, Dictionary d
+  where w.word = d.word
+ENDCODE
 
 TABLE Word8
       word   char 8
@@ -61,4 +85,12 @@ PROC SelectOne
 PROC SelectAll
 PROC SelectAll in order word
 PROC ListByStatus SELECTBY status in order word
+PROC DictList
+OUTPUT
+   word char 8
+SQLCODE
+  select w.word
+  from Word8 w, Dictionary d
+  where w.word = d.word
+ENDCODE
 

@@ -77,3 +77,21 @@ class DBWord5(DWord5):
     def execListByStatus(self, status):
         self.status = status
         return self.loadListByStatus()
+
+class DBWord5DictList(DWord5DictList):
+    def __init__(self, connect):
+        DWord5DictList.__init__(self)
+        self.connect = connect
+    def set_connect(self, connect):
+        self.connect = connect
+    def loadDictList(self):
+        dbapi = Word5DictList()
+        records = dbapi.execute(self.connect)
+        others = list()
+        for rec in records:
+            other = DWord5DictList()
+            other.word = rec.word
+            others.append(other)
+        return others
+    def execDictList(self):
+        return self.loadDictList()

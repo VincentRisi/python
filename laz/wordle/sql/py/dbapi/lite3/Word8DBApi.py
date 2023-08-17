@@ -24,6 +24,15 @@ class DWord8():
     def _fields(self):
         return DWord8.__slots__
 
+class DWord8DictList():
+    word: Char(9)
+    def _make(self): return DWord8DictList()
+    __slots__ = ['word']
+    def __init__(self):
+        self.word = ''
+    def _fields(self):
+        return DWord8DictList.__slots__
+
 class Word8Insert(DWord8):
     def __init__(self):
         DWord8.__init__(self)
@@ -141,6 +150,25 @@ select
         records = []
         for row in cursor:
             record = Word8ListByStatus()
+            record._get_output(row)
+            records.append(record)
+        return records
+
+class Word8DictList(DWord8DictList):
+    def _get_output(self, _result):
+        self.word = _result[0]
+        return 1
+    def execute(self, connect): # dictList
+        _command = f'''\
+select w.word 
+from Word8 w, Dictionary d 
+where w.word = d.word 
+'''
+        cursor = connect.cursor()
+        cursor.execute(_command)
+        records = []
+        for row in cursor:
+            record = Word8DictList()
             record._get_output(row)
             records.append(record)
         return records

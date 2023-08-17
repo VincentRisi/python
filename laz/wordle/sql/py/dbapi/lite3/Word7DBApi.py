@@ -24,6 +24,15 @@ class DWord7():
     def _fields(self):
         return DWord7.__slots__
 
+class DWord7DictList():
+    word: Char(8)
+    def _make(self): return DWord7DictList()
+    __slots__ = ['word']
+    def __init__(self):
+        self.word = ''
+    def _fields(self):
+        return DWord7DictList.__slots__
+
 class Word7Insert(DWord7):
     def __init__(self):
         DWord7.__init__(self)
@@ -141,6 +150,25 @@ select
         records = []
         for row in cursor:
             record = Word7ListByStatus()
+            record._get_output(row)
+            records.append(record)
+        return records
+
+class Word7DictList(DWord7DictList):
+    def _get_output(self, _result):
+        self.word = _result[0]
+        return 1
+    def execute(self, connect): # dictList
+        _command = f'''\
+select w.word 
+from Word7 w, Dictionary d 
+where w.word = d.word 
+'''
+        cursor = connect.cursor()
+        cursor.execute(_command)
+        records = []
+        for row in cursor:
+            record = Word7DictList()
             record._get_output(row)
             records.append(record)
         return records

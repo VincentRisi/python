@@ -38,6 +38,15 @@ type TWord8 = Class
   function nextListByStatus(const Query : TSQLQuery) : Boolean;
 end;
 
+type TWord8DictList = Class
+  Conn : TSQLite3Connection;
+  Tran : TSQLTransaction;
+  word : AnsiString;
+  constructor Create(const aConn : TSQLite3Connection; const aTran : TSQLTransaction);
+  function DictList : TSQLQuery;
+  function nextDictList(const Query : TSQLQuery) : Boolean;
+end;
+
 var
   Word8Insert : AnsiString =
     'insert into Word8 (' +
@@ -86,6 +95,12 @@ var
     ' from Word8' +
     ' where status = :status' +
     ' order by word';
+
+var
+  Word8DictList : AnsiString =
+    'select w.word ' +
+    'from Word8 w, Dictionary d ' +
+    'where w.word = d.word ';
 
 implementation
 
@@ -252,6 +267,36 @@ begin
   if not Query.eof then begin
       word := Query.FieldByName('word').AsString;
       status := Query.FieldByName('status').AsInteger;
+    result := true;
+    Query.next;
+  end
+  else
+    result := false;
+end;
+
+constructor TWord8DictList.Create(const aConn : TSQLite3Connection; const aTran : TSQLTransaction);
+begin
+  Conn := aConn;
+  Tran := aTran;
+  word := '';
+end;
+
+function TWord8DictList.DictList : TSQLQuery;
+begin
+  result := TSQLQuery.Create(nil);
+  try
+    result.Database := Conn;
+    result.SQL.Text := Word8DictList;
+    result.Open;
+  except
+    result.Free;
+  end;
+end;
+
+function TWord8DictList.nextDictList(const Query : TSQLQuery) : Boolean;
+begin
+  if not Query.eof then begin
+      word := Query.FieldByName('word').AsString;
     result := true;
     Query.next;
   end

@@ -77,3 +77,21 @@ class DBWord8(DWord8):
     def execListByStatus(self, status):
         self.status = status
         return self.loadListByStatus()
+
+class DBWord8DictList(DWord8DictList):
+    def __init__(self, connect):
+        DWord8DictList.__init__(self)
+        self.connect = connect
+    def set_connect(self, connect):
+        self.connect = connect
+    def loadDictList(self):
+        dbapi = Word8DictList()
+        records = dbapi.execute(self.connect)
+        others = list()
+        for rec in records:
+            other = DWord8DictList()
+            other.word = rec.word
+            others.append(other)
+        return others
+    def execDictList(self):
+        return self.loadDictList()
