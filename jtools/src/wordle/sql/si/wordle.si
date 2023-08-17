@@ -12,6 +12,7 @@ PROC Insert
 PROC Update
 PROC SelectOne
 PROC Exists
+PROC SelectAll
 
 TABLE Word5
       word   char 5

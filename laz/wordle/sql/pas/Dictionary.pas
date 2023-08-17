@@ -27,6 +27,8 @@ type TDictionary = Class
   function SelectOne(
     const aword : AnsiString
   ) : Boolean; overload;
+  function SelectAll : TSQLQuery;
+  function nextSelectAll(const Query : TSQLQuery) : Boolean;
 end;
 
 type TDictionaryExists = Class
@@ -70,6 +72,13 @@ var
   DictionaryExists : AnsiString =
     'select count(*) noOf from Dictionary' +
     ' where word = :word';
+
+var
+  DictionarySelectAll : AnsiString =
+    'select' +
+    '  word' +
+    ', meaning' +
+    ' from Dictionary';
 
 implementation
 
@@ -160,6 +169,30 @@ function TDictionary.SelectOne(
 begin
   word := aword;
   result := SelectOne;
+end;
+
+function TDictionary.SelectAll : TSQLQuery;
+begin
+  result := TSQLQuery.Create(nil);
+  try
+    result.Database := Conn;
+    result.SQL.Text := DictionarySelectAll;
+    result.Open;
+  except
+    result.Free;
+  end;
+end;
+
+function TDictionary.nextSelectAll(const Query : TSQLQuery) : Boolean;
+begin
+  if not Query.eof then begin
+      word := Query.FieldByName('word').AsString;
+      meaning := Query.FieldByName('meaning').AsString;
+    result := true;
+    Query.next;
+  end
+  else
+    result := false;
 end;
 
 constructor TDictionaryExists.Create(const aConn : TSQLite3Connection; const aTran : TSQLTransaction);

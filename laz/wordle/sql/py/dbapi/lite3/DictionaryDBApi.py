@@ -100,3 +100,24 @@ select count(*) noOf from Dictionary
         self._get_output(result)
         return True
 
+class DictionarySelectAll(DDictionary):
+    def _get_output(self, _result):
+        self.word = _result[0]
+        self.meaning = _result[1]
+        return 2
+    def execute(self, connect): # selectAll
+        _command = f'''\
+select
+  word
+, meaning
+ from Dictionary
+'''
+        cursor = connect.cursor()
+        cursor.execute(_command)
+        records = []
+        for row in cursor:
+            record = DictionarySelectAll()
+            record._get_output(row)
+            records.append(record)
+        return records
+

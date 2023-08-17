@@ -37,6 +37,18 @@ class DBDictionary(DDictionary):
     def readSelectOne(self, word):
         self.word = word
         return self.execSelectOne()
+    def loadSelectAll(self):
+        dbapi = DictionarySelectAll()
+        records = dbapi.execute(self.connect)
+        others = list()
+        for rec in records:
+            other = DDictionary()
+            other.word = rec.word
+            other.meaning = rec.meaning
+            others.append(other)
+        return others
+    def execSelectAll(self):
+        return self.loadSelectAll()
 
 class DBDictionaryExists(DDictionaryExists):
     def __init__(self, connect):
