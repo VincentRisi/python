@@ -1,0 +1,54 @@
+Trish Scarborough
+
+From Arkham Horror Wiki
+Trish Scarborough is an investigator. She first appeared in the Innsmouth Horror expansion.
+
+Trish Scarborough investigator sheet back.
+Trish Scarborough investigator sheet front.
+Sheet info
+
+Occupation: the Spy
+
+Home: Newspaper
+
+Unique Ability: Abnormal Focus - Upkeep: Trish does not spend focus to adjust her sliders. Instead, at the start of each Upkeep Phase, move her sliders all the way to the left. She may then shift her sliders to the right a total of five shifts.
+
+Breaking the Limits - Upkeep: Trish may spend 1 Sanity or 1 Stamina for one extra shift to the right when adjusting her skills. She may do this up to three times per turn.
+
+Status
+Sanity: 6
+Stamina: 4
+Fixed Possessions
+$4
+2 Clue tokens
+1 Common item (Lucky Cigarette Case)
+Random Possessions
+2 Common items
+2 Unique items
+1 Skill
+Focus: 1
+
+Skills
+Speed	1	2	3	4
+Sneak	3	4	5	6
+Fight	1	2	3	4
+Will	1	2	3	4
+Lore	2	3	4	5
+Luck	0	1	2	3
+Personal Story
+
+PsTrishScarboroughBack.png PsTrishScarboroughFront.png PsTrishScarboroughPassed.png PsTrishScarboroughFailed.png
+
+
+The Story So Far: It seemed so surreal when she was approached by a recruiter after one of her gymnastic meets all those years ago. Somehow, she had come to the attention of a nameless agency working for the government to protect the country. Never one to turn down a new challenge, Trish had eagerly signed up.
+
+One of the first things that they taught her is that there is strength in focus - in joining the mind to the body to exceed the whole. With her agile body and formidable mind, she was soon one of their best spies.
+
+But recently, Trish has begun to wonder at the motives of the organization she works for. Are they really tied to the government, or is she working for some sort of shadow society ruling the country from behind the scenes? Her quiet inquiries eventually led her to the small city of Arkham, Massachusetts.
+
+Normally, newspaper buildings are something that Trish avoids like the plague in her line of work. But standing in front of the Arkham Advertiser, she knows that this is her last lead. If the information she needs is anywhere, it'll be here.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Trish_Scarborough&oldid=9683"
+Categories: Innsmouth HorrorInvestigators
+This page was last modified on 27 June 2010, at 08:01.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

@@ -1,0 +1,27 @@
+database arkham
+package  vince.arkham
+output   districts
+server   arkham 
+
+table Districts
+  district char 16
+  name     char 64
+  
+key prime_key primary district
+
+proc insert
+proc selectone
+
+sqldata
+  insert into Districts values ('DOWNTOWN',    'Downtown');
+  insert into Districts values ('EASTTOWN',    'Easttown');
+  insert into Districts values ('FHILL',       'French Hill');
+  insert into Districts values ('MDISTRICT',   'Merchant District');
+  insert into Districts values ('MUNIVERSITY', 'Miskatonic University');
+  insert into Districts values ('NORTHSIDE',   'Northside');
+  insert into Districts values ('RIVERTOWN',   'Rivertown');
+  insert into Districts values ('SOUTHSIDE',   'Southside');
+  insert into Districts values ('UPTOWN',      'Uptown');
+  commit;
+enddata
+

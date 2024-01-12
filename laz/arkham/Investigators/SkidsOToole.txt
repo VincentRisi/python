@@ -1,0 +1,52 @@
+"Skids" O'Toole
+
+From Arkham Horror Wiki
+"Skids" O'Toole is an investigator. He first appeared in the Innsmouth Horror expansion.
+
+"Skids" O'Toole investigator sheet back.
+"Skids" O'Toole investigator sheet front.
+Sheet info
+
+Occupation: the Ex-Convict
+
+Home: Ma's Boarding House
+
+Unique Ability: School of Hard Knocks - Any Phase: Once per skill check, "Skids" may roll two bonus dice for each "1" he rolled. He may do this either before or after spending Clue tokens on the roll.
+
+Criminal Record - "Skids" cannot become the Deputy of Arkham, nor may he gain a Bank Loan.
+
+Status
+Sanity: 3
+Stamina: 7
+Fixed Possessions
+$5
+3 Clue tokens
+1 Common item (Axe)
+Random Possessions
+2 Common items
+1 Unique item
+1 Skill
+Focus: 2
+
+Skills
+Speed	0	1	2	3
+Sneak	5	4	3	2
+Fight	2	3	4	5
+Will	3	2	1	0
+Lore	1	2	3	4
+Luck	4	3	2	1
+Personal Story
+
+PsSkidsOTooleBack.png PsSkidsOTooleFront.png PsSkidsOToolePassed.png PsSkidsOTooleFailed.png
+
+
+The Story So Far: Sure, Skids had knocked over a few banks before they caught him, but he'd never killed anyone. Scared someone? Intimidated someone into handing over his possessions? Yeah, ok, he'd done that, but he wasn't a bad person. He was just desperate. When he told the cops that he'd needed the money for an operation for his mother, they'd just laughed. Apparently they'd heard that excuse once or twice before.
+
+His mother died of her illness during the second year of his sentence. After that, no one came to visit him. He managed to cling to his sanity by befriending his cellmate, a scrawny little guy named Brad Hollins. Brad was a weird guy. He would rant and rave in a quiet voice every evening about the "Old Ones" and tell Skids about bizarre adventures he'd had while dreaming. Skids humored him until one night he'd woken up to hear Brad chanting strange words, still asleep. Smelling smoke, Skids turned to look at his cellmate just in time to see Brad scream and burst into flames. The screws had tried to pin it on him, but really, there was no way they could get it to stick.
+
+Now, finally out on parole, Skids finds himself staying in a place that Brad frequently mentioned in his ravings - the city of Arkham. Perhaps he can find some answers to the questions raised by his friend's death.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=%22Skids%22_O%27Toole&oldid=9680"
+Categories: Innsmouth HorrorInvestigators
+This page was last modified on 25 June 2010, at 22:31.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

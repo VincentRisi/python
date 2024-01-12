@@ -1,0 +1,61 @@
+﻿STLODGE
+You hear the quiet sounds of an intruder. lf
+you investigate, you find a woman dressed
+in black. She attacks you as soon as she sees
+you. Pass a Fight (-1) check to subdue her
+long enough to explain your investigation.
+You find out that her name is Ruby Standish
+and that she was robbing the Lodge. However,
+upon hearing your tale, she agrees to join
+you. Take her Ally card. If it is not available,
+draw a Unique Item instead.
+
+STLODGE
+Carl Sanford draws you into the study to
+talk and you feel the cold creep of dread
+listening to him. Make a Lore (-1) check.
+If you pass, your willpovver stands up to
+the test of the ancient wizard and you even
+learn something of value. Gain 3 Clue
+tokens. If you fail, his hypnotic tones lull
+you into a trance. The conversation seems
+short, but when you leave the study, much
+time has passed and your thoughts are
+confused. Lose all of your Clue tokens and
+move to the street.
+
+STLODGE
+You find an old parchment in the study.
+Pass a Lore (-1) check to draw 2 Spells
+and keep one of your choice.
+
+STLODGE
+Brushing up against a strange object in the
+hall, you feel stretched and thin, like your
+skin is too tight. Pass a Luck (-1) check
+or you are Cursed.
+
+STLODGE
+"Care to join the Order?" Carl Sanford and
+several of his henchmen ask. If you accept,
+pay $3 and take at Silver Twilight
+Membership. If you decline, pass a Will
+(-1) check or lose 3 Stamina as the
+henchmen assist you out the door. Whether
+you pass or not, move to the street.
+
+STLODGE
+"Care to join the Order?" Carl Sanford and
+several of his henchmen ask. If you accept,
+pay $3 and take a Silver Twilight
+Membership. If you decline, pass a Will
+(-1) check or lose 3 Stamina as the
+henchmen assist you out the door. Whether
+you pass or not, move to the street.
+
+STLODGE
+Make a Sneak (-2) check. If you pass, you
+slip into the temple area of the Lodge and
+find 2 items of interest. Roll a die for each
+item. On a a success, draw a Unique Item,
+otherwise draw a Common Item.

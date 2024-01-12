@@ -1,0 +1,56 @@
+Charlie Kane
+
+From Arkham Horror Wiki
+Charlie Kane is a investigator. He first appeared in the Kingsport Horror expansion.
+
+Charlie Kane investigator sheet back.
+Charlie Kane investigator sheet front.
+Sheet info
+
+Occupation: the Politician
+
+Home: Administration Building
+
+Unique Ability: Connections - Any Phase: Charlie may gain Allies that have been returned to the box.
+
+Settle Down! - Any Phase: Charlie may pay 2 Clue tokens to prevent the terror level from increasing by 1. He may do this as often as he likes.
+
+Status
+Sanity: 4
+Stamina: 6
+Fixed Possessions
+$9
+Random Possessions
+2 Common items
+1 Ally
+1 Skill
+Focus: 2
+
+Skills
+Speed	0	1	2	3
+Sneak	4	3	2	1
+Fight	2	3	4	5
+Will	4	3	2	1
+Lore	1	2	3	4
+Luck	4	3	2	1
+Personal Story
+
+PsCharlieKaneBack.png PsCharlieKaneFront.png PsCharlieKanePassed.png PsCharlieKaneFailed.png
+
+
+The Story So Far: Charlie Kane promised the people of Arkham a safer future. He made a lot of promises-- lower taxes, better schools, less crime. It was part of the job, after all. He said what he had to say to get elected, and then he set about doing what he could to help people. Although he had to do things he wasn't proud of, Charlie always worked for the greater good. The people came first.
+
+So when Charlie Kane started hearing the reports, he put the people first. Of course, he couldn't tell anyone-- couldn't reveal what he had pieced together, reports from various parts of the city government that painted a macabre portrait of Arkham's future. For one, who'd believe him? For another, how would widespread panic serve the public good?
+
+Still, Charlie has always had connections in town. So he gathered up his reports and paid a visit to Professor Grant at Miskatonic University.
+
+The fact that he now stands before Professor Grant's mutilated corpse in Professor Grant's blood-stained office, does not fill Chalie Kane with confidence.
+
+Clarification
+
+Charlie only has access to the 11 allies chosen for the game. Any of these allies that have been returned to the box may be obtained through the normal method of gaining allies (encounters, Ma's Boarding House, etc.).
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Charlie_Kane&oldid=10301"
+Categories: Kingsport HorrorInvestigators
+This page was last modified on 1 September 2010, at 22:58.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

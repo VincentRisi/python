@@ -1,0 +1,49 @@
+Zoey Samaras
+
+From Arkham Horror Wiki
+Zoey Samaras is an investigator. She first appeared in the Innsmouth Horror expansion.
+
+Zoey Samaras investigator sheet back.
+Zoey Samaras investigator sheet front.
+Sheet info
+
+Occupation: the Chef
+
+Home: Train Station
+
+Unique Ability: Killer Instincts - Any Phase: When Zoey makes a Combat check against a monster or Ancient One with Physical and/or Magical Resistance, ignore that ability. If the monster or Ancient One has Magical and/or Physical Immunity, treat it as Resistance instead.
+
+Status
+Sanity: 3
+Stamina: 7
+Fixed Possessions
+$2
+4 Clue tokens
+2 Common items (Cross, Knife)
+Random Possessions
+2 Unique items
+1 Skill
+Focus: 1
+
+Skills
+Speed	1	2	3	4
+Sneak	4	3	2	1
+Fight	1	2	3	4
+Will	4	3	2	1
+Lore	1	2	3	4
+Luck	5	4	3	2
+Personal Story
+
+PsZoeySamarasBack.png PsZoeySamarasFront.png PsZoeySamarasPassed.png PsZoeySamarasFailed.png
+
+
+The Story So Far: Zoey knew that she was special. She'd known it ever since God had spoken to her one night when she was six years old... the night that terrible fire took away her parents. He told her that He had chosen her from among all the people of the world to be His agent. She would protect the innocent and punish the wicked.
+
+Since then, He came to her in times of trouble, offering guidance and comfort. He has also come to lead her to an evildoer on several occasions. In each instance, with His aid, good triumphed. Then, one day, He spoke to her, telling her to come to Arkham, where she would face her greatest challenge yet. He has not spoken to her since.
+
+Now, as Zoey steps off the train onto the platform, she fingers her cross, feeling the wrongness of this place in her bones. Perhaps if she cleanses the city of its taint, He will speak to her once again.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Zoey_Samaras&oldid=9687"
+Categories: Innsmouth HorrorInvestigators
+This page was last modified on 27 June 2010, at 08:15.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

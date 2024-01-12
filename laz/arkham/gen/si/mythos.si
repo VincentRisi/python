@@ -1,0 +1,106 @@
+database arkham
+package  vince.arkham
+output   mythos
+server   arkham 
+
+table Mythos
+  event     char 48
+  eventtype char 16 {ENVIRONMENT HEADLINE RUMOR}
+  clue      char 16 
+  monster   char 16
+  white     char 32
+  black     char 32
+  notes     char 1024
+  
+key prime_key primary event
+
+proc insert
+proc selectOne
+
+sqldata
+  insert into Mythos values ('AllQuietInArkham',                  'HEADLINE',    'HSOCIETY',   'WOODS',      'HEX', 'SLASH,TRIANGLE,STAR', 'Each player may pass a Luck(1) check to be Blessed');           
+  insert into Mythos values ('AStrangePlague',                    'ENVIRONMENT', 'TUNNAMABLE', 'INDSQUARE',  'SQUARE,DIAMOND', 'ROUND',    'Investigators cannot gain Stamina except by receiving medical care in St. Mary`s Hospital (or from Vincent Lee).');
+  insert into Mythos values ('AlienTechnology',                   'ENVIRONMENT', 'SBUILDING',  'UISLE',      'SQUARE,DIAMOND', 'ROUND',    'Mi-Go have their toughness increased by 2. If an investigator passes a Combat check against a Mi-Go, he draws 1 extra Unique Item.');
+  insert into Mythos values ('AnEvilFog',                         'ENVIRONMENT', 'UISLE',      'GRAVEYARD',  'CROSS', 'MOON',              'Will checks in Arkham are made at a -l penalty. Sneak checks in Arkham are made at a +l bonus. Fliers do not move.');
+  insert into Mythos values ('BigStormSweepsArkham',              'HEADLINE',    'TUNNAMABLE', 'INDSQUARE',  'MOON', 'CROSS',              'All monsters in the Sky and Outskirts are returned to the cup.');
+  insert into Mythos values ('BizarreDreamsPlagueCitizens',       'HEADLINE',    'TWHOUSE',    'SBUILDING',  'HEX', 'SLASH,TRIANGLE,STAR', 'All Gugs and Nightgaunts in Arkham are returned to the cup. If at least one monster returns to the cup, raise the terror level by l');
+  insert into Mythos values ('BlackestNight',                     'ENVIRONMENT', 'HROADHOUSE', 'BCAVE',      'SQUARE,DIAMOND', 'ROUND',    'Luck checks in Arkham are made at a -1 penalty. Sneak checks in Arkham are made at a +1 bonus.');
+  insert into Mythos values ('BloodMagic',                        'ENVIRONMENT', 'TUNNAMABLE', 'INDSQUARE',  'SQUARE,DIAMOND', 'ROUND',    'Investigators who end their movement in Rivertown streets may choose to delve into dark mysteries using their life force. They roll dice equal to their current Stamina, and for every failed die, they lose l Stamina. If this reduces them to 0 Stamina, they are devoured and the player must start a new character. Otherwise, they gain 3 Clue tokens.');
+  insert into Mythos values ('BlueFlu',                           'HEADLINE',    'WOODS',      'TUNNAMABLE', 'HEX', 'SLASH,TRIANGLE,STAR', 'All investigators in jail are released. No investigators may be arrested until the end of next turn. Leave this card in play until then to indicate this.');
+  insert into Mythos values ('CampusSecurityIncreased',           'HEADLINE',    'TUNNAMABLE', 'INDSQUARE',  'ROUND', 'SQUARE,DIAMOND',    'All Monsters in the Miskatonic U. streets or locations are returned to the cup');
+  insert into Mythos values ('ChurchGroupReclaimsSouthside',      'HEADLINE',    'HROADHOUSE', 'BCAVE',      'HEX', 'SLASH,TRIANGLE,STAR', 'All monsters in the Southside streets or locations are returned to the cup.');
+  insert into Mythos values ('CityGrippedByBlackouts',            'HEADLINE',    'SBUILDING',  'UISLE',      'HEX', 'SLASH,TRIANGLE,STAR', 'The General Store, Curiositie Shoppe, and Ye Olde Magick Shoppe are closed until the end of next turn. Leave this card in play until then to indicate this. Close: The General Store Curiositie Shoppe Ye Olde Magick Shoppe');
+  insert into Mythos values ('CurfewEnforced',                    'ENVIRONMENT', 'SBUILDING',  'UISLE',      'CROSS', 'MOON',              'Any investigator who ends his movement in the streets must pass a Will (+0) check or be arrested and taken to the Police Station.');
+  insert into Mythos values ('DarkesCarnivalArrives',             'ENVIRONMENT', 'WOODS',      'TUNNAMABLE', 'SQUARE,DIAMOND', 'ROUND',    'Investigators Who end their movement in the Northside streets gain 1 Clue token from the sinister wonders they Witness, but must pass a Will (-1) check or lose 1 Sanity. Activity At: Northside Streets');
+  insert into Mythos values ('DisturbingTheDead',                 'RUMOR',       'none',       'BCAVE',      'SLASH,TRIANGLE,STAR', 'HEX', 'Ongoing Effect: Roll a die at the end of every Mythos Phase While this card is in play (beginning the turn after it entered play). On a 1 or 2, increase the terror level by 1. Pass: If a single player discards 2 gate trophies during the Arkham Encounter Phase While in the Rivertown streets, return this card to the box. Each player draws l Spell. Fail: If the terror level reaches 10, return this card to the box. Every investigator is Cursed.');
+  insert into Mythos values ('DreamOfASunkenCity',                'ENVIRONMENT', 'TUNNAMABLE', 'INDSQUARE',  'CROSS', 'MOON',              'Investigators cannot gain Sanity except by receiving psychiatric care at Arkham Asylum (or from Carolyn Fern).');
+  insert into Mythos values ('EgyptianExhibitVisitsMiskatonicU',  'ENVIRONMENT', 'BCAVE',      'TWHOUSE',    'CROSS', 'MOON',              'Any investigator who ends his movement in the Miskatonic U. streets may pass a Lore (-1) check to gain 1 Clue token by reading the strange heiroglyphies on the artifacts in the exhibit. Activity At: Miskatonie U. Streets');
+  insert into Mythos values ('EstateSale',                        'ENVIRONMENT', 'BCAVE',      'TWHOUSE',    'SQUARE,DIAMOND', 'ROUND',    'Investigators who end their movement in the Uptown streets may draw 2 Unique Items and purchase one, none, or both of them at list price, discarding any that are not purchased. Activity At: Uptown Streets');
+  insert into Mythos values ('FamilyFoundButchered',              'HEADLINE',    'UISLE',      'GRAVEYARD',  'MOON', 'CROSS',              'The terror level increases by 1 in light of this tragic news.');
+  insert into Mythos values ('FedsRaidArkham',                    'HEADLINE',    'HROADHOUSE', 'BCAVE',      'MOON', 'CROSS',              'All monsters in the streets are returned to the cup.');
+  insert into Mythos values ('FourthOfJulyParade',                'HEADLINE',    'BCAVE',      'TWHOUSE',    'MOON', 'CROSS',              'Investigators cannot move into or out of the Merchant Dist. streets until the end of next turn. Leave this card in play until then to indicate this. Close: Merchant Dist. Streets');
+  insert into Mythos values ('GangsCleanUpEasttown',              'HEADLINE',    'BCAVE',      'TWHOUSE',    'ROUND', 'SQUARE,DIAMOND',    'All monsters in the Easttown streets or locations are returned to the cup.');
+  insert into Mythos values ('GhostShipDocksByItself',            'HEADLINE',    'WOODS',      'TUNNAMABLE', 'MOON', 'CROSS',              'An ancient ghost ship arrives in Arkham releasing 2 monsters into the Merchant Dist. streets.');
+  insert into Mythos values ('GoatlikeCreaturesSpottedInTheWood', 'HEADLINE',    'TUNNAMABLE', 'INDSQUARE',  'HEX', 'SLASH,TRIANGLE,STAR', 'All Dark Young in Arkham are returned to the cup. If at least one monster returns to the cup, raise the terror level by 1.');
+  insert into Mythos values ('GoodWorkUndone',                    'RUMOR',       'none',       'UISLE',      'SLASH,TRIANGLE,STAR', 'HEX', 'When this card enters play, place 6 Clue tokens on it. Any player may spend Clue tokens during the Arkham Encounter Phase while in the Easttown streets to discard Clue tokens from this card on a 1-for-1 basis. Ongoing Effect: Roll two dice at the end of every Mythos Phase (beginning the turn after it entered play). For every l or 2 rolled, place l Clue token on this card. Pass: If there are no Clue tokens on this card, return it to the box. Each player draws l Unique Item. Fail: If there are 10 Clue tokens on this card, return it to the box. All elder sign tokens are removed from the board. Activity At: Eastown Streets');
+  insert into Mythos values ('HappyDaysAreHereAgain',             'ENVIRONMENT', 'HSOCIETY',   'WOODS',      'SQUARE,DIAMOND', 'ROUND',    'Due to the renewed prosperity that has come to Arkham, the terror level cannot increase.');
+  insert into Mythos values ('HeatWave',                          'ENVIRONMENT', 'INDSQUARE',  'WOODS',      'SQUARE,DIAMOND', 'ROUND',    'Fight checks in Arkam are made at a -1 penalty. Lore checks in Arkham are made at a +1 bonus. Fire Vampires have their toughness increased by 1.');
+  insert into Mythos values ('HorrorAtGroundbreaking',            'HEADLINE',    'STLODGE',    'HSOCIETY',   'MOON', 'CROSS',              'An ancient stone is disturbed by the construction, releasing 2 monsters into the Miskatonic U. streets.');
+  insert into Mythos values ('IcyConditions',                     'ENVIRONMENT', 'STLODGE',    'HSOCIETY',   'CROSS', 'MOON',              'Investigators receive 1 less movement point during the Movement Phase. Fast monsters move like normal monsters.');
+  insert into Mythos values ('IllWindGripsArkham',                'HEADLINE',    'UISLE',      'GRAVEYARD',  'HEX', 'SLASH,TRIANGLE,STAR', 'The first player must pass a Luck (-1) check or be Cursed.');
+  insert into Mythos values ('LodgeMemberHeldForQuestioning',     'HEADLINE',    'HROADHOUSE', 'BCAVE',      'ROUND', 'SQUARE,DIAMOND',    'A Silver Lodge ritual lets 2 monsters loose in the French Hill streets.');
+  insert into Mythos values ('LodgeMembersWatchTheNight',         'HEADLINE',    'SBUILDING',  'UISLE',      'ROUND', 'SQUARE,DIAMOND',    'All monsters in the French Hill streets or locations are returned to the cup.');
+  insert into Mythos values ('ManHuntInArkham',                   'HEADLINE',    'INDSQUARE',  'WOODS',      'SLASH,TRIANGLE,STAR', 'HEX', 'All monsters in locations are returned to the cup.');
+  insert into Mythos values ('MerchantsMarchOnCrime',             'HEADLINE',    'TUNNAMABLE', 'INDSQUARE',  'ROUND', 'SQUARE,DIAMOND',    'All monsters in the Merchant Dist. streets or locations are returned to the cup.');
+  insert into Mythos values ('MiskatonicArcticExpeditionReturns', 'HEADLINE',    'INDSQUARE',  'TWHOUSE',    'MOON', 'CROSS',              'Any Elder Things previously claimed as monster trophies by players retum to life and are placed in the River Docks.');
+  insert into Mythos values ('MissingPeopleReturn',               'HEADLINE',    'WOODS',      'TUNNAMABLE', 'SLASH,TRIANGLE,STAR', 'HEX', 'All investigators currently lost in time and space immediately return to Arkham, appearing in a street or location of their choice.');
+  insert into Mythos values ('NoOneCanHelpYouNow',                'ENVIRONMENT', 'WOODS',      'UISLE',      'CROSS', 'MOON',              'Gates cannot be sealed, although they can still be closed.');
+  insert into Mythos values ('NodensFavor',                       'ENVIRONMENT', 'BCAVE',      'TWHOUSE',    'SLASH,TRIANGLE,STAR', 'HEX', 'It costs 2 fewer Clue tokens to seal gates');
+  insert into Mythos values ('PicknickersPanic',                  'HEADLINE',    'SBUILDING',  'UISLE',      'MOON', 'CROSS',              'A careless picnicker unleashes 2 monsters on the Downtown streets.');
+  insert into Mythos values ('PlanetaryAlignment',                'ENVIRONMENT', 'BCAVE',      'TWHOUSE',    'SQUARE,DIAMOND', 'ROUND',    'Thanks to the mystic energy generated by the planetary alignment, all spells have a Sanity cost of 0.');
+  insert into Mythos values ('PoliceStepUpPatrolsInNorthside',    'HEADLINE',    'GRAVEYARD',  'STLODGE',    'ROUND', 'SQUARE,DIAMOND',    'All monsters in the Northside streets or locations are returned to the cup.');
+  insert into Mythos values ('PrivateSecurityHiredInUptown',      'HEADLINE',    'HSOCIETY',   'WOODS',      'ROUND', 'SQUARE,DIAMOND',    'All monsters in the Uptown streets or locations are returned to the cup.');
+  insert into Mythos values ('RainingCatsAndDogs',                'ENVIRONMENT', 'INDSQUARE',  'HROADHOUSE', 'CROSS', 'MOON',              'Speed cheeks in Arkam are made at a -1 penalty, and players receive 1 less movement point during the Movement Phase. Sneak checks in Arkham are made at a +1 bonus. Return any Fire Vampires in play to the cup. If a Fire Vampire enters play, return it to the cup and draw a different monster.');
+  insert into Mythos values ('RivertownResidentsTakeBackStreets', 'HEADLINE',    'BCAVE',      'TWHOUSE',    'ROUND', 'SQUARE,DIAMOND',    'All monsters in the Rivertown streets or locations are returned to the cup.');
+  insert into Mythos values ('RlyehRising',                       'ENVIRONMENT', 'HSOCIETY',   'WOODS',      'SLASH,TRIANGLE,STAR', 'HEX', 'Star Spawn and Maniacs have their toughness increased by 1. The difficulty to seal or close gates to R`lyeh is increased by 1.');
+  insert into Mythos values ('ScientistWarnsOfDimensionalRift',   'HEADLINE',    'SBUILDING',  'UISLE',      'HEX', 'SLASH,TRIANGLE,STAR', '');
+  insert into Mythos values ('SheldonGangTurnsToPoliceForAid',    'HEADLINE',    'UISLE',      'GRAVEYARD',  'ROUND', 'SQUARE,DIAMOND',    'The Sheldon Gang disturbs a burial mound, releasing 2 monsters into the Uptown streets.');
+  insert into Mythos values ('SlumMurdersContinue',               'HEADLINE',    'HSOCIETY',   'WOODS',      'MOON', 'CROSS',              'An old basement is opened, releasing 2 monsters into the Easttown streets.');
+  insert into Mythos values ('SolarEclipse',                      'ENVIRONMENT', 'UISLE',      'GRAVEYARD',  'SQUARE,DIAMOND', 'ROUND',    'Due to the interference of the solar eclipse, no spells may be cast.');
+  insert into Mythos values ('SouthsideStranglerSuspected',       'HEADLINE',    'HSOCIETY',   'WOODS',      'ROUND', 'SQUARE,DIAMOND',    'However, the press is mistaken, and the murders were caused by 2 monsters that are released into the Southside streets.');
+  insert into Mythos values ('StrangeLightsOnCampus',             'HEADLINE',    'HSOCIETY',   'WOODS',      'HEX', 'SLASH,TRIANGLE,STAR', 'The Library, Administration Building, and Science Building are all closed until the end of next turn. Leave this card in play until then to indicate this. Close: Administration Building Library Science Building');
+  insert into Mythos values ('StrangePowerFluxPlaguesCity',       'HEADLINE',    'TUNNAMABLE', 'INDSQUARE',  'SLASH,TRIANGLE,STAR', 'HEX', 'All investigators in Other World areas may immediately retum to Arkham.');
+  insert into Mythos values ('StrangeTremorsCease',               'HEADLINE',    'TUNNAMABLE', 'INDSQUARE',  'HEX', 'SLASH,TRIANGLE,STAR', 'All Chthonians and Dholes in Arkham are returned to the cup. If at least 0ne monster retums to the cup, raise the terror level by l');
+  insert into Mythos values ('SunnyAndClear',                     'ENVIRONMENT', 'HROADHOUSE', 'BCAVE',      'CROSS', 'MOON',              'Sneak checks in Arkham are made at a -1 penalty. Will Checks in Arkham are made at a +1 bonus. If the Haunter in Darkness is in play, return it to the cup. If the Haunter in Darkness enters play, return it to the cup and draw a different monster.');
+  insert into Mythos values ('TemperenceFeverSweepsCity',         'HEADLINE',    'BCAVE',      'TWHOUSE',    'HEX', 'SLASH,TRIANGLE,STAR', 'Any investigator with Whiskey must pass a Sneak (-1) check or get arrested and taken to the Police Station. If this occurs, they must discard their Whiskey. In addition, Hibb`s Roadhouse is closed until the end of next turn. Leave this card in play until then to indicate this. Close: Hibb`s Roadhouse');
+  insert into Mythos values ('TerrorAtTheTrainStation',           'HEADLINE',    'BCAVE',      'TWHOUSE',    'MOON', 'CROSS',              'A rusty train arrives in Arkham, disgorging 2 monsters into the Northside streets.');
+  insert into Mythos values ('TheChillOfTheGrave',                'ENVIRONMENT', 'SBUILDING',  'HROADHOUSE', 'CROSS', 'MOON',              'All Undead monsters have their toughness increased by 1.');
+  insert into Mythos values ('TheFestival',                       'ENVIRONMENT', 'HSOCIETY',   'WOODS',      'CROSS', 'MOON',              'The festival has begun! Cultists and Byakhee have their toughness increased by 1.');
+  insert into Mythos values ('TheGreatRitual',                    'RUMOR',       'none',       'SBUILDING',  'SLASH,TRIANGLE,STAR', 'HEX', 'Ongoing Effect: Cultists, Witches, Warlocks, and High Priests have their toughness increased by 2 while this card is in play. Place 1 Clue token on this card at the end of every Mythos Phase (beginning the turn alter it entered play). Pass: If a single player discards 3 spells (4 if there are 5 or more players) While in the French Hill streets during the Arkham Encounter Phase, return this card to the box. Each player gains 2 Clue tokens. Fail: If there are ever 5 Clue tokens on this card, return it to the box. From now on, draw 2 mythos cards each Mythos Phase. Ignore everything on the first card except for the gate opening. Activity At: French Hill Streets');
+  insert into Mythos values ('TheManInBlack',                     'ENVIRONMENT', 'BCAVE',      'TWHOUSE',    'CROSS', 'MOON',              'Investigators who end their movement in the French Hill streets may deal with the Man in Black to gain power. They roll dice equal to their current Sanity, and for every failed die, they lose l Sanity. If this reduces them to O Sanity, they are devoured and the player must start a new character. Otherwise, they gain l Clue token and draw 1 Spell. Activity At: French Hill Streets');
+  insert into Mythos values ('TheSouthsideStranglerStrikes',      'RUMOR',       'none',       'INDSQUARE',  'SLASH,TRIANGLE,STAR', 'HEX', 'Ongoing Effect: Return one Ally from the Ally deck to the box at random at the end of every Mythos Phase while this card is in play (beginning the turn after it entered play). The Southside Strangler has struck again! Pass: If a single player discards 5 Clue tokens While in Ma`s Boarding House during the Arkham Encounter Phase, return this card to the box. Each player gains $5 as a reward from the police. Fail: If there are no Allies to return to the box at the end of the Mythos Phase, return this card to the box. Each player must lower either their maximum Sanity or Stamina (their choice) by 1 for the rest of the game. Activity At Srouthsiede Streets');
+  insert into Mythos values ('TheStarsAreRight',                  'RUMOR',       'none',       'SBUILDING',  'SLASH,TRIANGLE,STAR', 'HEX', 'Ongoing Effect: Roll a die at the end of every Mythos Phase while this card is in play (beginning the turn after it entered play). On a 1 or 2, place one doom token on the ancient one's doom track. Pass: If a player discards an Ally card while in the Downtown streets during the Arkham Encounter Phase, return this card to the box. Each player draws 2 Common Items. Fail: If the Ancient One awakens, retum this card to the box. Activity At: Downtown Streets');
+  insert into Mythos values ('TheTerribleExperiment',             'RUMOR',       'none',       'UISLE',      'CROSS', 'MOON',              'When this card enters play, place 5 monsters from the cup on it. Any player may choose to fight one or more of these monsters while in the Miskatonic U. streets during the Arkham Encounter Phase. If defeated, they are claimed as monster trophies. These monsters do not move, are not considered to be on the board, and do not count against the monster limit. Ongoing Effect: Place a monster on this card at the end of every Mythos Phase (beginning the turn after it entered play). Pass: If there are no monsters on this card, return it to the box. Each player draws l Skill. Fail: If there are 8 monsters on this card, return it to the box. Raise the terror level to 10 and place the monsters that were on it into play in the Miskatonic U. streets.');
+  insert into Mythos values ('ThingsOfDarkness',                  'ENVIRONMENT', 'GRAVEYARD',  'STLODGE',    'SQUARE,DIAMOND', 'ROUND',    'Ghouls, Formless Spawns, Shoggoths, and Flying Polyps have their toughness increased by l.');
+  insert into Mythos values ('VigilanteGuardsTheNight',           'HEADLINE',    'WOODS',      'TUNNAMABLE', 'ROUND', 'SQUARE,DIAMOND',    'All monsters in the Downtown streets or locations are returned to the cup.');
+  insert into Mythos values ('WitchBurningAnniversary',           'HEADLINE',    'SBUILDING',  'UISLE',      'MOON', 'CROSS',              'All Dimensional Shamblers and Hounds of Tindalos in Arkham are returned to the cup. If at least one monster retums to the cup, raise the terror level by 1.');
+  commit;
+enddata
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

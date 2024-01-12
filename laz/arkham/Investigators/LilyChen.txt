@@ -1,0 +1,59 @@
+Lily Chen
+
+From Arkham Horror Wiki
+Lily Chen is an investigator. She first appeared in the Kingsport Horror expansion.
+
+Lily Chen investigator sheet back.
+Lily Chen investigator sheet front.
+Sheet info
+
+Occupation: the Martial Artist
+
+Home: Ye Olde Magick Shoppe
+
+Unique Ability: Yin and Yang - When spending Focus, Lily may adjust her maximum Sanity and Stamina as though they were skills.
+
+Each time Lily increases her maximum Sanity, she gains 1 Sanity. Each time she increases her maximum Stamina, she gains 1 Stamina.
+
+Lily's current Sanity or Stamina can never exceed her maximum Sanity or Stamina.
+
+Status
+Sanity: 4-7
+Stamina: 7-4
+Fixed Possessions
+$4
+2 Clue tokens
+1 Skill (Martial Arts)
+Random Possessions
+1 Spell
+1 Common item
+Focus: 2
+
+Skills
+Speed	1	2	3	4
+Sneak	4	3	2	1
+Fight	2	3	4	5
+Will	4	3	2	1
+Lore	1	2	3	4
+Luck	4	3	2	1
+Personal Story
+
+PsLilyChenBack.png PsLilyChenFront.png PsLilyChenPassed.png PsLilyChenFailed.png
+
+
+The Story So Far: Lily Chen had an unusual childhood, to put it mildly. She was born in mainland China, and on the next day, a group of monks arrived at her home, asking if any children had been born there the night before. The monks were seeking a child of prophecy, and although they were surprised to find that she was a girl, they wished to take and train her at their monastery. Her parents, both poor and devout, agreed, after making sure she would be well cared for.
+
+The monks began her on a rigorous training program nearly as soon as she could walk, teaching her every martial arts technique they could, going so far as to invite instructors from other countries to teach her. She knew from a young age that she was fated to perform an incredibly dangerous task when the time came, so she pursued her studies with a will. Lily learned not only a myriad of deadly unarmed combat techniques, but also how to link her mind to her body on a fundamental level, each supporting the other.
+
+Finally, last month, it happened. One of the monks awoke from his meditations screaming, "The Great Eye is opening! The final days are upon us!" before falling dead.
+
+Now, Lily stands inside a magic shop in Arkham, hoping to find someone or something that will aid her in fulfilling her destiny.
+
+Errata
+
+After moving her maximums slider, Lily Chen only restores her stamina/sanity based on its final position (she does not heal 1 point for each notch moved). Additionally, if one of her maximums increases by more than 1 at once, she only restores 1 point of that type.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Lily_Chen&oldid=10300"
+Categories: Kingsport HorrorInvestigators
+This page was last modified on 1 September 2010, at 22:57.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

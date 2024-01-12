@@ -1,0 +1,80 @@
+database arkham
+package  vince.arkham
+output   possessions
+server   arkham 
+
+table Possessions
+  name   char 32
+  item   char 16
+  noOf   int
+  
+key prime_key primary 
+  name
+  item
+
+proc insert
+proc selectone
+
+sqldata
+  insert into Possessions values ('AmandaSharpe', 'commons', 1);
+  insert into Possessions values ('AmandaSharpe', 'skills', 1);
+  insert into Possessions values ('AmandaSharpe', 'spells', 1);
+  insert into Possessions values ('AmandaSharpe', 'uniques', 1);
+  insert into Possessions values ('AshcanPete', 'DUKE', 1);
+  insert into Possessions values ('AshcanPete', 'commons', 1);
+  insert into Possessions values ('AshcanPete', 'skills', 1);
+  insert into Possessions values ('AshcanPete', 'uniques', 1);
+  insert into Possessions values ('BobJenkins', 'commons', 2);
+  insert into Possessions values ('BobJenkins', 'skills', 1);
+  insert into Possessions values ('BobJenkins', 'uniques', 2);
+  insert into Possessions values ('CarolynFern', 'commons', 2);
+  insert into Possessions values ('CarolynFern', 'skills', 1);
+  insert into Possessions values ('CarolynFern', 'uniques', 2);
+  insert into Possessions values ('DarrellSimmons', 'RETAINER', 1);
+  insert into Possessions values ('DarrellSimmons', 'commons', 1);
+  insert into Possessions values ('DarrellSimmons', 'skills', 1);
+  insert into Possessions values ('DarrellSimmons', 'uniques', 2);
+  insert into Possessions values ('DexterDrake', 'SHRIVELLING', 1);
+  insert into Possessions values ('DexterDrake', 'commons', 1);
+  insert into Possessions values ('DexterDrake', 'skills', 1);
+  insert into Possessions values ('DexterDrake', 'spells', 2);
+  insert into Possessions values ('DexterDrake', 'uniques', 1);
+  insert into Possessions values ('GloriaGoldberg', 'commons', 2);
+  insert into Possessions values ('GloriaGoldberg', 'skills', 1);
+  insert into Possessions values ('GloriaGoldberg', 'spells', 2);
+  insert into Possessions values ('HarveyWalters', 'skills', 1);
+  insert into Possessions values ('HarveyWalters', 'spells', 2);
+  insert into Possessions values ('HarveyWalters', 'uniques', 2);
+  insert into Possessions values ('JennyBarnes', 'commons', 2);
+  insert into Possessions values ('JennyBarnes', 'skills', 1);
+  insert into Possessions values ('JennyBarnes', 'spells', 1);
+  insert into Possessions values ('JennyBarnes', 'uniques', 1);
+  insert into Possessions values ('JoeDiamond', '.45AUTOMATIC', 1);
+  insert into Possessions values ('JoeDiamond', 'commons', 2);
+  insert into Possessions values ('JoeDiamond', 'skills', 1);
+  insert into Possessions values ('KateWinthrop', 'commons', 1);
+  insert into Possessions values ('KateWinthrop', 'skills', 1);
+  insert into Possessions values ('KateWinthrop', 'spells', 2);
+  insert into Possessions values ('KateWinthrop', 'uniques', 1);
+  insert into Possessions values ('MandyThompson', 'commons', 2);
+  insert into Possessions values ('MandyThompson', 'skills', 1);
+  insert into Possessions values ('MandyThompson', 'uniques', 1);
+  insert into Possessions values ('MichaelMcGlen', 'DYNAMITE', 1);
+  insert into Possessions values ('MichaelMcGlen', 'TOMMYGUN', 1);
+  insert into Possessions values ('MichaelMcGlen', 'skills', 1);
+  insert into Possessions values ('MichaelMcGlen', 'uniques', 1);
+  insert into Possessions values ('MontereyJack', '.38REVOLVER', 1);
+  insert into Possessions values ('MontereyJack', 'BULLWHIP', 1);
+  insert into Possessions values ('MontereyJack', 'skills', 1);
+  insert into Possessions values ('MontereyJack', 'uniques', 2);
+  insert into Possessions values ('SisterMary', 'BLESSING', 1);
+  insert into Possessions values ('SisterMary', 'CROSS', 1);
+  insert into Possessions values ('SisterMary', 'HOLYWATER', 1);
+  insert into Possessions values ('SisterMary', 'skills', 1);
+  insert into Possessions values ('SisterMary', 'spells', 2);
+  insert into Possessions values ('VincentLee', 'commons', 2);
+  insert into Possessions values ('VincentLee', 'skills', 1);
+  insert into Possessions values ('VincentLee', 'spells', 2);
+  commit;
+enddata  
+  

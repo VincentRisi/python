@@ -1,0 +1,13 @@
+database arkham
+package  vince.arkham
+output   placetypes
+server   arkham 
+
+table PlaceTypes
+  placetype char 16
+  description char 64
+  
+key prime_key primary placetype
+
+proc insert
+proc selectone

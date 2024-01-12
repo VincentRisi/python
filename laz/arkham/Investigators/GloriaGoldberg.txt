@@ -1,0 +1,49 @@
+Gloria Goldberg
+
+From Arkham Horror Wiki
+Glorida Goldberg is an investigator. She first appeared in the Arkham Horror board game.
+
+Gloria Goldberg investigator sheet back.
+Gloria Goldberg investigator sheet front.
+Sheet info
+
+Occupation: the Author
+
+Home: Velma's Diner
+
+Unique Ability: Psychic Sensitivity - Other World Encounter: When drawing gate encounters in Other Worlds, Gloria draws two cards that match the color of one of the Other World's encounter symbols, then chooses whichever one of the two she wants. This ability does not work when drawing location encounters in Arkham.
+
+Status
+Sanity: 6
+Stamina: 4
+Fixed Possessions
+$7
+2 Clue tokens
+Random Possessions
+2 Common items
+2 Spells
+1 Skill
+Focus: 2
+
+Skills
+Speed	1	2	3	4
+Sneak	3	2	1	0
+Fight	0	1	2	3
+Will	5	4	3	2
+Lore	1	2	3	4
+Luck	5	4	3	2
+Personal Story
+
+PsGloriaGoldbergBack.png PsGloriaGoldbergFront.png PsGloriaGoldbergPassed.png PsGloriaGoldbergFailed.png
+
+
+The Story So Far: As a young girl, Gloria was haunted by terrible visions. After years of visiting doctors and some therapy, she learned to control her visions somewhat by writing stories. Her weird and disturbing fiction somehow spoke to the public in these troubled times, and has made her a bestselling writer.
+
+This evening, while leaving a book signing she's attending in Arkham, she was knocked to the ground by the most powerful vision she's ever experienced. Gloria saw the sky tear open, and a huge and montrous form pour out of the very air itself, wreaking untold havoc and killing thousands. As she sat on the ground with her arms wrapped around herself, Gloria knew, somehow, that this vision was real, and that it would come to pass unless she did something about it.
+
+Now, she finds herself in a run-down diner, sipping coffee and trying to decide what to do.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Gloria_Goldberg&oldid=7265"
+Categories: Arkham HorrorInvestigators
+This page was last modified on 8 August 2009, at 23:23.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

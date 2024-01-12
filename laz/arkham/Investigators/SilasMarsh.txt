@@ -1,0 +1,56 @@
+Silas Marsh
+
+From Arkham Horror Wiki
+Silas Marsh is an investigator. He first appeared in the Innsmouth Horror expansion.
+
+Silas Marsh investigator sheet back.
+Silas Marsh investigator sheet front.
+Sheet info
+
+Occupation: the Sailor
+
+Home: River Docks
+
+Unique Ability: Able Seaman - Movement: When in an Aquatic location, Silas may pay 2 movement points to move to any other aquatic location. Silas also gains a +2 bonus to all skill checks in aquatic locations.
+
+Tainted Blood - Any Phase: Each time Silas draws one or more Innsmouth Look cards, he must draw one extra Innsmouth Look card.
+
+Status
+Sanity: 4
+Stamina: 6
+Fixed Possessions
+$7
+2 Clue tokens
+1 Common item (Cavalry Saber)
+Random Possessions
+2 Common items
+1 Unique item
+1 Skill
+Focus: 2
+
+Skills
+Speed	1	2	3	4
+Sneak	4	3	2	1
+Fight	3	4	5	6
+Will	4	3	2	1
+Lore	1	2	3	4
+Luck	3	2	1	0
+Personal Story
+
+PsSilasMarshBack.png PsSilasMarshFront.png PsSilasMarshPassed.png PsSilasMarshFailed.png
+
+
+The Story So Far: Silas always felt the call of the ocean. Even as a little boy he loved to play in the waves. There was just something soothing and otherworldly about the sea that put him at ease in a way nothing else could.
+
+It came as no surprise to his family when Silas announced that he'd decided to become a sailor and travel the world. They'd actually been waiting for him to reach that conclusion for several years.
+
+So, he signed up with a merchant shipping company and spent the next few years gallivanting from one port to the next and seeing all the sights he could take in.
+
+Periodically, he would dream. At these times, his sleep was haunted with strange, ethereal visions of undersea vistas and bizarre creatures that smiled toothily at him. Gradually, he came to feel that there was something sinister about these dreams, and when he asked his family, they simply nodded and said, "It's time for you to visit the main branch of the family up in Innsmouth. They'll set you straight."
+
+Two days later, as he disembarks from a ship at the Arkham docks, Silas can't help but find his family's remark just a little bit sinister.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Silas_Marsh&oldid=9679"
+Categories: Innsmouth HorrorInvestigators
+This page was last modified on 25 June 2010, at 22:28.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

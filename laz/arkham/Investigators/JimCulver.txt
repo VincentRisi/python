@@ -1,0 +1,54 @@
+Jim Culver
+
+From Arkham Horror Wiki
+Jim Culver is an investigator. He first appeared in the Dunwich Horror expansion.
+
+Jim Culver investigator sheet back.
+Jim Culver investigator sheet front.
+Sheet info
+
+Occupation: the Musician
+
+Home: Velma's Diner
+
+Unique Ability: Dead Man Stomp - Any Phase: Jim may spend 1 Clue token to automatically pass a Combat check against an Undead monster.
+
+Strange Luck - Any Phase: Other Worlds are considered to have a green encounter symbol for you in addition to their normal encounter symbols.
+
+Status
+Sanity: 6
+Stamina: 4
+Fixed Possessions
+$3
+3 Clue tokens
+1 Unique item (Golden Trumpet)
+Random Possessions
+2 Spells
+1 Common item
+1 Skill
+Focus: 2
+
+Skills
+Speed	1	2	3	4
+Sneak	3	2	1	0
+Fight	0	1	2	3
+Will	5	4	3	2
+Lore	1	2	3	4
+Luck	5	4	3	2
+Personal Story
+
+PsJimCulverBack.png PsJimCulverFront.png PsJimCulverPassed.png PsJimCulverFailed.png
+
+
+The Story So Far: Daddy used to say, "Jazz is a lot like liquor, it makes everything go down a little smoother."
+
+Daddy used to say a lot of stupid things.
+
+Jazz has been nothing but trouble for Jim since the day he picked up his daddy's trumpet. There was something weird and otherworldly about the writing on the inside of the bell, but the tones from it were smooth and dark, like good coffee. There was something about it that made you want to tap your feet and snap your fingers. That trumpet landed Jim a lot of gigs until the time it made Widow Jenkins get up and dance, the day he played at her funeral. After that, it was kind of hard to find work, especially playing funerals.
+
+Since then, Jim has learned a lot about jazz-- and the things the graveyard ghouls talk about on cold autumn nights. Lately, they've been talking about The End, as in the end of everything that is and could be. The Final Rhapsody. The fact is, Jim isn't too keen on that idea. He's got more songs he wants to play before then. So, sitting in a booth at Velma's, Jim takes one last swallow of hot coffee before heading out to play what could be his last encore. The coffee is smooth and dark going down, just like the night...
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Jim_Culver&oldid=7277"
+Categories: Dunwich HorrorInvestigators
+This page was last modified on 8 August 2009, at 23:28.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

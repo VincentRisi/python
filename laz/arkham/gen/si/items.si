@@ -1,0 +1,123 @@
+database arkham
+package  vince.arkham
+output   items
+server   arkham 
+
+table Items
+  item      char 16
+  itemtype  char 10
+  cost      int
+  noOf      int
+  handed    int
+  notes     char 1024
+  
+key prime_key primary 
+  item
+
+proc insert
+proc selectone
+
+sqldata
+  insert into Items values ('.18DERRINGER',      'COMMON',  2, 3, 1, 'Physical Weapon +2 to Combat checks 18 Derringer cannot be lost or stolen unless you choose to allow it.');
+  insert into Items values ('.38REVOLVER',       'COMMON',  2, 4, 1, 'Physical Weapon +3 to Combat checks');
+  insert into Items values ('.45AUTOMATIC',      'COMMON',  2, 5, 1, 'Physical Weapon +4 to Combat checks');
+  insert into Items values ('ALIENSTATUE',       'UNIQUE',  1, 5, 0, 'Movement: Exhaust and spend 2 movement points and 1 Sanity to roll a die. If the die is a success, draw l Spell or gain 3 Clue tokens. If it is a failure, lose 2 Stamina.');
+  insert into Items values ('ANCIENTTABLET',     'UNIQUE',  1, 8, 0, 'Movement: Spend 3 movement points and discard Ancient Tablet to roll 2 dice. For every success rolled, draw l Spell. For every failure rolled, gain 2 Clue tokens.');
+  insert into Items values ('ANCIENTTOME',       'COMMON',  2, 4, 0, 'Tome Movement: Exhaust and spend 2 movement points to make a Lore (-1) check. If you pass, draw 1 Spell and discard Ancient Tome. If you fail, nothing happens.');
+  insert into Items values ('ANNAKASLOW',        'ALLY',    0, 0, 0, '+2 Luck Gain 2 Clue tokens when Anna Kaslow joins you.');
+  insert into Items values ('AXE',               'COMMON',  2, 3, 1, 'Physical Weapon +2 to Combat checks (+3 instead if your other hand is empty)');
+  insert into Items values ('BANKLOAN',          'SPECIAL', 8, 0, 0, 'Gain $10 when you take this card. Upkeep: Roll a die. On a 1-3, pay $1 or discard all of your items along with this card. You cannot get another Bank Loan this game. Any Phase: Pay $10 to pay off your Bank Loan and discard this card. You may choose to take out a new Bank Loan later on during this game.');
+  insert into Items values ('BINDMONSTER',       'SPELL',   2, 0, 2, 'Casting Modifier: +4 Sanity Cost: 2 Magical Spell Any Phase: Cast and discard this spell to pass one Combat check. You must roll successes equal to the monster`s toughness to cast this spell. This spell doesn`t Work on Ancient Ones.');
+  insert into Items values ('BLESSING',          'SPECIAL', 8, 0, 0, 'Upkeep: Roll a die and discard this card on a 1. When rolling dice, you score successes on a 4, 5, or 6. If you are Cursed, discard this card instead of gaining a Curse card.');
+  insert into Items values ('BLUEWATCHERPYR',    'UNIQUE',  1, 4, 0, 'Any Phase: Lose 2 Stamina and discard Blue Watcher of the Pyramid to automatically succeed at a Combat check or a Fight or Lore check made to close a gate. This cannot be used against an Ancient One.');
+  insert into Items values ('BOOKOFDZYAN',       'UNIQUE',  1, 3, 0, 'Tome Movement: Exhaust and spend 2 movement points to make a Lore (-1) check. If you pass, draw 1 Spell, lose 1 Sanity, and put 1 Stamina token from the bank on Book of Dzyan. If there are 2 Stamina tokens on it, discard Book of Dzyan. If you fail, nothing happens.');
+  insert into Items values ('BRAVERY',           'SKILL',   2, 0, 0, 'Any Phase: Exhaust to re-roll a Horror check.');
+  insert into Items values ('BULLWHIP',          'COMMON',  2, 2, 1, 'Physical Weapon +1 to Combat checks Any Phase: Exhaust to re-roll 1 die after making a Combat check');
+  insert into Items values ('CABALAOFSABOTH',    'UNIQUE',  2, 5, 0, 'Tome Movement: Exhaust and spend 2 movement points to make a Lore (-2) check. If you pass, draw 1 Skill and discard Cabala of Saboth. If you fail, nothing happens.');
+  insert into Items values ('CAVALRYSABER',      'COMMON',  2, 3, 1, 'Physical Weapon +2 to Combat checks');
+  insert into Items values ('COULTESDESGOULES',  'UNIQUE',  1, 3, 0, 'Tome Movement: Exhaust and spend 2 movement points to make a Lore (-2) check. If you pass, draw l Spell and gain l Clue token, but lose 2 Sanity and discard Cultes des Goules. If you fail, nothing happens.');
+  insert into Items values ('CROSS',             'COMMON',  2, 3, 1, 'Magical Weapon +0 to Combat checks (+3 if Opponent is Undead) +1 to Horror checks');
+  insert into Items values ('CURSE',             'SPECIAL', 8, 0, 0, 'Upkeep: Roll a die and discard this card on a 1. When rolling dice, you only score successes on 6. If you are Blessed, discard this card instead of gaining a Blessing card.');
+  insert into Items values ('DARKCLOAK',         'COMMON',  2, 2, 0, '+1 to Evade checks');
+  insert into Items values ('DEPUTYOFARKHAM',    'PATROL',  0, 0, 0, 'When you gain this card, take the Deputy`s Revolver and the Patrol Wagon as well. Upkeep: Gain $1.');
+  insert into Items values ('DEPUTYREVOLVER',    'PATROL',  0, 0, 1, 'Physical Weapon +3 to Combat checks Deputy`s Revolver cannot be lost or stolen unless you choose to allow it.');
+  insert into Items values ('DRAGONSEYE',        'UNIQUE',  1, 6, 0, 'Any Phase: Exhaust and lose 1 Sanity after drawing a gate or location card to draw a new card in its place.');
+  insert into Items values ('DREADCURSEAZAROTH', 'SPELL',   4, 0, 2, 'Casting Modifier: -2 Sanity Cost: 2 Magical Spell Any Phase: Cast and exhaust to gain +9 to Combat checks until the end of this combat.');
+  insert into Items values ('DUKE',              'ALLY',    0, 0, 0, '+1 Maximum Sanity Discard to immediately restore your Sanity to its maximum.');
+  insert into Items values ('DYNAMITE',          'COMMON',  2, 4, 2, 'Physical Weapon +8 to Combat checks (Discard after use)');
+  insert into Items values ('ELDERSIGN',         'UNIQUE',  4, 5, 0, 'Any Phase: When sealing a gate, lose l Stamina and l Sanity and return this card to the box. You do not need to make a skill check or spend any Clue tokens to seal the gate. In addition, remove one doom token from the Ancient One`s doom track.');
+  insert into Items values ('ENCHANTEDBLADE',    'UNIQUE',  2, 6, 1, 'Magical Weapon +4 to Combat checks.');
+  insert into Items values ('ENCHANTEDJEWELRY',  'UNIQUE',  1, 3, 0, 'Any Phase: Put 1 Stamina token from the bank on Enchanted Jewelry to avoid losing 1 Stamina. If there are 3 Stamina tokens on it, discard Enchanted Jewelry.');
+  insert into Items values ('ENCHANTEDKNIFE',    'UNIQUE',  1, 5, 1, 'Magical Weapon +3 to Combat checks.');
+  insert into Items values ('ENCHANTWEAPON',     'SPELL',   3, 0, 0, 'Casting Modifier: 0 Sanity Cost: 1 Magical Spell Any Phase: Cast and exhaust to make one Physical Weapon a Magical Weapon until the end of this combat.');
+  insert into Items values ('ERICCOLT',          'ALLY',    0, 0, 0, '+2 Speed You take no Sanity loss from the Nightmarish ability.');
+  insert into Items values ('EXPERTOCCULTIST',   'SKILL',   2, 0, 0, 'Any Phase: Exhaust to re-roll a Spell check.');
+  insert into Items values ('FIGHT',             'SKILL',   2, 0, 0, '+1 Fight When you spend a Clue token to add to any Fight check, add one extra bonus die.');
+  insert into Items values ('FINDGATE',          'SPELL',   4, 0, 0, 'Casting Modifier: -1 Sanity Cost: 1 Magical Spell Movement: Cast and exhaust to immediately return to Arkham from an Other World.');
+  insert into Items values ('FLESHWARD',         'SPELL',   4, 0, 0, 'Casting Modifier: -2 Sanity Cost: l Magical Spell Any Phase: Cast and exhaust to ignore all Stamina loss being dealt to you from one source. Discard this card if the Ancient One awakens.');
+  insert into Items values ('FLUTEOUTERGODS',    'UNIQUE',  1, 8, 0, 'Any Phase: Lose 3 Sanity and 3 Stamina and discard Flute of the Outer Gods before making a Combat check to defeat all monsters in your current area. This does not affect Ancient Ones.'); 
+  insert into Items values ('FOOD',              'COMMON',  2, 1, 0, 'Any Phase: Discard Food to reduce any Stamina loss by 1');
+  insert into Items values ('GATEBOX',           'UNIQUE',  1, 4, 0, 'Any Phase: When you return to Arkham from an Other World, you can return to any location With an open gate, not just those leading to the Other World you were in.');
+  insert into Items values ('HEAL',              'SPELL',   3, 0, 0, 'Casting Modifier: +1 Sanity Cost: l Upkeep: You may cast and eXhaust.You or another investigator in your area gains Stamina equal to the successes you rolled on your Spell check. This Stamina cannot be split between multiple investigators.');
+  insert into Items values ('HEALINGSTONE',      'UNIQUE',  1, 8, 0, 'Upkeep: Exhaust to gain 1 Stamina or 1 Sanity. Discard this card if the Ancient One awakens.');
+  insert into Items values ('HOLYWATER',         'UNIQUE',  3, 4, 2, 'Magical Weapon +6 to Combat checks (Discard after use)');
+  insert into Items values ('JOHLEGRASSE',       'ALLY',    0, 0, 0, '+2 Will You can claim monsters with the Endless ability as trophies.');
+  insert into Items values ('KNIFE',             'COMMON',  2, 2, 1, 'Physical Weapon +1 to Combat checks');
+  insert into Items values ('LAMPOFALHAZEED',    'UNIQUE',  1, 7, 2, 'Magical Weapon +5 to Combat checks');
+  insert into Items values ('LANTERN',           'COMMON',  2, 3, 0, '+1 to Luck checks');
+  insert into Items values ('LORE',              'SKILL',   2, 0, 0, '+1 Lore When you spend a Clue token to add to any Lore check, add one extra bonus die.');
+  insert into Items values ('LUCK',              'SKILL',   2, 0, 0, '+1 Luck When you spend a Clue token to add to any Luck check, add one extra bonus die.');
+  insert into Items values ('LUCKYCIGCASE',      'COMMON',  2, 1, 0, 'Any Phase: Discard Lucky Cigarette Case to re-roll any one skill check.');
+  insert into Items values ('MAPOFARKHAM',       'COMMON',  2, 2, 0, 'Movement: Exhaust to get 1 extra movement point.');
+  insert into Items values ('MARKSMAN',          'SKILL',   2, 0, 0, 'Any Phase: Exhaust to re-roll a Combat check.');
+  insert into Items values ('MISTSOFRELEH',      'SPELL',   4, 0, 0, 'Casting Modifier: Special Sanity Cost: 0 Magical Spell Any Phase: Cast and exhaust to pass an Evade check. The casting modifer is equal to the monster`s Awareness.');
+  insert into Items values ('MOTORCYCLE',        'COMMON',  2, 4, 0, 'Movement: Exhaust to get 2 extra movement points.');
+  insert into Items values ('NAMELESSCULTS',     'UNIQUE',  2, 3, 0, 'Tome Movement: Exhaust and spend 1 movement point to make a Lore (-1) check. If you pass, draw 1 Spell, lose 1 Sanity, and discard Nameless Cults. If you fail, nothing happens.');
+  insert into Items values ('NECRONOMICON',      'UNIQUE',  1, 6, 0, 'Tome Movement: Exhaust and spend 2 movement points to make a Lore (-2) check. If you pass, draw 1 Spell and lose 2 Sanity. If you fail, nothing happens.');
+  insert into Items values ('OBSIDIANSTATUE',    'UNIQUE',  1, 4, 0, 'Any Phase: Discard Obsidian Statue to cancel all Stamina or Sanity loss being dealt to you from one source.');
+  insert into Items values ('OLDJOURNAL',        'COMMON',  2, 1, 0, 'Tome Movement: Exhaust and spend 1 movement point to make a Lore (-1) check. If you pass, gain 3 Clue tokens and discard Old Journal. If you fail, nothing happens.');
+  insert into Items values ('PALLIDMASK',        'UNIQUE',  1, 4, 0, '+2 to Evade checks');
+  insert into Items values ('PATROLWAGON',       'PATROL',  0, 0, 0, 'Movement: If you are in Arkham, you may move to any street area or location in Arkham instead of your normal movement. Roll a die at the end of each Combat and whenever you return to Arkham from an Other World. On a l, return this card to the box.');
+  insert into Items values ('POWEROFIBN-GHAZI',  'UNIQUE',  2, 6, 2, 'Magical Weapon +9 to Combat checks (Lose 1 Sanity and discard after use)');
+  insert into Items values ('PROFARMITAGE',      'ALLY',    0, 0, 0, '+2 Lore Your attacks are not affected by Magical Resistance.');
+  insert into Items values ('REDSIGNSHUDDEMELL', 'SPELL',   2, 0, 1, 'Casting Modifier: -1 Sanity Cost: l Magical Spell Any Phase: Cast and exhaust to lower a monster`s toughness by 1 (to a minimum of 1) and ignore one of its special abilities other than Magical Immunity until the end of this combat.');
+  insert into Items values ('RESEARCH',          'COMMON',  2, 1, 0, 'Any Phase: Discard Research Materials instead of spending 1 Clue token.');
+  insert into Items values ('RETAINER',          'SPECIAL', 8, 0, 0, 'Upkeep: Gain $2, then roll a die Discard this card on a 1.');
+  insert into Items values ('RICHARDPICKMAN',    'ALLY',    0, 0, 0, '+1 Luck, +1 Speed Your attacks are not affected by Physical Resistance.');
+  insert into Items values ('RIFLE',             'COMMON',  2, 6, 2, 'Physical Weapon +5 to Combat checks');
+  insert into Items values ('RUBYOFRLYEH',       'UNIQUE',  1, 8, 0, 'Movement: You get 3 extra movement points.');
+  insert into Items values ('RUBYSTANDISH',      'ALLY',    0, 0, 0, '+2 Sneak Draw I Unique Item when Ruby Standish joins you.');
+  insert into Items values ('RYANDEAN',          'ALLY',    0, 0, 0, '+1 Will, +1 Sneak Draw 1 Common Item when Ryan Dean joins you.');
+  insert into Items values ('SHOTGUN',           'COMMON',  2, 6, 2, 'Physical Weapon +4 to Combat checks Any Phase: When using Shotgun in Combat, all 6`s rolled count as 2 successes.');
+  insert into Items values ('SHRIVELLING',       'SPELL',   5, 0, 1, 'Casting Modifier: -1 Sanity Cost: 1 4 Magical Spell Any Phase: Cast and exhaust to gain +6 to Combat checks until the end of this combat.');
+  insert into Items values ('SILVERKEY',         'UNIQUE',  1, 4, 0, 'Any Phase: Put 1 Stamina token from the bank on Silver Key before making an Evade check to automatically pass it. Discard Silver Key after using it if there are 3 Stamina tokens on it.');
+  insert into Items values ('SIRBRINTON',        'ALLY',    0, 0, 0, '+1 Maximum Stamina Discard to immediately restore your Stamina to its maximum.');
+  insert into Items values ('SNEAK',             'SKILL',   2, 0, 0, '+1 Sneak When you spend a Clue token to add to any Sneak check, add one extra bonus die.');
+  insert into Items values ('SPEED',             'SKILL',   2, 0, 0, '+1 Speed When you spend a Clue token to add to any Speed check, add one extra bonus die.');
+  insert into Items values ('STEALTH',           'SKILL',   2, 0, 0, 'Any Phase: Exhaust to re-roll an Evade check.');
+  insert into Items values ('STLMEMBER',         'SPECIAL', 0, 8, 0, 'Any Phase: Whenever you have an encounter at the Silver Twilight Lodge, you have an encounter at the Inner Sanctum instead.');
+  insert into Items values ('SWORDOFGLORY',      'UNIQUE',  1, 8, 2, 'Magical Weapon +6 to Combat checks');
+  insert into Items values ('THEKINGINYELLOW',   'UNIQUE',  2, 2, 0, 'Tome Movement: Exhaust and spend 2 movement points to make a Lore (-2) check. If you pass, gain 4 Clue tokens, lose 1 Sanity, and discard The King in Yellow. If you fail, nothing happens.');
+  insert into Items values ('THOMASFMALONE',     'ALLY',    0, 0, 0, '+1 Lore, +1 Fight Draw I Spell When Thomas F. Malone joins you.');
+  insert into Items values ('TOMMURPHY',         'ALLY',    0, 0, 0, '+2 Fight You take no Stamina loss from the Overwhelming ability.');
+  insert into Items values ('TOMMYGUN',          'COMMON',  2, 7, 2, 'Physical Weapon +6 to Combat checks');
+  insert into Items values ('VOICEOFRA',         'SPELL',   3, 0, 0, 'Casting Modifier: -1 Sanity Cost: 1 Magical Spell Upkeep: You may cast and exhaust to gain +1 to all skill checks for the rest of this turn.');
+  insert into Items values ('WARDINGSTATUE',     'UNIQUE',  1, 6, 0, 'Any Phase: Discard Warding Statue after failing a Combat check to reduce the monster`s combat damage to 0 Stamina. This can also be used to cancel an Ancient One`s entire attack for 1 turn.');
+  insert into Items values ('WHISKEY',           'COMMON',  2, 1, 0, 'Any Phase: Discard Whiskey to reduce any Sanity loss by 1.');
+  insert into Items values ('WILL',              'SKILL',   2, 0, 0, '+1 Will When you spend a Clue token to add to any Will check, add one extra bonus die.');
+  insert into Items values ('WITHER',            'SPELL',   4, 6, 1, 'Casting Modifier: +0 Sanity Cost: 0 Magical Spell Any Phase: Cast and exhaust to gain +3 to Combat checks until the end of this combat.');
+  commit;
+enddata  
+
+
+
+
+
+
+
+
+
+
+
+
+

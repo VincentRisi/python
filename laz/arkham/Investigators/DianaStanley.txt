@@ -1,0 +1,56 @@
+Diana Stanley
+
+From Arkham Horror Wiki
+Diana Stanley is an investigator. She first appeared in the Dunwich Horror expansion.
+
+Diana Stanley investigator sheet back.
+Diana Stanley investigator sheet front.
+Sheet info
+
+Occupation: the Redeemed Cultist
+
+Home: General Store
+
+Unique Ability: Trusted Sister - Any Phase: You cannot lose your Silver Twilight Lodge Membership.
+
+Dark Insight - Any Phase: Gain 1 Sanity or 1 Stamina each time a doom token is added to the Ancient One's doom track.
+
+In addition, gain 1 Clue token each time the terror level rises.
+
+Status
+Sanity: 4
+Stamina: 6
+Fixed Possessions
+$4
+2 Clue tokens
+1 Special (Silver Twilight Lodge Membership)
+Random Possessions
+1 Common item
+1 Spell
+1 Skill
+Focus: 1
+
+Skills
+Speed	0	1	2	3
+Sneak	4	3	2	1
+Fight	1	2	3	4
+Will	4	3	2	1
+Lore	3	4	5	6
+Luck	4	3	2	1
+Personal Story
+
+PsDianaStanleyBack.png PsDianaStanleyFront.png PsDianaStanleyPassed.png PsDianaStanleyFailed.png
+
+
+The Story So Far: Diana Stanley moved to Arkham two years ago. As the owner of a small women's clothing shop, she wanted to fit into the community as quickly as possible. Therefore, she joined the Chamber of Commerce, the Women's league, and the Historical Society. Her efforts were clearly paying off since business was booming, and just a few months ago Carl Sanford invited her to join a very elite club in Arkham-- the Silver Twilight Lodge.
+
+Her initial joy at the invitation has since turned to horror. The weekly meetings have been growing ever more disturbing since she advanced to the second rank of the Order, and her sleep has become haunted by nightmarish beings. Last week she actually witnessed the summoning of a dark creature and learned that an evil plot to summon what Sanford refers to as an Ancient One was in motion. It was at that moment that Diana decided to not only get away from the Order, but also to stop them. She is aware that when the Order finds out what she's doing they'll come for her, but she sees this as her only chance for redemption, whatever the cost.
+
+Clarification
+
+If Diana passes her Personal Story, she chooses two Inner Sanctum vice Inner Circle encounters and selects one of the two.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Diana_Stanley&oldid=10972"
+Categories: Dunwich HorrorInvestigators
+This page was last modified on 28 February 2011, at 00:04.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

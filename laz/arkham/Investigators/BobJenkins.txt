@@ -1,0 +1,50 @@
+Bob Jenkins
+
+From Arkham Horror Wiki
+Bob Jenkins is an investigator. He first appeared in the Arkham Horror board game.
+
+Bob Jenkins investigator sheet back.
+Bob Jenkins investigator sheet front.
+Sheet info
+
+Occupation: the Salesman
+
+Home: General Store
+
+Unique Ability: Shrewd Dealer - Any Phase: Whenever Bob draws one or more cards from the Common item deck, he draws one extra card and then discards one of the cards.
+
+Status
+Sanity: 4
+Stamina: 6
+Fixed Possessions
+$9
+Random Possessions
+2 Common items
+2 Unique items
+1 Skill
+Focus: 1
+
+Skills
+Speed	2	3	4	5
+Sneak	3	2	1	0
+Fight	1	2	3	4
+Will	6	5	4	3
+Lore	0	1	2	3
+Luck	4	3	2	1
+Personal Story
+
+PsBobJenkinsBack.png PsBobJenkinsFront.png PsBobJenkinsPassed.png PsBobJenkinsFailed.png
+
+
+The Story So Far: As a traveling salesman, Bob is always on the go. But yesterday, he saw something that made him decide to stay in Arkham and miss his train. While he was in the General Store selling his wares, a robed man came in and bought several items, paying with old gold coins. Astounded, Bob turned to the shopkeeper for an explanation, but the man just ignored his questions, simply saying, "That happens, sometimes."
+
+Now, Bob isn't leaving until he figues out where those gold coins came from. If he plays his cards right, maybe this will be the big score. Maybe he'll finally be able to retire and buy that boat he's had his eye on and spend the rest of his days fishing in a tropical paradise. Then again, moybe Bob will finally come to see that all that glitters is not gold.
+
+Errata
+
+In the original printing, Bob started with $8. He should have $9.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Bob_Jenkins&oldid=10292"
+Categories: Arkham HorrorInvestigators
+This page was last modified on 1 September 2010, at 22:34.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

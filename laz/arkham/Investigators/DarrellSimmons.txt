@@ -1,0 +1,48 @@
+Darrell Simmons
+
+From Arkham Horror Wiki
+Darrell Simmons is an investigator. He first appeared in the Arkham Horror board game.
+
+Darrell Simmons investigator sheet back.
+Darrell Simmons investigator sheet front.
+Sheet info
+
+Occupation: the Photographer
+
+Home: Newspaper
+
+Unique Ability: Hometown Advantage - Town Encounter: When drawing location encounters in Arkham, Darrell draws two cards and may choose whichever one of the two he wants. This ability does not work when drawing gate encounters in Other Worlds.
+
+Status
+Sanity: 4
+Stamina: 6
+Fixed Possessions
+$4
+1 Clue token
+1 Special (Retainer)
+Random Possessions
+1 Common item
+2 Unique items
+1 Skill
+Focus: 2
+
+Skills
+Speed	2	3	4	5
+Sneak	3	2	1	0
+Fight	2	3	4	5
+Will	4	3	2	1
+Lore	0	1	2	3
+Luck	4	3	2	1
+Personal Story
+
+PsDarrellSimmonsBack.png PsDarrellSimmonsFront.png PsDarrellSimmonsPassed.png PsDarrellSimmonsFailed.png
+
+
+The Story So Far: Even while growing up in Arkham, Darrell always knew that there was something not quite right about the strange little town. After graduating from high school, he went to work for the Arkham Advertiser as a photographer, and in the years since, he's crawled over every square inch of the city.
+
+Last night, however, Darrell saw something horrible-- something that has shaken his world to its core and torn away the safe illusions we all foster to protect our minds and our souls. His editor says he was just seeing things, but as he leaves the newspaper building, he knows just what he saw and he intends to show the world! This time he'll be more careful. This time he'll take pictures and prove that things are not normal in Arkham.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Darrell_Simmons&oldid=7267"
+Categories: Arkham HorrorInvestigators
+This page was last modified on 8 August 2009, at 23:23.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

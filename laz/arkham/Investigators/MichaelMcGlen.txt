@@ -1,0 +1,55 @@
+Michael McGlen
+
+From Arkham Horror Wiki
+Michael McGlen is an investigator. He first appeared in the Arkham Horror board game.
+
+Michael McGlen investigator sheet back.
+Michael McGlen investigator sheet front.
+Sheet info
+
+Occupation: the Gangster
+
+Home: Ma's Boarding House
+
+Unique Ability: Strong Body - Any Phase: Michael reduces all Stamina losses he suffers by 1, to a minimum of 0.
+
+Status
+Sanity: 3
+Stamina: 7
+Fixed Possessions
+$8
+2 Common items (Dynamite, Tommy Gun)
+Random Possessions
+1 Unique item
+1 Skill
+Focus: 1
+
+Skills
+Speed	2	3	4	5
+Sneak	4	3	2	1
+Fight	3	4	5	6
+Will	4	3	2	1
+Lore	0	1	2	3
+Luck	3	2	1	0
+Personal Story
+
+PsMichaelMcGlenBack.png PsMichaelMcGlenFront.png PsMichaelMcGlenPassed.png PsMichaelMcGlenFailed.png
+
+
+The Story So Far:
+
+As a soldier in the O'Bannion gang, Michael didn't really believe in all this voodoo mumbo jumbo around town. Or at least, he didn't until the night of the Foreman job, when he saw Fast Louie Farrell pulled screaming into the river by a scaly green creature. As they say, seeing is believing and Michael is starting to believe.
+
+
+Now, he has gathered his belongings together in the room that he rents at Ma's Boarding House. Louie was a friend of his, and he won't rest until he finds out what's happening in this town and avenges his buddy ...
+
+Clarification
+
+The Strong Body ability only applies to involuntary losses. Voluntary expenditures to gain some benefit are not affected. (Source: Page 10 of The Dunwich Horror Rulebook)
+
+Michael McGlen "Fails" his Personal Story if he ever gains $5 or more at one time.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Michael_McGlen&oldid=10964"
+Categories: Arkham HorrorInvestigators
+This page was last modified on 26 February 2011, at 12:51.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

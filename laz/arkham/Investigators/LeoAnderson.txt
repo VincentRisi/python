@@ -1,0 +1,49 @@
+Leo Anderson
+
+From Arkham Horror Wiki
+Leo Anderson is an investigator. He first appeared in the Dunwich Horror expansion.
+
+Leo Anderson investigator sheet back.
+Leo Anderson investigator sheet front.
+Sheet info
+
+Occupation: the Expedition Leader
+
+Home: River Docks
+
+Unique Ability: Leadership - Any Phase: Once per turn, Leo may prevent 1 point of Stamina or Sanity loss for any investigator.
+
+Status
+Sanity: 5
+Stamina: 5
+Fixed Possessions
+$5
+2 Clue tokens
+Random Possessions
+1 Ally
+2 Common items
+1 Skill
+Focus: 2
+
+Skills
+Speed	1	2	3	4
+Sneak	4	3	2	1
+Fight	1	2	3	4
+Will	4	3	2	1
+Lore	1	2	3	4
+Luck	4	3	2	1
+Personal Story
+
+PsLeoAndersonBack.png PsLeoAndersonFront.png PsLeoAndersonPassed.png PsLeoAndersonFailed.png
+
+
+The Story So Far: Anderson took seven men with him into the Yucatan. Two came back-- more or less. Technically, three men made it out of that jungle alive, but Mitch Brown's not exactly himself anymore. As a point of fact, he's a blithering madman now, and has already been shipped off to the asylum.
+
+Leo couldn't read the tablets they found in those ruins-- only Dr. Volk could, of the seven of them-- but he's holding the good doctor's notes in his hand. The ones Volk took before he went mad. Before he killed two of Anderson's men.
+
+Now Anderson's fresh off the boat and he's got word that Dr. Philips, the man who organized the Yucatan expedition in the first place, is dead. Philips is dead, and that leaves Anderson holding the scribblings of a murderous lunatic-- scribblings with today's date circled in blood.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Leo_Anderson&oldid=7276"
+Categories: Dunwich HorrorInvestigators
+This page was last modified on 8 August 2009, at 23:28.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

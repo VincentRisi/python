@@ -1,0 +1,48 @@
+Amanda Sharpe
+
+From Arkham Horror Wiki
+Amanda Sharpe is an investigator. She first appeared in the Arkham Horror board game.
+
+Amanda Sharpe investigator sheet back.
+Amanda Sharpe investigator sheet front.
+Sheet info
+
+Occupation: the Student
+
+Home: Bank of Arkham
+
+Unique Ability: Studious - Whenever Amanda draws one or more cards from the Skill deck, she draws one extra card and then discards one of the cards.
+
+Status
+Sanity: 5
+Stamina: 5
+Fixed Possessions
+$1
+1 Clue token
+Random Possessions
+1 Common item
+1 Unique item
+2 Skills
+1 Spell
+Focus: 3
+
+Skills
+Speed	1	2	3	4
+Sneak	4	3	2	1
+Fight	1	2	3	4
+Will	4	3	2	1
+Lore	1	2	3	4
+Luck	4	3	2	1
+Personal Story
+
+PsAmandaSharpeBack.png PsAmandaSharpeFront.png PsAmandaSharpePassed.png PsAmandaSharpeFailed.png
+
+
+The Story So Far: Amanda has been a student at Miskatonic University for 2 years now. On her way to talk to one of her professors last month, she saw a painting in the hallway that captured her attention with its hazy depiction of some horrible creature rising up out of the ocean. Ever since, Amanda has heard strange whispers in a foreign language whenever her attention drifts. More disturbingly, she has begun to dream of the vast green depths of the ocean and terrible alien cities that lie in its darkest crevasses.
+
+This evening, as she finishes her shift as a bank teller at the First Bank of Arkham, something out of the night calls to her-- something dark and sinister that leaves the feel of sea foam in her mind and makes her gasp with the effort of resisting it. Leaning against the brick wall of the bank, Amanda realizes that she has to find out what's happening to her or she's going to fall prey to whatever alien presence is invading her mind.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Amanda_Sharpe&oldid=7271"
+Categories: Arkham HorrorInvestigators
+This page was last modified on 8 August 2009, at 23:25.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

@@ -1,0 +1,215 @@
+Abyss 
+Your journey through the darkness is slow but restful. You are restored to your maximum Stamina, but are delayed.
+
+Celeano 
+You've found a most amazing book, filled with everything you could ever want to know provided you can endure reading it. For each point of Sanity you are willing to lose, you may draw a Spell; choose one to keep and discard the others.
+
+Other 
+You take careful notes of all of your experiences. You are certain they will come in handy later. Gain I Clue token.
+
+Abyss 
+A monster appears! 
+
+Yuggoth 
+Stumbling around in the dark, you tumble down a sheer cliff. Pass a Speed (-1) check to avoid losing 1 Common or Unique Item of your choosing. 
+
+Other 
+An enormous stone marker covered with arcane markings stands before you. Its true purpose is unclear, but you think you may be able to translate a small portion. Pass a Lore (-1) check to gain I Spell.
+
+The Dreamlands 
+You have inadvertently stumbled into a dangerous area. From the shadows, a monster appears! 
+
+Abyss 
+The darkness claws at your mind, obscuring what was once so clear to you. Make a Will (-1) check. For each success you roll, you may keep 1 Clue token, losing the others. 
+
+Other 
+You encounter a stranger who looks like a much older version of yourself. You are told, "Press on, you will succeed." Gain 2 Sanity.
+
+The Dreamlands 
+A strange man in a turban tells you, "In Dylath-Leen, they will exchange anything for a ruby such as this." If you take the ruby, search the Unique Item deck for a card of your choice, but then you lose 3 Sanity and are Cursed.
+
+Celeano 
+A strangely dressed man accuses you of trying to steal his book. Make a Fight (-2) check. If you succeed, you can take his book away. Take the first Tome in the Unique Item deck. If you fail, lose I Stamina. 
+
+Other 
+A revolting monster appears! 
+
+The Dreamlands 
+King Kuranes would like a souvenir. If you have a Common Item, you may trade it to him for 2 Clue tokens. If not, nothing happens.
+
+Yuggoth 
+A horrid monster appears! 
+
+Other 
+On the horizon, you see the hazy silhouette of the Ancient One. Pass a Will (-2) check or lose all your Sanity.
+
+Yuggoth 
+You see the faint glimmer of an object poised on a precipice. Pass a Fight (-2) check to climb your way out to it safely. If you succeed, draw one Unique Item. If you fail, the precipice crumbles and you are last in time and space. 
+
+Celeano 
+You discover a copy of your favorite childhood story book. Gain 2 Sanity. 
+
+Other 
+Your feet begin to sink into a repulsive goo. Pass a Fight (-2) check to pull yourself out. If you fail, you are sucked into the unknown and are Iost in time and space.
+
+City of the Great Race
+You feel other minds trying to contact you and warn you of something. Gain 2 Clue tokens.
+
+Celeano 
+A lurking monster appears! 
+
+Other 
+A ghostly ship captain offers you passage home, for a price. Return to Arkham, but you are Cursed. 
+
+City of the Great Race 
+You read a detailed description of humanity's extinction. Pass a Will (-1) check or lose 2 Sanity.
+
+Plateau of Leng 
+A monster appears from the shadows!
+
+Other 
+In the dark, you stumble into a deep hole. Looking up, you see a gravestone bearing your name. Pass a Speed (-2) check to scramble out or lose 2 Sanity and be delayed.
+
+Plateau of Leng
+The villagers offer you a little sustenance. Gain 1 Stamina.
+
+Celeano 
+It is recommended to you to simply open a book at random to find the answers you seek. If you would like to give it a try, make a Luck (-2) check. If you pass, gain 2 Clue tokens. If not, you still gain 2 Clue tokens but you are delayed. 
+
+Other 
+You are not safe here. A monster appears!
+
+The Dreamlands 
+You have inadvertently stumbled into a dangerous area. From the shadows, a monster appears!
+
+Celeano 
+A book that you thought contained useful information has suddenly turned into a vivid description of methods of torture. Lose 1 Sanity.
+
+Other 
+It's a dead end. You are delayed as you must retrace your path and try something different.
+
+The Dreamlands 
+You find yourself reliving a moment in your past that you have always regretted, only this time everything goes as well as you could over hope. Gain 2 Sanity.
+
+City of the Great Race 
+These creatures don't want you to leave just yet. Pass a Sneak (-3) check or be delayed.
+
+Other 
+At the top of a hill is an old stone well. You may toss $1 inside and pass a Luck (-2) check to be Blessed. If you fail, nothing happens.
+
+The Dreamlands
+Your zebra has run off without you. Now, you are delayed.
+
+Plateau of Leng
+One of the villagers has a prized possession of unknown origins. Pass a Sneak (+1) check to successfully claim it as he sleeps. Draw I Common Item. 
+
+Other
+A wounded beast snarls at you, but it can't move. You don't think it's going to live much longer. If you want to wait around, you are delayed, but you may draw a monster from the cup and take it as a monster trophy, even if it has the Endless ability.
+
+Abyss
+You discover a large chamber filled with hideous creatures, in numbers too vast to count. Your only hope is to pass undetected. Pass a Sneak (+1) check or be devoured.
+
+Plateau of Leng
+Something is here, frozen beneath the snow. Draw a monster from the cup and take it as a monster trophy, even if it has the Endless ability.
+
+Other
+A strange rash has appeared on your skin, and you've developed a harsh, rattling cough. Lose 1 Stamina.
+
+Abyss
+You can feel bleak despair taking over your mind. Make a Will (-2) check. If you pass, regain 1 Sanity. If you do not, you leap blindly into the yawning darkness and are last in time and space.
+
+The Dreamlands
+Ghouls have feasted here and left behind a grisly mess. Pass a Will (-2) check or lose 2 Sanity.
+
+Other
+The air here is too noxious. You don't think you can make it. Pass a Speed (-1) check or lose 1 Stamina.
+
+Plateau of Leng
+You examine the frescoes and find them both informative and repellent. Make a Lore (-2) check and gain I Clue token per success. After that, lose I Sanity.
+
+The Dreamlands
+Time passes differently in the Dreamlands, and you've needed to learn a few things to survive. Gain 1 Skill.
+
+Other
+A terrible monster appears!
+
+Rlyeh
+As you stare out across the waters, a monster appears!
+
+Abyss
+It is the little things that comfort you in your darkest hour. You think fondly of the mundane joys of your life. Regain 1 Sanity for each Common Item you possess.
+
+Other
+A mysterious woman warns you that you would be able to see all that you need to know if your mind were not clouded by the unnatural. Discard 2 Spells to gain 5 Clue tokens. If you can't or choose not to, gain 1 Sanity.
+
+Rlyeh
+You hear distant chants. You feel you may learn more if you stop to listen. If you wish, you may gain 1 Spell, but you will be delayed.
+
+Plateau of Leng
+The icy weather has damaged one of your items beyond repair. Discard 1 Common or Unique item of your choice. If you have no items, lose 1 Stamina. 
+
+Other
+A mixed, half-dead explorer attacks you. Pass a Fight (+2) check to overcome him. If you succeed, take 1 Common Item and lose 1 Sanity as you contemplate this poor soul's fate. If you fail, lose 1 Stamina.
+
+Rlyeh
+You stand before the massive citadel and feel baleful forces inspecting you. Make a Lore (-2) check. If you roll no successes you have been Cursed!
+
+The Dreamlands
+You must face the guardian to claim your prize. A monster appears! If you defeat it, you do not collect it as a monster trophy, but you do gain 1 Unique Item.
+
+Other
+You find a fresh water source that replenishes you. Gain 1 Stamina.
+
+City of the Great Race
+The conical creatures wish you to return an item to your own world. They have no need of it Gain $3. 
+
+The Dreamlands
+Looking over the Lake of Yath and taking in the fragrant air, you find yourself comforted. Gain 1 Sanity.
+
+Other
+You are unsure if you are back in Arkham or not. Make a Will (-2) check. If you succeed, return to Arkham. If not, lose 2 Sanity as the landscape twists and warps in a nightmarish way.
+
+City of the Great Race
+You examine strange glyphs and begin to understand their purpose. Pass a Lore (-2) check to gain 1 Spell. 
+
+Yuggoth
+You might be smarter than the Mi-Go realize. They've left you alone with some alien documents. Pass a Lore (-2) check to gain a Spell.
+
+Other
+Your path ends at two identical doors. Make a Luck (+0) check. If you succeed, return to Arkham. If not, you are lost in time and space. 
+
+Rlyeh
+A massive wave crashes over you and washes one of your items out to sea. Choose 1 of your Common or Unique Items and discard it. If you have none, nothing happens.
+
+City of the Great Race
+One of the strange creatures wants to take one of your items. Pass a Fight (-2) check to hold onto it. If you do not, choose 1 Common or Unique Item and discard it.
+
+Other
+You find a small gem that you plan on selling when you get the chance. Gain $3.
+
+Rlyeh
+To your horror, the unearthly geometry of the place is starting to make sense. Take a number of Clue tokens equal to the difference between your current Sanity score and your maximum.
+
+The Dreamlands
+A terrible storm strikes the ship which carries you. Pass a Fight (-2) check or lose 2 Stamina.
+
+Other
+You feel a powerful pulse of malevolent intelligence. It wants to tell you secrets. For each point of Sanity you sacrifice. you may gain 1 Clue token.
+
+Rlyeh
+You hear a monstrous roar behind you and a voice within tells you to am and not look back. Pass a Will (-2) check to do exactly that. Otherwise you give into temptation and glance back at the creature, losing 2 Sanity and becoming lost in time end space. 
+
+Yuggoth
+The sun is so far away. Everything seems hopeless. Lose 1 Sanity.
+
+Other
+A ghastly monster appears!
+
+The Dreamlands
+Make a Will (-2) check to whisper to a sleeper in his dreams. If you pass, one investigator in Arkham of your choice gains Clue tokens equal to the number of successes you rolled.
+ 
+City of the Great Race
+The bells ring ten, eleven, then midnight. But what does time mean, here? If your Sanity is 3 or less, you are lost in time and space.
+
+Other
+You hear the call of a hunting creature in the sky above. Pass a Sneak (-2) check or you become its prey and lose 1 Stamina. 

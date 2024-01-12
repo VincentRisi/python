@@ -1,0 +1,51 @@
+Calvin Wright
+
+From Arkham Horror Wiki
+This article is a stub. You can help Arkham Horror Wiki by expanding it.
+Calvin Wright is an investigator. He first appeared in Arkham League Session 2, Chapter Ten: End Game
+
+
+Calvin Wright
+Sheet info
+
+Occupation: the Damned
+
+Home: Train Station
+
+Unique Ability: Been Through Hell - Calvin's Stats may never be reduced. Any time his stats would be reduced, he may recover 1 Sanity or Stamina.
+
+Friend Indeed - Calvin may give Investigators in his same location Sanity or Stamina, as if it were an item.
+
+Status
+Sanity: 4
+Stamina: 5
+Fixed Possessions
+$0
+1 Common Item (.45 Automatic)
+1 Unique Item (Enchanted Knife)
+Random Possessions
+1 Common item
+1 Skill
+Focus: 2
+
+Skills
+Speed	2	3	4	5
+Sneak	3	2	2	1
+Fight	4	5	6	7
+Will	3	2	1	0
+Lore	0	1	2	3
+Luck	5	4	3	2
+Personal Story
+
+There are no Personal Story cards for Calvin (as of 8 August, 2009).
+
+The Story So Far: Calvin's sheet has no reverse side (as of 8 August, 2009). See the 2nd League posts on FFG's site ('News' section) for Calvin's unfolding tale.
+
+Errata
+
+As per the official Arkham League FAQ, Calvin's "Been Through Hell" ability applies whenever a special effect would decrease one of his statistics, including maximum Sanity or maximum Stamina (but not including current Sanity or Stamina) below its normal level. It does not apply when losing a bonus to that statistic above his normal maximum (for instance, when discarding Duke). The ability has no effect in a Final Battle against Cthulhu.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Calvin_Wright&oldid=14253"
+Categories: Article stubsScenariosInvestigators
+This page was last modified on 5 November 2012, at 06:00.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

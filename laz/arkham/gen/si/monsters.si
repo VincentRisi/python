@@ -1,0 +1,56 @@
+database arkham
+package  vince.arkham
+output   monsters
+server   arkham 
+
+table Monsters
+  name        char 32
+  colour      char 16 {BLACK RED GREEN BLUE YELLOW}
+  symbol      char 16 {HEX SLASH TRIANGLE STAR CROSS MOON ROUND SQUARE DIAMOND}
+  attributes  char 32
+  awareness   int
+  sanity      int
+  sanityloss  int
+  life        int
+  stamina     int
+  staminaloss int
+  noof        int
+  notes       char 256
+  
+key prime_key primary name
+
+proc insert
+proc selectOne
+
+sqldata
+  insert into Monsters values ('Byakhee',              'BLUE',   'ROUND',    'NORMAL',               -2, -1,  1,  1, 0,   2,  3, 'It shrieked and flapped its wings. I thought of the empty shell of a beetle, and the soft loam of rotting earth. It cocked its carapace head at me, black teeth clicking against each other.');
+  insert into Monsters values ('Chthonian',            'GREEN',  'TRIANGLE', 'NORMAL',                1, -2,  2,  3, -3,  3,  2, 'Instead of moving, roll a die. On a 4-6, all investigators in Arkham lose 1 Stamina.');
+  insert into Monsters values ('Cultist',              'BLACK',  'MOON',     'NORMAL',               -3,  0,  0,  1,  1,  1,  6, 'la! la! Cthulhu Fthagn! Ph`nglui mglw`nfah Cthulhu R`lyeh wgahi`nagljhtagn!');
+  insert into Monsters values ('DarkYoung',            'YELLOW', 'HEX',      'PHYSR,N=1',            -2,  0,  3,  3, -1,  3,  3, 'Physical Resistance Nightmarish 1 The trees trembled, leaves fluttering around us. The earth shook as the thuds of giant hooved feet grew ever closer...');
+  insert into Monsters values ('Dhole',                'BLACK',  'ROUND',    'PHYSR,MAGICR,N=1,O=1', -1, -1,  4,  3, -3,  4,  1, 'Physical Resistance Magical Resistance Nightmarish 1 Overwhelming 1');
+  insert into Monsters values ('DimensionalShambler',  'RED',    'SQUARE',   'NORMAL',               -3, -2,  1,  1, -2,  0,  2, 'If you fail a Combat check against Dimensional Shambler, you are lost in time and space.');
+  insert into Monsters values ('ElderThing',           'BLACK',  'DIAMOND',  'NORMAL',               -2, -3,  2,  2,  0,  1,  2, 'When you fail a Cembat check against Elder Thing, you must discard 1 of your Weapons or Spells (your choice), if able.');
+  insert into Monsters values ('FireVampire',          'BLUE',   'STAR',     'AMBUSH,PHYSI',          0,  0,  0,  1, -2,  2,  2, 'Ambush Physical Immunity A thousand tiny fires, the size of match-flames, swept from the night sky The old man was suddenly radiant with light.');
+  insert into Monsters values ('FlyingPolyp',          'BLUE',   'HEX',      'PHYSR,N=1,O=1',         0, -2,  4,  3, -3,  3,  1, 'Physical Resistance Nightmarish 1 Overwhelming 1');
+  insert into Monsters values ('FormlessSpawn',        'BLACK',  'HEX',      'PHYSI',                 0, -1,  2,  2, -2,  2,  2, 'Physical Immunity From the darkened alley a patch of darkness seemed to detach itself curling along the bricks and rising to block our path.');
+  insert into Monsters values ('Ghost',                'YELLOW', 'MOON',     'PHYSI,UNDEAD',         -3, -2,  2,  1, -3,  2,  3, 'Physical Immunity Undead');
+  insert into Monsters values ('Ghoul',                'BLACK',  'HEX',      'AMBUSH',               -3,  0,  1,  1, -1,  1,  3, 'Ambush Most of the bodies, while roughly bipedal, had a forward slumping, and a vaguely canine cast. The texture of the majority was a kind of unpleasant rubberiness.');
+  insert into Monsters values ('GodOfTheBloodyTongue', 'BLACK',  'DIAMOND',  'MASK,ENDLESS,O=1,N=1',  1, -3,  3,  4, -4,  4,  1, 'Mask Endless Nightmarish 1 Overwhelming 1');
+  insert into Monsters values ('Gug',                  'BLACK',  'SLASH',    'O=1',                  -2, -1,  2,  3, -2,  4,  2, 'Overwhelming 1 I caught confused glimpses of a terrible, wrongly-angled mouth; multi-jointed arms, and protriudings eyes as big as a man`s head.');
+  insert into Monsters values ('HaunterOfTheDark',     'BLUE',   'SQUARE',   'MASK,ENDLESS',         -3, -2,  2,  2, -2,  2,  1, 'Mask Endless If the Blackest Night card is in play, Haunter of the Dark`s fight rating increases to -5.');
+  insert into Monsters values ('HighPriest',           'BLACK',  'CROSS',    'MAGICI',               -2,  1,  1,  2, -2,  2,  1, 'Magical Immunity "We will not cease our struggle," intoned the robed figure, "Until we have built Carcosa upon this land of ruined Reason."');
+  insert into Monsters values ('HoundOfTindalos',      'GREEN',  'SQUARE',   'PHYSI',                -1, -2,  4,  2, -1,  3,  1, 'Physical Immunity When it moves, the Hound of Tindalos moves directly to the nearest investigator inside a location in Arkham (Other than the Hospital or Asylum).');
+  insert into Monsters values ('Maniac',               'BLACK',  'MOON',     'NORMAL',               -1,  0,  0,  1,  1,  1,  3, 'If the terror level is at least 6, Maniac`s fight rating increases to -2, his combat damage increases to 3 Stamina, and he gains Endless.');
+  insert into Monsters values ('MiGo',                 'BLUE',   'ROUND',    'NORMAL',               -2, -1,  2,  1,  0,  1,  3, 'If you pass a Combat check against Migo, return it to the box and draw 1 Unique Item.');
+  insert into Monsters values ('Nightgaunt',           'BLUE',   'SLASH',    'NORMAL',               -2, -1,  1,  2, -2,  0,  2, 'When you fail a Combat check against Nightgaunt, you are drawn through the nearest open gate. If two or more gates are the same distance from you, you choose which gate you are drwan through.');
+  insert into Monsters values ('Shoggoth',             'RED',    'DIAMOND',  'PHYSR,N=1',            -1, -1,  3,  3, -1,  3,  2, 'Physical Resistance Nightmarish 1 The stench was unbearable, and rising to the surface came a terrible cry. "Tekeli-li! Tekeli-li!"');
+  insert into Monsters values ('StarSpawn',            'BLACK',  'CROSS',    'NORMAL',               -1, -3,  2,  3, -3,  3,  2, 'The bosun was the only one left alive. We dragged him screaming from the cargo hold. "That thing!" he wept. "Not a whale... not an island..."');
+  insert into Monsters values ('TheBlackMan',          'BLACK',  'MOON',     'MASK,ENDLESS',         -3,  0,  0,  1,  0,  0,  1, 'Mask Endless Before making a Horror check pass a Luck (-1) check or be devoured. If you pass gain 2 Clue tokens. In either case, return the Black Man to the cup.');
+  insert into Monsters values ('TheBloatedWoman',      'BLACK',  'HEX',      'MASK,ENDLESS',         -1, -1,  2,  2, -2,  2,  1, 'Mask Endless Before making a Horror check pass a Will (-2) check or automatically fail the Horror check and the Combat check.');
+  insert into Monsters values ('TheDarkPharoah',       'BLACK',  'SLASH',    'MASK,ENDLESS',         -1, -1,  1,  2, -3,  3,  1, 'Mask Endless Use Lore in combat with Dark Pharoah instead of Fight.');
+  insert into Monsters values ('Vampire',              'BLACK',  'MOON',     'UNDEAD,PHYSR',         -3,  0,  2,  2, -3,  3,  1, 'Undead Physical Resistance It was a beast born in the grave. It stretched its hands toward us and curled its lips, drawn to the blood in our veins.');
+  insert into Monsters values ('Warlock',              'YELLOW', 'ROUND',    'MAGICI',               -2, -1,  1,  2, -3,  1,  2, 'Magic Immunity If you pass a Combat check against Warlock, return it to the box and gain 2 Clue tokens.');
+  insert into Monsters values ('Witch',                'BLACK',  'ROUND',    'MAGICR',               -1,  0,  0,  1, -3,  2,  2, 'Magic Resistance She was lovely and terrible all at once. A strnage light shone in her eyes as she chanted, "Ia! Ia! Shub-Niggurath! The Goat with a Thousand Young!"');
+  insert into Monsters values ('Zombie',               'BLACK',  'MOON',     'UNDEAD',                1, -1,  1,  1, -1,  2,  3, 'Undead She screamed and fired again, but still the thing shambled on, teeth dripping as it groaned its horrible cry.');
+  commit;
+enddata

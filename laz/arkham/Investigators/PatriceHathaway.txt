@@ -1,0 +1,60 @@
+Patrice Hathaway
+
+From Arkham Horror Wiki
+Patrice Hathaway is an investigator. She first appeared in the Innsmouth Horror expansion.
+
+Patrice Hathaway investigator sheet back.
+Patrice Hathaway investigator sheet front.
+Sheet info
+
+Occupation: the Violinist
+
+Home: Curiositie Shoppe
+
+Unique Ability: Inspiring - Any Phase: Patrice may allow the other investigators to spend her Clue tokens, even if they are not in the same location or world.
+
+Ominous Dreams - Any Phase: Patrice gains 1 Clue token each time a gate opens. She also gains 5 Clue tokens when the 9th space on the Ancient One's doom track is filled.
+
+Status
+Sanity: 5
+Stamina: 5
+Fixed Possessions
+$2
+3 Clue tokens
+Random Possessions
+1 Common item
+2 Unique items
+1 Spell
+1 Skill
+Focus: 2
+
+Skills
+Speed	1	2	3	4
+Sneak	4	3	2	1
+Fight	1	2	3	4
+Will	4	3	2	1
+Lore	2	3	4	5
+Luck	3	2	1	0
+Personal Story
+
+PsPatriceHathawayBack.png PsPatriceHathawayFront.png PsPatriceHathawayPassed.png PsPatriceHathawayFailed.png
+
+
+The Story So Far: All her life, Patrice has lived for music. The soaring sonatas, the graceful arias, and the booming marches have always been her closest companions.
+
+But sometimes as she plays, she can sense something at the edge of her awareness - something that watches her and waits, for what she doesn't know.
+
+The presence has been growing over the last month, and her increasing nervousness is starting to spoil her ability to play the violin. That's not something she can tolerate.
+
+So when an old gypsy she was swapping tunes with told her that she was being watched by an evil spirit, Patrice listened with somewhat less skepticism than she might have had even a month ago. The gypsy referred her to a shop in Arkham that might have what she needs to get rid of the spirit.
+
+That explains why Patrice finds herself entering the Curiositie Shoppe this evening, feeling a little silly and more than slightly nervous.
+
+Clarification
+
+Patrice only gains 5 Clue tokens the first time the 9th space on the Ancient One's doom track is filled.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Patrice_Hathaway&oldid=10054"
+Categories: Innsmouth HorrorInvestigators
+This page was last modified on 8 July 2010, at 03:24.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

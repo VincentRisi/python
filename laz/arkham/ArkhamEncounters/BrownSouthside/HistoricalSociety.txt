@@ -1,0 +1,53 @@
+﻿HSOCIETY
+Perusing the county records, you discover
+something horrifying about your family
+tree. Lose 1 Sanity.
+
+HSOCIETY
+You encounter a friendly old professor
+from Miskatonic University. If you spend
+1 gate trophy, he introduces himself as
+Professor Armitage and offers to join forces
+with you. Take his Ally card if it is
+available, otherwise draw 1 Unique Item.
+
+HSOCIETY
+The Society members are bird watching in
+the woods. The janitor offers you a ride
+there. If you accept, move to the Woods
+and draw 2 cards, encountering one card
+of your choice and discarding the other.
+
+HSOCIETY 
+Pass a Luck (-1)[2] check to gain insight into
+a skill while studying the old volumes of
+books. Draw 1 Skill, but stay here next turn.
+
+HSOCIETY
+You meet Cindy Fleming, a young geology
+professor at the University. She offers to
+show you some interesting formations at the
+Black Cave. If you accept, move to the Black
+Cave and draw 2 cards, encountering one
+card of your choice and discarding the other.
+
+HSOCIETY
+Pay a $3 fee to gain access to the private
+library. If you refuse, move to the street. If
+you pay, make a Luck (-1) check If you pass,
+you learn an ancient spell from a dusty ledger.
+Draw 1 Spell. If you fail, you doze off and
+enter The Dreamlands. Have one encounter
+there, then immediately return here.
+
+HSOCIETY
+You notice a creepy man watching you as
+you peruse the books. With a feeling of
+dread you try to slip out without being
+followed. Make a Sneak (-1) check. If you
+pass, you lose the man, gaining l Sanity
+in the process. If you fail, you are accosted
+by the man in the street. He is a wizard
+and he casts a dark spell on you as you
+flee. Lose 2 Stamina, move to the street,
+and you are Cursed.
