@@ -1,7 +1,217 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="d3df1bb1-f96c-482a-bfbf-332ab423df31" name="Changes" comment="" />
+    <list default="true" id="d3df1bb1-f96c-482a-bfbf-332ab423df31" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/makecrackle.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/makecrackle.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/makejars.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/makejars.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/makejportal.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/makejportal.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/inputs.list" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/inputs.list" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/accounttype.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/accounttype.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/accuitycontact.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/accuitycontact.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/accuitycorrespondent.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/accuitycorrespondent.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/accuitycorrespondentsub.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/accuitycorrespondentsub.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/accuitylocation.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/accuitylocation.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/accuityofficer.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/accuityofficer.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/accuityoverride.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/accuityoverride.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/accuityroutingatt.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/accuityroutingatt.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/accuityroutingcode.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/accuityroutingcode.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/audits.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/audits.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/comments.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/comments.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/country.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/country.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/currency.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/currency.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/dates.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/dates.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/domain.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/domain.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/drivers.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/drivers.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/fields.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/fields.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/fieldsearch.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/fieldsearch.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/fieldsearchdef.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/fieldsearchdef.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/fieldsearchdefnew.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/fieldsearchdefnew.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/group.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/group.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/lookup.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/lookup.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/message.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/message.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/metadata.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/metadata.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/persistent.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/persistent.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/queue.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/queue.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/queuetype.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/queuetype.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/reply.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/reply.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/response.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/response.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/routing.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/routing.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/sourcesystem.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/sourcesystem.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/staff.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/staff.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/staffconfigname.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/staffconfigname.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/staffgroup.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/staffgroup.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/staffprofile.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/staffprofile.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/staffqueueconfig.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/staffqueueconfig.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/staffqueueperm.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/staffqueueperm.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/streams.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/streams.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/streamtype.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/streamtype.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/azure/sql/si/summary.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/sql/si/summary.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/configs/Crackle.run.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/configs/JPortal-audio.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/JPortal-audio.run.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/configs/JPortal-azure.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/JPortal-azure.run.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/configs/JPortal-gps.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/JPortal-gps.run.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/configs/JPortal-mcpe.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/JPortal-mcpe.run.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/configs/JPortal.run.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/inputs.list" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/inputs.list" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/accuitycontact.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/accuitycontact.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/accuitycorrespondent.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/accuitycorrespondent.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/accuitylocation.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/accuitylocation.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/accuityofficer.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/accuityofficer.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/accuityroutingatt.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/accuityroutingatt.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/audits.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/audits.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/bankaccproc.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/bankaccproc.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/bankcorrespondents.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/bankcorrespondents.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/bankfile.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/bankfile.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/comments.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/comments.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/dates.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/dates.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/exclusions.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/exclusions.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/figcorrbankproc.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/figcorrbankproc.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/finidcorrespondentrouting.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/finidcorrespondentrouting.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/group.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/group.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/lookup.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/lookup.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/message.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/message.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/persistent.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/persistent.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/reply.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/reply.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/response.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/response.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/routing.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/routing.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/scriptprocs.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/scriptprocs.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/scriptsgroup.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/scriptsgroup.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/siresscutofftimes.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/siresscutofftimes.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/siressholidays.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/siressholidays.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/staff.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/staff.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/staffgroup.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/staffgroup.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/streams.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/streams.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/mcpe/sql/si/summary.si" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/wordle/mcpe/sql/si/summary.si" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/Action.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/Action.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/Compiler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/Enumerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/Enumerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/Field.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/Field.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/Generator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/IDL.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/IDL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/IDL.jj" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/IDL.jj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/IDLConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/IDLConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/IDLTokenManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/IDLTokenManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/Module.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/Module.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/OpenApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/OpenApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/Operation.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/Operation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/Parameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/Parameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/ParseException.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/ParseException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/Prototype.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/Prototype.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/SimpleCharStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/SimpleCharStream.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/Structure.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/Structure.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/Table.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/Table.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/TokenMgrError.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/TokenMgrError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/Type.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/Writer.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/Writer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/http/Argument.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/http/Argument.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/http/PopGen.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/http/PopGen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/http/PopHTTP.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/http/PopHTTP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/http/PopHTTPImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/http/PopHTTPImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/http/PopHTTPOpenApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/http/PopHTTPOpenApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/http/PopHTTPPython.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/http/PopHTTPPython.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/http/PopHTTPPythonImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/http/PopHTTPPythonImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/http/PopHTTPServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/http/PopHTTPServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/crackle/http/PopHTTPSwagger.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/crackle/http/PopHTTPSwagger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Compiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/Compiler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Const.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/Const.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Db2.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/Db2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Enumerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/Enumerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Field.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/Field.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Flag.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/Flag.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/Generator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Grant.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/Grant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/JPortal.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/JPortal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/JPortal.jj" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/JPortal.jj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/JPortalConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/JPortalConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/JPortalTokenManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/JPortalTokenManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Key.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/Key.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Limit.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/Limit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Line.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/Line.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Link.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/Link.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Lite3.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/Lite3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/MSSql.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/MSSql.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/MySql.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/MySql.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Oracle.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/Oracle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Parameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/Parameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/ParseException.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/ParseException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/PlaceHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/PlaceHolder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/PlaceHolderPairs.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/PlaceHolderPairs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Postgre.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/Postgre.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Proc.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/Proc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Sequence.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/Sequence.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/SimpleCharStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/SimpleCharStream.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/TJCStructs.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/TJCStructs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Table.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/Table.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/TokenMgrError.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/TokenMgrError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Value.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/Value.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/View.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/With.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/azure/vlab/jportal/With.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/Writer.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/Writer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/CliCCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/CliCCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/CliPyCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/CliPyCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/DelphiCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/DelphiCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/IdlPyCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/IdlPyCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/Java2Code.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/Java2Code.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/Java3Code.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/Java3Code.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/JavaCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/JavaCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/KotlinCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/KotlinCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/Lite3CCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/Lite3CCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/Lite3PyCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/Lite3PyCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/MSSqlCCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/MSSqlCCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/MSSqlPyCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/MSSqlPyCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/MySqlCCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/MySqlCCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/MySqlPyCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/MySqlPyCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/OciCCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/OciCCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/OciPyCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/OciPyCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/OdbcCCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/OdbcCCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/OdbcPyCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/OdbcPyCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/OpenApiCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/OpenApiCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/PostgreCCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/PostgreCCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/PostgrePyCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/PostgrePyCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/PyDBOldCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/PyDBOldCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/PyDBRestCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/PyDBRestCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/code/SwaggerCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/code/SwaggerCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/ddl/Db2DDL.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/ddl/Db2DDL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/ddl/Lite3DDL.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/ddl/Lite3DDL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/ddl/MSSqlDDL.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/ddl/MSSqlDDL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/ddl/MySqlDDL.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/ddl/MySqlDDL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/ddl/OracleDDL.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/ddl/OracleDDL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/ddl/PostgreDDL.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/ddl/PostgreDDL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/util/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/util/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/util/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/util/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/util/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/util/ByteArrayBlob.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/util/ByteArrayBlob.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/util/Connector.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/util/Connector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/util/ConnectorDB2.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/util/ConnectorDB2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/util/ConnectorOracle.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/util/ConnectorOracle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/util/ConnectorPostgre.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/util/ConnectorPostgre.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/util/ConnectorSqlServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/util/ConnectorSqlServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/util/DataHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/util/DataHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/util/JPBlob.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/util/JPBlob.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/util/KeyPair.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/util/KeyPair.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/util/Query.java" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/util/Query.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/vlab/jportal/util/util.iml" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/azure/vlab/jportal/util/util.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ktools/.gradle/7.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/ktools/.gradle/7.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ktools/.gradle/7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ktools/.gradle/7.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ktools/.gradle/7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/ktools/.gradle/7.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ktools/.gradle/7.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ktools/.gradle/7.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ktools/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ktools/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ktools/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/ktools/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ktools/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ktools/.gradle/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ktools/.gradle/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/ktools/.gradle/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ktools/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/ktools/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pytools/pytools.iml" beforeDir="false" afterPath="$PROJECT_DIR$/pytools/pytools.iml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,6 +223,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="2Qe834nscJjcWc5AqEb1oQFThzD" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -23,13 +236,37 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "D:/vlab/python"
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/vlab/python",
+    "settings.editor.selected.configurable": "configurable.group.appearance"
+  },
+  "keyToStringList": {
+    "stardust.markdown.MarkdownSplitEditorSuppressor:keyList": [
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\vlab\python\jtools\src\vlab" />
     </key>
+  </component>
+  <component name="RunManager" selected="Application.JPortal-azure">
+    <list>
+      <item itemvalue="Application.Crackle-accuity" />
+      <item itemvalue="Application.JPortal-accuity" />
+      <item itemvalue="Application.JPortal-audio" />
+      <item itemvalue="Application.JPortal-azure" />
+      <item itemvalue="Application.JPortal-gps" />
+      <item itemvalue="Application.JPortal-mcpe" />
+    </list>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

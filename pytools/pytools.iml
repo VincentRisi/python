@@ -10,7 +10,7 @@
       <excludeFolder url="file://$MODULE_DIR$/xsd_py_gen/build" />
       <excludeFolder url="file://$MODULE_DIR$/xsd_py_gen/env" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.10 (jtools)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="21" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
   </component>

@@ -2,8 +2,8 @@
   <configuration default="false" name="JPortal-gps" type="Application" factoryName="Application">
     <option name="ALTERNATIVE_JRE_PATH" value="C:\Java\jdk-16" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-    <option name="MAIN_CLASS_NAME" value="vlab.jportal.Compiler" />
-    <module name="jtools" />
+    <option name="MAIN_CLASS_NAME" value="azure.vlab.jportal.Compiler" />
+    <module name="python" />
     <option name="PROGRAM_PARAMETERS" value="-R $PROJECT_DIR$ -f {root}/src/gps/inputs.list -o {root}/out/gps/sql/ddl/db2 ddl.Db2DDL -o {root}/out/gps/sql/ddl/lite3 ddl.Lite3DDL -o {root}/out/gps/sql/ddl/mssql ddl.MSSqlDDL -o {root}/out/gps/sql/ddl/mysql ddl.MySqlDDL -o {root}/out/gps/sql/ddl/oracle ddl.OracleDDL -o {root}/out/gps/sql/ddl/postgre ddl.PostgreDDL -o {root}/out/gps/sql/yaml2 code.SwaggerCode -o {root}/out/gps/sql/yaml3 code.OpenApiCode -o {root}/out/gps/sql/py/dbapi code.PyDBRestCode -o {root}/out/gps/sql/py/dbapi code.PyDBOldCode -o {root}/out/gps/sql/py/dbapi/db2 -F %vendor=db2 code.PyDBApiCode -o {root}/out/gps/sql/py/dbapi/lite3 -F %vendor=lite3 code.PyDBApiCode -o {root}/out/gps/sql/py/dbapi/mssql -F %vendor=mssql code.PyDBApiCode -o {root}/out/gps/sql/py/dbapi/mysql -F %vendor=mysql code.PyDBApiCode -o {root}/out/gps/sql/py/dbapi/odbc -F %vendor=odbc code.PyDBApiCode -o {root}/out/gps/sql/py/dbapi/oracle -F %vendor=oracle code.PyDBApiCode -o {root}/out/gps/sql/py/dbapi/postgre -F %vendor=postgre code.PyDBApiCode -o {root}/out/gps/sql/clish code.CliCCode -o {root}/out/gps/sql/msssh code.MSSqlCCode -o {root}/out/gps/sql/myssh code.MySqlCCode -o {root}/out/gps/sql/ocish code.OciCCode -o {root}/out/gps/sql/pgsh code.PostgreCCode -o {root}/out/gps/sql/odbc/db2 -F %odbc=db2 code.OdbcCCode -o {root}/out/gps/sql/odbc/mssql -F %odbc=mssql code.OdbcCCode -o {root}/out/gps/sql/odbc/mysql -F %odbc=mysql code.OdbcCCode -o {root}/out/gps/sql/odbc/oracle -F %odbc=oracle code.OdbcCCode -o {root}/out/gps/sql/odbc/postgre -F %odbc=postgre code.OdbcCCode -o {root}/out/gps/sql/ii code.IdlPyCode" />
     <method v="2">
       <option name="Make" enabled="true" />

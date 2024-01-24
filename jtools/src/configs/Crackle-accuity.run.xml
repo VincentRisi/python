@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Crackle-accuity" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="21" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <option name="MAIN_CLASS_NAME" value="azure.vlab.crackle.Compiler" />
+    <option name="PROGRAM_PARAMETERS" value="-R $PROJECT_DIR$ -B {root}/src/accuity/ibfiles.list -I {root}/src/accuity/iifiles.list -f {root}/out/accuity/idl2/accuity.idl2 {root}/src/accuity/idl2/accuity.im -o {root}/out/accuity/idl2/http http.PopHTTPImpl http.PopHTTPServer http.PopHTTPOpenApi http.PopHTTPSwagger -o {root}/out/accuity/idl2/http/py http.PopHTTPPython http.PopHTTPPythonImpl" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
