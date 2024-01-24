@@ -1,0 +1,52 @@
+Tommy Muldoon
+
+From Arkham Horror Wiki
+Tommy Muldoon is an investigator. He first appeared in the Innsmouth Horror expansion.
+
+Tommy Muldoon investigator sheet back.
+Tommy Muldoon investigator sheet front.
+Sheet info
+
+Occupation: the Rookie Cop
+
+Home: Police Station
+
+Unique Ability: Hero - Mythos: Before a mythos card is drawn, Tommy may cause one or more monsters that are adjacent to his location to move to his location, regardless of their normal movement.
+
+On the Force - Any Phase: Tommy may not be arrested. In addition, it only costs him 1 gate trophy or 5 toughness worth of monster trophies to become Deputy of Arkham.
+
+Status
+Sanity: 6
+Stamina: 4
+Fixed Possessions
+$2
+2 Clue tokens
+2 Common items (Map of Arkham, Rifle)
+Random Possessions
+2 Common items
+1 Unique item
+1 Skill
+Focus: 1
+
+Skills
+Speed	1	2	3	4
+Sneak	3	2	1	0
+Fight	2	3	4	5
+Will	4	3	2	1
+Lore	0	1	2	3
+Luck	6	5	4	3
+Personal Story
+
+PsTommyMuldoonBack.png PsTommyMuldoonFront.png PsTommyMuldoonPassed.png PsTommyMuldoonFailed.png
+
+
+The Story So Far: Tommy Muldoon wasn't sure what was going on in this crazy city. He'd no sooner graduated from the Police Academy in Boston than he'd been loaned out to the Arkham Sheriff's department. That wouldn't have been so bad, except that some of the stuff going on in Arkham was right out of a bad horror novel. Weird creatures in the woods, people found turned inside out, and worse.
+
+Still, Tommy had sworn to protect and serve, and he would do his best to live up to those vows, no matter what. Besides, he had his trusty rifle, Becky. what could go wrong?
+
+Standing in front of the Police Station, Tommy feels a shiver run down his back at the thought. "Ok, Tommy," he mutters to himself, "Time to be a hero."
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Tommy_Muldoon&oldid=12900"
+Categories: Innsmouth HorrorInvestigators
+This page was last modified on 16 July 2011, at 16:07.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

@@ -1,0 +1,55 @@
+Lola Hayes
+
+From Arkham Horror Wiki
+Lola Hayes is an investigator. She first appeared in the Kingsport Horror expansion.
+
+Lola Hayes investigator sheet back.
+Lola Hayes investigator sheet front.
+Sheet info
+
+Occupation: the Actress
+
+Home: Arkham Asylum
+
+Unique Ability: Improv - Upkeep: Once per turn, Lola may discard one of her skill cards to draw a new skill from either the top or the bottom of the Skill deck. Lola may look at the bottom card of the Skill deck at any time.
+
+Status
+Sanity: 6
+Stamina: 4
+Fixed Possessions
+$6
+2 Clue tokens
+1 Common item (.18 Derringer)
+Random Possessions
+1 Common item
+1 Unique item
+1 Spell
+1 Skill
+Focus: 2
+
+Skills
+Speed	2	3	4	5
+Sneak	3	2	1	0
+Fight	1	2	3	4
+Will	5	4	3	2
+Lore	1	2	3	4
+Luck	4	3	2	1
+Personal Story
+
+PsLolaHayesBack.png PsLolaHayesFront.png PsLolaHayesPassed.png PsLolaHayesFailed.png
+
+
+The Story So Far: Lola walked out the doors of Arkham Asylum into a bright, sunny day. It had been the right move, checking herself into the sanitarium to recuperate after her last show. She still didn't like to think about that play, of course-- all that strange chanting and those awful masks; they still appeared sometimes in her nightmares.
+
+She glanced down again at the newspaper clipping in her hand. "Famous Director Hangs Himself!" She had decided to check out of the asylum when she had seen it and realized that there was something more to that play than just her own wild imaginings.
+
+Subtly checking once more to make sure her derringer was still safely hidden, Lola strode back out onto center stage for what could be her final starring role.
+
+Clarification
+
+Lola obtains the skill on the bottom of the deck before discarding hers to the bottom.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Lola_Hayes&oldid=10302"
+Categories: Kingsport HorrorInvestigators
+This page was last modified on 1 September 2010, at 23:01.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

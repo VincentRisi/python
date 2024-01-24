@@ -1,0 +1,46 @@
+Vincent Lee
+
+From Arkham Horror Wiki
+Vincent Lee is an investigator. He first appeared in the Arkham Horror board game.
+
+Vincent Lee investigator sheet back.
+Vincent Lee investigator sheet front.
+Sheet info
+
+Occupation: the Doctor
+
+Home: St. Mary's Hospital
+
+Unique Ability: Physician - Upkeep: Dr. Lee may restore 1 Stamina to himself or another character in his location. He cannot raise a character's Stamina higher than that character's maximum Stamina.
+
+Status
+Sanity: 5
+Stamina: 5
+Fixed Possessions
+$9
+1 Clue token
+Random Possessions
+2 Common items
+2 Spells
+1 Skill
+Focus: 2
+
+Skills
+Speed	0	1	2	3
+Sneak	5	4	3	2
+Fight	0	1	2	3
+Will	4	3	2	1
+Lore	2	3	4	5
+Luck	4	3	2	1
+Personal Story
+
+PsVincentLeeBack.png PsVincentLeeFront.png PsVincentLeePassed.png PsVincentLeeFailed.png
+
+The Story So Far: A Yale graduate of Medicine, Vincent has recently moved to Arkham from Boston to practice at St. Mary's Hospital. Since his coming to Arkham, he has seen far too many horrible and unexplained deaths - an elderly victim torn apart by unknown wild animals, a healthy young man whose heart exploded, and so many others. Their faces haunt his dreams, especially the young man's terrified expression. After all this, small wonder that Vincent has begun to wonder if there's something sinister going on in this quiet Massachusetts town.
+
+Tonight Dr. Lee made the decision to investigate the mysteries of Arkham and stop the strange deaths. He is determined to see this through, even if in so doing he becomes another puzzle for the next doctor who comes to Arkham.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Vincent_Lee&oldid=7257"
+Categories: Arkham HorrorInvestigators
+This page was last modified on 8 August 2009, at 23:19.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

@@ -1,0 +1,51 @@
+Mark Harrigan
+
+From Arkham Horror Wiki
+Mark Harrigan is an investigator. He first appeared in the Dunwich Horror expansion.
+
+Mark Harrigan investigator sheet back.
+Mark Harrigan investigator sheet front.
+Sheet info
+
+Occupation: the Soldier
+
+Home: South Church
+
+Unique Ability: One Man Army - Any Phase: You cannot be arrested or delayed.
+
+Status
+Sanity: 3
+Stamina: 7
+Fixed Possessions
+$4
+3 Clue tokens
+2 Common items (Flamethrower, Molotov Cocktail)
+Random Possessions
+1 Unique item
+1 Skill
+Focus: 1
+
+Skills
+Speed	1	2	3	4
+Sneak	5	4	3	2
+Fight	3	4	5	6
+Will	3	2	1	0
+Lore	0	1	2	3
+Luck	4	3	2	1
+Personal Story
+
+PsMarkHarriganBack.png PsMarkHarriganFront.png PsMarkHarriganPassed.png PsMarkHarriganFailed.png
+
+
+The Story So Far: Most people think Mark Harrigan is crazy. They can't blame him if he is-- he's back from the war, he's seen things no man should see, and there's plenty who came back broken in body or spirit. But Harrigan came back in one piece, all right. He had Sophie.
+
+Sophie believed him, she believed when he wrote her about the things he saw-- not the men killing other men, but the other things, the monsters. She believed, and that was enough to keep him sane in the trenches, enough to keep him alive.
+
+Then he came home and went to visit Sophie, and he found out that the reason she believed him was that she had one of the creatures inside her, eating her from the inside out. As he watched in helpless horror, she faded away into the air, screaming as the thing finished its meal.
+
+Now everyone thinks Mark Harrigan is crazy. Maybe he is. Maybe he's finally lost it. But he knows the monsters are real and they're here, and he's got to stop them. As he crouches down in front of the alter in South Church, he prays for Sophie's soul, and he prays for forgiveness for the many, many sins he's about to commit all over this godforsaken town.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Mark_Harrigan&oldid=8390"
+Categories: Dunwich HorrorInvestigators
+This page was last modified on 13 November 2009, at 04:43.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

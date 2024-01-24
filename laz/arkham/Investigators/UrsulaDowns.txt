@@ -1,0 +1,55 @@
+Ursula Downs
+
+From Arkham Horror Wiki
+Ursula Downs is an investigator. She first appeared in the Innsmouth Horror expansion.
+
+Ursula Downs investigator sheet back.
+Ursula Downs investigator sheet front.
+Sheet info
+
+Occupation: the Explorer
+
+Home: Player's Choice*
+
+Unique Ability: Quick-witted - Arkham Encounter: Ursula may have an encounter at a location even after using a location ability that would normally be taken instead.
+
+Adventurer - Arkham Encounter: After reading her Arkham encounter, but before making any die rolls, Ursula may spend 1 Clue token to cancel the encounter entirely.
+
+*Ursula may begin the game in any non-Other World location or street
+
+Status
+Sanity: 5
+Stamina: 5
+Fixed Possessions
+$1
+4 Clue tokens
+Random Possessions
+2 Common items
+2 Unique items
+1 Skill
+Focus: 2
+
+Skills
+Speed	2	3	4	5
+Sneak	3	2	1	0
+Fight	1	2	3	4
+Will	4	3	2	1
+Lore	0	1	2	3
+Luck	5	4	3	2
+Personal Story
+
+PsUrsulaDownsBack.png PsUrsulaDownsFront.png PsUrsulaDownsPassed.png PsUrsulaDownsFailed.png
+
+
+The Story So Far: Not so many people can say that they've climbed a mountain on every continent that has one. Fewer still can say they've stolen a golden idol from a tribe of cannibals. Among women in a male-dominated society, Ursula is probably unique in being able to make these sorts of claims.
+
+Ever since she was a small girl, Ursula had broken the rules set down for her: climbing trees, playing in the mud, exploring the woods, and plenty of other things "that a proper young lady shouldn't have been doing."
+
+After all, she was as good as any man. When she was accepted to Boston University, she set out to prove it, excelling and exceeding the other students in Archaeology. She graduated top of her class and used her inheritance to set herself up as an explorer, roaming all over the world and writing articles for magazines.
+
+Now her path has brought her here to Arkham, following a shipment of stolen relics, a cult that seems to have members in very corner of the world, and a trail of corpses. Smiling to herself, Ursula thinks, "Now THIS is an adventure."
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Ursula_Downs&oldid=9684"
+Categories: Innsmouth HorrorInvestigators
+This page was last modified on 27 June 2010, at 08:04.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

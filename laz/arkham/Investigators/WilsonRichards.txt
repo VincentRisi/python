@@ -1,0 +1,52 @@
+Wilson Richards
+
+From Arkham Horror Wiki
+Wilson Richards is an investigator. He first appeared in the Dunwich Horror expansion.
+
+Wilson Richards investigator sheet back.
+Wilson Richards investigator sheet front.
+Sheet info
+
+Occupation: the Handyman
+
+Home: Train Station
+
+Unique Ability: Jack of All Trades - Upkeep: Wilson's focus is unlimited.
+
+Odd Jobs - Arkham Encounter: Wilson may gain $1 instead of having an encounter at any location (but not an Other World or street area).
+
+Status
+Sanity: 5
+Stamina: 5
+Fixed Possessions
+$4
+3 Common items (Motorcycle, Shotgun, Whiskey)
+Random Possessions
+2 Unique items
+1 Skill
+Focus: 8
+
+Skills
+Speed	1	2	3	4
+Sneak	5	4	3	2
+Fight	1	2	3	4
+Will	3	2	1	0
+Lore	1	2	3	4
+Luck	4	3	2	1
+Personal Story
+
+PsWilsonRichardsBack.png PsWilsonRichardsFront.png PsWilsonRichardsPassed.png PsWilsonRichardsFailed.png
+
+
+The Story So Far: You see a lot of strange things on the road, and Wilson has been traveling for many years now. Wandering from town to town, he's earned his keep by taking various odd jobs - but he's never seen anything like the events occuring in Arkham.
+
+Something's just not right here, and when you're a loner and a drifter by trade, you develop a certain sixth sense about people and places. Right now Wilson's sixth sense is telling him to get out of town, and fast. But for some reason his curiosity is greater than his fear, and he has a weird feeling that the job he needs to do in Arkham may be a little bigger than mending a step or painting a fence.
+
+Clarification
+
+Wilson has a Focus of 4 for purposes of game effects.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Wilson_Richards&oldid=8177"
+Categories: Dunwich HorrorInvestigators
+This page was last modified on 21 October 2009, at 21:38.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

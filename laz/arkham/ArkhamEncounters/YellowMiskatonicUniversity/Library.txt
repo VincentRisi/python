@@ -1,0 +1,53 @@
+﻿LIBRARY
+You look up to see Abigail Foreman leaning
+over you with hands on hips and a frustrated
+look on her face. Make a Will (-1) check.
+lf you pass, she helps you find the book
+you were looking for. Take the first Tome
+from the Unique Item deck. If you fail,
+you,ve made too much noise. She escorts
+you out ofthe library. Move to the street.
+
+LIBRARY
+Make a Will (+0) check and consult the
+chart below:
+Successes:
+0) Abigail tosses you out. Move to the
+street.
+1) Abigail lets you into a private section
+of the library where you find an ancient
+tome. Draw 2 Spells and keep
+whichever one of them you want.
+2+) Abigail loans you one of the strange
+items in the library,s display case.
+Draw l Unique item.
+
+LIBRARY
+You doze off and enter The Dreamlands.
+Have an encounter there, then immediately
+return here.
+
+LIBRARY
+A book in a shadowy corner of the library
+begins to whisper terrible things to you.
+Lose I Sanity.
+
+LIBRARY
+You End an unusual book that radiates evil
+at the touch. You bein to read and are
+drawn into it. Make a Lore (-2) check. If
+you pass, you obtain vast knowledge of
+the eldritch threat. Roll a die and gain that
+many Clue tokens. If you fail, the book
+consumes you - mind and soul - lose 2
+Sanity and 2 Stamina.
+
+LIBRARY
+Overdue book Fine is $4. Pay up or move
+to the street.
+
+LIBRARY
+Pass a Luck (-2) check to Find $5 someone
+was using as a bookmark.
+
+

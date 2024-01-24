@@ -1,0 +1,53 @@
+﻿BOARKHAM
+One ofthe other customers in the bank ,
+recognizes you and offers you a lift. Move
+to any location or street area in Arkham. -
+If you move to a location, immediately
+have an encounter there. .
+
+BOARKHAM
+A little old lady stands in from of you in line
+counting out a bag of pennies to deposit.
+Lose 1 Sanity. _
+
+BOARKHAM
+You find 21 penny with 21 strange sigil ‘c·arve‘d
+into it. Amused, you flip it in the- air, then
+gasp as you feel the sudden gathering of  
+magical forces around you. Make El Luck
+(92) check. If you pass, thepenny comes ,
+up heads. You are Blessed. If you fail, it_
+comes up tails. You are Cursed. _.
+
+BOARKHAM
+"This is- a stic-k-up, see? Nobody move! "
+Three men armed with tommy guns rob the
+bank while you,re standing in line. Make a
+Combat (-1) check. If you pass, youdrive
+them off‘Nothing happens. If you fail, lose,.
+all ofyour money.
+
+BOARKHAM
+A teller you,ve never seen before in‘s,i_stS. 1
+she just saw you come in and make a  
+deposit the day before. She proves it by  
+showing you your signature. Gain $5, but
+lose 1 Sanity.
+
+BOARKHAM
+You see a richly dressed man making a large
+withdrawal. On the way out, he lights his-. -
+cigar with a piece of green paper which he.
+then drops on the ground. Pass a Speed (-l_.)‘
+click to stub it outwith your toe before it ·‘
+burns up. You discover it to be -a‘ slightly
+singed two dollar bill. Gain $2. ‘ _ Y
+
+BOARKHAM
+A man wearing dirty and tattered clothing
+is loitering outside the bank. He offers to
+sell you his last possession to get some
+food money for him and his family. If you
+accept, pay $2 and make a Luck (-1) check
+If you pass, draw l Unique Item. If you
+fail, draw l Common Item.

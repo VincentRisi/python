@@ -1,0 +1,53 @@
+William Yorick
+
+From Arkham Horror Wiki
+William Yorick is an investigator. He first appeared in the Innsmouth Horror expansion.
+
+William Yorick investigator sheet back.
+William Yorick investigator sheet front.
+Sheet info
+
+Occupation: the Gravedigger
+
+Home: South Church
+
+Unique Ability: Secrets of the Dead - Any Phase: William may spend his monster trophies as though they were Clue tokens, on a 1-for-1 basis.
+
+Bury Them Deep - Any Phase: Each time William spends a monster trophy, he may decide to return it to the box instead of placing it back in the monster cup.
+
+Status
+Sanity: 4
+Stamina: 6
+Fixed Possessions
+$4
+Random Possessions
+2 Common items
+2 Unique items
+3 Monster trophies
+1 Skill
+Focus: 1
+
+Skills
+Speed	0	1	2	3
+Sneak	4	3	2	1
+Fight	1	2	3	4
+Will	6	5	4	3
+Lore	1	2	3	4
+Luck	4	3	2	1
+Personal Story
+
+PsWilliamYorickBack.png PsWilliamYorickFront.png PsWilliamYorickPassed.png PsWilliamYorickFailed.png
+
+
+The Story So Far: If all the world truly was a stage, then William Yorick felt he had a bit part at best. After studying for years to become a Shakespearean actor, he found that dramatic monologues didn't put bread on the table. So, desperate for work, he had accepted a job as a gravedigger.
+
+He figured that while gravedigging was an unusual job, there wasn't really anything wrong with it. After all, one of Shakespeare's best scenes involved a gravedigger. Sure, the work was hard and dirty, but William had never shied away from honest labor before.
+
+That, of course, was before the weird corpses began turning up. Strange, inhuman things, they caused William's flesh to crawl and his palms to sweat. He began to see strangers watching him wherever he went, and he knew instinctively that taking the corpses to the University would be the last mistake he ever made.
+
+Which is why William find himself in the pews at South Church. While he has never been a particularly religious man, he finds that Father Michael usually has good advice. Today, William feels like that could make all the difference in the world.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=William_Yorick&oldid=9686"
+Categories: Innsmouth HorrorInvestigators
+This page was last modified on 27 June 2010, at 08:13.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

@@ -1,0 +1,47 @@
+Carolyn Fern
+
+From Arkham Horror Wiki
+Carolyn Fern is an investigator. She first appeared in the Arkham Horror board game.
+
+Carolyn Fern investigator sheet back.
+Carolyn Fern investigator sheet front.
+Sheet info
+
+Occupation: the Psychologist
+
+Home: Arkham Asylum
+
+Unique Ability: Psychology - Upkeep: Dr. Fern may restore 1 Sanity to herself or another character in her location. She cannot raise a character's Sanity higher than that character's maximum Sanity.
+
+Status
+Sanity: 6
+Stamina: 4
+Fixed Possessions
+$7
+1 Clue token
+Random Possessions
+2 Unique items
+2 Common items
+1 Skill
+Focus: 2
+
+Skills
+Speed	0	1	2	3
+Sneak	3	2	1	0
+Fight	1	2	3	4
+Will	4	3	2	1
+Lore	2	3	4	5
+Luck	5	4	3	2
+Personal Story
+
+PsCarolynFernBack.png PsCarolynFernFront.png PsCarolynFernPassed.png PsCarolynFernFailed.png
+
+
+The Story So Far: Carolyn is a first year resident at a sanitarium in Providence. Over the past six months, she has been studying the dreams of her patients using hypnosis. One patient in particular gave her vivid and disturbing descriptions of his dreams, right up until he was murdered with a strange knife that closely resembled something from one of his nightmares.
+
+Disturbed and frightened by his murder, Carolyn dug back through her notes, poring over them late into the night. Finally, she found some subtle clues that led her here, to Arkham, where he was previously an inmate in Arkham Asylum. Someone here has to know why a harmless man was murdered for talking about his dreams to his psychologist.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Carolyn_Fern&oldid=7268"
+Categories: Arkham HorrorInvestigators
+This page was last modified on 8 August 2009, at 23:24.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

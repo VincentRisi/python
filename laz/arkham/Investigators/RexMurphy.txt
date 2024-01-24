@@ -1,0 +1,55 @@
+Rex Murphy
+
+From Arkham Horror Wiki
+Rex Murphy is an investigator. He first appeared in the Kingsport Horror expansion.
+
+Rex Murphy investigator sheet back.
+Rex Murphy investigator sheet front.
+Sheet info
+
+Occupation: the Reporter
+
+Home: Newspaper
+
+Unique Ability: Investigation - Any Phase: When Rex gains one or more Clue tokens, he gains one extra Clue token.
+
+Family Curse - Rex never checks to discard Curses during his Upkeep. He may only discard a Curse by being Blessed.
+
+Status
+Sanity: 5
+Stamina: 5
+Fixed Possessions
+$3
+Curse
+3 Clue tokens
+Random Possessions
+1 Common item
+2 Unique items
+2 Spells
+1 Skill
+Focus: 2
+
+Skills
+Speed	1	2	3	4
+Sneak	5	4	3	2
+Fight	1	2	3	4
+Will	3	2	1	0
+Lore	2	3	4	5
+Luck	4	3	2	1
+Personal Story
+
+PsRexMurphyBack.png PsRexMurphyFront.png PsRexMurphyPassed.png PsRexMurphyFailed.png
+
+
+The Story So Far: The gypsy woman who read Rex's palm in Lithuania had shrieked in his face, screaming a single word over and over, pointing one bony, talon-like finger at him.
+
+"Cursed," his translator had said, shrugging and clapping his thick hands together to ward off spirits.
+
+The rest of the trip hadn't gone any better. The diary he'd found detailing the secret rituals of the local cults had gone missing, but Rex was used to things like that. Heck, he'd discovered and lost enough evidence of strange things over the years to almost believe he might be cursed. That business in Innsmouth with the photographs that had blown out to sea in the wind. The tracks in Dunwich that had washed away in the rain just before he'd brought the sheriff out to see. Time and again, something had gone wrong.
+
+Stepping out of the offices of the Arkham Advertiser, Rex sighed and ran his hand through his goatee. This time, nothing was going to stop him from getting at the truth.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Rex_Murphy&oldid=9677"
+Categories: Kingsport HorrorInvestigators
+This page was last modified on 25 June 2010, at 22:21.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

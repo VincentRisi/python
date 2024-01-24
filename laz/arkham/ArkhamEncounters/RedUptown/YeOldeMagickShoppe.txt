@@ -1,0 +1,48 @@
+﻿YOMSHOPPE
+There is an old, locked trunk for sale for 
+$5. If you buy it, make a Luck (+0) check
+and consult thc chart below:
+Successes:
+0) Empty!
+1) Gold coins! Roll 2 dice, add them
+together, and gain that much money
+2+) Jackpot! Draw 2 Unique Items
+
+YOMSHOPPE
+Miriam Beecher talks to you for a while
+explaining some very interesting theories
+she has concerning the Mythos. Gain 1  
+Clue token.
+
+YOMSHOPPE
+You see an interesting book sitting open
+on Miriam Beechers desk. Pass a
+Lore (-1) check or you peer closely at its
+pages only to realize too late that the book
+is Cursed ... and now, so are you.
+
+YOMSHOPPE
+Pass a Lore (-1) check to recognize an
+item that Miriam Beecher has underpriced.
+If you do so, draw 1 Unique Item. You
+may purchase it for half its list price
+(rounded up).  
+
+YOMSHOPPE
+Looking closely at a mummified head in
+the shop, you are horrified to find it looking
+back at you! Lose 1 Sanity.
+
+YOMSHOPPE
+Miriam Beecher, -the shopkeeper, peers
+closely at your face, then screams, "They ve
+marked·you! Get out! Get out!" and throws
+you out. Move to the street and lose 1
+Sanity from this unsettling incident.
+
+YOMSHOPPE
+Looking into a glass ball, you receive a
+vision of things to come. Turn the top card
+of one location deck of your choice face up.
+The next investigator to have an encounter
+at that location draws that encounter card.

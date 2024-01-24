@@ -1,0 +1,61 @@
+Harvey Walters
+
+From Arkham Horror Wiki
+Harvey Walters is an investigator. He first appeared in the Arkham Horror board game.
+
+Harvey Walters investigator sheet back.
+Harvey Walters investigator sheet front.
+Contents
+
+1 Sheet info
+1.1 Personal Story
+2 Clarification
+3 Mythos Source
+Sheet info
+
+Occupation: the Professor
+
+Home: Administration Building
+
+Unique Ability: Strong Mind - Any Phase: Harvey reduces all Sanity losses he suffers by 1, to a minimum of 0.
+
+Status
+Sanity: 7
+Stamina: 3
+Fixed Possessions
+$5
+1 Clue token
+Random Possessions
+2 Unique items
+2 Spells
+1 Skill
+Focus: 2
+
+Skills
+Speed	0	1	2	3
+Sneak	5	4	3	2
+Fight	0	1	2	3
+Will	3	2	1	0
+Lore	3	4	5	6
+Luck	4	3	2	1
+Personal Story
+
+PsHarveyWaltersBack.png PsHarveyWaltersFront.png PsHarveyWaltersPassed.png PsHarveyWaltersFailed.png
+
+
+The Story So Far: Harvey is a visiting Professor at Miskatonic University. With Doctorates in History and Archaeology, he has uncovered several interesting artifacts over the years and learned a little of the arcane arts. Recently, by carefully studying the papers and talking to people in the streets, he has begun to detect a disturbance in the city-- something that could potentially herald the arrival of something unthinkable from beyond time and space.
+
+Checking his notes, Professor Walters prepares himself for one last trip into the streets of Arkham to confirm his theory. If he's right, it could spell the end of everything.
+
+Clarification
+
+The Strong Mind ability only applies to involuntary losses. Voluntary expenditures to gain some benefit (such as casting a Spell) are not affected. (Source: Page 10 of The Dunwich Horror Rulebook)
+
+Mythos Source
+
+Harvey Walters is the name of the sample character in the Call of Cthulhu rulebook.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Harvey_Walters&oldid=9654"
+Categories: Arkham HorrorInvestigators
+This page was last modified on 25 June 2010, at 10:07.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

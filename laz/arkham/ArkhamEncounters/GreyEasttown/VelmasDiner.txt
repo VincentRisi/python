@@ -1,0 +1,42 @@
+﻿VDINER
+Velma conmments on how skinny you look
+and gives you a sandwich on the house.
+You may search the Common Item deck
+for a Food card and take it.
+
+VDINER
+You spot a rat leaving the kitchen. Pass a
+Will (-2) check to convince Velma to bribe
+you $5 not to tell anyone.
+
+VDINER
+Velma reads the tea leaves left in your cup.
+Make a Luck (-1) check. If you pass, the
+formation of the leaves indicates hope, you
+are Blessed. If you fail, the future looks
+bleak, you are Cursed.
+
+VDINER
+"This must be where pies go when they
+die." If you want, pay $1 to enjoy a fine
+slice of cherry pie. If you do, gain 2 Stamina.
+
+VDINER
+You get food poisoning! Pass a Luck (-1)
+check or lose 2 Stamina. ·
+
+VDINER
+"What,ll it be, hon?" Velma takes your
+order. Pay up to $6 to gain that many points
+split between Sanity and Stamina however
+you like.
+
+VDINER
+You find some money on ther floor under
+the back booth. If you take it, make a Sneak
+(-1) check. If you pass, roll a die and gain
+that much money. If you fail, Velma sees
+you pick up the money. She comes over
+and swipes it out of your hands screaming,
+"Stealing my tips!" so loudly that you flee
+the diner. Move to the street.

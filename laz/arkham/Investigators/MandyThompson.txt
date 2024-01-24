@@ -1,0 +1,49 @@
+Mandy Thompson
+
+From Arkham Horror Wiki
+Mandy Thompson is an investigator. She first appeared in the Arkham Horror board game.
+
+Mandy Thompson investigator sheet back.
+Mandy Thompson investigator sheet front.
+Sheet info
+
+Occupation: the Researcher
+
+Home: Library
+
+Unique Ability: Research - Any Phase: Once per turn, Mandy can activate this ability after any investigator (including herself) makes a skill check. That investigator then re-rolls all of the dice rolled for that check that did not result in successes.
+
+Status
+Sanity: 5
+Stamina: 5
+Fixed Possessions
+$6
+4 Clue tokens
+Random Possessions
+2 Common items
+1 Unique item
+1 Skill
+Focus: 2
+
+Skills
+Speed	1	2	3	4
+Sneak	5	4	3	2
+Fight	0	1	2	3
+Will	5	4	3	2
+Lore	1	2	3	4
+Luck	3	2	1	0
+Personal Story
+
+PsMandyThompsonBack.png PsMandyThompsonFront.png PsMandyThompsonPassed.png PsMandyThompsonFailed.png
+
+
+The Story So Far: Mandy came to Arkham several years ago looking for work as a researcher for Miskatonic University. Since then, she has worked with many of the University professors, delving into esoteric tomes filled with scientific information, historical reports, and sometimes even occult ramblings.
+
+It was while reading an old book of prophecies last week that she first felt that she had stumbled onto something big. Mandy came to believe that certain signs and portents described in the book were taking place in Arkham right now-- omens that indicated the return of a terrible being reffered to as an Ancient One, which would grind the cities of Man beneath its loathsome tread.
+
+Tonight, the full moon has turned blood red, which is the final omen of the return of the Ancient One. Slipping into the night, and armed with her knowledge of the prophecy, Mandy has decided to see if she can defy fate and stop these events from taking place.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Mandy_Thompson&oldid=7261"
+Categories: Arkham HorrorInvestigators
+This page was last modified on 8 August 2009, at 23:21.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

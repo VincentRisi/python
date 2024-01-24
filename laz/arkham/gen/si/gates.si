@@ -1,0 +1,26 @@
+database arkham
+package  vince.arkham
+output   gates
+server   arkham 
+
+table Gates
+  name         char 16
+  description  char 64
+  strength     int
+  
+key prime_key primary id
+
+proc insert
+proc selectone
+
+sqldata
+  insert into Gates values ('ANOTHER',   'Another Dimension',           0);
+  insert into Gates values ('CELEANO',   'Great Hall of Celeano',      -1);
+  insert into Gates values ('PLATLENG',  'Plateau of Leng',            -1);
+  insert into Gates values ('RLYEH',     'R`Lyeh',                     -3);
+  insert into Gates values ('ABYSS',     'The Abyss',                  -2);
+  insert into Gates values ('GREATRACE', 'The City of the Great Race',  0);
+  insert into Gates values ('DREAMLAND', 'The Dream Lands',             1);
+  insert into Gates values ('YUGGOTH',   'Yuggoth',                     1);
+  commit;
+enddata  

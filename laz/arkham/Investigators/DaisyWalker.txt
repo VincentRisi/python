@@ -1,0 +1,55 @@
+Daisy Walker
+
+From Arkham Horror Wiki
+Daisy Walker is an investigator. She first appeared in the Kingsport Horror expansion.
+
+Daisy Walker investigator sheet back.
+Daisy Walker investigator sheet front.
+Sheet info
+
+Occupation: the Librarian
+
+Home: Library
+
+Unique Ability: Careful Reader - Any Phase: Daisy never loses Sanity from reading a Tome.
+
+Iron Will - Any Phase: Daisy's Sanity cost to cast spells is always reduced by 1.
+
+Status
+Sanity: 5
+Stamina: 5
+Fixed Possessions
+$5
+1 Clue token
+1 Unique item (Livre d'Ivon)
+Random Possessions
+1 Common item
+1 Unique item
+1 Spell
+1 Skill
+Focus: 2
+
+Skills
+Speed	1	2	3	4
+Sneak	4	3	2	1
+Fight	0	1	2	3
+Will	5	4	3	2
+Lore	2	3	4	5
+Luck	4	3	2	1
+Personal Story
+
+PsDaisyWalkerBack.png PsDaisyWalkerFront.png PsDaisyWalkerPassed.png PsDaisyWalkerFailed.png
+
+
+The Story So Far: Books have always been the most important thing in Daisy's life. She started reading tales of horror at a young age, thrilling to the terror of Edgar Allen Poe, of Stoker's Dracula. She explored in fiction what she abhorred in life-- horror, violence, fear.
+
+Then, she stumbled across the John Dee edition of the Necronomicon. It was macabre indeed. It was also blasphemous, unholy, and too awful to be real. Frankenstein and "The Raven" were forgotten. The chills that ran down Daisy's spine were not those of a forbidden pleasure. A new horror was born in her mind, a terror that such things could be.
+
+There were more books after that-- De Vermiis Mysteriis, Cultes des Goules-- each worse than the last. She read them all in a mounting panic. Could they be real? Could the things they spoke of be true?
+
+Now she knows it to be so. The Thing that appeared in library was something she'd read about in the Ponape Scripture. If the Thing was real, then everything she'd read about might be real... in which case Daisy is the only one who knows how to stop it.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Daisy_Walker&oldid=10799"
+Categories: Kingsport HorrorInvestigators
+This page was last modified on 22 November 2010, at 16:15.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

@@ -1,0 +1,49 @@
+Sister Mary
+
+From Arkham Horror Wiki
+Sister Mary is an investigator. She first appeared in the Arkham Horror board game.
+
+Sister Mary investigator sheet back.
+Sister Mary investigator sheet front.
+Sheet info
+
+Occupation: the Nun
+
+Home: South Church
+
+Unique Ability: Guardian Angel - Any Phase: Sister Mary is never Lost in Time and Space. Instead, if her Sanity is 0, she returns to Arkham Asylum. If her Stamina is 0, she returns to St. Mary's Hospital. If neither her Sanity or her Stamina are 0, she returns to South Church.
+
+Status
+Sanity: 7
+Stamina: 3
+Fixed Possessions
+$0
+Blessing
+1 Common item (Cross)
+1 Unique item (Holy Water)
+Random Possessions
+2 Spells
+1 Skill
+Focus: 1
+
+Skills
+Speed	1	2	3	4
+Sneak	4	3	2	1
+Fight	0	1	2	3
+Will	4	3	2	1
+Lore	1	2	3	4
+Luck	6	5	4	3
+Personal Story
+
+PsSisterMaryBack.png PsSisterMaryFront.png PsSisterMaryPassed.png PsSisterMaryFailed.png
+
+The Story So Far: Sister Mary has served the Church faithfully for many years, so when she was sent to Arkham to work with Father Michael, a man whose writings she had admired for many years, she felt that she was truly blessed. Now, after witnessing Father Michael's strange mood swings and seeing some of the bizarre practices that go on in this town, she's beginning to feel that she may have been a bit too hasty ...
+
+For instance, last night, there was a knock on the door of the church, and when she answered it, there was nothing but a handwritten journal laying on the steps outside. Reading it, she learned of strange cults and terrible creatures that lurk in the darkness. Worse, when she laughingly showed it to Father Michael, he turned pale and threw it into the fire, yelling at her to forget what she'd seen.
+
+Now, gathering her things and quietly leaving South Church, Sister Mary has decided to investigate this town, and in so doing, reaffirm her faith.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Sister_Mary&oldid=7258"
+Categories: Arkham HorrorInvestigators
+This page was last modified on 8 August 2009, at 23:19.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

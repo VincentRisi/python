@@ -1,0 +1,48 @@
+Dexter Drake
+
+From Arkham Horror Wiki
+Dexter Drake is an investigator. He first appeared in the Arkham Horror board game.
+
+Dexter Drake investigator sheet back.
+Dexter Drake investigator sheet front.
+Sheet info
+
+Occupation: the Magician
+
+Home: Ye Olde Magick Shoppe
+
+Unique Ability: Magical Gift - Any Phase: Whenever "The Great" Drake draws one or more cards from the Spell deck, he draws one extra card and then discards one of the cards.
+
+Status
+Sanity: 5
+Stamina: 5
+Fixed Possessions
+$5
+1 Spell (Shrivelling)
+Random Possessions
+1 Common item
+1 Unique item
+2 Spells
+1 Skill
+Focus: 2
+
+Skills
+Speed	2	3	4	5
+Sneak	4	3	2	1
+Fight	1	2	3	4
+Will	3	2	1	0
+Lore	2	3	4	5
+Luck	3	2	1	0
+Personal Story
+
+PsDexterDrakeBack.png PsDexterDrakeFront.png PsDexterDrakePassed.png PsDexterDrakeFailed.png
+
+
+The Story So Far: After returning from his stint in the army during WWI, Dexter became a stage magician, and proved to be very successful at his trade, but he always longed to find real magic. As they say, be careful what you wish for. Years later, in a rundown store, Dexter came across a burnt and torn fragment of the Necronomicon itself. Intrigued by this ancient piece of occult knowledge, Dexter began to use his wealth in search of the truth about the ancient lore, and what he found horrified him.
+
+Now, the more he learns, the less he wants to know, but his studies have led him to believe that a great evil will soon arise in Arkham. He knows that he may well be the only person with the ability to stop this evil from swallowing the world, so he has come to that sleepy town to speak with the proprietor of Ye Olde Magick Shoppe, one of the few magic shops that contain true lore, and not merely the stage tricks he once studied.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Dexter_Drake&oldid=7266"
+Categories: Arkham HorrorInvestigators
+This page was last modified on 8 August 2009, at 23:23.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

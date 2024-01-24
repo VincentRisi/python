@@ -1,0 +1,53 @@
+Norman Withers
+
+From Arkham Horror Wiki
+Norman Withers is an investigator. He first appeared in the Innsmouth Horror expansion.
+
+Norman Withers investigator sheet back.
+Norman Withers investigator sheet front.
+Sheet info
+
+Occupation: the Astronomer
+
+Home: Administration Building
+
+Unique Ability: In the Stars - Any Phase: Whenever Norman closes or seals a gate, he may choose any dimensional symbol other than the moon. The gate is considered to have that dimensional symbol instead of its normal dimensional symbol for purposes of removing monsters from the board.
+
+Status
+Sanity: 6
+Stamina: 4
+Fixed Possessions
+$3
+3 Clue tokens
+1 Spell (Find Gate)
+Random Possessions
+1 Common item
+1 Unique item
+1 Spell
+1 Skill
+Focus: 2
+
+Skills
+Speed	0	1	2	3
+Sneak	4	3	2	1
+Fight	0	1	2	3
+Will	4	3	2	1
+Lore	2	3	4	5
+Luck	5	4	3	2
+Personal Story
+
+PsNormanWithersBack.png PsNormanWithersFront.png PsNormanWithersPassed.png PsNormanWithersFailed.png
+
+
+The Story So Far: The stars hold secrets both great and terrible for those with courage - or curiosity - enough to look. While Norman would never claim to be especially courageous, he'd be the first to admit that he has an inability to ignore a mystery.
+
+So when six stars vanished from the section of sky he was studying, he couldn't just let it go, not even when his colleagues told him that he was just imagining things and sent him home to sleep it off.
+
+It took him years, not to mention the near death of his career, but he eventually found his answers in a book that none of his colleagues would be caught dead reading. An ancient tome, it described the stars and the sequence in which they would vanish, even detailing the date when their disappearance would take place. It was a sign, the book said, of the end of everything. It was the harbinger of a great beast that would tear asunder all that man had wrought.
+
+Norman isn't sure what he can do to stop the beast from destroying the world. He knows that he isn't very strong, but if an answer can be found in the stars, then he will stand in the path of destruction until his dying breath.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Norman_Withers&oldid=12713"
+Categories: Innsmouth HorrorInvestigators
+This page was last modified on 8 July 2011, at 15:18.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

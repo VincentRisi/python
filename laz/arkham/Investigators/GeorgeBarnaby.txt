@@ -1,0 +1,54 @@
+George Barnaby
+
+From Arkham Horror Wiki
+George Barnaby is an investigator. He first appeared in the Innsmouth Horror expansion.
+
+George Barnaby investigator sheet back.
+George Barnaby investigator sheet front.
+Sheet info
+
+Occupation: the Lawyer
+
+Home: Library
+
+Unique Ability: Knowledge is Power - Any Phase: When spending a Clue token to add to a skill check, George may add +1 to the result of one of his rolled dice instead of rolling an extra die.
+
+Bail Out - Any Phase: George may spend $2 to prevent any investigator from being arrested, including himself.
+
+Status
+Sanity: 7
+Stamina: 3
+Fixed Possessions
+$7
+1 Special (Retainer)
+Random Possessions
+1 Common item
+1 Unique item
+1 Spell
+1 Skill
+Focus: 2
+
+Skills
+Speed	0	1	2	3
+Sneak	5	4	3	2
+Fight	0	1	2	3
+Will	4	3	2	1
+Lore	1	2	3	4
+Luck	5	4	3	2
+Personal Story
+
+PsGeorgeBarnabyBack.png PsGeorgeBarnabyFront.png PsGeorgeBarnabyPassed.png PsGeorgeBarnabyFailed.png
+
+
+The Story So Far: George Barnaby always had the need for control - control of his life and of his surroundings. That's why, after spending a month in jail at the age of 19 for a crime he didn't commit, George became a lawyer.
+
+Possessing a keen mind and a charismatic personality, he found that he excelled in his chosen field and soon rose to a position of power and wealth. George enjoyed the challenge of practicing law, and the years rolled past in a pleasant blur until he was ready to retire. He figured that he and his wife, Maria, would buy a boat and sail around the world.
+
+That was before the night when his home was invaded, his wife was murdered, and his house was burned to the ground by two men wearing strange amulets.
+
+Now, he has tracked these men to the city of Arkham. They will pay for making him feel helpless, and for taking away his dear, sweet Maria. after all, if there's one thing lawyers are known for, it's collecting debts that are owed to them.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=George_Barnaby&oldid=9669"
+Categories: Innsmouth HorrorInvestigators
+This page was last modified on 25 June 2010, at 21:39.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

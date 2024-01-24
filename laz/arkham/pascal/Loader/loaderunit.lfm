@@ -1,0 +1,62 @@
+object LoaderForm: TLoaderForm
+  Left = 356
+  Height = 526
+  Top = 124
+  Width = 471
+  Caption = 'LoaderForm'
+  ClientHeight = 526
+  ClientWidth = 471
+  LCLVersion = '1.2.4.0'
+  object LogMemo: TMemo
+    Left = 0
+    Height = 481
+    Top = 0
+    Width = 471
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    Font.CharSet = ANSI_CHARSET
+    Font.Height = -12
+    Font.Name = 'Arial'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    ParentFont = False
+    TabOrder = 0
+  end
+  object SaveButton: TButton
+    Left = 8
+    Height = 25
+    Top = 497
+    Width = 75
+    Anchors = [akLeft, akBottom]
+    Caption = 'Save'
+    OnClick = SaveButtonClick
+    TabOrder = 1
+  end
+  object Label1: TLabel
+    Left = 88
+    Height = 13
+    Top = 500
+    Width = 61
+    Anchors = [akLeft, akBottom]
+    Caption = 'MaterialFile: '
+    ParentColor = False
+  end
+  object MaterialFileEdit: TEdit
+    Left = 152
+    Height = 21
+    Top = 496
+    Width = 129
+    Anchors = [akLeft, akBottom]
+    TabOrder = 2
+    Text = '../Game/materials.ark'
+  end
+  object LoadButton: TButton
+    Left = 396
+    Height = 25
+    Top = 497
+    Width = 75
+    Anchors = [akRight, akBottom]
+    Caption = 'Load'
+    OnClick = LoadButtonClick
+    TabOrder = 3
+  end
+end

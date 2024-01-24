@@ -1,0 +1,48 @@
+Kate Winthrop
+
+From Arkham Horror Wiki
+Kate Winthrop is an investigator. She first appeared in the Arkham Horror board game.
+
+Kate Winthrop investigator sheet back.
+Kate Winthrop investigator sheet front.
+Sheet info
+
+Occupation: the Scientist
+
+Home: Science Building
+
+Unique Ability: Science! - Any Phase: Gates and monsters cannot appear in Kate's location due to her flux stabilizer. Monsters and gates do not disappear if she enters their location, however, and monsters can move into her location as usual.
+
+Status
+Sanity: 6
+Stamina: 4
+Fixed Possessions
+$7
+2 Clue tokens (Do not place a Clue token on the Science Building to start the game.)
+Random Possessions
+1 Common item
+1 Unique item
+2 Spells
+1 Skill
+Focus: 1
+
+Skills
+Speed	1	2	3	4
+Sneak	5	4	3	2
+Fight	1	2	3	4
+Will	3	2	1	0
+Lore	2	3	4	5
+Luck	4	3	2	1
+Personal Story
+
+PsKateWinthropBack.png PsKateWinthropFront.png PsKateWinthropPassed.png PsKateWinthropFailed.png
+
+
+The Story So Far: A brilliant researcher, but a shy, lonely person, Kate Winthrop has been working at the Miskatonic Science Labs for 4 years now and her supervisor still doesn't know her name. That doesn't matter to her though, as she has been working to complete a private quest for most of that time. Almost 3 years ago, she watched as a device malfunctioned, and Professor Young, her long-time mentor and friend, was torn apart by an indistinct creature that shrieked and gibbered before vanishing into the night. Since then, she has delved into darker scientific studies, always hoping to find something that would allow her to find and defeat that creature along with others of its kind.
+
+Tonight, her research has finally paid off, allowing her to create a device that can defeat the alien beings she has detected in Arkham!
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Kate_Winthrop&oldid=7262"
+Categories: Arkham HorrorInvestigators
+This page was last modified on 8 August 2009, at 23:22.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

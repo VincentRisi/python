@@ -1,0 +1,49 @@
+Joe Diamond
+
+From Arkham Horror Wiki
+Joe Diamond is an investigator. He first appeared in the Arkham Horror board game.
+
+Joe Diamond investigator sheet back.
+Joe Diamond investigator sheet front.
+Sheet info
+
+Occupation: the Private Eye
+
+Home: Police Station
+
+Unique Ability: Hunches - Any Phase: Joe rolls one extra bonus die when he spends a Clue token to add to a roll.
+
+Status
+Sanity: 4
+Stamina: 6
+Fixed Possessions
+$8
+3 Clue tokens
+1 Common item (.45 Automatic)
+Random Possessions
+2 Common items
+1 Skill
+Focus: 3
+
+Skills
+Speed	3	4	5	6
+Sneak	4	3	2	1
+Fight	2	3	4	5
+Will	3	2	1	0
+Lore	0	1	2	3
+Luck	3	2	1	0
+Personal Story
+
+PsJoeDiamondBack.png PsJoeDiamondFront.png PsJoeDiamondPassed.png PsJoeDiamondFailed.png
+
+
+The Story So Far: The job sounded simple enough-- pick up a statue at the Providence Museum and deliver it to a guy at the Silver Twilight Lodge. The money was good, and the dame who gave him the job seemed sincere.
+
+Sadly, things never seem to work out that easily for Joe. Now the statue is missing, two people are dead, strange cultists are on his tail, and all clues lead to Arkham. Lady Luck can be funny that way.
+
+He's already tried talking to the Sheriff, but that flatfoot proved to be worse than useless. Looks like it's once again going to be up to Joe Diamond to solve the case.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Joe_Diamond&oldid=7263"
+Categories: Arkham HorrorInvestigators
+This page was last modified on 8 August 2009, at 23:22.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

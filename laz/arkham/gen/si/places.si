@@ -1,0 +1,58 @@
+database arkham
+package  vince.arkham
+output   places
+server   arkham 
+
+table Places
+  place      char 16
+  district   char 16
+  stable     char  3  
+  encounter  char 32  
+  name       char 64
+  
+key prime_key primary place
+
+proc insert
+proc selectOne
+
+proc allInDistrict
+input
+  district =
+output
+  place    =
+  district =
+  name =
+sqlcode
+  select place, district, name from Places where district = :district
+endcode  
+
+sqldata
+  insert into Places values ('ABUILDING',   'MUNIVERSITY', 'YES', 'MONEY,SKILL',     'Administration Building');
+  insert into Places values ('ARKASYLUM',   'DOWNTOWN',    'YES', 'CLUE,SANITY',     'Arkham Asylum');
+  insert into Places values ('BCAVE',       'RIVERTOWN',   'NO',  'COMMON,SPELL',    'Black Cave');
+  insert into Places values ('BOARKHAM',    'DOWNTOWN',    'YES', 'BLESSING,MONEY',  'Bank Of Arkham');
+  insert into Places values ('CSHOPPE',     'NORTHSIDE',   'YES', 'COMMON,UNIQUE',   'Curiositie Shoppe');
+  insert into Places values ('GENSTORE',    'RIVERTOWN',   'YES', 'COMMON,MONEY',    'General Store');
+  insert into Places values ('GRAVEYARD',   'RIVERTOWN',   'NO',  'CLUE,UNIQUE',     'Graveyard');
+  insert into Places values ('HROADHOUSE',  'EASTTOWN',    'NO',  'COMMON,MONEY',    'Hibbs Road House');
+  insert into Places values ('HSOCIETY',    'SOUTHSIDE',   'NO',  'SKILL,SPELL',     'Historical Society');
+  insert into Places values ('INDSQUARE',   'DOWNTOWN',    'NO',  'CLUE,UNIQUE',     'Independance Square');
+  insert into Places values ('ISANCTUM',    'FHILL',       'NO',  'COMMON,UNIQUE',   'Inner Sanctum');
+  insert into Places values ('LIBRARY',     'MUNIVERSITY', 'YES', 'UNIQUE,SPELL',    'Library');
+  insert into Places values ('MBHOUSE',     'SOUTHSIDE',   'YES', 'ALLY,STAMINA',    'Mas Boarding House');
+  insert into Places values ('NEWSPAPER',   'NORTHSIDE',   'YES', 'CLUE,MONEY',      'Newspaper');
+  insert into Places values ('PSTATION',    'EASTTOWN',    'YES', 'CLUE,COMMON',     'Police Station');
+  insert into Places values ('RDOCKS',      'MDISTRICT',   'YES', 'COMMON,MONEY',    'River Docks');
+  insert into Places values ('SBUILDING',   'MUNIVERSITY', 'NO',  'CLUE,UNIQUE',     'Science Building');
+  insert into Places values ('SCHURCH',     'SOUTHSIDE',   'YES', 'BLESSING,SANITY', 'South Church');
+  insert into Places values ('STLODGE',     'FHILL',       'NO',  'COMMON,UNIQUE',   'Silver Twilight Lodge');
+  insert into Places values ('STMHOSPITAL', 'UPTOWN',      'YES', 'CLUE,STAMINA',    'St Marys');
+  insert into Places values ('TSTATION',    'NORTHSIDE',   'YES', 'COMMON,UNIQUE',   'Train Station');
+  insert into Places values ('TUNNAMABLE',  'MDISTRICT',   'NO',  'CLUE,UNIQUE',     'The Unnamable');
+  insert into Places values ('TWHOUSE',     'FHILL',       'NO',  'CLUE,SPELL',      'The Witch House');
+  insert into Places values ('UISLE',       'MDISTRICT',   'NO',  'CLUE,SPELL',      'Unvisited Isle');
+  insert into Places values ('VDINER',      'EASTTOWN',    'YES', 'MONEY,STAMINA',   'Velmas Diner');
+  insert into Places values ('WOODS',       'UPTOWN',      'NO',  'COMMON,MONEY',    'Woods');
+  insert into Places values ('YOMSHOPPE',   'UPTOWN',      'YES', 'SPELL,UNIQUE',    'Ye Olde Magick Shoppe');
+  commit;
+enddata

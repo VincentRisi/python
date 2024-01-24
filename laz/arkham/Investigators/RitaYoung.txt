@@ -1,0 +1,50 @@
+Rita Young
+
+From Arkham Horror Wiki
+Rita Young is an investigator. She first appeared in the Dunwich Horror expansion.
+
+Rita Young investigator sheet back.
+Rita Young investigator sheet front.
+Sheet info
+
+Occupation: the Athlete
+
+Home: Police Station
+
+Unique Ability: Resilient - Any Phase: Whenever Rita draws one or more Injury or Madness cards, she draws one extra card and then discards one of them, keeping the other. In addition, if Rita gains a duplicate of an Injury or Madness card she already has, the second has no effect.
+
+Status
+Sanity: 4
+Stamina: 6
+Fixed Possessions
+$4
+2 Clue tokens
+1 Special (Retainer)
+Random Possessions
+2 Common items
+1 Unique item
+1 Skill
+Focus: 2
+
+Skills
+Speed	3	4	5	6
+Sneak	4	3	2	1
+Fight	2	3	4	5
+Will	4	3	2	1
+Lore	0	1	2	3
+Luck	3	2	1	0
+Personal Story
+
+PsRitaYoungBack.png PsRitaYoungFront.png PsRitaYoungPassed.png PsRitaYoungFailed.png
+
+
+The Story So Far: Growing up in the South, Rita has often had to fight discrimination in one form or another. Although her family was poor, she worked hard and received a scholarship to Miskatonic University, where she joined the track and field team. Now, she may have to fight for her life.
+
+Someone is after her. That much she's sure of. She has no idea who it is or why they want her, but there have been several strange men hanging around her dorm. Last week, her roommate was assaulted while wearing Rita's jacket, and Rita feels certain that it was a case of mistaken identity.
+
+Today, Rita spent several hours trying to convince the police to do something, but the Sheriff says that his hands are tied without more evidence. Still, while running away might be the best way to avoid this premonition of personal doom hanging over her, that's never been Rita's style. Whether her stalkers are members of the Klu Klux Klan or something even more sinister, she's going to face them head on, the same way she's been facing the world all her life.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Rita_Young&oldid=7273"
+Categories: Dunwich HorrorInvestigators
+This page was last modified on 8 August 2009, at 23:26.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

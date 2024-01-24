@@ -1,0 +1,39 @@
+﻿NEWSPAPER
+Editor Doyle Jefferies offers you a Retainer
+in return for your fascinating stories. Take
+a Retainer card.
+
+NEWSPAPER
+Editor Doyle Jefferies offers you a Retainer
+in return for your fascinating stories. Take
+a Retainer card.
+
+NEWSPAPER
+Earn $5 for a story.
+
+NEWSPAPER
+You accidentally tip over a bottle of ink
+and are aghast at the pattern the ink forms
+on the newsroom floor. Lose 1 Sanity.
+
+NEWSPAPER
+You earn a hefty fee for a story and get a
+ride with Doyle Jefferies, the editor. Gain
+$2 and move to any location or street area
+in Arkham. If you move to a location,
+immediately have an encounter there.
+
+NEWSPAPER
+Pass a Luck (-1) check to find an article
+that a local citizen told you would shed
+light on the recent strange activities. Gain
+1 Clue token.
+
+NEWSPAPER
+Flipping through the early edition, you are
+surprised to see that one ofthe classified
+ads begins with your name. Reading it,
+you realize that it contains several coded
+clues to the nature of the threat that faces
+Arkham. Pass a Lore (-1) check to gain 3
+Clue tokens.

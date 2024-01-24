@@ -1,0 +1,52 @@
+Marie Lambeau
+
+From Arkham Horror Wiki
+Marie Lambeau is an investigator. She first appeared in the Dunwich Horror expansion.
+
+Marie Lambeau investigator sheet back.
+Marie Lambeau investigator sheet front.
+Sheet info
+
+Occupation: the Entertainer
+
+Home: Ma's Boarding House
+
+Unique Ability: Witch Blood - Upkeep: Once per game, at the start of your turn, remove 1 doom token from the Ancient One's doom track.
+
+Third Eye - Any Phase: Marie has a third hand usable only for casting spells.
+
+Status
+Sanity: 6
+Stamina: 4
+Fixed Possessions
+$4
+2 Clue tokens
+1 Unique item (Enchanted Knife)
+1 Spell (Voice of Ra)
+Random Possessions
+2 Spells
+1 Skill
+Focus: 2
+
+Skills
+Speed	1	2	3	4
+Sneak	4	3	2	1
+Fight	0	1	2	3
+Will	5	4	3	2
+Lore	1	2	3	4
+Luck	4	3	2	1
+Personal Story
+
+PsMarieLambeauBack.png PsMarieLambeauFront.png PsMarieLambeauPassed.png PsMarieLambeauFailed.png
+
+
+The Story So Far: Marie Lambeau always had a voice to die for. People called her "the Smoky Velvet." They said she was born to sing jazz, that she had the magic touch-- and maybe they were right.
+
+Once, Marie heard of a man who could make the dead dance when he played his trumpet. She never could do that-- her voice wasn't magic that way. But when people hear it, they like it, and they like her, and that suits her just fine.
+
+Marie's grande-mere just passed away. Why the old dame moved from New Orleans to Arkham, Marie never knew. Anyway, she never paid much attention to the stories people told about the old woman. She just figured they were jealous. But now, she's sitting in Ma's Boarding House holding her grandmother's knife, and she can hear it singing with a voice like smoky velvet...
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Marie_Lambeau&oldid=10824"
+Categories: Dunwich HorrorInvestigators
+This page was last modified on 18 January 2011, at 17:21.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

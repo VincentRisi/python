@@ -1,0 +1,56 @@
+Akachi Onyele
+
+From Arkham Horror Wiki
+Akachi Onyele is an investigator. She first appeared in the Innsmouth Horror expansion.
+
+AkachiOnyele investigator sheet back.
+AkachiOnyele investigator sheet front.
+Sheet info
+
+Occupation: the Shaman
+
+Home: Ye Olde Magick Shoppe
+
+Unique Ability: Guardian of the Veil - Any Phase: It costs Akachi 1 less Clue token to seal gates.
+
+Secret Rites - Any Phase: Akachi gains +1 bonus to all skill checks to close or seal a gate. In addition, Akachi may always seal gates, regardless of other game effects.
+
+Status
+Sanity: 7
+Stamina: 3
+Fixed Possessions
+$3
+1 Clue token
+Random Possessions
+1 Unique item
+2 Spells
+1 Gate Trophy
+1 Skill
+Focus: 1
+
+Skills
+Speed	2	3	4	5
+Sneak	4	3	2	1
+Fight	1	2	3	4
+Will	4	3	2	1
+Lore	2	3	4	5
+Luck	3	2	1	0
+Personal Story
+
+PsAkachiOnyeleBack.png PsAkachiOnyeleFront.png PsAkachiOnyelePassed.png PsAkachiOnyeleFailed.png
+
+
+The Story So Far: For as long as Akachi can remember, she was trained to be the tribes' next shaman. Studying at the feet of the old shaman, she learned how to speak to the spirits, how to read the bones of the earth, and how to avoid the fell creatures that dwelt in the dark places.
+
+Her education was supplemented by tutoring from an earnest young missionary. Her mentor allowed the man to teach her as long as he taught her English and other modern topics in addition to trying to convert her to Christianity.
+
+As for his religion, Akachi was uninterested, for she had already learned many of the great secrets of lore, and felt the power of the old ways.
+
+Recently, her old mentor called her to his bedside. His face was pale and gaunt. "Akachi, I have seen that a great trial is coming for you. You must go to the United States, to a city called Arkham. There, you will have to face one of the old creatures, using the things that I have taught you."
+
+Weeks later, as she opens the door to Ye Olde Magick Shoppe, Akachi hopes that she can meet the challenge that lies ahead of her.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Akachi_Onyele&oldid=9664"
+Categories: Innsmouth HorrorInvestigators
+This page was last modified on 25 June 2010, at 21:16.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

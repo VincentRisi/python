@@ -1,0 +1,55 @@
+Agnes Baker
+
+From Arkham Horror Wiki
+Agnes Baker is an investigator. She first appeared in the Innsmouth Horror expansion.
+
+Agnes Baker investigator sheet back.
+Agnes Baker investigator sheet front.
+Sheet info
+
+Occupation: the Waitress
+
+Home: Velma's Diner
+
+Unique Ability: Memories of Conquest - Any Phase: When Agnes casts a spell that provides a bonus to Combat checks, the spell adds the number of hands it requires to its Combat check bonus.
+
+Blood is Power - Any Phase: When paying a spell's Sanity cost, Agnes may spend Stamina for part or all of the Sanity cost on a 1-for-1 basis.
+
+Status
+Sanity: 5
+Stamina: 5
+Fixed Possessions
+$5
+3 Clue tokens
+1 Spell (Wither)
+Random Possessions
+1 Common item
+1 Unique item
+1 Spell
+1 Skill
+Focus: 2
+
+Skills
+Speed	1	2	3	4
+Sneak	3	2	1	0
+Fight	1	2	3	4
+Will	3	2	1	0
+Lore	3	4	5	6
+Luck	4	3	2	1
+Personal Story
+
+PsAgnesBakerBack.png PsAgnesBakerFront.png PsAgnesBakerPassed.png PsAgnesBakerFailed.png
+
+
+The Story So Far: Agnes Baker may be just an unassuming waitress in this life, but in a previous life, she knows that she was a powerful witch. In a time and age undreamt of in the modern world, she forced spirits to obey her and destroyed her enemies with terrifying energies.
+
+She might have never known of her previous incarnation had she not fallen from a ladder and hit her head while changing a light in the diner. But when she awoke in the hospital, she whispered one word, "Hyperborea."
+
+Even then, she would have dismissed her visions of a past life as simple hallucinations if it wasn't for the fact that the spells she dreamed of were real. Trying one in secret, mortally embarrassed to even be attempting it, she was stunned to see it take effect. Since then, she has been nurturing her new powers in secret, extremely careful not to let anyone else find out.
+
+But as Agnes finishes her shift at the diner this evening, a whisper in the air warns her. Something is coming. Something that destroyed her once before, in the ancient past, and she must be prepared.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Agnes_Baker&oldid=9663"
+Categories: Innsmouth HorrorInvestigators
+This page was last modified on 25 June 2010, at 21:13.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

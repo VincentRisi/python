@@ -1,0 +1,57 @@
+Administration Building	Miskatonic University	Stable Location	Money	Skill	
+Arkham Asylum	Downtown	Stable Location	Clue	Sanity	
+Bank of Arkham	Downtown	Stable Location	Blessing	Money	
+Black Cave	Rivertown	Unstable Location	Common Item	Spell	
+Curiositie Shoppe	Northside	Stable Location	Common Item	Unique Item	
+General Store	Rivertown	Stable Location	Common Item	Money	
+Graveyard	Rivertown	Unstable Location	Clue	Unique Item	
+Hibb's Roadhouse	Easttown	Unstable Location	Common Item	Money	
+Historical Society	Southside	Unstable Location	Skill	Spell	
+Independence Square	Downtown	Unstable Location	Clue	Unique Item	
+Inner Sanctum	French Hill	N/A	N/A	N/A	
+Library	Miskatonic University	Stable Location	Unique Item	Spell	
+Ma's Boarding House	Southside	Stable Location	Ally	Stamina	
+Newspaper	Northside	Stable Location	Clue	Money	
+Police Station	Easttown	Stable Location	Clue	Common Item	
+River Docks	Merchant District	Stable Location	Common Item	Money	
+Science Building	Miskatonic University	Unstable Location	Clue	Unique Item	
+Silver Twilight Lodge	French Hill	Unstable Location	Clue	Unique Item	
+South Church	Southside	Stable Location	Blessing	Sanity	
+St. Mary's Hospital	Uptown	Stable Location	Clue	Stamina	
+The Unnamable	Merchant District	Unstable Location	Clue	Unique Item	
+The Witch House	French Hill	Unstable Location	Clue	Spell	
+Train Station	Northside	Stable Location	Common Item	Unique Item	
+Unvisited Isle	Merchant District	Unstable Location	Clue	Spell	
+Velma's Diner	Easttown	Stable Location	Money	Stamina	
+Woods	Uptown	Unstable Location	Common Item	Money	
+Ye Olde Magick Shoppe	Uptown	Stable Location	Spell	Unique Item	
+Bishop's Brook Bridge	Village Commons	Stable Location	Money	Unique Item	Dunwich Horror
+Cold Spring Glen	Backwoods Country	Unstable Location	Blessing	Spell	Dunwich Horror
+Darke's Carnival	Village Commons	Stable Location	Sanity	Money	Dunwich Horror
+Devil's Hopyard	Blasted Heath	Unstable Location	Clue	Money	Dunwich Horror
+Dunwich Village	Village Commons	Stable Location	Clue	Money	Dunwich Horror
+Gardners' Place	Blasted Heath	Unstable Location	Clue	Stamina	Dunwich Horror
+Harney Jones' Shack	Blasted Heath	Stable Location	Stamina	Sanity	Dunwich Horror
+Whateley Farm	Backwoods Country	Unstable Location	Clue	Spell	Dunwich Horror
+Wizard's Hill	Backwoods Country	Unstable Location	Money	Spell	Dunwich Horror
+607 Water St.	Harborside	Stable Location	Spell	Stamina	Kingsport Horror
+7th House on the Left	Central Hill	Stable Location	Clue	Spell	Kingsport Horror
+Artists' Colony	South Shore	Stable Location	Sanity	Money	Kingsport Horror
+Congregational Hospital	Central Hill	Stable Location	Sanity	Stamina	Kingsport Horror
+Hall School	South Shore	Stable Location	Clue	Spell	Kingsport Horror
+Neil's Curiosity Shop	South Shore	Stable Location	Clue	Money	Kingsport Horror
+North Point Lighthouse	Harborside	Stable Location	Clue	Stamina	Kingsport Horror
+St. Erasmus's Home	Central Hill	Stable Location	Clue	Unique Item	Kingsport Horror
+Strange High House	Kingsport Head	Stable Location	Common Item	Unique Item	Kingsport Horror
+The Causeway	Kingsport Head	Stable Location	Spell	Unique Item	Kingsport Horror
+The Rope and Anchor	Harborside	Stable Location	Sanity	Stamina	Kingsport Horror
+Wireless Station	Kingsport Head	Stable Location	Clue	Stamina	Kingsport Horror
+Devil Reef	Innsmouth Shore	Unstable Location	Clue	Unique Item	Innsmouth Horror
+Esoteric Order of Dagon	Church Green	Unstable Location	Clue	Blessing	Innsmouth Horror
+Falcon Point	Innsmouth Shore	Stable Location	Clue	Common Item	Innsmouth Horror
+First National Grocery	Factory District	Stable Location	Clue	Common Item	Innsmouth Horror
+Gilman House Hotel	Factory District	Stable Location	Sanity	Stamina	Innsmouth Horror
+Innsmouth Jail	Church Green	Stable Location	Clue	Common Item	Innsmouth Horror
+Jail Cell	Church Green	N/A	N/A	N/A	Innsmouth Horror
+Marsh Refinery	Factory District	Unstable Location	Clue	Money	Innsmouth Horror
+Y'ha-nthlei	Innsmouth Shore	Unstable Location	Clue	Unique Item	Innsmouth Horror

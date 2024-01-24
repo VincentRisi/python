@@ -1,0 +1,46 @@
+﻿TUNNAMABLE
+The ceiling beam suddenly buckles. Make
+a Speed (-1) check. If you pass, move to
+the street. If you fail, lose 2 Stamina.
+
+TUNNAMABLE
+Pass a Luck (-1) check to find a hidden cache
+concealed in the wall of an upstairs bedroom.
+Draw 1 Unique Item.
+
+TUNNAMABLE
+In a dusty and decaying roll-top desk, you
+find a mysterious manuscript. If you read
+it, make a Lore (-1) check. If you pass,
+draw 1 Spell. If you fail, the manuscript is
+nothing but the insane babbling of a
+previous renter. Stay here next turn reading
+it, but gain 2 Clue tokens.
+
+TUNNAMABLE
+You hear the scurrying and squeaking of
+a horde of rats from inside the walls.
+Abruptly, you realize that they are moving
+to surround you. Pass a Speed (-1) check
+to make it to the front door first. If you
+fail, you are lost in time and space.
+
+TUNNAMABLE
+You notice a glint of light in a crevice. If
+you reach in, make a Luck (-1) check. If
+you pass, draw 1 Unique Item. If you fail,
+you feel a sharp pain as teeth clamp down
+on your hand. You manage to pull free, but
+you lose 2 Stamina and I Sanity.
+
+TUNNAMABLE
+A monster and gate appear!
+
+TUNNAMABLE
+You bump into Eric Colt. He tells you a
+horrible tail of the Mythos to test your
+nerve. If you listen, lose 2 Sanity. If this
+doesn,t drive you insane, take his Ally card
+if it is available. If it is not available, you
+may pump him for information instead.
+Gain 3 Clue tokens.

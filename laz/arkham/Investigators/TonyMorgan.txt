@@ -1,0 +1,56 @@
+Tony Morgan
+
+From Arkham Horror Wiki
+Tony Morgan is an investigator. He first appeared in the Kingsport Horror expansion.
+
+Tony Morgan investigator sheet back.
+Tony Morgan investigator sheet front.
+Sheet info
+
+Occupation: the Bounty Hunter
+
+Home: St. Mary's Hospital
+
+Unique Ability: Clean Takedown - Any Phase: Tony's monster trophies are worth one extra toughness each when spent.
+
+Blood Money - Upkeep: Once per turn, while in a street area, Tony may spend one monster trophy to gain money equal to that monster's toughness.
+
+Status
+Sanity: 3
+Stamina: 7
+Fixed Possessions
+$6
+3 Clue tokens
+1 Common item (Handcuffs)
+Random Possessions
+1 Common item
+1 Unique item
+1 Skill
+Focus: 2
+
+Skills
+Speed	1	2	3	4
+Sneak	3	2	1	0
+Fight	1	2	3	4
+Will	5	4	3	2
+Lore	0	1	2	3
+Luck	6	5	4	3
+Personal Story
+
+PsTonyMorganBack.png PsTonyMorganFront.png PsTonyMorganPassed.png PsTonyMorganFailed.png
+
+
+The Story So Far: Tony didn't know what it was that he'd killed, but it had nearly taken his arm off at the shoulder, and he still couldn't quite control his trembling at the touch of water.
+
+The thing had the form of a man, more or less, but it had been covered in loathsome scales and slime, like some horrid creature of the deep. Miles from the sea, it had made for the river when it scented him on its trail. The abomination stank of salt water, rotten fish, and the blood of the farm animals it had mutilated to sate its unwholesome hunger.
+
+He should've let it go when it dove into the river, but he'd never let a bounty escape before, and he hadn't been about to start then. Drawing his knife, he'd gone in after it, and everything had become a blur of blood, shrieking horror, and muddy water.
+
+Three days later, he'd awakened in the hospital, muttering to himself and shaking with a mixture of fear and anger over his escaped quarry.
+
+After two weeks, the doctors have finally declared him fit enough to leave and get back to his hunt. But this time, his prey isn't human, whatever it is.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=Tony_Morgan&oldid=9682"
+Categories: Kingsport HorrorInvestigators
+This page was last modified on 27 June 2010, at 07:57.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.

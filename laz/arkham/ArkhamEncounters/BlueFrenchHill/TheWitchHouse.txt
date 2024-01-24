@@ -1,0 +1,54 @@
+﻿TWHOUSE
+Pass a Luck (-1) check to find an odd 
+looking item in an old dusty display case.
+Draw 1 Unique Item.
+
+TWHOUSE
+A gate and a monster appear!
+
+TWHOUSE
+"Excuse me, stranger, but have you ever
+seen this symbol before?" A man standing
+near the house holds up an occult symbol.
+Make a Lore (-1) check. If you pass, the
+man introduces himself as Thomas F.
+Malone, a police detective visiting Arkham
+on a case. He,s impressed with you and
+offers to join you. Take his Ally card. if
+it,s not available, he tells you some valuable
+information instead. Gain 2 Clue tokens.
+If you fail, nothing happens.
+
+TWHOUSE
+You find. a banquet laid out in the dining
+room and feel compelled to sit down and
+eat. Make a Luck (+0) check and consult
+the following chart:
+Successes:
+0) You suddenly realize what you,ve
+been eating. Lose 3 Sanity.
+1) You gorge yourself unable to stop
+eating. Stay here next turn.
+2) The food makes you feel sick. Lose
+1 Stamina.
+3+) The meal refreshes you. Gain 3
+Stamina.
+
+TWHOUSE
+You feel the house actually breathe and
+speak your name. Lose l Sanity.
+
+TWHOUSE
+In an old journal you leam some horrible
+eldritch secrets. Roll a die. Lose that much
+Sanity and gain that many Clue tokens.
+
+TWHOUSE
+You are overcome by the echoing chants
+of the long gone witches who have lived
+and died here and you pass out. Make a Will
+(-2) check. If you pass, you learn an ancient
+spell in your dreams. Draw 1 Spell. If you
+fail, you are missing half your items when
+you wake up. Discard half of your items
+(your choice, round down).

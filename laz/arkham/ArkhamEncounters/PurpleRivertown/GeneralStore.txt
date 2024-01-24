@@ -1,0 +1,51 @@
+﻿GENSTORE
+You try talking to the elderly locals gathered
+around the potbellied stove playing checkers,
+but you gain nothing but stares and a few
+befuddled grunts for your trouble. Apparently
+they don,t like outsiders. No encounter.
+
+GENSTORE
+Make a Will (-2) check. If you pass, you
+gain the ear of the shopkeeper. Seeing your
+valiant cause, he takes you into the back
+room and offers you some special equipment.
+Draw 3 Common Items. You may take 1 of
+them for free as a gift to help thwart the evil
+in Arkham! Discard the other 2. If you fail,
+nothing happens.
+
+GENSTORE
+"Hey, you dropped this!" A young street
+urchin hands you an item and then scampers
+off. You don,t recognize the item, but the
+boy is already gone. Draw 1 Common Item.
+
+GENSTORE
+The shopkeeper notices one of the items
+you,re carrying and his face Lights up. "Say,
+l,ve been looking for one of those. You
+wouldn,t mind parting with it, would ya? I
+can pay well." You may sell any one of your
+Common Items for twice its listed price.
+
+GENSTORE
+A jar on the counter bears a sign proclaiming,
+"Guess how many marbles are in the jar and
+win a prize! $I entry fee." If you want, you
+may pay $1 to make a Lore (-2) check. If
+you pass, you gain $5. If you fail, nothing
+happens.
+
+GENSTORE
+You notice that some of the locals have an
+odd, fish-like quality to them that sets your
+teeth on edge. The shopkeeper notices your
+gaze and nods, "Marsh stock, from over
+in Innsmouth. Watch yourself around
+them." Shivering, you lose l Sanity.
+
+GENSTORE
+Noticing a glint on the floor, you discover
+a silver dollar someone must have dropped.
+Gain $1.

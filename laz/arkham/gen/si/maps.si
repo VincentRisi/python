@@ -1,0 +1,54 @@
+database arkham
+package  vince.arkham
+output   maps
+server   arkham 
+
+table Maps
+   map       char 16
+   placetype char 16 {PLACE DISTRICT}
+
+key prime_key primary map
+
+proc insert
+proc selectone
+
+sqldata
+  insert into Maps values ('ABUILDING',   'PLACE'); 
+  insert into Maps values ('ARKASYLUM',   'PLACE'); 
+  insert into Maps values ('BCAVE',       'PLACE'); 
+  insert into Maps values ('BOARKHAM',    'PLACE');
+  insert into Maps values ('CSHOPPE',     'PLACE');
+  insert into Maps values ('DOWNTOWN',    'DISTRICT');
+  insert into Maps values ('EASTTOWN',    'DISTRICT');
+  insert into Maps values ('FHILL',       'DISTRICT');
+  insert into Maps values ('GENSTORE',    'PLACE');
+  insert into Maps values ('GRAVEYARD',   'PLACE');
+  insert into Maps values ('HROADHOUSE',  'PLACE');
+  insert into Maps values ('HSOCIETY',    'PLACE');
+  insert into Maps values ('INDSQUARE',   'PLACE');
+  insert into Maps values ('ISANCTUM',    'PLACE');
+  insert into Maps values ('LIBRARY',     'PLACE');
+  insert into Maps values ('MBHOUSE',     'PLACE');
+  insert into Maps values ('MDISTRICT',   'DISTRICT');
+  insert into Maps values ('MUNIVERSITY', 'DISTRICT');
+  insert into Maps values ('NEWSPAPER',   'PLACE');
+  insert into Maps values ('NORTHSIDE',   'DISTRICT');
+  insert into Maps values ('PSTATION',    'PLACE');
+  insert into Maps values ('RDOCKS',      'PLACE');
+  insert into Maps values ('RIVERTOWN',   'DISTRICT');
+  insert into Maps values ('SBUILDING',   'PLACE');
+  insert into Maps values ('SCHURCH',     'PLACE');
+  insert into Maps values ('SOUTHSIDE',   'DISTRICT');
+  insert into Maps values ('STLODGE',     'PLACE');
+  insert into Maps values ('STMHOSPITAL', 'PLACE');
+  insert into Maps values ('TSTATION',    'PLACE');
+  insert into Maps values ('TUNNAMABLE',  'PLACE');
+  insert into Maps values ('TWHOUSE',     'PLACE');
+  insert into Maps values ('UISLE',       'PLACE');
+  insert into Maps values ('UPTOWN',      'DISTRICT');
+  insert into Maps values ('VDINER',      'PLACE');
+  insert into Maps values ('WOODS',       'PLACE');
+  insert into Maps values ('YOMSHOPPE',   'PLACE');
+  commit;
+enddata                    
+

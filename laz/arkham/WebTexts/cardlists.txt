@@ -1,0 +1,461 @@
+Allies - 34
+
+Anna Kaslow
+Duke
+Eric Colt
+John Legrasse
+Professor Armitage
+Richard Upton Pickman
+Ruby Standish
+Ryan Dean
+Sir William Brinton
+Thomas F. Malone
+Tom "Mountain" Murphy
+
+Curse of the Dark Pharaoh
+
+David Packard
+Dr. Ali Kafour
+Erica Carlyle
+Erich Weiss
+Father Iwanicki
+Sarah Danforth
+The Messenger
+Dunwich Horror - 5
+
+Dunwich Horror
+
+Ammi Pierce
+Corinna Jones
+Earl Sawyer
+Professor Rice
+Zebulon Whateley
+Kingsport Horror - 11
+
+Kingsport Horror
+
+Asenath Waite
+Basil Elton
+Charles Dexter Ward
+Dr. Herbert West
+Foolishness
+Granny Orne
+Professor Morgan
+Terrible Old Man
+Thomas Olney
+William Bain
+Young Zoog
+
+Blights - 13
+
+Abigail Foreman
+Doctor Mintz
+Doyle Jeffries
+Father Michael
+Joey "The Rat"
+Ma Mathison
+Miriam Beecher
+Nurse Sharon
+Oliver Thomas
+Sheriff Engle
+The Dean
+The Shopkeeper
+Velma
+
+Common items - 103
+
+.18 Derringer x2
+.38 Revolver x2
+.45 Automatic x2
+Ancient Tome x2
+Axe x2
+Bullwhip x2
+Cavalry Saber x2
+Cross x2
+Dark Cloak x2
+Dynamite x2
+Food x2
+Knife x2
+Lantern x2
+Lucky Cigarette Case x2
+Map of Arkham x2
+Motorcycle x2
+Old Journal x2
+Research Materials x2
+Rifle x2
+Shotgun x2
+Tommy Gun x2
+Whiskey x2
+
+Dunwich Horror
+
+Brass Knuckles x2
+Carbine Rifle x2
+Courier Run
+Dusty Manuscripts x2
+Flamethrower x2
+Genealogy Research
+Mineralogy Report
+Molotov Cocktail x2
+Newspaper Assignment
+Patrolling the Streets
+Kingsport Horror - 14
+
+Kingsport Horror
+
+Elephant Gun x2
+Flare Gun x2
+Food
+Handcuffs x2
+Kerosene x2
+Makeup Kit x2
+Telescope x2
+Whiskey
+
+The Black Goat of the Woods
+
+.357 Magnum x2
+Crowbar x2
+Gray's Anatomy
+Lucky Rabbit's Foot
+Magnifying Glass x2
+Military Motorcycle
+Student Newspaper x2
+The King in Yellow - 19
+
+The King in Yellow
+
+Athame x2
+Director's Diary x2
+Ley Line Map x2
+Press Pass x2
+Safety Deposit Key x3
+Sedanette x2
+Time Bomb x3
+Understudy's Script x3
+The Lurker at the Threshold - 4
+
+The Lurker at the Threshold
+
+Fine Clothing
+Hand Camera
+King James Bible
+Sledgehammer
+
+Corruptions - 32
+
+The Black Goat of the Woods 
+
+Green - 16
+
+Call the Beast x2
+Creeping Doom x2
+Downward Spiral x2
+Endless Greed x2
+Jealous Guardian x2
+Nightmarish Visions x2
+Primal Surge x2
+Speak to Your Friend x2
+
+Red - 16
+
+Fate and Fortune x2
+Mental Paralysis x2
+Ruination x2
+Strength of Flesh x2
+The Skin Crawls x2
+Uncontrollable Rage x2
+Vessel of the Mythos x2
+Weakness of Mind x2
+Exhibit items - 22
+
+Curse of the Dark Pharaoh
+
+Book of Anubis
+Chime of Ra x2
+Eye of Light and Darkness x2
+Mask of the Black Pharaoh
+Mask of the Messenger
+Mask of the Three Fates
+Mask of Vice
+Mask of Wisdom
+Parchment of the Elder Sign x3
+Pentagram of Blood x2
+Scales of Thoth
+Spirit Vessel x2
+Summoning Glass x2
+Tablet of Bast x2
+
+
+Injuries - 24
+
+Dunwich Horror 
+
+Back Injury x2
+Broken Hand x2
+Concussion x2
+Consumption x2
+Double Vision x2
+Head Wound x2
+Hearing Loss x2
+Injured Arm x2
+Jinxed x2
+Memory Loss x2
+Sprained Ankle x2
+Tainted x2
+
+Madnesses - 24
+
+Addiction x2
+Agoraphobia x2
+Amnesia x2
+Claustrophobia x2
+Delirium x2
+Depression x2
+Hysteria x2
+Mania x2
+Necrophobia x2
+Paranoia x2
+Schizophrenia x2
+Xenophobia x2
+
+Skills - 43
+
+Arkham Horror - 20
+
+Bravery x2
+Expert Occultist x2
+Fight x2
+Lore x2
+Luck x2
+Marksman x2
+Sneak x2
+Speed x2
+Stealth x2
+Will x2
+
+Dunwich Horror
+
+Conceal
+Dodge
+Fisticuffs
+Grapple
+Hide
+Library Use
+Mystic Gift
+Mythos Lore
+Psychology
+Spot Hidden
+Strong Will
+
+Kingsport Horror
+
+Ancient Language
+Camouflage
+Credit Rating
+Disguise
+Endurance
+Linguistics
+Listen
+Martial Arts
+Mental Fortitude
+Persuade
+Run
+Wrestle
+Specials
+
+Act deck x3 The King in Yellow
+Barred from Neighborhood x9 Curse of the Dark Pharaoh
+Benefits x4 Curse of the Dark Pharaoh
+Blessing of Nodens x20 Kingsport Horror
+Cult Encounter deck x18 The Black Goat of the Woods
+Dark Pact cards x24 The Lurker at the Threshold
+Detriments x4 Curse of the Dark Pharaoh
+Difficulty level cards x5 The Black Goat of the Woods
+Dunwich Horror (card) x7 Dunwich Horror
+Dust deck x12 Innsmouth Horror
+Epic Battle x16 Kingsport Horror
+Innsmouth Look x10 Innsmouth Horror
+Magical Effect cards x3 The King in Yellow
+Personal Story x96 Innsmouth Horror
+Reckoning cards x28 The Lurker at the Threshold
+Relationship cards x12 The Lurker at the Threshold
+Sinister Plot cards x75 Kingsport Horror
+Visions of Hypnos x26 Kingsport Horror
+
+Spells - 112
+
+Arkham Horror - 40
+
+Bind Monster x2
+Dread Curse of Azathoth x4
+Enchant Weapon x3
+Find Gate x4
+Flesh Ward x4
+Heal x3
+Mists of Releh x4
+Red Sign of Shudde M'ell x2
+Shrivelling x5
+Voice of Ra x3
+Wither x6
+
+Curse of the Dark Pharaoh
+
+Astral Travel x3
+Denying the Ancient One x2
+Feeding the Mind x2
+Markings of Isis x3
+Plague of Locusts x3
+Premonition x2
+Revelation of Script x3
+Shroud of Shadow x3
+
+
+Dunwich Horror
+
+Alchemical Process x2
+Bless
+Call Friend x2
+Cloud Memory x3
+Foresee x3
+Greater Banishment x2
+Lure Monster x2
+Summon Shantak x2
+Vision Quest x2
+Wrack x2
+
+
+Kingsport Horror
+
+Fist of Yog-Sothoth x4
+Forced Learning x2
+Implant Suggestion x2
+Spectral Razor x3
+
+The Black Goat of the Woods
+
+Call Ancient One
+Steal Life x2
+Summon Monster
+The King in Yellow - 15
+
+The King in Yellow
+
+Arcane Insight x2
+Call the Azure Flame x3
+Open the Third Eye x2
+Storm of Spirits x4
+Summon the Beast Within x2
+The Yellow Mist x2
+
+The Lurker at the Threshold
+
+Call Down the Storm x2
+Control Gate x2
+Curse of Darkness x2
+Intervene x2
+Plumb the Void x2
+Sigil of Hermes Trismegistus x2
+
+Unique items - 109
+
+Arkham Horror - 39
+
+Alien Statue
+Ancient Tablet
+Blue Watcher of the Pyramid
+Book of Dzyan
+Cabala of Saboth x2
+Cultes des Goules x2
+Dragon's Eye
+Elder Sign x4
+Enchanted Blade x2
+Enchanted Jewelry
+Enchanted Knife x2
+Flute of the Outer Gods
+Gate Box
+Healing Stone
+Holy Water x4
+Lamp of Alhazred
+Nameless Cults x2
+Necronomicon
+Obsidian Statue
+Pallid Mask
+Powder of Ibn-Ghazi x2
+Ruby of R'lyeh
+Silver Key
+Sword of Glory
+The King in Yellow x2
+Warding Statue
+
+Dunwich Horror
+
+Alien Device
+De Vermiis Mysteriis
+Dhol Chants
+Elixir of Life
+Enchanted Cane
+Fetch Stick
+Fire of Asshurbanipal
+For the Greater Good
+Glass of Mortlan
+Golden Sword of Y'ha-Talla x2
+Golden Trumpet
+Gruesome Talisman
+Joining the Winning Team
+Lightning Gun
+Mi-Go Brain Case
+Purifying The Town
+Sacrifices to Make
+Sealing The Beast's Power
+Seven Cryptical Books of Hsan
+The Light of Reason
+True Magick
+Walking the Ley Lines
+Warning Mirror
+Wave of Destruction
+
+Kingsport Horror
+
+Brazier of Souls
+Crystal of the Elder Things x4
+Elder Sign
+Eltdown Shards x2
+Livre d'Ivon
+Massa di Requiem per Shuggay
+Yithian Rifle x2
+
+The Black Goat of the Woods
+
+Ancient Spear x2
+Astral Mirror
+Milk of Shub-Niggurath x3
+Naacal Key
+Ritual Blade x2
+Soul Gem x2
+
+The King in Yellow
+
+Book of the Believer x2
+Camilla's Ruby
+Carcosan Page
+Cryptozoology Collection
+Cursed Sphere
+Elder Sign Pendant
+Gladius of Carcosa x3
+Illuminated Manuscript x2
+Map of the Mind
+Masquerade of Night
+Petrifying Solution x3
+Puzzle Box
+Seeker of the Yellow Sign
+Shrine to an Elder God
+Throne of Carcosa
+Warding of the Yellow Sign
+
+The Lurker at the Threshold
+
+Key of Tawil At'Umr
+Ritual Candles
+Staff of the Pharaoh
+Zanthu Tablets

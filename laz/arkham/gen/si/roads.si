@@ -1,0 +1,59 @@
+database arkham
+package  vince.arkham
+output   roads
+server   arkham 
+
+table Roads
+   map1        char 16
+   map2        char 16
+   direction   char 16
+   mpath1      char 16
+   mpath2      char 16
+
+key prime_key primary map1 map2
+
+proc insert
+proc selectone
+
+sqldata
+  insert into Roads values ('ABUILDING',   'MUNIVERSITY', 'NE',      'BW',      'N');
+  insert into Roads values ('ARKASYLUM',   'DOWNTOWN',    'SE',      'BW',      'N'); 
+  insert into Roads values ('BCAVE',       'RIVERTOWN',   'NW',      'BW',      'N');
+  insert into Roads values ('BOARKHAM',    'DOWNTOWN',    'S',       'BW',      'N'); 
+  insert into Roads values ('CSHOPPE',     'NORTHSIDE',   'E',       'BW',      'N');
+  insert into Roads values ('EASTTOWN',    'DOWNTOWN',    'NW',      'B',       'W');
+  insert into Roads values ('FHILL',       'RIVERTOWN',   'NE',      'B',       'W');
+  insert into Roads values ('GENSTORE',    'RIVERTOWN',   'N',       'BW',      'N');
+  insert into Roads values ('GRAVEYARD',   'RIVERTOWN',   'W',       'BW',      'N');
+  insert into Roads values ('HROADHOUSE',  'EASTTOWN',    'S',       'BW',      'N');
+  insert into Roads values ('HSOCIETY',    'SOUTHSIDE',   'N',       'BW',      'N');
+  insert into Roads values ('INDSQUARE',   'DOWNTOWN',    'SW',      'BW',      'N'); 
+  insert into Roads values ('ISANCTUM',    'FHILL',       'STLODGE', 'N',       'N');
+  insert into Roads values ('LIBRARY',     'MUNIVERSITY', 'N',       'BW',      'N');
+  insert into Roads values ('MBHOUSE',     'SOUTHSIDE',   'W',       'BW',      'N');
+  insert into Roads values ('MDISTRICT',   'DOWNTOWN',    'NE',      'N',       'N');
+  insert into Roads values ('MDISTRICT',   'NORTHSIDE',   'N',       'W',       'B');
+  insert into Roads values ('MDISTRICT',   'RIVERTOWN',   'E',       'N',       'N');
+  insert into Roads values ('MUNIVERSITY', 'FHILL',       'E',       'N',       'N');
+  insert into Roads values ('MUNIVERSITY', 'MDISTRICT',   'NW',      'W',       'B');
+  insert into Roads values ('NEWSPAPER',   'NORTHSIDE',   'SE',      'BW',      'N'); 
+  insert into Roads values ('NORTHSIDE',   'DOWNTOWN',    'N',       'W',       'B');
+  insert into Roads values ('PSTATION',    'EASTTOWN',    'W',       'BW',      'N');
+  insert into Roads values ('RDOCKS',      'MDISTRICT',   'E',       'BW',      'N');
+  insert into Roads values ('RIVERTOWN',   'EASTTOWN',    'N',       'B',       'W');
+  insert into Roads values ('SBUILDING',   'MUNIVERSITY', 'E',       'BW',      'N');
+  insert into Roads values ('SCHURCH',     'SOUTHSIDE',   'NW',      'BW',      'N');
+  insert into Roads values ('SOUTHSIDE',   'FHILL',       'N',       'B',       'W');
+  insert into Roads values ('STLODGE',     'FHILL',       'N',       'BW',      'N');
+  insert into Roads values ('STMHOSPITAL', 'UPTOWN',      'E',       'BW',      'N');
+  insert into Roads values ('TSTATION',    'NORTHSIDE',   'S',       'BW',      'N');
+  insert into Roads values ('TUNNAMABLE',  'MDISTRICT',   'N',       'BW',      'N');
+  insert into Roads values ('TWHOUSE',     'FHILL',       'E',       'BW',      'N');
+  insert into Roads values ('UISLE',       'MDISTRICT',   'SE',      'BW',      'N');
+  insert into Roads values ('UPTOWN',      'MUNIVERSITY', 'N',       'W',       'B');
+  insert into Roads values ('UPTOWN',      'SOUTHSIDE',   'E',       'B',       'W');
+  insert into Roads values ('VDINER',      'EASTTOWN',    'SW',      'BW',      'N');
+  insert into Roads values ('WOODS',       'UPTOWN',      'N',       'BW',      'N');
+  insert into Roads values ('YOMSHOPPE',   'UPTOWN',      'NE',      'BW',      'N');
+  commit;
+enddata

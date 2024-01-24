@@ -1,0 +1,52 @@
+"Ashcan" Pete
+
+From Arkham Horror Wiki
+"Ashcan" Pete is an investigator. He first appeared in the Arkham Horror board game.
+
+"Ashcan" Pete investigator sheet back.
+"Ashcan" Pete investigator sheet front.
+Sheet info
+
+Occupation: the Drifter
+
+Home: River Docks
+
+Unique Ability: Scrounge - When Pete draws from the Common item, Unique item, or Spell deck, he may draw from either the top or the bottom of that deck, his choice. Pete may look at the bottom card of those decks at any time.
+
+Status
+Sanity: 4
+Stamina: 6
+Fixed Possessions
+$1
+3 Clue tokens
+1 Ally (Duke)
+Random Possessions
+1 Common item
+1 Unique item
+1 Skill
+Focus: 1
+
+Skills
+Speed	0	1	2	3
+Sneak	6	5	4	3
+Fight	2	3	4	5
+Will	5	4	3	2
+Lore	0	1	2	3
+Luck	3	2	1	0
+Personal Story
+
+PsAshcanPeteBack.png PsAshcanPeteFront.png PsAshcanPetePassed.png PsAshcanPeteFailed.png
+
+
+The Story So Far: When you've lived on the streets as long as Pete has, you see things. Things that would drive braver men screaming into the night. But you also learn to be quiet, to stay hidden, and to play stupid if all else fails. It also helps to have a good dog, like Duke, to scare away the meaner elements of the street.
+
+Unfortunately, this time, Pete can't hide, and there's nothing Duke can do to protect him. His nightmares have been growing steadily worse over the last month, driving him all the way here... to Arkham. Even the whiskey isn't helping much anymore. Soon, he won't be able to sleep at all. Still, there are always opportunities for a man who knows how to stay quiet... as long as he isn't too picky.
+
+Clarification
+
+Pete starts with 5 sanity even while Duke normally only add maximum sanity.
+
+Retrieved from "http://www.arkhamhorrorwiki.com/wiki/index.php?title=%22Ashcan%22_Pete&oldid=10793"
+Categories: Arkham HorrorInvestigators
+This page was last modified on 20 November 2010, at 10:49.
+Content is available under Attribution-Noncommercial 3.0 Unported unless otherwise noted.
