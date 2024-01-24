@@ -21,7 +21,7 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="WordleUnit"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="556"/>
+        <TopLine Value="555"/>
         <CursorPos Y="416"/>
         <UsageCount Value="218"/>
         <Loaded Value="True"/>
