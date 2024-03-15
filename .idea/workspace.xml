@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="d3df1bb1-f96c-482a-bfbf-332ab423df31" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/laz/wordle/Wordle.exe" beforeDir="false" afterPath="$PROJECT_DIR$/laz/wordle/Wordle.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/laz/wordle/Wordle.lps" beforeDir="false" afterPath="$PROJECT_DIR$/laz/wordle/Wordle.lps" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/laz/wordle/wordle.db" beforeDir="false" afterPath="$PROJECT_DIR$/laz/wordle/wordle.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jtools/src/configs/JPortal-audio.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/JPortal-audio.run.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,9 +19,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2Qe834nscJjcWc5AqEb1oQFThzD" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -27,17 +29,32 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.JPortal-audio.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/vlab/python"
+    "last_opened_file_path": "C:/vlab/python"
+  },
+  "keyToStringList": {
+    "stardust.markdown.MarkdownSplitEditorSuppressor:keyList": [
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\vlab\python\jtools\src\vlab" />
     </key>
+  </component>
+  <component name="RunManager" selected="Application.JPortal-audio">
+    <list>
+      <item itemvalue="Application.Crackle-accuity" />
+      <item itemvalue="Application.JPortal-accuity" />
+      <item itemvalue="Application.JPortal-audio" />
+      <item itemvalue="Application.JPortal-azure" />
+      <item itemvalue="Application.JPortal-gps" />
+      <item itemvalue="Application.JPortal-mcpe" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
