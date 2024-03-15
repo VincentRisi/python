@@ -44,7 +44,7 @@ struct TWordSum
 
 typedef TAddList<TWordSum, int> TWordSumList;
 
-int wordsLeftSort(TWordSum* A, TWordSum* B)
+static int wordsLeftSort(TWordSum* A, TWordSum* B)
 {
 	int n = B->sum - A->sum;
 	if (n == 0)
@@ -54,7 +54,7 @@ int wordsLeftSort(TWordSum* A, TWordSum* B)
 
 static int distrib[26];
 
-inline bool haschr(const char * seen, int size, char letter)
+inline bool haschr(const char* seen, int size, char letter)
 {
 	for (int i = 0; i < size; i++)
 		if (seen[i] == letter)
@@ -83,20 +83,14 @@ static void countLetters(const char* word)
 
 static void sumWordLetters(const char* word, int& sumof)
 {
-	//char seen[5];	
 	char letter;
-	//int avg = 1;
 	sumof = 0;
 	for (int i = 0; i < 5; i++)
 	{
 		letter = word[i];
-		//if (haschr("XJVZQCKB", zero_count, letter)) avg++;
 		int offset = letter - 'A';
-		//if (haschr(seen, i, letter) == false)
-			sumof += distrib[offset];
-		//seen[i] = letter;
+		sumof += distrib[offset];
 	}
-	//sumof /= avg;
 }
 
 static void unique(TWordSumList& wordsLeft, const TWordSum& word, int turn)
@@ -134,11 +128,11 @@ static int wordsSumSort(TWordSum* A, TWordSum* B)
 {
 	int	n = A->sum - B->sum;
 	if (n == 0)
-	  n = strncmp(A->word, B->word, 5);
+		n = strncmp(A->word, B->word, 5);
 	return n;
 }
 
-static bool is_anagram(int i, TWordSumList& words)
+static bool isAnagram(int i, TWordSumList& words)
 {
 	char letter;
 	for (int k = i - 1; k >= 0; k--)
@@ -157,7 +151,7 @@ static bool is_anagram(int i, TWordSumList& words)
 	return false;
 }
 
-static int derive_five(int turn, TWordSumList& words)
+static int deriveFive(int turn, TWordSumList& words)
 {
 	int result = 0;
 	TWordSumList wordsLeft(words.getCount());
@@ -170,7 +164,7 @@ static int derive_five(int turn, TWordSumList& words)
 	}
 	for (int i = 0; i < words.getCount(); i++)
 	{
-		if (turn == 0 && i > 0 && is_anagram(i, words))
+		if (turn == 0 && i > 0 && isAnagram(i, words))
 			continue;
 		unique(wordsLeft, words[i], turn);
 	}
@@ -178,8 +172,8 @@ static int derive_five(int turn, TWordSumList& words)
 	{
 		for_words[turn] = wordsLeft[i].word;
 		fprintf(LogFile, "turn %d word[%d]=%s %d\n", turn, i, wordsLeft[i].word, wordsLeft[i].sum);
-		result = derive_five(turn + 1, wordsLeft);
-		if (result == 5) 
+		result = deriveFive(turn + 1, wordsLeft);
+		if (result == 5)
 		{
 			fprintf(stdout, "%d %d\n", turn, words.getCount());
 			break;
@@ -188,14 +182,14 @@ static int derive_five(int turn, TWordSumList& words)
 	return result;
 }
 
-static void load_file(const char* in_file_name, TWordSumList& sumList)
+static void loadFromFile(const char* in_file_name, TWordSumList& sumList)
 {
 	FILE* in_file = fopen(in_file_name, "rb");
 	setvbuf(in_file, 0, _IOFBF, 1024 * 1024);
 #define LINE_SIZE 1024*256
 	char line[LINE_SIZE];
 	char word[6];
-	word[5] = 0; 
+	word[5] = 0;
 	while (!feof(in_file))
 	{
 		fgets(line, LINE_SIZE, in_file);
@@ -211,13 +205,13 @@ static void load_file(const char* in_file_name, TWordSumList& sumList)
 	}
 }
 
-static void load_code(TWordSumList& sumList)
+static void loadFromCode(TWordSumList& sumList)
 {
 	for (int i = 0; i < noGameWords; i++)
 	{
 		const char* word = gameWords[i];
 		countLetters(word);
-		TWordSum entry(word,0);
+		TWordSum entry(word, 0);
 		sumList.add(entry);
 	}
 }
@@ -230,23 +224,21 @@ int main(int argc, char** argv)
 		LogFile = fopen(argv[2], "wt");
 	else
 		LogFile = stdout;
-  double start = system_current_time();
+	double start = system_current_time();
 	TWordSumList sumList(noGameWords);
 	if (argc > 1)
-		load_file(argv[1], sumList);
+		loadFromFile(argv[1], sumList);
 	if (argc == 1)
-		load_code(sumList);
+		loadFromCode(sumList);
 	double loaded = system_current_time();
 	fprintf(stdout, "Loaded %d words load %f %s\n", sumList.getCount(), loaded - start, MEASURE);
 	for (int i = 0; i < sumList.getCount(); i++)
-	{
 		sumWordLetters(sumList[i].word, sumList[i].sum);
-	}
 	sumList.compare = wordsSumSort;
 	sumList.sort();
 	double distrib = system_current_time();
 	fprintf(stdout, "Sorted %f sort %f %s\n", distrib - start, distrib - loaded, MEASURE);
-	result = derive_five(0, sumList);
+	result = deriveFive(0, sumList);
 	double ends = system_current_time();
 	fprintf(stdout, "Elapsed %f derived %f %s\n", ends - start, ends - distrib, MEASURE);
 	return 0;
