@@ -30,15 +30,19 @@ double system_current_time()
 }
 #endif
 
+typedef unsigned int uint;
+
 struct TWordSum
 {
 	char word[6];
 	int sum;
-	TWordSum(const char* word, const int sum)
+	uint mask;
+	TWordSum(const char* word, const int sum=0, const uint mask=0)
 	{
 		this->word[5] = 0;
 		memcpy(this->word, word, 5);
 		this->sum = sum;
+		this->mask = mask;
 	};
 };
 
@@ -81,7 +85,7 @@ static void countLetters(const char* word)
 	}
 }
 
-static void sumWordLetters(const char* word, int& sumof)
+static void sumWordLetters(const char* word, int& sumof, unsigned int& mask)
 {
 	char letter;
 	sumof = 0;
@@ -90,6 +94,7 @@ static void sumWordLetters(const char* word, int& sumof)
 		letter = word[i];
 		int offset = letter - 'A';
 		sumof += distrib[offset];
+		mask |= (0x01 << offset);
 	}
 }
 
@@ -120,15 +125,17 @@ static void unique(TWordSumList& wordsLeft, const TWordSum& word, int turn)
 			seen[i] = letter;
 		}
 	}
-	TWordSum entry(word.word, word.sum);
+	TWordSum entry(word.word, word.sum, word.mask);
 	wordsLeft.add(entry);
 }
 
 static int wordsSumSort(TWordSum* A, TWordSum* B)
 {
 	int	n = A->sum - B->sum;
-	if (n == 0)
-		n = strncmp(A->word, B->word, 5);
+	if (n != 0) return n;
+	n = A->mask - B->mask;
+	if (n != 0) return n;
+	n = strncmp(A->word, B->word, 5);
 	return n;
 }
 
@@ -139,6 +146,11 @@ static bool isAnagram(int i, TWordSumList& words)
 	{
 		if (words[i].sum != words[k].sum)
 			return false;
+		if (words[i].mask == words[k].mask)
+		{
+			//fprintf(LogFile, "%s %s %d %d %x %x\n", words[i].word, words[k].word, i, k, words[i].mask, words[k].mask);
+			return true;
+		}
 		for (int j = 0; j < 5; j++)
 		{
 			letter = words[i].word[j];
@@ -146,7 +158,6 @@ static bool isAnagram(int i, TWordSumList& words)
 				return false;
 		}
 		return true;
-
 	}
 	return false;
 }
@@ -197,7 +208,7 @@ static void loadFromFile(const char* in_file_name, TWordSumList& sumList)
 		{
 			memcpy(word, line + p, 5);
 			countLetters(word);
-			TWordSum entry(word, 0);
+			TWordSum entry(word, 0, 0);
 			sumList.add(entry);
 			if (line[p + 5] != ' ')
 				break;
@@ -211,7 +222,7 @@ static void loadFromCode(TWordSumList& sumList)
 	{
 		const char* word = gameWords[i];
 		countLetters(word);
-		TWordSum entry(word, 0);
+		TWordSum entry(word, 0, 0);
 		sumList.add(entry);
 	}
 }
@@ -233,7 +244,7 @@ int main(int argc, char** argv)
 	double loaded = system_current_time();
 	fprintf(stdout, "Loaded %d words load %f %s\n", sumList.getCount(), loaded - start, MEASURE);
 	for (int i = 0; i < sumList.getCount(); i++)
-		sumWordLetters(sumList[i].word, sumList[i].sum);
+		sumWordLetters(sumList[i].word, sumList[i].sum, sumList[i].mask);
 	sumList.compare = wordsSumSort;
 	sumList.sort();
 	double distrib = system_current_time();
