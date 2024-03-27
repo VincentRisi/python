@@ -11,7 +11,7 @@ static FILE* LogFile;
 #if defined(_WIN32) || defined(_WIN64)
 #include<chrono>
 using namespace std::chrono;
-#define MEASURE "millis"
+
 double system_current_time()
 {
 	steady_clock::time_point time_point;
@@ -21,7 +21,6 @@ double system_current_time()
 }
 #else
 #include <sys/time.h>
-#define MEASURE "millis"
 double system_current_time()
 {
 	struct timeval tv;
@@ -193,24 +192,31 @@ static int deriveFive(int turn, TWordSumList& words)
 	return result;
 }
 
+struct AutoBuff
+{
+	char* buff;
+	AutoBuff(size_t size)	{	buff = (char*) calloc(size, sizeof(char)); }
+	~AutoBuff() { free(buff); }
+};
+
 static void loadFromFile(const char* in_file_name, TWordSumList& sumList)
 {
 	FILE* in_file = fopen(in_file_name, "rb");
 	setvbuf(in_file, 0, _IOFBF, 1024 * 1024);
 #define LINE_SIZE 1024*256
-	char line[LINE_SIZE];
+	AutoBuff line(LINE_SIZE);
 	char word[6];
 	word[5] = 0;
 	while (!feof(in_file))
 	{
-		fgets(line, LINE_SIZE, in_file);
+		fgets(line.buff, LINE_SIZE, in_file);
 		for (int p = 0; true; p += 6)
 		{
-			memcpy(word, line + p, 5);
+			memcpy(word, line.buff + p, 5);
 			countLetters(word);
 			TWordSum entry(word, 0, 0);
 			sumList.add(entry);
-			if (line[p + 5] != ' ')
+			if (line.buff[p + 5] != ' ')
 				break;
 		}
 	}
@@ -242,15 +248,15 @@ int main(int argc, char** argv)
 	if (argc == 1)
 		loadFromCode(sumList);
 	double loaded = system_current_time();
-	fprintf(stdout, "Loaded %d words load %f %s\n", sumList.getCount(), loaded - start, MEASURE);
+	fprintf(stdout, "Loaded %d words load %f milli\n", sumList.getCount(), loaded - start);
 	for (int i = 0; i < sumList.getCount(); i++)
 		sumWordLetters(sumList[i].word, sumList[i].sum, sumList[i].mask);
 	sumList.compare = wordsSumSort;
 	sumList.sort();
 	double distrib = system_current_time();
-	fprintf(stdout, "Sorted %f sort %f %s\n", distrib - start, distrib - loaded, MEASURE);
+	fprintf(stdout, "Sorted %f sort %f milli\n", distrib - start, distrib - loaded);
 	result = deriveFive(0, sumList);
 	double ends = system_current_time();
-	fprintf(stdout, "Elapsed %f derived %f %s\n", ends - start, ends - distrib, MEASURE);
+	fprintf(stdout, "Elapsed %f derived %f milli\n", ends - start, ends - distrib);
 	return 0;
 }
