@@ -47,14 +47,6 @@ struct TWordSum
 
 typedef TAddList<TWordSum, int> TWordSumList;
 
-static int wordsLeftSort(TWordSum* A, TWordSum* B)
-{
-	int n = B->sum - A->sum;
-	if (n == 0)
-		n = strncmp(B->word, A->word, 5);
-	return n;
-}
-
 static int distrib[26];
 
 inline bool haschr(const char* seen, int size, char letter)
@@ -203,7 +195,7 @@ static void loadFromFile(const char* in_file_name, TWordSumList& sumList)
 {
 	FILE* in_file = fopen(in_file_name, "rb");
 	setvbuf(in_file, 0, _IOFBF, 1024 * 1024);
-#define LINE_SIZE 1024*256
+	const size_t LINE_SIZE = 1024 * 256;
 	AutoBuff line(LINE_SIZE);
 	char word[6];
 	word[5] = 0;
