@@ -1,10 +1,25 @@
 #include <stdio.h>
-#include <sys/time.h>
 #include <limits.h>
+
+#if defined(_WIN32) || defined(_WIN64)
+using namespace std;
+#include<chrono>
+using namespace std::chrono;
+
+static double micro_time_of_call()
+{
+  steady_clock::time_point time_point;
+  time_point = steady_clock::now();
+  steady_clock::duration pig = time_point.time_since_epoch();
+  return pig.count() / 1000000.0;
+}
+inline int getpid() {return 0;}
+
+#else
+#include <sys/time.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/resource.h>
-
 static double micro_time_of_call() 
 {
   static struct timeval stp;
@@ -23,39 +38,27 @@ static double micro_time_of_call()
   return a + b / 1000000.0;
 }
 
-static double nano_time_of_call()
-{
-  static struct timespec stp;
-  if (stp.tv_sec == 0) // must be zero to start with by decree
-    clock_gettime(0, &stp);
-  struct timespec tp;
-  int rc=clock_gettime (0, &tp);
-  double a = tp.tv_sec-stp.tv_sec;
-  long b = tp.tv_nsec-stp.tv_nsec;
-  // The while could be an if. it's emulating a subtraction with carry
-  while (b < 0) 
-  {
-    a-=1; 
-    b+=1000000000;
-  }
-  return a + b / 1000000000.0;
-}
-
+#endif
 int main(int argc, char* argv[])
 {
-  double timeof = nano_time_of_call();
-  int times = 1000, i, t;
-  int procs = 1;
+  double timeof = micro_time_of_call();
+  int times = 1000, i, t=0;
   if (argc > 1)
     times = atoi(argv[1]);
-  if (argc > 2)
-    procs = atoi(argv[2]);
   if (times < 0 || times > 2000000000)
     times = 2000000000;
+#if defined(_WIN32) || defined(_WIN64)
+#else
+  int procs = 1;
+  if (argc > 2)
+    procs = atoi(argv[2]);
   if (procs < 1 || procs > 16)
     procs = 16;
   t = times / procs;
+#endif
   long long sum, max = LLONG_MAX;
+#if defined(_WIN32) || defined(_WIN64)
+#else
   printf("times %d procs %d t %d\n", times, procs, t);
   fflush(stdout);
   pid_t pid, ppid;
@@ -68,6 +71,7 @@ int main(int argc, char* argv[])
         if (fork()) break;
     }
   }
+#endif
 #if defined(OLD_WAY)  
   unsigned long long p0, p1, p2;
   while (t--)
@@ -97,6 +101,6 @@ int main(int argc, char* argv[])
     }
   }
 #endif  
-  timeof = nano_time_of_call() - timeof;
-  printf("%d: times:%d max:%lld sum:%lld secs:%f\n",getpid(), times, max, sum, timeof);
+  double elapsed = micro_time_of_call() - timeof;
+  printf("%d: times:%d max:%lld sum:%lld secs:%f\n",getpid(), times, max, sum, elapsed);
 }

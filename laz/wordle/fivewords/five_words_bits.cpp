@@ -12,7 +12,7 @@ static FILE* LogFile;
 #include<chrono>
 using namespace std::chrono;
 
-double system_current_time()
+static double system_current_time()
 {
 	steady_clock::time_point time_point;
 	time_point = steady_clock::now();
@@ -21,7 +21,7 @@ double system_current_time()
 }
 #else
 #include <sys/time.h>
-double system_current_time()
+static double system_current_time()
 {
 	struct timeval tv;
 	gettimeofday(&tv, 0);
@@ -36,12 +36,12 @@ struct TWordSum
 	char word[6];
 	int sum;
 	uint charbits;
-	TWordSum(const char* word, const int sum=0, const uint mask=0)
+	TWordSum(const char* word, const int sum=0, const uint charbits=0)
 	{
 		this->word[5] = 0;
 		memcpy(this->word, word, 5);
 		this->sum = sum;
-		this->charbits = mask;
+		this->charbits = charbits;
 	};
 };
 
@@ -49,30 +49,58 @@ typedef TAddList<TWordSum, int> TWordSumList;
 
 static int distrib[26];
 
-inline bool haschr(const char* seen, int size, char letter)
+inline uint offset(char letter) { return letter - 'A'; }
+
+inline bool checkAndSet(uint& seen, char letter)
 {
-	for (int i = 0; i < size; i++)
-		if (seen[i] == letter)
-			return true;
-	return false;
+	uint charbit = 0x01 << offset(letter);
+	bool result = seen & charbit;
+	seen |= charbit;
+	return result;
+}
+
+inline void charbitSet(uint& charbits, char letter)
+{
+	uint charbit = 0x01 << offset(letter);
+	charbits |= charbit;
+}
+
+inline bool charbitSeen(uint& seen, char letter)
+{
+	uint charbits = 0x01 << offset(letter);
+	bool result = seen & charbits;
+	return result;
 }
 
 static int no_words = 4;
 enum { gap_count = 1, zero_count = 6 };
 static const char* for_words[5];
-static const char* vowels;
+static uint for_charbits[5];
+static uint vowels;
+static uint zeroes;
+
+static void setVowels()
+{
+	for (const char* setChar = "AIOUY"; *setChar; setChar++)
+		charbitSet(vowels, *setChar);
+}
+
+static void setZeroes()
+{
+	for (const char* setChar = "XJVZQK"; *setChar; setChar++) // CB
+		charbitSet(zeroes, *setChar);
+}
 
 static void countLetters(const char* word)
 {
-	char seen[5];
+	uint seen = 0;
 	char letter;
 	for (int i = 0; i < 5; i++)
 	{
 		letter = word[i];
-		if (haschr("XJVZQKCB", zero_count, letter)) continue;
-		if (haschr(seen, i, letter) == false)
+		if (charbitSeen(zeroes, letter)) continue;
+		if (checkAndSet(seen, letter) == false)
 			distrib[letter - 'A'] += gap_count;
-		seen[i] = letter;
 	}
 }
 
@@ -89,31 +117,29 @@ static void sumWordLetters(const char* word, int& sumof, unsigned int& mask)
 	}
 }
 
-static void unique(TWordSumList& wordsLeft, const TWordSum& word, int turn)
+static void addIfUnique(TWordSumList& wordsLeft, const TWordSum& word, int turn)
 {
 	char letter;
-	char seen[6];
-	memset(seen, 0, 5);
+	uint seen = 0;
 	bool has_vowel = false;
 	for (int i = 0; i < no_words; i++)
-		if (strncmp(word.word, for_words[i], 5) == 0) return;
+		if (word.charbits == for_charbits[i]) return;
 	for (int i = 0; i < 5; i++)
 	{
 		letter = word.word[i];
-		if (turn == 0 && haschr(seen, i, letter))
+		if (turn == 0 && checkAndSet(seen, letter))
 			return;
 		for (int j = 0; j < no_words; j++)
-			if (haschr(for_words[j], 5, letter))
+			if (charbitSeen(for_charbits[j], letter))
 				return;
 		if (turn == 0)
 		{
-			if (haschr(vowels, 5, letter))
+			if (charbitSeen(vowels, letter))
 			{
 				if (has_vowel)
 					return;
 				has_vowel = true;
 			}
-			seen[i] = letter;
 		}
 	}
 	TWordSum entry(word.word, word.sum, word.charbits);
@@ -156,11 +182,12 @@ static int deriveFive(int turn, TWordSumList& words)
 	{
 		if (turn == 0 && i > 0 && isAnagram(i, words))
 			continue;
-		unique(wordsLeft, words[i], turn);
+		addIfUnique(wordsLeft, words[i], turn);
 	}
 	for (int i = 0; i < wordsLeft.getCount(); i++)
 	{
 		for_words[turn] = wordsLeft[i].word;
+		for_charbits[turn] = wordsLeft[i].charbits;
 		fprintf(LogFile, "turn %d word[%d]=%s %d\n", turn, i, wordsLeft[i].word, wordsLeft[i].sum);
 		result = deriveFive(turn + 1, wordsLeft);
 		if (result == 5)
@@ -216,7 +243,8 @@ static void loadFromCode(TWordSumList& sumList)
 int main(int argc, char** argv)
 {
 	int result;
-	vowels = "AIOUY";
+	setVowels();
+	setZeroes();
 	if (argc > 2)
 		LogFile = fopen(argv[2], "wt");
 	else
