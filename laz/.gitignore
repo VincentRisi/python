@@ -28,3 +28,4 @@ build
 # These can be changed by user in Lazarus/project options.
 backup/
 *.bak
+*.pdb

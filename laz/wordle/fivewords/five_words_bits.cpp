@@ -72,10 +72,10 @@ inline bool charbitSeen(uint& seen, char letter)
 	return result;
 }
 
-static int no_words = 4;
-enum { gap_count = 1, zero_count = 6 };
-static const char* for_words[5];
-static uint for_charbits[5];
+static int noWords = 4;
+enum { GAP_COUNT = 1 };
+static const char* forWords[5];
+static uint forCharbits[5];
 static uint vowels;
 static uint zeroes;
 
@@ -100,7 +100,7 @@ static void countLetters(const char* word)
 		letter = word[i];
 		if (charbitSeen(zeroes, letter)) continue;
 		if (checkAndSet(seen, letter) == false)
-			distrib[letter - 'A'] += gap_count;
+			distrib[letter - 'A'] += GAP_COUNT;
 	}
 }
 
@@ -117,28 +117,28 @@ static void sumWordLetters(const char* word, int& sumof, unsigned int& mask)
 	}
 }
 
-static void addIfUnique(TWordSumList& wordsLeft, const TWordSum& word, int turn)
+static void addUnique(TWordSumList& wordsLeft, const TWordSum& word, int turn)
 {
 	char letter;
 	uint seen = 0;
-	bool has_vowel = false;
-	for (int i = 0; i < no_words; i++)
-		if (word.charbits == for_charbits[i]) return;
+	bool hasVowel = false;
+	for (int i = 0; i < noWords; i++)
+		if (word.charbits == forCharbits[i]) return;
 	for (int i = 0; i < 5; i++)
 	{
 		letter = word.word[i];
 		if (turn == 0 && checkAndSet(seen, letter))
 			return;
-		for (int j = 0; j < no_words; j++)
-			if (charbitSeen(for_charbits[j], letter))
+		for (int j = 0; j < noWords; j++)
+			if (charbitSeen(forCharbits[j], letter))
 				return;
 		if (turn == 0)
 		{
 			if (charbitSeen(vowels, letter))
 			{
-				if (has_vowel)
+				if (hasVowel)
 					return;
-				has_vowel = true;
+				hasVowel = true;
 			}
 		}
 	}
@@ -171,23 +171,23 @@ static int deriveFive(int turn, TWordSumList& words)
 {
 	int result = 0;
 	TWordSumList wordsLeft(words.getCount());
-	no_words = turn;
+	noWords = turn;
 	if (turn > 4)
 	{
 		for (int i = 0; i < turn; i++)
-			printf("%s\n", for_words[i]);
+			printf("%s\n", forWords[i]);
 		return 5;
 	}
 	for (int i = 0; i < words.getCount(); i++)
 	{
 		if (turn == 0 && i > 0 && isAnagram(i, words))
 			continue;
-		addIfUnique(wordsLeft, words[i], turn);
+		addUnique(wordsLeft, words[i], turn);
 	}
 	for (int i = 0; i < wordsLeft.getCount(); i++)
 	{
-		for_words[turn] = wordsLeft[i].word;
-		for_charbits[turn] = wordsLeft[i].charbits;
+		forWords[turn] = wordsLeft[i].word;
+		forCharbits[turn] = wordsLeft[i].charbits;
 		fprintf(LogFile, "turn %d word[%d]=%s %d\n", turn, i, wordsLeft[i].word, wordsLeft[i].sum);
 		result = deriveFive(turn + 1, wordsLeft);
 		if (result == 5)
@@ -206,17 +206,17 @@ struct AutoBuff
 	~AutoBuff() { free(buff); }
 };
 
-static void loadFromFile(const char* in_file_name, TWordSumList& sumList)
+static void loadFromFile(const char* inFileName, TWordSumList& sumList)
 {
-	FILE* in_file = fopen(in_file_name, "rb");
-	setvbuf(in_file, 0, _IOFBF, 1024 * 1024);
-	const size_t LINE_SIZE = 1024 * 256;
+	FILE* inFile = fopen(inFileName, "rb");
+	enum { BUFF_SIZE=1024*1024, LINE_SIZE = 1024 * 256	};
+	setvbuf(inFile, 0, _IOFBF, BUFF_SIZE);
 	AutoBuff line(LINE_SIZE);
 	char word[6];
 	word[5] = 0;
-	while (!feof(in_file))
+	while (!feof(inFile))
 	{
-		fgets(line.buff, LINE_SIZE, in_file);
+		fgets(line.buff, LINE_SIZE, inFile);
 		for (int p = 0; true; p += 6)
 		{
 			memcpy(word, line.buff + p, 5);

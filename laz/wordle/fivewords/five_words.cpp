@@ -57,9 +57,9 @@ inline bool haschr(const char* seen, int size, char letter)
 	return false;
 }
 
-static int no_words = 4;
-enum { gap_count = 1, zero_count = 6 };
-static const char* for_words[5];
+static int noWords = 4;
+enum { GAP_COUNT = 1, zero_count = 6 };
+static const char* forWords[5];
 static const char* vowels;
 
 static void countLetters(const char* word)
@@ -71,7 +71,7 @@ static void countLetters(const char* word)
 		letter = word[i];
 		if (haschr("XJVZQKCB", zero_count, letter)) continue;
 		if (haschr(seen, i, letter) == false)
-			distrib[letter - 'A'] += gap_count;
+			distrib[letter - 'A'] += GAP_COUNT;
 		seen[i] = letter;
 	}
 }
@@ -95,15 +95,15 @@ static void unique(TWordSumList& wordsLeft, const TWordSum& word, int turn)
 	char seen[6];
 	memset(seen, 0, 5);
 	bool has_vowel = false;
-	for (int i = 0; i < no_words; i++)
-		if (strncmp(word.word, for_words[i], 5) == 0) return;
+	for (int i = 0; i < noWords; i++)
+		if (strncmp(word.word, forWords[i], 5) == 0) return;
 	for (int i = 0; i < 5; i++)
 	{
 		letter = word.word[i];
 		if (turn == 0 && haschr(seen, i, letter))
 			return;
-		for (int j = 0; j < no_words; j++)
-			if (haschr(for_words[j], 5, letter))
+		for (int j = 0; j < noWords; j++)
+			if (haschr(forWords[j], 5, letter))
 				return;
 		if (turn == 0)
 		{
@@ -145,11 +145,11 @@ static int deriveFive(int turn, TWordSumList& words)
 {
 	int result = 0;
 	TWordSumList wordsLeft(words.getCount());
-	no_words = turn;
+	noWords = turn;
 	if (turn > 4)
 	{
 		for (int i = 0; i < turn; i++)
-			printf("%s\n", for_words[i]);
+			printf("%s\n", forWords[i]);
 		return 5;
 	}
 	for (int i = 0; i < words.getCount(); i++)
@@ -160,7 +160,7 @@ static int deriveFive(int turn, TWordSumList& words)
 	}
 	for (int i = 0; i < wordsLeft.getCount(); i++)
 	{
-		for_words[turn] = wordsLeft[i].word;
+		forWords[turn] = wordsLeft[i].word;
 		fprintf(LogFile, "turn %d word[%d]=%s %d\n", turn, i, wordsLeft[i].word, wordsLeft[i].sum);
 		result = deriveFive(turn + 1, wordsLeft);
 		if (result == 5)
