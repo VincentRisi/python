@@ -12,7 +12,7 @@ static FILE* LogFile;
 #include<chrono>
 using namespace std::chrono;
 
-static double system_current_time()
+static double systemCurrentTime()
 {
 	steady_clock::time_point time_point;
 	time_point = steady_clock::now();
@@ -21,7 +21,7 @@ static double system_current_time()
 }
 #else
 #include <sys/time.h>
-static double system_current_time()
+static double systemCurrentTime()
 {
 	struct timeval tv;
 	gettimeofday(&tv, 0);
@@ -100,7 +100,7 @@ static void countLetters(const char* word)
 		letter = word[i];
 		if (charbitSeen(zeroes, letter)) continue;
 		if (checkAndSet(seen, letter) == false)
-			distrib[letter - 'A'] += GAP_COUNT;
+			distrib[offset(letter)] += GAP_COUNT;
 	}
 }
 
@@ -249,22 +249,22 @@ int main(int argc, char** argv)
 		LogFile = fopen(argv[2], "wt");
 	else
 		LogFile = stdout;
-	double start = system_current_time();
+	double start = systemCurrentTime();
 	TWordSumList sumList(noGameWords);
 	if (argc > 1)
 		loadFromFile(argv[1], sumList);
 	if (argc == 1)
 		loadFromCode(sumList);
-	double loaded = system_current_time();
-	fprintf(stdout, "Loaded %d words load %f milli\n", sumList.getCount(), loaded - start);
+	double loaded = systemCurrentTime();
+	fprintf(stdout, "Loaded %d words load %f mill\n", sumList.getCount(), loaded - start);
 	for (int i = 0; i < sumList.getCount(); i++)
 		sumWordLetters(sumList[i].word, sumList[i].sum, sumList[i].charbits);
 	sumList.compare = wordsSumSort;
 	sumList.sort();
-	double distrib = system_current_time();
-	fprintf(stdout, "Sorted %f sort %f milli\n", distrib - start, distrib - loaded);
+	double distrib = systemCurrentTime();
+	fprintf(stdout, "Sorted %f sort %f mill\n", distrib - start, distrib - loaded);
 	result = deriveFive(0, sumList);
-	double ends = system_current_time();
-	fprintf(stdout, "Elapsed %f derived %f milli\n", ends - start, ends - distrib);
+	double ends = systemCurrentTime();
+	fprintf(stdout, "Elapsed %f derived %f mill\n", ends - start, ends - distrib);
 	return 0;
 }
