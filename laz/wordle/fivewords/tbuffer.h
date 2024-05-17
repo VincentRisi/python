@@ -2,10 +2,7 @@
 #define _TBUFFER_H_
 
 /**
- *  $Author: etienned $ This is actually the last modifier.
  *  Author: Vince Risi
- *  $Date: 2005/05/30 14:21:48 $
- *  $Revision: 1.1.1.1 $
  *
  *  This template class only really works well with scalar type like
  *  char, short, int, long. It works with pointers as well (they

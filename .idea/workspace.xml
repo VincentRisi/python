@@ -6,7 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="d3df1bb1-f96c-482a-bfbf-332ab423df31" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jtools/src/configs/JPortal-audio.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/jtools/src/configs/JPortal-audio.run.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/laz/wordle/fivewords/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/laz/wordle/fivewords/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/laz/wordle/fivewords/five_words_bits.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/laz/wordle/fivewords/five_words_bits.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/laz/wordle/fivewords/tbuffer.h" beforeDir="false" afterPath="$PROJECT_DIR$/laz/wordle/fivewords/tbuffer.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,26 +29,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.JPortal-audio.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/vlab/python"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.JPortal-audio.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/vlab/python&quot;
   },
-  "keyToStringList": {
-    "stardust.markdown.MarkdownSplitEditorSuppressor:keyList": [
+  &quot;keyToStringList&quot;: {
+    &quot;stardust.markdown.MarkdownSplitEditorSuppressor:keyList&quot;: [
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\vlab\python\jtools\src\vlab" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.JPortal-audio">
+  <component name="RunManager" selected="Application.JPortal-accuity">
     <list>
       <item itemvalue="Application.Crackle-accuity" />
       <item itemvalue="Application.JPortal-accuity" />

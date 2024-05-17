@@ -16,6 +16,8 @@ add_executable (five_words "five_words.cpp" "five_words.h" "addlist.h")
 
 add_executable (five_words_bits "five_words_bits.cpp" "five_words.h" "addlist.h")
 
+add_executable (four_words "four_words.cpp" "four_words.h" "addlist.h" "getargs.cpp" "getargs.h")
+
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET five_words PROPERTY CXX_STANDARD 20)
 endif()

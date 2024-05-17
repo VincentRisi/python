@@ -1,4 +1,4 @@
-﻿#include "five_words.h"
+﻿#include "four_words.h"
 #include <stdio.h>
 #include "addlist.h"
 #define DIM(a)  (sizeof(a)/sizeof((a)[0]))
@@ -74,47 +74,21 @@ inline bool charbitSeen(uint& seen, char letter)
 
 static int noWords = 4;
 enum { GAP_COUNT = 1 };
-static const char* forWords[5];
-static uint forCharbits[5];
+static const char* forWords[4];
+static uint forCharbits[4];
 static uint vowels;
 static uint dontuse;
 
 static void setVowels()
 {
-	for (const char* setChar = "AIOUY"; *setChar; setChar++)
+	for (const char* setChar = "AIOU"; *setChar; setChar++)
 		charbitSet(vowels, *setChar);
 }
 
-static void setZeroes()
-{
-	for (const char* setChar = "XJVZQK"; *setChar; setChar++) // CB
+static void setDontUse()
+{                           
+	for (const char* setChar = "XJVZQ"; *setChar; setChar++) // CB
 		charbitSet(dontuse, *setChar);
-}
-
-static void countLetters(const char* word)
-{
-	uint seen = 0;
-	char letter;
-	for (int i = 0; i < 5; i++)
-	{
-		letter = word[i];
-		if (charbitSeen(dontuse, letter)) continue;
-		if (checkAndSet(seen, letter) == false)
-			distrib[offset(letter)] += GAP_COUNT;
-	}
-}
-
-static void sumWordLetters(const char* word, int& sumof, unsigned int& mask)
-{
-	char letter;
-	sumof = 0;
-	for (int i = 0; i < 5; i++)
-	{
-		letter = word[i];
-		int offset = letter - 'A';
-		sumof += distrib[offset];
-		mask |= (0x01 << offset);
-	}
 }
 
 static void addUnique(TWordSumList& wordsLeft, const TWordSum& word, int turn)
@@ -132,15 +106,6 @@ static void addUnique(TWordSumList& wordsLeft, const TWordSum& word, int turn)
 		for (int j = 0; j < noWords; j++)
 			if (charbitSeen(forCharbits[j], letter))
 				return;
-		if (turn == 0)
-		{
-			if (charbitSeen(vowels, letter))
-			{
-				if (hasVowel)
-					return;
-				hasVowel = true;
-			}
-		}
 	}
 	TWordSum entry(word.word, word.sum, word.charbits);
 	wordsLeft.add(entry);
@@ -148,9 +113,10 @@ static void addUnique(TWordSumList& wordsLeft, const TWordSum& word, int turn)
 
 static int wordsSumSort(TWordSum* A, TWordSum* B)
 {
-	int	n = A->sum - B->sum;
+	int n;
+	n = B->charbits - A->charbits;
 	if (n != 0) return n;
-	n = A->charbits - B->charbits;
+	n = A->sum - B->sum;
 	if (n != 0) return n;
 	n = strncmp(A->word, B->word, 5);
 	return n;
@@ -167,16 +133,17 @@ static bool isAnagram(int i, TWordSumList& words)
 	return false;
 }
 
-static int deriveFive(int turn, TWordSumList& words)
+static int deriveFour(int turn, TWordSumList& words)
 {
 	int result = 0;
 	TWordSumList wordsLeft(words.getCount());
 	noWords = turn;
-	if (turn > 4)
+	if (turn > 3)
 	{
-		for (int i = 0; i < turn; i++)
-			printf("%s\n", forWords[i]);
-		return 5;
+		for (int i = 1; i < turn; i++)
+			if (strcmp(forWords[i], forWords[i - 1]) < 0) return 4;
+		printf("%s %s %s %s\n", forWords[0], forWords[1], forWords[2], forWords[3]);
+		return 4;
 	}
 	for (int i = 0; i < words.getCount(); i++)
 	{
@@ -188,13 +155,7 @@ static int deriveFive(int turn, TWordSumList& words)
 	{
 		forWords[turn] = wordsLeft[i].word;
 		forCharbits[turn] = wordsLeft[i].charbits;
-		fprintf(LogFile, "turn %d word[%d]=%s %d\n", turn, i, wordsLeft[i].word, wordsLeft[i].sum);
-		result = deriveFive(turn + 1, wordsLeft);
-		if (result == 5)
-		{
-			fprintf(stdout, "%d %d\n", turn, words.getCount());
-			break;
-		}
+		result = deriveFour(turn + 1, wordsLeft);
 	}
 	return result;
 }
@@ -205,6 +166,39 @@ struct AutoBuff
 	AutoBuff(size_t size)	{	buff = (char*) calloc(size, sizeof(char)); }
 	~AutoBuff() { free(buff); }
 };
+
+static void sumWordLetters(const char* word, int& sumof, unsigned int& mask)
+{
+	char letter;
+	sumof = 0;
+	for (int i = 0; i < 5; i++)
+	{
+		letter = word[i];
+		int offset = letter - 'A';
+		sumof += distrib[offset];
+		mask |= (0x01 << offset);
+	}
+}
+
+static bool dropWord(const char* word)
+{
+	uint seen = 0;
+	bool hasVowel = false;
+	char letter;
+	for (int i = 0; i < 5; i++)
+	{
+		letter = word[i];
+		if (charbitSeen(dontuse, letter)) return true;
+		if (checkAndSet(seen, letter) == true) return true;
+		if (charbitSeen(vowels, letter))
+		{
+			if (hasVowel)	return true;
+			hasVowel = true;
+		}
+		distrib[offset(letter)] += GAP_COUNT;
+	}
+	return false;
+}
 
 static void loadFromFile(const char* inFileName, TWordSumList& sumList)
 {
@@ -220,7 +214,7 @@ static void loadFromFile(const char* inFileName, TWordSumList& sumList)
 		for (int p = 0; true; p += 6)
 		{
 			memcpy(word, line.buff + p, 5);
-			countLetters(word);
+			if (dropWord(word)) continue;
 			TWordSum entry(word, 0, 0);
 			sumList.add(entry);
 			if (line.buff[p + 5] != ' ')
@@ -234,25 +228,43 @@ static void loadFromCode(TWordSumList& sumList)
 	for (int i = 0; i < noGameWords; i++)
 	{
 		const char* word = gameWords[i];
-		countLetters(word);
+    if (dropWord(word)) continue;
 		TWordSum entry(word, 0, 0);
 		sumList.add(entry);
 	}
 }
 
+#include "getargs.h"
+static char* logFileName = "";
+static char* wordFileName = "";
+static int   dontUseY = 0;
+static int   dontUseF = 0;
+static int   dontUseW = 1;
+
+ARG argTab[] =
+{
+	{'Y', BOOLEAN, &dontUseY,      "Do not use Y"},
+	{'F', BOOLEAN, &dontUseF,      "Do not use F"},
+	{'W', BOOLEAN, &dontUseW,      "Do not use W"},
+	{'l', STRING,  &logFileName,   "Log file."},
+	{'w', STRING,  &wordFileName,  "Words file."},
+};
+#define TABSIZE (sizeof(argTab) / sizeof(ARG))
+
 int main(int argc, char** argv)
 {
 	int result;
 	setVowels();
-	setZeroes();
-	if (argc > 2)
-		LogFile = fopen(argv[2], "wt");
-	else
-		LogFile = stdout;
+	setDontUse();
+	argc = getArgs(argc, argv, argTab, TABSIZE);
+	if (dontUseF) charbitSet(dontuse, 'F');
+	else if (dontUseY) charbitSet(dontuse, 'Y');
+	else charbitSet(dontuse, 'W');
+	if (strlen(logFileName)) LogFile = fopen(logFileName, "wt");
 	double start = systemCurrentTime();
 	TWordSumList sumList(noGameWords);
-	if (argc > 1)
-		loadFromFile(argv[1], sumList);
+	if (strlen(wordFileName))
+		loadFromFile(wordFileName, sumList);
 	if (argc == 1)
 		loadFromCode(sumList);
 	double loaded = systemCurrentTime();
@@ -263,7 +275,7 @@ int main(int argc, char** argv)
 	sumList.sort();
 	double distrib = systemCurrentTime();
 	fprintf(stdout, "Sorted %f sort %f mill\n", distrib - start, distrib - loaded);
-	result = deriveFive(0, sumList);
+	result = deriveFour(0, sumList);
 	double ends = systemCurrentTime();
 	fprintf(stdout, "Elapsed %f derived %f mill\n", ends - start, ends - distrib);
 	return 0;
