@@ -1,0 +1,55 @@
+Body:
+  createFinTranRq:
+    createFinTran:
+      accountTransaction:
+        accountTransactionSource:
+          sourceSystemID: '618'
+        additionalInformation: BAL
+        description: QA Automation Testing U 02 127
+        entryClassificationType:
+          code: '900'
+        interBankTransactionFlag: 'false'
+        transactionAmount:
+          amount: '5000000.01'
+          currency: ZAR
+        transactionDate: '2025-09-27T12:25:30.0Z'
+        transactionDateTimeUTC: '2025-09-27T10:25:30.0Z'
+        transactionEffect: DRO
+        transactionGroupId: 2682fb47-a132-407f-a72f-1b5ca2fe438f
+        transactionId: c03c2555-31b0-434c-8143-e143dd31b0e3
+        transactionPaymentDirectionType:
+          code: OUT
+      clientIdentification:
+      - clientIdTypeCode: PPT
+        clientIdentifier: PERKS
+      - clientIdTypeCode: CTC1
+        clientIdentifier: CI1
+      externalChannel:
+        code: '483'
+      paymentType:
+        code: RTL
+      productSystem:
+        productSystemID: GPSA
+      sourceSystem:
+        systemId: GPP
+      tranCodeSourceSystem:
+        systemId: GPP
+      transactionAccumulation:
+        accumulationPreferenceType:
+          code: AccumulationPreferenceTypeCode
+        accumulationPreferences:
+        - preferenceTypeCode: MAX
+          preferenceValue: '249'
+        - preferenceTypeCode: PTC0
+          preferenceValue: PV0
+        - preferenceTypeCode: PTC1
+          preferenceValue: PV1
+        sourceSystem:
+          systemId: SourceSyst
+Header:
+  Acccept-Language: EN
+  x-ned-tenant-code: ZANBL
+  x-ned-transaction-id: 622116fa-c7b4-4620-8ebe-99f544691be4
+Path:
+  accountnumber: '1001004345'
+  accounttype: NCA

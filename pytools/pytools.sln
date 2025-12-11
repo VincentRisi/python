@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36717.8
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "class_to_json", "class_to_json.pyproj", "{E7A0444E-7DF2-4CE5-8E53-D241A9709C20}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "dict_to_json", "dict_to_json.pyproj", "{E7A0444E-7DF2-4CE5-8E53-D241A9709C21}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "json_to_class", "json_to_class.pyproj", "{E7A0444E-7DF2-4CE5-8E53-D241A9709C22}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "dict_to_class", "dict_to_class.pyproj", "{E7A0444E-7DF2-4CE5-8E53-D241A9709C23}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E7A0444E-7DF2-4CE5-8E53-D241A9709C20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7A0444E-7DF2-4CE5-8E53-D241A9709C20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7A0444E-7DF2-4CE5-8E53-D241A9709C21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7A0444E-7DF2-4CE5-8E53-D241A9709C21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7A0444E-7DF2-4CE5-8E53-D241A9709C22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7A0444E-7DF2-4CE5-8E53-D241A9709C22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7A0444E-7DF2-4CE5-8E53-D241A9709C23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7A0444E-7DF2-4CE5-8E53-D241A9709C23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DD64B4F7-1C19-45F8-BA94-96F3D87F6197}
+	EndGlobalSection
+EndGlobal
