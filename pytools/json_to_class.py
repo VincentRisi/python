@@ -186,7 +186,9 @@ def main():
     code_builder = Builder()
     if args.usefile != None:
         uses = code_builder.uses = StringIO()
-        uses.write(f'import {base}\n\n')
+        main_class = make_class_name(base)
+        uses.write(f'from {base} import {main_class}\n\n')
+        uses.write(f'{base} = {main_class}()\n')
     if extension in ['.json']:
         data_dict = json.loads(data_string)
     elif extension in ['.yaml']:
