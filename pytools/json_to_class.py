@@ -75,7 +75,8 @@ class Builder:
        self.depths = dict()
        self.max_depth = 0
        self.usage = list()
-       self.uses = None
+       self.usefile = str
+       self.uses_io = None
 
 def recurse(builder, class_name, input_dict, depth, doset=True):
     verbose = args.verbose
@@ -103,7 +104,7 @@ def recurse(builder, class_name, input_dict, depth, doset=True):
     annotations = builder.annotations
     depths = builder.depths
     usage = builder.usage
-    uses = builder.uses
+    uses_io = builder.uses_io
     if len(usage) <= depth:
         usage.append(class_name)
     else:
@@ -131,12 +132,12 @@ def recurse(builder, class_name, input_dict, depth, doset=True):
                     if type(list_entry) is dict:
                        recurse(builder, input_entry, list_entry, depth+1, False)
                        del usage[depth+1]
-                       if uses != None: uses.write(f'{dotted(usage)}.{fixed_name} = {input_field}\n')
+                       if uses_io != None: uses_io.write(f'{dotted(usage)}.{fixed_name} = {input_field}\n')
                     else:
                         pass
                 #break
         elif doset:
-            if uses != None: uses.write(f'{dotted(usage)}.{fixed_name} = {quoted(input_field)}\n')
+            if uses_io != None: uses_io.write(f'{dotted(usage)}.{fixed_name} = {quoted(input_field)}\n')
 
 inits = {}
 inits['str'] = "''"
@@ -186,7 +187,7 @@ def main():
         data_string = ifile.read()
     code_builder = Builder()
     if args.usefile != None:
-        uses = code_builder.uses = StringIO()
+        uses = code_builder.uses_io = StringIO()
         main_class = make_class_name(base)
         uses.write(f'from {base} import {main_class}\n\n')
         uses.write(f'{base} = {main_class}()\n')
@@ -195,10 +196,12 @@ def main():
     elif extension in ['.yaml']:
         data_dict = yaml.safe_load(data_string)
     recurse(code_builder, base, data_dict, 0)
-    if args.verbose and code_builder.uses != None:
-        code_builder.uses.seek(0)
-        block = code_builder.uses.read()
-        print(block)
+    if code_builder.uses_io != None:
+        code_builder.uses_io.seek(0)
+        block = code_builder.uses_io.read()
+        if args.verbose: print(block)
+        with open(args.usefile, 'w') as f:
+            f.write(block)
     code = StringIO()
     build_classes(code, code_builder)
     code.seek(0)
