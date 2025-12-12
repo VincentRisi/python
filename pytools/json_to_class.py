@@ -16,6 +16,7 @@ arg_parser.add_argument('infile')
 arg_parser.add_argument('outfile')
 arg_parser.add_argument('-u', '--usefile', type=str)
 arg_parser.add_argument('-v', '--verbose', action='store_true')
+arg_parser.add_argument('-x', '--expand', action='store_false')
 args = arg_parser.parse_args()
 
 def make_class_name(name):

@@ -20,9 +20,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="WordleUnit"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="555"/>
-        <CursorPos Y="416"/>
+        <TopLine Value="598"/>
+        <CursorPos X="30" Y="559"/>
         <UsageCount Value="218"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -97,6 +96,7 @@
       </Unit>
       <Unit>
         <Filename Value="sql\pas\Dictionary.pas"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
@@ -111,17 +111,13 @@
         <Filename Value="..\wordgame\wordgameunit.pas"/>
         <UnitName Value="WordGameUnit"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="205"/>
+        <TopLine Value="94"/>
         <CursorPos Y="239"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="wordleunit.pas"/>
-        <Caret Line="580" TopLine="563"/>
-      </Position>
       <Position>
         <Filename Value="wordleunit.pas"/>
         <Caret Line="581" TopLine="563"/>
@@ -237,6 +233,10 @@
       <Position>
         <Filename Value="wordleunit.pas"/>
         <Caret Line="417" TopLine="396"/>
+      </Position>
+      <Position>
+        <Filename Value="wordleunit.pas"/>
+        <Caret Line="559" Column="30" TopLine="533"/>
       </Position>
     </JumpHistory>
     <RunParams>
