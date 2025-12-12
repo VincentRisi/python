@@ -16,7 +16,7 @@ arg_parser.add_argument('infile')
 arg_parser.add_argument('outfile')
 arg_parser.add_argument('-u', '--usefile', type=str)
 arg_parser.add_argument('-v', '--verbose', action='store_true')
-arg_parser.add_argument('-x', '--expand', action='store_false')
+arg_parser.add_argument('-x', '--expand', action='store_true')
 args = arg_parser.parse_args()
 
 def make_class_name(name):
@@ -78,6 +78,24 @@ class Builder:
        self.usefile = str
        self.uses_io = None
 
+def quoted(input_field):
+    if re.match('^-?[0-9]+$', input_field) != None:
+        return input_field
+    elif re.match('^-?[0-9]*.[0-9]+$', input_field) != None:
+        return input_field
+    elif input_field == 'true':
+        return 'True'
+    elif input_field == 'false':
+        return 'False'
+    return f"'{input_field}'"
+
+def do_expand(uses_io, dotted, fixed_name, input_field):
+    for i, entry_dict in enumerate(input_field):
+        uses_io.write(f'{dotted}.{fixed_name}.append({make_class_name(fixed_name)}())\n')
+        for key in entry_dict:
+            uses_io.write(f'{dotted}.{fixed_name}[{i}].{key} = {quoted(entry_dict[key])}\n')
+
+
 def recurse(builder, class_name, input_dict, depth, doset=True):
     verbose = args.verbose
     if verbose:
@@ -90,16 +108,6 @@ def recurse(builder, class_name, input_dict, depth, doset=True):
             value = f'{value}{dot}{field}'
             dot = '.'
         return value
-    def quoted(input_field):
-        if re.match('^-?[0-9]+$', input_field) != None:
-            return input_field
-        elif re.match('^-?[0-9]*.[0-9]+$', input_field) != None:
-            return input_field
-        elif input_field == 'true':
-            return 'True'
-        elif input_field == 'false':
-            return 'False'
-        return f"'{input_field}'"
     classes = builder.classes
     annotations = builder.annotations
     depths = builder.depths
@@ -132,7 +140,11 @@ def recurse(builder, class_name, input_dict, depth, doset=True):
                     if type(list_entry) is dict:
                        recurse(builder, input_entry, list_entry, depth+1, False)
                        del usage[depth+1]
-                       if uses_io != None: uses_io.write(f'{dotted(usage)}.{fixed_name} = {input_field}\n')
+                       if uses_io != None:
+                           if args.expand == False:
+                               uses_io.write(f'{dotted(usage)}.{fixed_name} = {input_field}\n')
+                           else:
+                               do_expand(uses_io, dotted(usage), fixed_name, input_field)
                     else:
                         pass
                 #break
@@ -189,7 +201,7 @@ def main():
     if args.usefile != None:
         uses = code_builder.uses_io = StringIO()
         main_class = make_class_name(base)
-        uses.write(f'from {base} import {main_class}\n\n')
+        uses.write(f'from {base} import *\n\n')
         uses.write(f'{base} = {main_class}()\n')
     if extension in ['.json']:
         data_dict = json.loads(data_string)

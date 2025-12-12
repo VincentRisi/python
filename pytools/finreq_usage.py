@@ -1,4 +1,4 @@
-from finreq import Finreq
+from finreq import *
 
 finreq = Finreq()
 finreq.Header.Acccept_Language = 'EN'
@@ -26,5 +26,18 @@ finreq.Body.createFinTranRq.createFinTran.sourceSystem.systemId = 'GPP'
 finreq.Body.createFinTranRq.createFinTran.tranCodeSourceSystem.systemId = 'GPP'
 finreq.Body.createFinTranRq.createFinTran.transactionAccumulation.accumulationPreferenceType.code = 'AccumulationPreferenceTypeCode'
 finreq.Body.createFinTranRq.createFinTran.transactionAccumulation.sourceSystem.systemId = 'SourceSyst'
-finreq.Body.createFinTranRq.createFinTran.transactionAccumulation.accumulationPreferences = [{'preferenceTypeCode': 'MAX', 'preferenceValue': '249'}, {'preferenceTypeCode': 'PTC0', 'preferenceValue': 'PV0'}, {'preferenceTypeCode': 'PTC1', 'preferenceValue': 'PV1'}]
-finreq.Body.createFinTranRq.createFinTran.clientIdentification = [{'clientIdentifier': 'PERKS', 'clientIdTypeCode': 'PPT'}, {'clientIdentifier': 'CI1', 'clientIdTypeCode': 'CTC1'}]
+finreq.Body.createFinTranRq.createFinTran.transactionAccumulation.accumulationPreferences.append(AccumulationPreferences())
+finreq.Body.createFinTranRq.createFinTran.transactionAccumulation.accumulationPreferences[0].preferenceTypeCode = 'MAX'
+finreq.Body.createFinTranRq.createFinTran.transactionAccumulation.accumulationPreferences[0].preferenceValue = 249
+finreq.Body.createFinTranRq.createFinTran.transactionAccumulation.accumulationPreferences.append(AccumulationPreferences())
+finreq.Body.createFinTranRq.createFinTran.transactionAccumulation.accumulationPreferences[1].preferenceTypeCode = 'PTC0'
+finreq.Body.createFinTranRq.createFinTran.transactionAccumulation.accumulationPreferences[1].preferenceValue = 'PV0'
+finreq.Body.createFinTranRq.createFinTran.transactionAccumulation.accumulationPreferences.append(AccumulationPreferences())
+finreq.Body.createFinTranRq.createFinTran.transactionAccumulation.accumulationPreferences[2].preferenceTypeCode = 'PTC1'
+finreq.Body.createFinTranRq.createFinTran.transactionAccumulation.accumulationPreferences[2].preferenceValue = 'PV1'
+finreq.Body.createFinTranRq.createFinTran.clientIdentification.append(ClientIdentification())
+finreq.Body.createFinTranRq.createFinTran.clientIdentification[0].clientIdentifier = 'PERKS'
+finreq.Body.createFinTranRq.createFinTran.clientIdentification[0].clientIdTypeCode = 'PPT'
+finreq.Body.createFinTranRq.createFinTran.clientIdentification.append(ClientIdentification())
+finreq.Body.createFinTranRq.createFinTran.clientIdentification[1].clientIdentifier = 'CI1'
+finreq.Body.createFinTranRq.createFinTran.clientIdentification[1].clientIdTypeCode = 'CTC1'
