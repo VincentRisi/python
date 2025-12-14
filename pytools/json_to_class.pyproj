@@ -12,7 +12,7 @@
     <Name>pytools</Name>
     <RootNamespace>pytools</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>finreq.json finreq.py -v -u finreq_usage.py -x</CommandLineArguments>
+    <CommandLineArguments>finreq.yaml finreq.py -v -u finreq_usage.py -x</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

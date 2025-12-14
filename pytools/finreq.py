@@ -1,3 +1,4 @@
+# This code is generated using json_to_class from finreq.yaml
 from datetime import datetime
 import uuid
 
@@ -62,6 +63,13 @@ class AccountTransaction:
         self.transactionId = ''
         self.transactionPaymentDirectionType = TransactionPaymentDirectionType()
 
+class ClientIdentification:
+    clientIdTypeCode: str
+    clientIdentifier: str
+    def __init__(self):
+        self.clientIdTypeCode = ''
+        self.clientIdentifier = ''
+
 class ExternalChannel:
     code: str
     def __init__(self):
@@ -89,43 +97,41 @@ class TranCodeSourceSystem:
 
 class TransactionAccumulation:
     accumulationPreferenceType: AccumulationPreferenceType
-    sourceSystem: SourceSystem
     accumulationPreferences: [ AccumulationPreferences ] # type: ignore
+    sourceSystem: SourceSystem
     def __init__(self):
         self.accumulationPreferenceType = AccumulationPreferenceType()
-        self.sourceSystem = SourceSystem()
         self.accumulationPreferences = list()
-
-class ClientIdentification:
-    clientIdentifier: str
-    clientIdTypeCode: str
-    def __init__(self):
-        self.clientIdentifier = ''
-        self.clientIdTypeCode = ''
+        self.sourceSystem = SourceSystem()
 
 class CreateFinTran:
     accountTransaction: AccountTransaction
+    clientIdentification: [ ClientIdentification ] # type: ignore
     externalChannel: ExternalChannel
     paymentType: PaymentType
     productSystem: ProductSystem
     sourceSystem: SourceSystem
     tranCodeSourceSystem: TranCodeSourceSystem
     transactionAccumulation: TransactionAccumulation
-    clientIdentification: [ ClientIdentification ] # type: ignore
     def __init__(self):
         self.accountTransaction = AccountTransaction()
+        self.clientIdentification = list()
         self.externalChannel = ExternalChannel()
         self.paymentType = PaymentType()
         self.productSystem = ProductSystem()
         self.sourceSystem = SourceSystem()
         self.tranCodeSourceSystem = TranCodeSourceSystem()
         self.transactionAccumulation = TransactionAccumulation()
-        self.clientIdentification = list()
 
 class CreateFinTranRq:
     createFinTran: CreateFinTran
     def __init__(self):
         self.createFinTran = CreateFinTran()
+
+class BodyClass:
+    createFinTranRq: CreateFinTranRq
+    def __init__(self):
+        self.createFinTranRq = CreateFinTranRq()
 
 class HeaderClass:
     Acccept_Language: str
@@ -137,23 +143,18 @@ class HeaderClass:
         self.x_ned_transaction_id = ''
 
 class PathClass:
-    accounttype: str
     accountnumber: int
+    accounttype: str
     def __init__(self):
-        self.accounttype = ''
         self.accountnumber = 0
-
-class BodyClass:
-    createFinTranRq: CreateFinTranRq
-    def __init__(self):
-        self.createFinTranRq = CreateFinTranRq()
+        self.accounttype = ''
 
 class Finreq:
+    Body: BodyClass
     Header: HeaderClass
     Path: PathClass
-    Body: BodyClass
     def __init__(self):
+        self.Body = BodyClass()
         self.Header = HeaderClass()
         self.Path = PathClass()
-        self.Body = BodyClass()
 

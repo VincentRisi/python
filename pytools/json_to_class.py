@@ -165,6 +165,7 @@ def build_classes(code, builder):
     annotations = builder.annotations
     depths = builder.depths
     depth = builder.max_depth
+    code.write(f'# This code is generated using json_to_class from {args.infile}\n')
     code.write('from datetime import datetime\n')
     code.write('import uuid\n\n')
     while depth >= 0:
@@ -201,6 +202,7 @@ def main():
     if args.usefile != None:
         uses = code_builder.uses_io = StringIO()
         main_class = make_class_name(base)
+        uses.write(f'# This code is generated using json_to_class from {args.infile}\n')
         uses.write(f'from {base} import *\n\n')
         uses.write(f'{base} = {main_class}()\n')
     if extension in ['.json']:
