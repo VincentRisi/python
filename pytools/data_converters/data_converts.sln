@@ -11,6 +11,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "json_to_class", "json_to_cl
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "dict_to_class", "dict_to_class.pyproj", "{E7A0444E-7DF2-4CE5-8E53-D241A9709C23}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "swagger_to_class", "swagger_to_class.pyproj", "{E7A0444E-7DF2-4CE5-8E53-D241A9709C24}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,8 @@ Global
 		{E7A0444E-7DF2-4CE5-8E53-D241A9709C22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7A0444E-7DF2-4CE5-8E53-D241A9709C23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E7A0444E-7DF2-4CE5-8E53-D241A9709C23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7A0444E-7DF2-4CE5-8E53-D241A9709C24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7A0444E-7DF2-4CE5-8E53-D241A9709C24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
