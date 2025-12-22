@@ -1,0 +1,968 @@
+openapi: 3.0.1
+info:
+  title: DepositAccountsFinancials
+  description: This is the RESTful API to process financial requests for a Current
+    account or Savings account as part of the GDP or CASA systems
+  contact:
+    name: Dimitris Raxenidis
+    email: dimitrisr@Nedbank.co.za
+  version: 3.1.0
+  x-swaggerversion: "2"
+  x-swaggercreationdate: 27-03-2024
+servers:
+- url: /paymentordermanagement/depositaccountsfinancials/v3
+security:
+- API Key: []
+  API Secret: []
+paths:
+  /accounttypes/{accounttype}/accounts/{accountnumber}/financials/transactions:
+    post:
+      tags:
+      - CreateFinancialTransaction
+      summary: Post a financial transaction against an account
+      description: Create a debit or credit financial transaction against an account
+      operationId: CreateFinancialTransaction
+      parameters:
+      - name: Acccept-Language
+        in: header
+        description: The accepted language of the user and country code
+        required: true
+        schema:
+          type: string
+      - name: x-ned-transaction-id
+        in: header
+        description: a transaction id initiated from the front-end
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: x-ned-tenant-code
+        in: header
+        description: "For example: ZANBL = Nedbank Limited, ZADIL = Depfin Investments\
+          \ Proprietary Limited"
+        required: true
+        schema:
+          type: string
+      - name: accounttype
+        in: path
+        description: |-
+          Account Type classifies the valid set of Account Arrangements
+          NCA - Current account
+          NSA - Savings account
+          NDS - Investmant Account
+        required: true
+        schema:
+          maxLength: 3
+          minLength: 3
+          type: string
+      - name: accountnumber
+        in: path
+        description: |-
+          Unique Identifier for the account type within the relevant source system
+          Account number
+        required: true
+        schema:
+          maxLength: 23
+          minLength: 23
+          type: string
+      requestBody:
+        description: The details of the financial transaction
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/CreateFinTranRequest'
+        required: true
+      responses:
+        "201":
+          description: Created. Request successfully executed
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/CreateFinTranResponse'
+      x-codegen-request-body-name: createfintranrequest
+  /accounttypes/{accounttype}/accounts/{accountnumber}/financials/statuses/enquiries:
+    post:
+      tags:
+      - GetAccountFinancialStatus
+      summary: Verify the financial status of an account
+      description: "Verify the financial status of an account, transactions allowed,\
+        \ debit/credit allowed"
+      operationId: GetAccountFinancialStatus
+      parameters:
+      - name: Acccept-Language
+        in: header
+        description: The accepted language of the user and country code
+        required: true
+        schema:
+          type: string
+      - name: x-ned-transaction-id
+        in: header
+        description: a transaction id initiated from the front-end
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: x-ned-tenant-code
+        in: header
+        description: "For example: ZANBL = Nedbank Limited, ZADIL = Depfin Investments\
+          \ Proprietary Limited"
+        required: true
+        schema:
+          type: string
+      - name: accounttype
+        in: path
+        description: |-
+          Account Type classifies the valid set of Account Arrangements
+          NCA - Current account
+          NSA - Savings account
+          NDS - Investmant Account
+        required: true
+        schema:
+          maxLength: 3
+          minLength: 3
+          type: string
+      - name: accountnumber
+        in: path
+        description: |-
+          Unique Identifier for the account type within the relevant source system
+          Account number
+        required: true
+        schema:
+          maxLength: 23
+          minLength: 23
+          type: string
+      requestBody:
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/GetAccountFinancialStatusRequest'
+        required: true
+      responses:
+        "201":
+          description: Created. Request successfully executed
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/GetAcctFinStatusResponse'
+      x-codegen-request-body-name: getAccountFinancialStatus
+  /accounttypes/{accounttype}/accounts/{accountnumber}/financials/trackings/cancelations:
+    post:
+      tags:
+      - CancelTracking
+      description: CancelTracking
+      operationId: CancelTracking
+      parameters:
+      - name: Acccept-Language
+        in: header
+        description: The accepted language of the user and country code
+        required: true
+        schema:
+          type: string
+      - name: x-ned-transaction-id
+        in: header
+        description: a transaction id initiated from the front-end
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: x-ned-tenant-code
+        in: header
+        description: "For example: ZANBL = Nedbank Limited, ZADIL = Depfin Investments\
+          \ Proprietary Limited"
+        required: true
+        schema:
+          type: string
+      - name: accounttype
+        in: path
+        description: |-
+          Account Type classifies the valid set of Account Arrangements
+          NCA - Current account
+          NSA - Savings account
+          NDS - Investmant Account
+        required: true
+        schema:
+          maxLength: 3
+          minLength: 3
+          type: string
+      - name: accountnumber
+        in: path
+        description: |-
+          Unique Identifier for the account type within the relevant source system
+          Account number
+        required: true
+        schema:
+          maxLength: 23
+          minLength: 23
+          type: string
+      requestBody:
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/CancelTrackingRequest'
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/CancelTrackingResponse'
+      x-codegen-request-body-name: CancelTracking
+components:
+  schemas:
+    CancelTrackingRequest:
+      required:
+      - creditTrackingStrikeDate
+      - paymentId
+      - sourceSystem
+      type: object
+      properties:
+        creditTrackingStrikeDate:
+          type: string
+          format: date
+        paymentId:
+          $ref: '#/components/schemas/PaymentId'
+        sourceSystem:
+          $ref: '#/components/schemas/System_Type'
+    CancelTrackingResponse:
+      required:
+      - resultSet
+      type: object
+      properties:
+        resultSet:
+          $ref: '#/components/schemas/ResultSet'
+        accountType:
+          maxLength: 3
+          minLength: 3
+          type: string
+        accountNo:
+          $ref: '#/components/schemas/AccountNo'
+        paymentId:
+          $ref: '#/components/schemas/PaymentId'
+        sourceSystem:
+          $ref: '#/components/schemas/System_Type'
+        creditTrackingStrikeDate:
+          type: string
+          format: date
+    AccountNo:
+      type: string
+      description: Unique Identifier for an account that is part of the transfer.
+    PaymentId:
+      type: string
+    GetAccountFinancialStatusRequest:
+      required:
+      - transactionValidationInstruction
+      type: object
+      properties:
+        paymentType:
+          $ref: '#/components/schemas/CodeDescription_Type'
+        transactionValidationInstruction:
+          $ref: '#/components/schemas/TransactionValidationInstruction_Type'
+        externalChannel:
+          $ref: '#/components/schemas/CodeDescription_Type'
+        productSystem:
+          $ref: '#/components/schemas/ProductSystem_Type'
+        tranCodeSourceSystem:
+          $ref: '#/components/schemas/System_Type'
+        unpaidPayment:
+          $ref: '#/components/schemas/UnpaidPayment_Type'
+        clientIdentification:
+          $ref: '#/components/schemas/ClientIdentifications'
+        additionalInformation:
+          $ref: '#/components/schemas/AdditionalInformation'
+    AdditionalInformation:
+      type: array
+      items:
+        $ref: '#/components/schemas/AdditionalProperty'
+    AdditionalProperty:
+      type: object
+      properties:
+        context:
+          maxLength: 100
+          minLength: 100
+          type: string
+        value:
+          maxLength: 100
+          minLength: 100
+          type: string
+      description: |-
+        A property-value pair representing an additional characteristics of the entitity, e.g. a product feature or another characteristic for which there is no matching property in schema.org.
+        Note: Publishers should be aware that applications designed to use specific schema.org properties (e.g. http://schema.org/width, http://schema.org/color, http://schema.org/gtin13, ...) will typically expect such data to be provided using those properties, rather than using the generic property/value mechanism
+    TransactionValidationInstruction_Type:
+      required:
+      - transactionEffect
+      - transactionValidationType
+      type: object
+      properties:
+        transactionValidationType:
+          $ref: '#/components/schemas/CodeDescription_Type'
+        transactionType:
+          $ref: '#/components/schemas/CodeDescription_Type'
+        transactionAmount:
+          $ref: '#/components/schemas/Amount_Type'
+        transactionEffect:
+          $ref: '#/components/schemas/TransactionEffect'
+        entryClassificationType:
+          $ref: '#/components/schemas/CodeDescription_Type'
+        interbankTransactionFlag:
+          type: boolean
+    TransactionEffect:
+      type: object
+      properties:
+        value:
+          maxLength: 3
+          minLength: 3
+          type: string
+      description: "It is used to determine where to put the amount - which column\
+        \ (sign) for transaction instruction request.\r\n"
+    ClientIdentification:
+      type: object
+      properties:
+        clientIdentifier:
+          $ref: '#/components/schemas/ClientIdentifier'
+        clientIdType:
+          $ref: '#/components/schemas/CodeDescription_Type'
+    ClientIdentifier:
+      maxLength: 36
+      minLength: 36
+      type: string
+      description: "This identifier contains the unique number or code used to uniquely\
+        \ or form part of a unique identifier used to identify a business object at\
+        \ an enterprise level.&lt;br&gt;For Example, a FinancialTransactionCard contains\
+        \ both a Card Number and a CCV number.&lt;br&gt;This Identifier is used in\
+        \ conjunction with its EnterpriseIdentifier subclass. The EnterpriseIdentifier\
+        \ subclass contains a enterpriseIdType which must be used to specify the type\
+        \ of the identifier.&lt;br&gt;For Example, FinancialDocumentIdentifier.enterpriseIdType.FinTransCardCCV.\
+        \ FinancialDocumentIdentifier inherits from EnterpriseIdentifier."
+    Amount_Type:
+      type: object
+      properties:
+        amount:
+          type: number
+          description: Amount
+          format: decimal
+        currency:
+          maxLength: 3
+          minLength: 3
+          type: string
+          description: |-
+            Identifies the actual denomination of a Currency Amount, such as US Dollars, Euro, Pounds Sterling, Bhat, Pesos, Escudos, Lira, etc. Allowed Values:
+            - USD
+            - EUR
+            - AUD
+            - CHF
+            - DKK
+            - JPY
+            - NOK
+            - RUR
+            - SEK
+            - INR
+            - AED
+            - AFN
+            - ALL
+            - AMD
+            - ANG
+            - AOA
+            - ARS
+            - AWG
+            - AZN
+            - BAM
+            - BBD
+            - BDT
+            - BGN
+            - BHD
+            - BIF
+            - BMD
+            - BND
+            - BOB
+            - BOV
+            - BRL
+            - BSD
+            - BTN
+            - BWP
+            - BYR
+            - BZD
+            - CAD
+            - CDF
+            - CHE
+            - CLF
+            - CLP
+            - CNY
+            - COP
+            - COU
+            - CRC
+            - CUC
+            - CUP
+            - CVE
+            - CZK
+            - DJF
+            - DOP
+            - DZD
+            - EGP
+            - ERN
+            - ETB
+            - FJD
+            - FKP
+            - GBP
+            - GEL
+            - GHS
+            - GIP
+            - GMD
+            - GNF
+            - GTQ
+            - GYD
+            - HKD
+            - HNL
+            - HTG
+            - HUF
+            - IDR
+            - ILS
+            - IQD
+            - IRR
+            - ISK
+            - JMD
+            - JOD
+            - KES
+            - KGS
+            - KHR
+            - KMF
+            - KPW
+            - KRW
+            - KWD
+            - KYD
+            - KZT
+            - LAK
+            - LBP
+            - LKR
+            - LRD
+            - LSL
+            - LTL
+            - LVL
+            - LYD
+            - MAD
+            - MDL
+            - MGA
+            - MKD
+            - MMK
+            - MNT
+            - MOP
+            - MRO
+            - MUR
+            - MVR
+            - MWK
+            - MXN
+            - MXV
+            - MYR
+            - MZN
+            - NAD
+            - NGN
+            - NIO
+            - NPR
+            - NZD
+            - OMR
+            - PAB
+            - PEN
+            - PGK
+            - PHP
+            - PKR
+            - PLN
+            - PYG
+            - QAR
+            - RON
+            - RSD
+            - RUB
+            - RWF
+            - SAR
+            - SBD
+            - SCR
+            - SDG
+            - SGD
+            - SHP
+            - SLL
+            - SOS
+            - SRD
+            - STD
+            - SYP
+            - SZL
+            - THB
+            - TJS
+            - TMT
+            - TND
+            - TOP
+            - TRY
+            - TTD
+            - TWD
+            - TZS
+            - UAH
+            - UGX
+            - USN
+            - USS
+            - UYU
+            - UZS
+            - VEF
+            - VND
+            - VUV
+            - WST
+            - XAF
+            - XAG
+            - XAU
+            - XBA
+            - XBB
+            - XBC
+            - XBD
+            - XCD
+            - XDR
+            - XFU
+            - XOF
+            - XPD
+            - XPF
+            - XPT
+            - XTS
+            - XXX
+            - YER
+            - ZAR
+            - ZMK
+            - ZWL
+    System_Type:
+      type: object
+      properties:
+        systemId:
+          maxLength: 10
+          minLength: 1
+          type: string
+          description: The unique identifier of the System.
+    CodeDescription_Type:
+      type: object
+      properties:
+        code:
+          type: string
+    ClientIdentifications:
+      type: array
+      items:
+        $ref: '#/components/schemas/ClientIdentification'
+    TransactionAccumulation_Type:
+      type: object
+      properties:
+        accumulationPreferenceType:
+          $ref: '#/components/schemas/CodeDescription_Type'
+        accumulationNarrative:
+          maxLength: 1020
+          minLength: 1
+          type: string
+          description: This field will contain the Accumulation narrative and it is
+            a mandatory field in case accumulation flag is set to "Y".
+        accumulationPreferences:
+          $ref: '#/components/schemas/AccumulationPreferences'
+        sourceSystem:
+          $ref: '#/components/schemas/System_Type'
+        accumulationBatchDate:
+          maxLength: 10
+          minLength: 10
+          type: string
+    AccumulationPreferences:
+      minItems: 0
+      type: array
+      items:
+        $ref: '#/components/schemas/Preference_Type'
+    Preference_Type:
+      type: object
+      properties:
+        preferenceType:
+          $ref: '#/components/schemas/CodeDescription_Type'
+        preferenceValue:
+          maxLength: 200
+          minLength: 200
+          type: string
+    AccountTransactionSource:
+      required:
+      - sourceSystemID
+      type: object
+      properties:
+        sourceSystemID:
+          maxLength: 6
+          minLength: 1
+          type: string
+          description: |-
+            The source system identifier
+            Channel ID
+        accountTransactionID:
+          maxLength: 36
+          minLength: 36
+          type: string
+          description: |-
+            The transaction identifier used by the source system
+            Original Transaction GUID
+      description: The source system which is responsible for this transaction
+    ActionItem:
+      type: object
+      properties:
+        action:
+          maxLength: 3
+          minLength: 3
+          type: string
+          description: |-
+            Action which may or may not be available
+            Debit/credit valid indicator
+            UNK = Not known
+            DBT = Debit transactions allowed only
+            CRT = Credit transactions allowed only
+            CAD = Both debit and credit transactions allowed
+      description: The financial actions that can be taken against the specified account
+    ActionList:
+      maxItems: 4
+      minItems: 0
+      type: array
+      description: A list of financial actions that can be taken against the specified
+        account
+      items:
+        $ref: '#/components/schemas/ActionItem'
+    CreateFinTranRq:
+      type: object
+      properties:
+        createFinTran:
+          $ref: '#/components/schemas/CreateFinTran'
+      additionalProperties: false
+    CreateFinTranRs:
+      required:
+      - resultSet
+      type: object
+      properties:
+        resultSet:
+          $ref: '#/components/schemas/ResultSet'
+        derivedBalance:
+          $ref: '#/components/schemas/Value_Type'
+    Value_Type:
+      type: object
+      properties:
+        value:
+          type: number
+          format: decimal
+        creditDebitIndicator:
+          type: string
+        unitOfMeasure:
+          type: string
+    UnpaidPayment_Type:
+      type: object
+      properties:
+        unpaidPaymentReasonType:
+          $ref: '#/components/schemas/CodeDescription_Type'
+        updateNarrative:
+          type: string
+        unpaidOriginatingBranchCode:
+          type: string
+          description: Unpaid Originated Branch
+    AccountTransaction:
+      required:
+      - additionalInformation
+      - description
+      - transactionAmount
+      - transactionDate
+      - transactionEffect
+      - transactionId
+      - transactionType
+      type: object
+      properties:
+        transactionId:
+          maxLength: 36
+          minLength: 36
+          type: string
+          description: Unique transaction GUID across all transactions.
+        transactionDate:
+          type: string
+          description: Date on which the transaction / query is triggered. This field
+            is to ensure miR is picking up the correct fee configured for that date.
+            This is a non-mandatory field. Format 2022-03-23T12:07:42.353Z
+          format: date-time
+        transactionType:
+          $ref: '#/components/schemas/CodeDescription_Type'
+        transactionEffect:
+          maxLength: 3
+          minLength: 3
+          type: string
+          description: "Distinguishes between Entries based on whether they increase\
+            \ or decrease the balance of an Account\nAllowed Values : \n�DRO� - Debit\n\
+            �CRO� - Credit \n�DRR� - Debit reversal \n�CRR� - Credit reversal "
+        description:
+          maxLength: 1020
+          minLength: 1020
+          type: string
+          description: Transaction narrative
+        transactionAmount:
+          $ref: '#/components/schemas/Amount_Type'
+        additionalInformation:
+          maxLength: 3
+          minLength: 3
+          type: string
+          description: "Additional Information for a Transaction. \n�ALL� - Apply\
+            \ all checks (use as default) \n�BSD� - Bypass account status, block debit\
+            \ order and insufficient funds checks \n�BAL� - Bypass Insufficient Funds\
+            \ check"
+        accountTransactionSource:
+          $ref: '#/components/schemas/AccountTransactionSource'
+        transactionCashAmount:
+          $ref: '#/components/schemas/Amount_Type'
+        transactionGroupId:
+          maxLength: 36
+          minLength: 36
+          type: string
+          description: This is an Identifier to group related  transactions togeher.
+        transactionReservationType:
+          $ref: '#/components/schemas/CodeDescription_Type'
+        interBankTransactionFlag:
+          type: boolean
+          description: Interbank Indicator. Should be set to �Y� if transaction involves
+            other Bank�s account.
+        entryClassificationType:
+          $ref: '#/components/schemas/CodeDescription_Type'
+        transactionPaymentModeType:
+          $ref: '#/components/schemas/CodeDescription_Type'
+        chequeNumber:
+          type: number
+          format: int32
+        saswitchFlag:
+          type: boolean
+        transactionPaymentDirectionType:
+          $ref: '#/components/schemas/CodeDescription_Type'
+      description: Identifies a Transaction that has an impact on an Account Balance.
+        The net sum of all PostingEntrys of a Transaction must be zero in each currency
+        involved in the Transaction.
+    CreateFinTran:
+      required:
+      - accountTransaction
+      - clientIdentification
+      - externalChannel
+      - paymentType
+      - productSystem
+      - sourceSystem
+      type: object
+      properties:
+        accountTransaction:
+          $ref: '#/components/schemas/AccountTransaction'
+        userIdentification:
+          $ref: '#/components/schemas/UserIdentificationList'
+        productSystem:
+          $ref: '#/components/schemas/ProductSystem_Type'
+        sourceSystem:
+          $ref: '#/components/schemas/System_Type'
+        transactionAccumulation:
+          $ref: '#/components/schemas/TransactionAccumulation_Type'
+        unpaidPayment:
+          $ref: '#/components/schemas/UnpaidPayment_Type'
+        paymentType:
+          $ref: '#/components/schemas/CodeDescription_Type'
+        externalChannel:
+          $ref: '#/components/schemas/CodeDescription_Type'
+        clientIdentification:
+          $ref: '#/components/schemas/ClientIdentifications'
+        tranCodeSourceSystem:
+          $ref: '#/components/schemas/System_Type'
+        chargeAccountTenantCode:
+          type: string
+        chargeAccount:
+          $ref: '#/components/schemas/AccountId_Type'
+        additionalInformation:
+          $ref: '#/components/schemas/AdditionalInformation'
+    AccountId_Type:
+      required:
+      - accountNumber
+      type: object
+      properties:
+        accountType:
+          type: string
+        accountNumber:
+          type: string
+        accountSortCode:
+          type: integer
+    GetAcctFinStatusRs:
+      required:
+      - resultSet
+      type: object
+      properties:
+        resultSet:
+          $ref: '#/components/schemas/ResultSet'
+        partyId:
+          type: string
+        actionList:
+          $ref: '#/components/schemas/ActionList'
+        derivedBalance:
+          $ref: '#/components/schemas/Value_Type'
+    ProductSystem_Type:
+      type: object
+      properties:
+        productSystemID:
+          maxLength: 6
+          minLength: 1
+          type: string
+          description: "The ID of the product source system where this product is\
+            \ managed. Management of a product implies management of the instances\
+            \ of a product, from the time the product instance is activated to the\
+            \ time it is deactivated, if applicable."
+      description: "A product source system where this product is managed. Management\
+        \ of a product implies management of the instances of a product, from the\
+        \ time the product instance is activated to the time it is deactivated, if\
+        \ applicable."
+    ResultSet:
+      required:
+      - resultCode
+      type: object
+      properties:
+        resultCode:
+          maxLength: 4
+          minLength: 4
+          type: string
+          description: A short code indicating the outcome of the operation. The list
+            of codes will be defined per service
+        resultDescription:
+          maxLength: 100
+          minLength: 1
+          type: string
+          description: A detailed description explaining the outcome of the operation.
+            It must be used to return messages that can help troubleshooting error
+            scenarios.
+      description: "0000  Successful\n0001  INVALID TRANSACTION VALIDATION TYPE\n\
+        0002  Invalid account type\n0003  SORT CODE INVALID\n0004  Invalid account\
+        \ number\n0005  Invalid transaction amount\n0006  ACCOUNT NOT FOUND\n0007\
+        \  ACCOUNT VALID,INSUFFICIENT FUNDS\n0009  Invalid transaction effect\n0010\
+        \  SYSTEM UNAVAILABLE                      \n0015  TRAN CODE INVALID     \
+        \ \n0016  ACCOUNT OPENED TODAY\n0017  Invalid transaction date\n0023  Invalid\
+        \ channel ID\n0026  ACCOUNT NOT VALID                                 \n0028\
+        \  ACCOUNT INVALID. GROUP-CAR                        \n0031  Invalid recalculate\
+        \ interest flag\n0032  Invalid Transaction Code Block\n0033  Invalid Common\
+        \ Block\n0034  Invalid Accumulations Block\n0036  Invalid Credit tracking\
+        \ randomization key\n0042  Invalid transaction ID\n0043  Invalid transaction\
+        \ narrative\n0044  Invalid original tran GUID\n0045  Invalid transaction authorisation\
+        \ type\n0046  Invalid Source Branch\n0047  CREDITS NOT ALLOWED\n0051  ACCOUNT\
+        \ IS RESTRICTED\n0052  DEPOSIT DOESN'T MATCH THE EXPECTED AMOUNT\n0053  ADDITIONAL\
+        \ DEPOSITS ARE NOT ALLOWED\n0054  AMOUNT IS LESS THAT MINIMUM ALLOWED ADDITIONAL\
+        \ DEPOSIT\n0055  AMOUNT EXCEEDED THE AVAILABLE LIMIT\n0101  Technical error:\
+        \ DCRRAC write error\n0102  Invalid account type\n0103  Technical error: DCRRAC\
+        \ unavailable\n0104  Invalid account number\n0105  Invalid amount\n0106  Account\
+        \ doesn't exist\n0107  Insufficient funds\n0108  Technical error: NMPPYGPM\
+        \ link error\n0109  Invalid debit/credit indicator\n0110  Technical error:\
+        \ Application program error\n0111  Technical error: DCRRAC read error\n0112\
+        \  Technical error: Invalid Waste data\n0113  Account Not Found\n0115  Invalid\
+        \ transaction code\n0116  Technical error: MP68 SQL error\n0117  Invalid source\
+        \ branch\n0118  Invalid channel category\n0119  Invalid trigger\n0120  Invalid\
+        \ initiator\n0121  Invalid originator code\n0122  Invalid business service\n\
+        0123  Invalid international channel\n0124  Invalid service type\n0126  Invalid\
+        \ service code\n0127  Invalid date\n0128  Invalid branch number\n0129  Amount\
+        \ too large for Waste\n0130  Debit orders blocked\n0131  Technical error:\
+        \ MP60 SQL error\n0132  Invalid status\n0133  Technical error: DB2 error\n\
+        0134  Technical error: ZPSEND error\n0135  Technical error: Internal error\n\
+        0136  Technical error: Invalid interface copybook\n0137  Technical error:\
+        \ Sub-module not found\n0138  Technical error: Sub-module error\n0139  Technical\
+        \ error: DCRRAC deadlock\n0140  Technical error: MultiCompany error\n0141\
+        \  Technical error: Fees error\n0142  Disallowed\n0143  Unpostable\n0144 \
+        \ Technical error: Invalid Log Waste flag\n0145  Invalid entry class\n0146\
+        \  Invalid company\n0147  Invalid country\n0148  Invalid currency\n0149  MP405\
+        \ FOR DEFAULT TXN-CODE NOTFOUND \n0150  NMPPRPRQ: INVALID CHILD GUID, NMPPRPRQ:\
+        \ INVALID PARENT GUID,NMPPRPRQ: INVALID ITEM GUID,  NMPPRPRQ: INVALID ORIG\
+        \ GUID,NMPPRPRQ: INVALID GROUP GUID\n0151  NMPPRPRQ: DUPLICATE ITEM GUID\n\
+        0152  NMPPYMIO:  TRAN TO REVERSE NOT FOUND\n0153  NMPPYGPM: INVALID TRANSACTION\
+        \ PARMS\n0154  NMPPYGPM: INVALID PRODUCT TYPE\n0229  ACCOUNT VALID: WITHDRAWALS\
+        \ ARE NOT ALLOWED\n0219  ACCOUNT VALID: DEPOSITS NOT ALLOWED\n0230  ACCOUNT\
+        \ NOT FICA COMPLIANT                        \n0231  ACCOUNT VALID. STATUS:\
+        \ ACCOUNT HOLDER DECEASED      \n0232  ACCOUNT VALID. STATUS: PARTNERSHIP\
+        \ DISSOLVED        \n0233  ACCOUNT VALID. STATUS: COURT ORDER RECEIVED   \
+        \      \n0234  ACCOUNT VALID. STATUS: BAD DEBTS TO BE WRITTEN OFF  \n0235\
+        \  ACCOUNT VALID. STATUS: OPERATIONS SUSPENDED         \n0236  ACCOUNT VALID.\
+        \ STATUS: ACCOUNT TO BE CLOSED         \n0237  ACCOUNT VALID. STATUS: BAD/CLASSIFIED\
+        \ DEBT          \n0238  ACCOUNT VALID. STATUS: REFER ALL OPERATIONS      \
+        \   \n0240  ACCOUNT VALID. STATUS: DORMANT ACCOUNT              \n0241  ACCOUNT\
+        \ VALID. STATUS: ACCOUNT TRANSFERRED TO ANOTHER NEDBANK BRANCH      \n0242\
+        \  ACCOUNT VALID. STATUS: ACCOUNT CALLED UP            \n0243  ACCOUNT VALID.\
+        \ STATUS: ACCOUNT HANDED OVER          \n0244  ACCOUNT VALID. STATUS: BAD\
+        \ DEBT. REFER ALL OPERATION\n0246  ACCOUNT VALID. STATUS: ACCOUNT CLOSED \
+        \              \n0249  ACCOUNT VALID. STATUS: NURSING ACCOUNT            \
+        \  \n0250  ACCOUNT VALID. STATUS: SPECIALISED                  \n0251  ACCOUNT\
+        \ VALID. STATUS: ADMIN ORDER                  \n0252  ACCOUNT VALID. STATUS:\
+        \ INSOLVENT                    \n0253  ACCOUNT VALID. STATUS: ABSCONDED (INTERNATIONALLY)\n\
+        9999  TECHNICAL ERROR ON CALL"
+    UserIdentificationList:
+      maxItems: 2
+      minItems: 0
+      type: array
+      description: |-
+        A list of user of involved with the transaction
+        userIdentifier contains the employee number for the specified user type where userIdType =
+        "Approving Employee Number" - Employee 2 (Approver)
+        "Capturing Employee Number" - Employee 1 (Capturer)
+      items:
+        $ref: '#/components/schemas/UserIdentification'
+    UserIdentification:
+      type: object
+      properties:
+        userIdType:
+          maxLength: 30
+          minLength: 30
+          type: string
+          description: |-
+            The type of user identifier.  eg. "nedbankId, userId, profileNumber" etc. Allowed values:
+            - NedbankId
+            - ProfileNumber
+            - UserId
+            - PermanentUserId
+            - ProfileName
+            - GroupNumber
+        userIdentifier:
+          maxLength: 8
+          minLength: 8
+          type: string
+          description: A unique identifier for the user
+    CreateFinTranRequest:
+      required:
+      - createFinTranRq
+      type: object
+      properties:
+        createFinTranRq:
+          $ref: '#/components/schemas/CreateFinTranRq'
+    GetAcctFinStatusResponse:
+      required:
+      - getAcctFinStatusRs
+      type: object
+      properties:
+        getAcctFinStatusRs:
+          $ref: '#/components/schemas/GetAcctFinStatusRs'
+    CreateFinTranResponse:
+      required:
+      - createFinTranRs
+      type: object
+      properties:
+        createFinTranRs:
+          $ref: '#/components/schemas/CreateFinTranRs'
+  parameters:
+    AcceptLanguage:
+      name: Acccept-Language
+      in: header
+      description: The accepted language of the user and country code
+      required: true
+      schema:
+        type: string
+    GlobalTransactionId:
+      name: x-ned-transaction-id
+      in: header
+      description: a transaction id initiated from the front-end
+      required: true
+      schema:
+        type: string
+        format: uuid
+    TenantCode:
+      name: x-ned-tenant-code
+      in: header
+      description: "For example: ZANBL = Nedbank Limited, ZADIL = Depfin Investments\
+        \ Proprietary Limited"
+      required: true
+      schema:
+        type: string
+  securitySchemes:
+    API Key:
+      type: apiKey
+      description: ""
+      name: X-IBM-Client-Id
+      in: header
+    API Secret:
+      type: apiKey
+      description: ""
+      name: X-IBM-Client-Secret
+      in: header
+x-original-swagger-version: "2.0"
