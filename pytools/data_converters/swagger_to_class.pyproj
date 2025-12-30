@@ -28,6 +28,7 @@
     <Compile Include="swagger_to_class.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="openapi.yaml" />
     <Content Include="swagger.yaml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

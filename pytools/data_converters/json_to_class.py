@@ -5,7 +5,6 @@ import json
 from datetime import datetime
 import uuid
 import re
-import yaml.loader
 
 import argparse
 arg_parser = argparse.ArgumentParser(
@@ -127,7 +126,7 @@ def recurse(builder, class_name, input_dict, depth, doset=True):
         input_field = input_dict[input_entry]
         if fixed_name not in classes[class_name]: 
             classes[class_name].append(fixed_name)
-        if input_entry not in annotations:
+        if fixed_name not in annotations:
             annotations[fixed_name] = get_type(input_field, input_entry)
         else:
             check_type(annotations, input_field, input_entry)
