@@ -5,7 +5,7 @@
     <ProjectGuid>e7a0444e-7df2-4ce5-8e53-d241a9709c24</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>swagger_to_code.py</StartupFile>
+    <StartupFile>swagger_to_class.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -13,8 +13,9 @@
     <Name>swagger_to_class</Name>
     <RootNamespace>pytools</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>finreq.yaml finreq.py -v -u finreq_usage.py -x</CommandLineArguments>
+    <CommandLineArguments>swagger.yaml create_fin_tran.py -p CreateFinancialTransaction</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+    <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
