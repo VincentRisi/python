@@ -65,6 +65,7 @@ class Builder:
     classes: dict
     annotations: dict
     depths: dict
+    renames: dict
     max_depth: int
     usage: list
     usefile: str
@@ -72,6 +73,7 @@ class Builder:
        self.classes = dict()
        self.annotations = dict()
        self.depths = dict()
+       self.renames = dict()
        self.max_depth = 0
        self.usage = list()
        self.usefile = str
@@ -94,6 +96,16 @@ def do_expand(uses_io, dotted, fixed_name, input_field):
         for key in entry_dict:
             uses_io.write(f'{dotted}.{fixed_name}[{i}].{key} = {quoted(entry_dict[key])}\n')
 
+def check_var(input_entry):
+    if re.match('^[a-zA-Z0-9_]$', input_entry):
+         return input_entry
+    result = ''
+    for ch in input_entry:
+        if ch in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_":
+            result += ch
+        elif ch == '-':
+            result += '_'
+    return result
 
 def recurse(builder, class_name, input_dict, depth, doset=True):
     verbose = args.verbose
@@ -121,8 +133,11 @@ def recurse(builder, class_name, input_dict, depth, doset=True):
     if class_name not in classes:
        classes[class_name] = []
        depths[class_name] = depth
+    renames = {}
     for input_entry in input_dict:
-        fixed_name = input_entry.replace('-','_')
+        fixed_name = check_var(input_entry)
+        if fixed_name != input_entry:
+            renames[fixed_name] = input_entry
         input_field = input_dict[input_entry]
         if fixed_name not in classes[class_name]: 
             classes[class_name].append(fixed_name)
@@ -149,7 +164,8 @@ def recurse(builder, class_name, input_dict, depth, doset=True):
                 #break
         elif doset:
             if uses_io != None: uses_io.write(f'{dotted(usage)}.{fixed_name} = {quoted(input_field)}\n')
-
+    if len(renames) > 0:
+        builder.renames[class_name] = renames
 inits = {}
 inits['str'] = "''"
 inits['int'] = 0
@@ -183,6 +199,9 @@ def build_classes(code, builder):
                             code.write(f'        self.{field_name} = {annot}()\n')
                     else:
                         code.write(f'        self.{field_name} = {inits[annot]}\n')
+                if class_entry in builder.renames:
+                    value = builder.renames[class_entry]
+                    code.write(f'        self._renames = {value}\n')
                 code.write('\n')
         depth = depth - 1
 

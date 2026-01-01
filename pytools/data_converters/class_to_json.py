@@ -1,6 +1,15 @@
 from finreq_usage import finreq as main_class
 
 def expand_vars(class_var_dict):
+    if '_renames' in class_var_dict:
+        renames = class_var_dict['_renames']
+        del class_var_dict['_renames']
+        for key in renames:
+            new_name = renames[key]
+            if key in class_var_dict:
+                value = class_var_dict[key]
+                del class_var_dict[key]
+                class_var_dict[new_name] = value
     for item in class_var_dict:
         item_type = repr(type(class_var_dict[item]))
         if 'list' in item_type:

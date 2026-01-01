@@ -141,6 +141,7 @@ class HeaderClass:
         self.Acccept_Language = ''
         self.x_ned_tenant_code = ''
         self.x_ned_transaction_id = ''
+        self._renames = {'Acccept_Language': 'Acccept-Language', 'x_ned_tenant_code': 'x-ned-tenant-code', 'x_ned_transaction_id': 'x-ned-transaction-id'}
 
 class PathClass:
     accountnumber: int
