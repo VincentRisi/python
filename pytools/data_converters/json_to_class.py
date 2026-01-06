@@ -33,7 +33,7 @@ def get_type(input_field, input_entry):
     if input_type == 'dict':
         return make_class_name(input_entry)
     elif input_type == 'list':
-        return f'[ {make_class_name(input_entry)} ] # type: ignore'
+        return f'list[{make_class_name(input_entry)}]'
     elif re.match('^-?[0-9]+$', input_field) != None:
         return 'int'
     elif re.match('^-?[0-9]*.[0-9]+$', input_field) != None:

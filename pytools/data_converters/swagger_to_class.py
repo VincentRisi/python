@@ -12,6 +12,7 @@ arg_parser.add_argument('infile')
 arg_parser.add_argument('outfile')
 arg_parser.add_argument('-p', '--path', type=str)
 args = arg_parser.parse_args()
+print (args.path)
 
 class Field:
     def __init__(self):
@@ -30,10 +31,26 @@ class Struct: #in openapi components.schemas
         self.ref = None
         self.fields = []
 
-def load_structures(structures, definitions):
-    def clear_ref(value):
-        value = value.replace('#/definitions/','').replace('#/components/schemas/','')
-        return value
+def clear_ref(value):
+    value = value.replace('#/definitions/','').replace('#/components/schemas/','')
+    return value
+
+def process_parameters(structures, parameters):
+    for field in parameters:
+        struct = Struct()
+        struct.name = field['name'] if 'name' in field else field
+
+def process_paths(structures, paths):
+    for command in paths:
+        activity = paths[command]
+        if not 'post' in activity:
+            continue
+        post = activity['post']
+        operationId = post['operationId']
+        if operationId != args.path:
+            continue
+        
+def process_definitions(structures, definitions):
     for def_name in definitions:
         struct = Struct()
         structures[def_name] = struct
@@ -60,13 +77,6 @@ def load_structures(structures, definitions):
                 elif key == 'maxLength': field.maxLength = value
                 elif key == '$ref': field.ref = clear_ref(value)
 
-def process_paths(structures, paths):
-    for command in paths:
-        activity = paths[command]
-        for rest_type in activity:
-            first = activity[rest_type]
-
-
 def main():
     if not os.path.exists(args.infile):
         print (f'ERROR: {args.infile} does not exist.')
@@ -83,12 +93,15 @@ def main():
     elif extension in ['.yaml']:
         data_dict = yaml.safe_load(data_string)
     structures = {}
+    if 'parameters' in data_dict:
+        parameters = data_dict['parameters']
+        process_parameters(structures, parameters)
     if 'paths' in data_dict:
         paths = data_dict['paths']
         process_paths(structures, paths)
     if 'definitions' in data_dict:
         definitions = data_dict['definitions']
-        load_structures(structures, definitions)    
+        process_definitions(structures, definitions)    
     return True
 
 if __name__ == '__main__':

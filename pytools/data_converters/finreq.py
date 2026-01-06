@@ -97,16 +97,16 @@ class TranCodeSourceSystem:
 
 class TransactionAccumulation:
     accumulationPreferenceType: AccumulationPreferenceType
-    accumulationPreferences: [ AccumulationPreferences ] # type: ignore
+    accumulationPreferences: list[AccumulationPreferences]
     sourceSystem: SourceSystem
     def __init__(self):
         self.accumulationPreferenceType = AccumulationPreferenceType()
-        self.accumulationPreferences = list()
+        self.accumulationPreferences = list[AccumulationPreferences]()
         self.sourceSystem = SourceSystem()
 
 class CreateFinTran:
     accountTransaction: AccountTransaction
-    clientIdentification: [ ClientIdentification ] # type: ignore
+    clientIdentification: list[ClientIdentification]
     externalChannel: ExternalChannel
     paymentType: PaymentType
     productSystem: ProductSystem
@@ -115,7 +115,7 @@ class CreateFinTran:
     transactionAccumulation: TransactionAccumulation
     def __init__(self):
         self.accountTransaction = AccountTransaction()
-        self.clientIdentification = list()
+        self.clientIdentification = list[ClientIdentification]()
         self.externalChannel = ExternalChannel()
         self.paymentType = PaymentType()
         self.productSystem = ProductSystem()
