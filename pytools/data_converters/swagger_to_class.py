@@ -94,14 +94,20 @@ def load_data(data_dict):
     paths = data_dict['paths']
     for key in paths:
         command_line = key
-        next_dict = paths[key]
-        if not 'post' in next_dict: continue
-        next_dict = next_dict['post']
-        if not 'operationId' in next_dict: continue
-        operationId = next_dict['operationId']
+        ndict = paths[key]
+        if not 'post' in ndict: continue
+        ndict = ndict['post']
+        if not 'operationId' in ndict: continue
+        operationId = ndict['operationId']
         if operationId != args.path: continue
-        tags = next_dict['tags'] if 'tags' in next_dict else None 
-        parameters = next_dict['parameters'] if 'parameters' in next_dict else None 
+        tags = ndict['tags'] if 'tags' in ndict else None 
+        parameters = ndict['parameters'] if 'parameters' in ndict else None
+        for pdict in parameters:
+            if '$ref' in pdict:
+                ref = pdict['$ref']
+            else:
+                for field in pdict:
+                    pass
         break
     pass    
 
