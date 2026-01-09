@@ -13,57 +13,61 @@ arg_parser.add_argument('outfile')
 arg_parser.add_argument('-p', '--path', type=str)
 args = arg_parser.parse_args()
 
-def clear_ref(value):
-    value = value.replace('#/definitions/','').replace('#/components/schemas/','')
-    return value
+class Struct:
+    def __init__(self):
+        pass
 
 class Builder:
+    data_dict: dict
     fields: dict
     operationId: str
     tags: list[str]
+    
     def __init__(self):
         self.fields = dict()
         self.operationId = ''
+        self.structs = dict()
 
-def get_field(data_dict, ref):
-    array = ref.split('/')
-    if len(array) == 3:
-        field = data_dict[array[1]][array[2]]
-    elif len(array) == 4:
-        field = data_dict[array[1]][array[2]][array[3]]
-    return field
+    def get_field(self, ref):
+        array = ref.split('/')
+        if len(array) == 3:
+            field = self.data_dict[array[1]][array[2]]
+        elif len(array) == 4:
+            field = self.data_dict[array[1]][array[2]][array[3]]
+        return field
 
-class Struct():
-    pass
-def recurse_field(builder, data_dict, field):
-    struct = Struct()
-    for key in field:
-        setattr(struct, key, field[key])
-    pass
+    def recurse_field(self, field, depth=0):
+        struct = Struct()
+        for key in field:
+            setattr(struct, key, field[key])
+        self.structs[struct.name] = struct
+        if 'schema' in field:
+            ref = struct.schema['$ref']
+            inner_field = self.get_field(ref)
+            if 'type' in inner_field and inner_field['type'] == 'object':
+                properties = inner_field['properties']
+        #recurse_field(builder, data_dict, inner_field, depth+1)
 
-def load_data(builder, data_dict):
-    paths = data_dict['paths']
-    for key in paths:
-        command_line = key
-        ndict = paths[key]
-        if not 'post' in ndict: continue
-        ndict = ndict['post']
-        if not 'operationId' in ndict: continue
-        operationId = ndict['operationId']
-        if operationId != args.path: continue
-        tags = ndict['tags'] if 'tags' in ndict else [] 
-        builder.operationId = operationId
-        builder.tags = tags
-        parameters = ndict['parameters'] if 'parameters' in ndict else None
-        for pdict in parameters:
-            if '$ref' in pdict:
-                ref = pdict['$ref']
-                field = get_field(data_dict, ref)
-                recurse_field(builder, data_dict, field)
-            else:
-                recurse_field(builder, data_dict, pdict)
-        break
-    pass    
+    def load_data(self):
+        paths = self.data_dict['paths']
+        for key in paths:
+            self.command_line = key
+            ndict = paths[key]
+            if not 'post' in ndict: continue
+            ndict = ndict['post']
+            if not 'operationId' in ndict: continue
+            self.operationId = ndict['operationId']
+            if self.operationId != args.path: continue
+            self.tags = ndict['tags'] if 'tags' in ndict else [] 
+            parameters = ndict['parameters'] if 'parameters' in ndict else None
+            for pdict in parameters:
+                if '$ref' in pdict:
+                    ref = pdict['$ref']
+                    field = self.get_field(ref)
+                    self.recurse_field(field)
+                else:
+                    self.recurse_field(pdict)
+            break
 
 def main():
     if not os.path.exists(args.infile):
@@ -74,24 +78,14 @@ def main():
         print (f'ERROR: {args.infile} is not JSON or YAML.')
         return False
     head, base = os.path.split(path)
+    builder = Builder()
     with open(args.infile, 'r') as ifile:
         data_string = ifile.read()
     if extension in ['.json']:
-        data_dict = json.loads(data_string)
+        builder.data_dict = json.loads(data_string)
     elif extension in ['.yaml']:
-        data_dict = yaml.safe_load(data_string)
-    builder = Builder()
-    load_data(builder, data_dict)
-##    structures = {}
-##    if 'parameters' in data_dict:
-##        parameters = data_dict['parameters']
-##        process_parameters(structures, parameters)
-##    if 'paths' in data_dict:
-##        paths = data_dict['paths']
-##        process_paths(structures, paths)
-##    if 'definitions' in data_dict:
-##        definitions = data_dict['definitions']
-##        process_definitions(structures, definitions)    
+        builder.data_dict = yaml.safe_load(data_string)
+    builder.load_data()
     return True
 
 if __name__ == '__main__':
