@@ -13,6 +13,18 @@ arg_parser.add_argument('outfile')
 arg_parser.add_argument('-p', '--path', type=str)
 args = arg_parser.parse_args()
 
+NAME = 'name'
+OBJECT = 'object'
+OPERATIONID = 'operationId'
+PARAMETERS = 'parameters'
+PATHS = 'paths'
+POST = 'post'
+PROPERTIES = 'properties' 
+REF = '$ref'
+SCHEMA = 'schema'
+TAGS = 'tags'
+TYPE = 'type'
+
 class Struct:
     def __init__(self):
         pass
@@ -40,29 +52,36 @@ class Builder:
         struct = Struct()
         for key in field:
             setattr(struct, key, field[key])
-        self.structs[struct.name] = struct
-        if 'schema' in field:
-            ref = struct.schema['$ref']
+            if key == NAME:
+               self.structs[struct.name] = struct
+        if SCHEMA in field:
+            ref = struct.schema[REF]
             inner_field = self.get_field(ref)
-            if 'type' in inner_field and inner_field['type'] == 'object':
-                properties = inner_field['properties']
+            if TYPE in inner_field: 
+                if inner_field[TYPE] == OBJECT:
+                    properties = inner_field[PROPERTIES]
+                    for prop_field in properties:
+                        if REF in properties[prop_field]:
+                            obj_ref = properties[prop_field][REF]
+                            object_field = self.get_field(obj_ref)
+                pass
         #recurse_field(builder, data_dict, inner_field, depth+1)
 
     def load_data(self):
-        paths = self.data_dict['paths']
+        paths = self.data_dict[PATHS]
         for key in paths:
             self.command_line = key
             ndict = paths[key]
-            if not 'post' in ndict: continue
-            ndict = ndict['post']
-            if not 'operationId' in ndict: continue
-            self.operationId = ndict['operationId']
+            if not POST in ndict: continue
+            ndict = ndict[POST]
+            if not OPERATIONID in ndict: continue
+            self.operationId = ndict[OPERATIONID]
             if self.operationId != args.path: continue
-            self.tags = ndict['tags'] if 'tags' in ndict else [] 
-            parameters = ndict['parameters'] if 'parameters' in ndict else None
+            self.tags = ndict[TAGS] if TAGS in ndict else [] 
+            parameters = ndict[PARAMETERS] if PARAMETERS in ndict else None
             for pdict in parameters:
-                if '$ref' in pdict:
-                    ref = pdict['$ref']
+                if REF in pdict:
+                    ref = pdict[REF]
                     field = self.get_field(ref)
                     self.recurse_field(field)
                 else:
