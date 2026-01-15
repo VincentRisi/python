@@ -11,19 +11,58 @@ arg_parser = argparse.ArgumentParser(
 arg_parser.add_argument('infile')
 arg_parser.add_argument('outfile')
 arg_parser.add_argument('-p', '--path', type=str)
+arg_parser.add_argument('-m', '--method', type=str, default='post')
 args = arg_parser.parse_args()
 
+APIKEY = 'apiKey'
+ARRAY = 'array'
+BASEPATH = 'basePath'
+CODE = 'code'
+CONSUMES = 'consumes'
+CONTACT = 'contact'
+DATE_TIME = 'date-time'
+DECIMAL = 'decimal'
+DELETE = 'delete'
+DESCRIPTION = 'description'
+EMAIL = 'email'
+GET = 'get'
+HEAD = 'HEAD'
+IN = 'in'
+INFO = 'info'
+INT32 = 'int32'
+INTEGER = 'integer'
+ITEMS = 'items'
+FALSE = 'false'
+FORMAT = 'format'
+MAXITEMS = 'maxItems'
+MAXLENGTH = 'minLength'
+MINITEMS = 'minItems'
+MINLENGTH = 'minLength'
 NAME = 'name'
+NUMBER = 'number'
 OBJECT = 'object'
 OPERATIONID = 'operationId'
+OPTIONS = 'options'
 PARAMETERS = 'parameters'
+PATCH = 'patch'
 PATHS = 'paths'
 POST = 'post'
+PRODUCES = 'produces'
 PROPERTIES = 'properties' 
+PUT = 'put'
 REF = '$ref'
+REQUIRED = 'required'
+RESPONSES = 'responses'
 SCHEMA = 'schema'
+SCHEMES = 'schemes'
+STRING = 'string'
+SUMMARY = 'summary'
 TAGS = 'tags'
+TITLE = 'title'
+TRUE = 'true'
 TYPE = 'type'
+VERSION = 'version'
+HTTP_METHODS = [GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS]
 
 class Struct:
     def __init__(self):
@@ -72,8 +111,8 @@ class Builder:
         for key in paths:
             self.command_line = key
             ndict = paths[key]
-            if not POST in ndict: continue
-            ndict = ndict[POST]
+            if not args.method in ndict: continue
+            ndict = ndict[args.method]
             if not OPERATIONID in ndict: continue
             self.operationId = ndict[OPERATIONID]
             if self.operationId != args.path: continue
@@ -95,6 +134,9 @@ def main():
     path, extension = os.path.splitext(args.infile)
     if not extension in ['.json', '.yaml']:
         print (f'ERROR: {args.infile} is not JSON or YAML.')
+        return False
+    if args.method not in HTTP_METHODS:
+        print (f'ERROR: {args.method} not a valid HTTP Method')
         return False
     head, base = os.path.split(path)
     builder = Builder()
