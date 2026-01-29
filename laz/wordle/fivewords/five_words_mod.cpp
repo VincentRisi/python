@@ -1,4 +1,6 @@
-﻿import FiveWordsModule;
+﻿module FiveWordsModule;
+struct WordSum;
+struct WordSumList;
 
 #define DIM(a)  (sizeof(a)/sizeof((a)[0]))
 
@@ -97,11 +99,11 @@ static void unique(WordSumList& wordsLeft, const WordSum& word, int turn)
 			seen[i] = letter;
 		}
 	}
-	TWordSum entry(word.word, word.sum, word.charbits);
+	WordSum entry(word.word, word.sum, word.charbits);
 	wordsLeft.add(entry);
 }
 
-static int wordsSumSort(TWordSum* A, TWordSum* B)
+static int wordsSumSort(WordSum* A, WordSum* B)
 {
 	int	n = A->sum - B->sum;
 	if (n != 0) return n;
@@ -111,10 +113,10 @@ static int wordsSumSort(TWordSum* A, TWordSum* B)
 	return n;
 }
 
-static bool isAnagram(int i, TWordSumList& words)
+static bool isAnagram(int i, WordSumList& words)
 {
 	// the word sum list is sorted in sum, mask, word order
-	TWordSum &currword = words[i], &prevword = words[i-1];
+	WordSum &currword = words[i], &prevword = words[i-1];
 	if (currword.sum != prevword.sum)
 		return false;
 	if (currword.charbits == prevword.charbits)
@@ -122,10 +124,10 @@ static bool isAnagram(int i, TWordSumList& words)
 	return false;
 }
 
-static int deriveFive(int turn, TWordSumList& words)
+static int deriveFive(int turn, WordSumList& words)
 {
 	int result = 0;
-	TWordSumList wordsLeft(words.getCount());
+	WordSumList wordsLeft(words.getCount());
 	noWords = turn;
 	if (turn > 4)
 	{
@@ -175,7 +177,7 @@ static void loadFromFile(const char* in_file_name, WordSumList& sumList)
 		{
 			memcpy(word, line.buff + p, 5);
 			countLetters(word);
-			TWordSum entry(word, 0, 0);
+			WordSum entry(word, 0, 0);
 			sumList.add(entry);
 			if (line.buff[p + 5] != ' ')
 				break;
@@ -189,7 +191,7 @@ static void loadFromCode(WordSumList& sumList)
 	{
 		const char* word = gameWords[i];
 		countLetters(word);
-		TWordSum entry(word, 0, 0);
+		WordSum entry(word, 0, 0);
 		sumList.add(entry);
 	}
 }
@@ -203,7 +205,7 @@ int main(int argc, char** argv)
 	else
 		LogFile = stdout;
 	double start = system_current_time();
-	TWordSumList sumList(noGameWords);
+	WordSumList sumList(noGameWords);
 	if (argc > 1)
 		loadFromFile(argv[1], sumList);
 	if (argc == 1)
