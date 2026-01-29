@@ -31,12 +31,12 @@ static double systemCurrentTime()
 
 typedef unsigned int uint;
 
-struct TWordSum
+struct WordSum
 {
 	char word[6];
 	int sum;
 	uint charbits;
-	TWordSum(const char* word, const int sum=0, const uint charbits=0)
+	WordSum(const char* word, const int sum=0, const uint charbits=0)
 	{
 		this->word[5] = 0;
 		memcpy(this->word, word, 5);
@@ -45,7 +45,7 @@ struct TWordSum
 	};
 };
 
-typedef TAddList<TWordSum, int> TWordSumList;
+typedef TAddList<WordSum, int> TWordSumList;
 
 static int distrib[26];
 
@@ -91,7 +91,7 @@ static void setDontUse()
 		charbitSet(dontuse, *setChar);
 }
 
-static void addUnique(TWordSumList& wordsLeft, const TWordSum& word, int turn)
+static void addUnique(TWordSumList& wordsLeft, const WordSum& word, int turn)
 {
 	char letter;
 	uint seen = 0;
@@ -107,11 +107,11 @@ static void addUnique(TWordSumList& wordsLeft, const TWordSum& word, int turn)
 			if (charbitSeen(forCharbits[j], letter))
 				return;
 	}
-	TWordSum entry(word.word, word.sum, word.charbits);
+	WordSum entry(word.word, word.sum, word.charbits);
 	wordsLeft.add(entry);
 }
 
-static int wordsSumSort(TWordSum* A, TWordSum* B)
+static int wordsSumSort(WordSum* A, WordSum* B)
 {
 	int n;
 	n = B->charbits - A->charbits;
@@ -125,7 +125,7 @@ static int wordsSumSort(TWordSum* A, TWordSum* B)
 static bool isAnagram(int i, TWordSumList& words)
 {
 	// the word sum list is sorted in sum, mask, word order
-	TWordSum &currword = words[i], &prevword = words[i-1];
+	WordSum &currword = words[i], &prevword = words[i-1];
 	if (currword.sum != prevword.sum)
 		return false;
 	if (currword.charbits == prevword.charbits)
@@ -215,7 +215,7 @@ static void loadFromFile(const char* inFileName, TWordSumList& sumList)
 		{
 			memcpy(word, line.buff + p, 5);
 			if (dropWord(word)) continue;
-			TWordSum entry(word, 0, 0);
+			WordSum entry(word, 0, 0);
 			sumList.add(entry);
 			if (line.buff[p + 5] != ' ')
 				break;
@@ -229,7 +229,7 @@ static void loadFromCode(TWordSumList& sumList)
 	{
 		const char* word = gameWords[i];
     if (dropWord(word)) continue;
-		TWordSum entry(word, 0, 0);
+		WordSum entry(word, 0, 0);
 		sumList.add(entry);
 	}
 }
