@@ -1,4 +1,4 @@
-﻿export module FiveWordsModule;
+﻿#pragma 
 
 #include <iostream>
 #include <string.h>
@@ -38,7 +38,7 @@ struct WordSumList
             if (list == 0)
             {
                 printf("Memory Allocation Failure for %ld\n", sizeof(rec) * allocCount);
-                return;
+                exit(1);
             }
         }
         list[count++] = rec;           // will shallow copy; if you have a copy constructor then beware of leaks
@@ -57,7 +57,7 @@ struct WordSumList
         else
         {
             printf("Deletion of non existing item %ld\n", index);
-            return;
+            exit(1);
         }
     }
     void clear()
@@ -69,7 +69,7 @@ struct WordSumList
         if (compare == 0)
         {
             printf("No sort/search compare function defined %d\n", count);
-            return;
+            exit(1);
         }
         WordSum* found = (WordSum*)bsearch(lookup, list, (int)count, sizeof(WordSum), (fptr)compare);
         if (found)
@@ -81,7 +81,7 @@ struct WordSumList
         if (compare == 0)
         {
             printf("No sort/search compare function defined %d\n", count);
-            return;
+            exit(1);
         }
         if (count > 1)
             qsort(list, (int)count, sizeof(WordSum), (fptr)compare);
@@ -91,7 +91,7 @@ struct WordSumList
         if (i >= count || i < 0)
         {
             printf("Accessing out of range %d", i);
-            return;
+            exit(1);
         }
         return list[i];
     }

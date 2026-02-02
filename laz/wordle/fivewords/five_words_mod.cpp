@@ -1,6 +1,6 @@
-﻿module FiveWordsModule;
-struct WordSum;
-struct WordSumList;
+﻿
+#include "five_words_list.h"
+
 
 #define DIM(a)  (sizeof(a)/sizeof((a)[0]))
 
@@ -72,17 +72,17 @@ static void sumWordLetters(const char* word, int& sumof, unsigned int& mask)
 	}
 }
 
-static void unique(WordSumList& wordsLeft, const WordSum& word, int turn)
+static void unique(WordSumList wordsLeft, const WordSum& wordsum, int turn)
 {
 	char letter;
 	char seen[6];
 	memset(seen, 0, 5);
 	bool has_vowel = false;
 	for (int i = 0; i < noWords; i++)
-		if (strncmp(word.word, forWords[i], 5) == 0) return;
+		if (strncmp(wordsum.word, forWords[i], 5) == 0) return;
 	for (int i = 0; i < 5; i++)
 	{
-		letter = word.word[i];
+		letter = wordsum.word[i];
 		if (turn == 0 && haschr(seen, i, letter))
 			return;
 		for (int j = 0; j < noWords; j++)
@@ -99,7 +99,7 @@ static void unique(WordSumList& wordsLeft, const WordSum& word, int turn)
 			seen[i] = letter;
 		}
 	}
-	WordSum entry(word.word, word.sum, word.charbits);
+	WordSum entry(wordsum.word, wordsum.sum, wordsum.charbits);
 	wordsLeft.add(entry);
 }
 
