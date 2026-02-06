@@ -8,7 +8,7 @@ using namespace std;
 
 #include "word_list.h"
 static int noGameWords = DIM(gameWords);
-static FILE* LogFile;
+//static FILE* LogFile;
 #if defined(_WIN32) || defined(_WIN64)
 #include<chrono>
 using namespace std::chrono;
@@ -132,7 +132,7 @@ static int deriveFive(int turn, WordSumList& words)
 	if (turn > 4)
 	{
 		for (int i = 0; i < turn; i++)
-			printf("%s\n", forWords[i]);
+			fprintf(stdout, "%s\n", forWords[i]);
 		return 5;
 	}
 	for (int i = 0; i < words.getCount(); i++)
@@ -144,7 +144,7 @@ static int deriveFive(int turn, WordSumList& words)
 	for (int i = 0; i < wordsLeft.getCount(); i++)
 	{
 		forWords[turn] = wordsLeft[i].word;
-		fprintf(LogFile, "turn %d word[%d]=%s %d\n", turn, i, wordsLeft[i].word, wordsLeft[i].sum);
+		fprintf(stdout, "turn %d word[%d]=%s %d\n", turn, i, wordsLeft[i].word, wordsLeft[i].sum);
 		result = deriveFive(turn + 1, wordsLeft);
 		if (result == 5)
 		{
@@ -200,10 +200,10 @@ int main(int argc, char** argv)
 {
 	int result;
 	vowels = "AIOUY";
-	if (argc > 2)
-		LogFile = fopen(argv[2], "wt");
-	else
-		LogFile = stdout;
+	//if (argc > 2)
+	//	LogFile = fopen(argv[2], "wt");
+	//else
+	//	LogFile = stdout;
 	double start = system_current_time();
 	WordSumList sumList(noGameWords);
 	if (argc > 1)
