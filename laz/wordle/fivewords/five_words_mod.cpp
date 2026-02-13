@@ -1,14 +1,13 @@
 ﻿
 #include "five_words_list.h"
 
-
 #define DIM(a)  (sizeof(a)/sizeof((a)[0]))
 
 using namespace std;
 
 #include "word_list.h"
 static int noGameWords = DIM(gameWords);
-//static FILE* LogFile;
+static FILE* logFile;
 #if defined(_WIN32) || defined(_WIN64)
 #include<chrono>
 using namespace std::chrono;
@@ -72,7 +71,7 @@ static void sumWordLetters(const char* word, int& sumof, unsigned int& mask)
 	}
 }
 
-static void unique(WordSumList wordsLeft, const WordSum& wordsum, int turn)
+static void unique(WordSumList& wordsLeft, const WordSum& wordsum, int turn)
 {
 	char letter;
 	char seen[6];
@@ -132,7 +131,7 @@ static int deriveFive(int turn, WordSumList& words)
 	if (turn > 4)
 	{
 		for (int i = 0; i < turn; i++)
-			fprintf(stdout, "%s\n", forWords[i]);
+			fprintf(logFile, "%s\n", forWords[i]);
 		return 5;
 	}
 	for (int i = 0; i < words.getCount(); i++)
@@ -144,11 +143,11 @@ static int deriveFive(int turn, WordSumList& words)
 	for (int i = 0; i < wordsLeft.getCount(); i++)
 	{
 		forWords[turn] = wordsLeft[i].word;
-		fprintf(stdout, "turn %d word[%d]=%s %d\n", turn, i, wordsLeft[i].word, wordsLeft[i].sum);
+		fprintf(logFile, "turn %d word[%d]=%s %d\n", turn, i, wordsLeft[i].word, wordsLeft[i].sum);
 		result = deriveFive(turn + 1, wordsLeft);
 		if (result == 5)
 		{
-			fprintf(stdout, "%d %d\n", turn, words.getCount());
+			fprintf(logFile, "%d %d\n", turn, words.getCount());
 			break;
 		}
 	}
@@ -200,10 +199,10 @@ int main(int argc, char** argv)
 {
 	int result;
 	vowels = "AIOUY";
-	//if (argc > 2)
-	//	LogFile = fopen(argv[2], "wt");
-	//else
-	//	LogFile = stdout;
+	if (argc > 2)
+		logFile = fopen(argv[2], "wt");
+	else
+		logFile = stdout;
 	double start = system_current_time();
 	WordSumList sumList(noGameWords);
 	if (argc > 1)

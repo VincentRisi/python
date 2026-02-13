@@ -7,7 +7,7 @@ using namespace std;
 
 #include "word_list.h"
 static int noGameWords = DIM(gameWords);
-static FILE* LogFile;
+static FILE* logFile;
 #if defined(_WIN32) || defined(_WIN64)
 #include<chrono>
 using namespace std::chrono;
@@ -260,7 +260,7 @@ int main(int argc, char** argv)
 	if (dontUseF) charbitSet(dontuse, 'F');
 	else if (dontUseY) charbitSet(dontuse, 'Y');
 	else charbitSet(dontuse, 'W');
-	if (strlen(logFileName)) LogFile = fopen(logFileName, "wt");
+	if (strlen(logFileName)) logFile = fopen(logFileName, "wt");
 	double start = systemCurrentTime();
 	TWordSumList sumList(noGameWords);
 	if (strlen(wordFileName))
