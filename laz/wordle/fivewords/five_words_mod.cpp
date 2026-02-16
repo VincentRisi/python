@@ -1,5 +1,5 @@
-﻿
-#include "five_words_list.h"
+﻿#include "five_words.h"
+import WordList;
 
 #define DIM(a)  (sizeof(a)/sizeof((a)[0]))
 

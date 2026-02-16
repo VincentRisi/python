@@ -1,5 +1,7 @@
-#ifndef __ADDLIST_H__
-#define __ADDLIST_H__
+//#ifndef __ADDLIST_H__
+//#define __ADDLIST_H__
+#pragma once
+#include <stdio.h>
 
 typedef int (*fptr)(const void*, const void*);
 template <class TELEMENT, class TINDEX>
@@ -80,5 +82,5 @@ private:
   TINDEX count;
 };
 
-#endif
+//#endif
 
