@@ -1,5 +1,3 @@
-//#ifndef __ADDLIST_H__
-//#define __ADDLIST_H__
 #pragma once
 #include <stdio.h>
 
@@ -81,6 +79,3 @@ private:
   TELEMENT* list;
   TINDEX count;
 };
-
-//#endif
-
