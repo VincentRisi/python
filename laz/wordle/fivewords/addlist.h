@@ -1,6 +1,8 @@
 #pragma once
 #include <stdio.h>
 
+int error(int code) { throw code; }
+
 typedef int (*fptr)(const void*, const void*);
 template <class TELEMENT, class TINDEX>
 struct TAddList
@@ -17,7 +19,7 @@ struct TAddList
       if (list == 0)
       {
         printf("Memory Allocation Failure for %ld\n", sizeof(rec) * allocCount);
-        exit(1);
+        error(1);
       }
     }
     list[count++] = rec;           // will shallow copy; if you have a copy constructor then beware of leaks
@@ -36,7 +38,7 @@ struct TAddList
     else
     { 
       printf("Deletion of non existing item %ld\n", index);
-      exit(1);
+      error(1);
     }
   }
   void clear()
@@ -48,7 +50,7 @@ struct TAddList
     if (compare == 0)
     {
       printf("No sort/search compare function defined %d\n", count);
-      exit(1);
+      error(1);
     }
     TELEMENT* found = (TELEMENT*)bsearch(lookup, list, (int)count, sizeof(TELEMENT), (fptr)compare);
     if (found)
@@ -60,7 +62,7 @@ struct TAddList
     if (compare == 0)
     {
       printf("No sort/search compare function defined %d\n", count);
-      exit(1);
+      error(1);
     }
     if (count > 1)
     qsort(list, (int)count, sizeof(TELEMENT), (fptr)compare);
@@ -70,7 +72,7 @@ struct TAddList
     if (i >= count || i < 0)
     {
       printf("Accessing out of range %d", i);
-      exit(1);
+      error(1);
     }
     return list[i];
   }

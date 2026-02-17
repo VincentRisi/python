@@ -1,6 +1,5 @@
 export module WordList;
 
-int exit(int code) { throw code; }
 #include "addlist.h"
 #include <cstring>
 
