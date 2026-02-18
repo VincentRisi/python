@@ -1,7 +1,13 @@
 #pragma once
-#include <stdio.h>
+#include <iostream>
 
-int error(int code) { throw code; }
+using namespace std;
+
+int error(int code, std::string err) 
+{ 
+	std::cout << err << std::endl;
+  throw code; 
+}
 
 typedef int (*fptr)(const void*, const void*);
 template <class TELEMENT, class TINDEX>
@@ -18,8 +24,8 @@ struct TAddList
       list = (TELEMENT*) realloc(list, sizeof(rec)*(allocCount));
       if (list == 0)
       {
-        printf("Memory Allocation Failure for %ld\n", sizeof(rec) * allocCount);
-        error(1);
+				std::string err = std::format("Memory Allocation Failure for {}", sizeof(rec) * allocCount);
+        error(1, err);
       }
     }
     list[count++] = rec;           // will shallow copy; if you have a copy constructor then beware of leaks
@@ -37,8 +43,8 @@ struct TAddList
     }
     else
     { 
-      printf("Deletion of non existing item %ld\n", index);
-      error(1);
+			std::string err = std::format("Deletion of non existing item {}", index);
+      error(1, err);
     }
   }
   void clear()
@@ -49,8 +55,8 @@ struct TAddList
   {
     if (compare == 0)
     {
-      printf("No sort/search compare function defined %d\n", count);
-      error(1);
+			std::string err = std::format("No sort/search compare function defined {}", count);
+      error(1, err);
     }
     TELEMENT* found = (TELEMENT*)bsearch(lookup, list, (int)count, sizeof(TELEMENT), (fptr)compare);
     if (found)
@@ -61,8 +67,8 @@ struct TAddList
   {
     if (compare == 0)
     {
-      printf("No sort/search compare function defined %d\n", count);
-      error(1);
+			std::string err = std::format("No sort/search compare function defined {}", count);
+      error(1, err);
     }
     if (count > 1)
     qsort(list, (int)count, sizeof(TELEMENT), (fptr)compare);
@@ -71,8 +77,8 @@ struct TAddList
   {
     if (i >= count || i < 0)
     {
-      printf("Accessing out of range %d", i);
-      error(1);
+			std::string err = std::format("Accessing out of range {}", i);
+      error(1, err);
     }
     return list[i];
   }

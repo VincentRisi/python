@@ -226,7 +226,7 @@ int main(int argc, char** argv)
 	}
 	catch (int code)
 	{
-		fprintf(logFile, "Exception %d\n", code);
+	  fprintf(logFile, "Exception %d\n", code);
 		return code;
 	}
 }
