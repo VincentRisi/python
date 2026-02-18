@@ -224,9 +224,9 @@ int main(int argc, char** argv)
 		fprintf(stdout, "Elapsed %f derived %f milli\n", ends - start, ends - distrib);
 		return 0;
 	}
-	catch (int code)
+	catch (int error)
 	{
-	  fprintf(logFile, "Exception %d\n", code);
-		return code;
+	  fprintf(logFile, "Exception %d\n", error);
+		return error;
 	}
 }
