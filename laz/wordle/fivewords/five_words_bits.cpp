@@ -46,7 +46,7 @@ struct WordSum
 	};
 };
 
-typedef TAddList<WordSum, int> TWordSumList;
+typedef TAddList<WordSum, int> WordSumList;
 
 static int distrib[26];
 
@@ -118,7 +118,7 @@ static void sumWordLetters(const char* word, int& sumof, unsigned int& mask)
 	}
 }
 
-static void addUnique(TWordSumList& wordsLeft, const WordSum& word, int turn)
+static void addUnique(WordSumList& wordsLeft, const WordSum& word, int turn)
 {
 	char letter;
 	uint seen = 0;
@@ -157,7 +157,7 @@ static int wordsSumSort(WordSum* A, WordSum* B)
 	return n;
 }
 
-static bool isAnagram(int i, TWordSumList& words)
+static bool isAnagram(int i, WordSumList& words)
 {
 	// the word sum list is sorted in sum, mask, word order
 	WordSum &currword = words[i], &prevword = words[i-1];
@@ -168,10 +168,10 @@ static bool isAnagram(int i, TWordSumList& words)
 	return false;
 }
 
-static int deriveFive(int turn, TWordSumList& words)
+static int deriveFive(int turn, WordSumList& words)
 {
 	int result = 0;
-	TWordSumList wordsLeft(words.getCount());
+	WordSumList wordsLeft(words.getCount());
 	noWords = turn;
 	if (turn > 4)
 	{
@@ -207,7 +207,7 @@ struct AutoBuff
 	~AutoBuff() { free(buff); }
 };
 
-static void loadFromFile(const char* inFileName, TWordSumList& sumList)
+static void loadFromFile(const char* inFileName, WordSumList& sumList)
 {
 	FILE* inFile = fopen(inFileName, "rb");
 	enum { BUFF_SIZE=1024*1024, LINE_SIZE = 1024 * 256	};
@@ -230,7 +230,7 @@ static void loadFromFile(const char* inFileName, TWordSumList& sumList)
 	}
 }
 
-static void loadFromCode(TWordSumList& sumList)
+static void loadFromCode(WordSumList& sumList)
 {
 	for (int i = 0; i < noGameWords; i++)
 	{
@@ -253,7 +253,7 @@ int main(int argc, char** argv)
 	try
 	{
 		double start = systemCurrentTime();
-		TWordSumList sumList(noGameWords);
+		WordSumList sumList(noGameWords);
 		if (argc > 1)
 			loadFromFile(argv[1], sumList);
 		if (argc == 1)
