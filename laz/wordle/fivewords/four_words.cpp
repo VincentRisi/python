@@ -1,6 +1,7 @@
 ﻿#include "four_words.h"
 
 import WordList;
+import GetArgs;
 #include <stdio.h>
 
 #define DIM(a)  (sizeof(a)/sizeof((a)[0]))
@@ -218,22 +219,22 @@ static void loadFromCode(WordSumList& sumList)
 	}
 }
 
-#include "getargs.h"
+//#include "getargs.h"
 static const char* logFileName = "";
 static const char* wordFileName = "";
-static int   dontUseY = 0;
-static int   dontUseF = 0;
-static int   dontUseW = 1;
+static bool  dontUseY = false;
+static bool  dontUseF = false;
+static bool  dontUseW = false;
 
-ARG argTab[] =
-{
-	{'Y', BOOLEAN, &dontUseY,      "Do not use Y"},
-	{'F', BOOLEAN, &dontUseF,      "Do not use F"},
-	{'W', BOOLEAN, &dontUseW,      "Do not use W"},
-	{'l', STRING,  &logFileName,   "Log file."},
-	{'w', STRING,  &wordFileName,  "Words file."},
-};
-#define TABSIZE (sizeof(argTab) / sizeof(ARG))
+//ARG argTab[] =
+//{
+//	{'Y', BOOLEAN, &dontUseY,      "Do not use Y"},
+//	{'F', BOOLEAN, &dontUseF,      "Do not use F"},
+//	{'W', BOOLEAN, &dontUseW,      "Do not use W"},
+//	{'l', STRING,  &logFileName,   "Log file."},
+//	{'w', STRING,  &wordFileName,  "Words file."},
+//};
+//#define TABSIZE (sizeof(argTab) / sizeof(ARG))
 
 int main(int argc, char** argv)
 {
@@ -242,7 +243,19 @@ int main(int argc, char** argv)
 	{
 		setVowels();
 		setDontUse();
-		argc = getArgs(argc, argv, argTab, TABSIZE);
+		//argc = getArgs(argc, argv, argTab, TABSIZE);
+		GetArgList argList(5);
+		GetArg argY('Y', BOOLEAN, &dontUseY, "Do not use Y");
+		GetArg argF('F', BOOLEAN, &dontUseF, "Do not use F");
+		GetArg argF('W', BOOLEAN, &dontUseW, "Do not use W");
+		GetArg argl('l', STRING,  &logFileName, "Log file.");
+		GetArg argw('w', STRING,  &wordFileName, "Words file.");
+		argList.add(argY);
+		argList.add(argF);
+		argList.add(argF);
+		argList.add(argl);
+		argList.add(argw);
+
 		if (dontUseF) charbitSet(dontuse, 'F');
 		else if (dontUseY) charbitSet(dontuse, 'Y');
 		else charbitSet(dontuse, 'W');
