@@ -16,12 +16,12 @@ add_executable (five_words "five_words.cpp" "five_words.h" "addlist.h")
 
 add_executable (five_words_bits "five_words_bits.cpp" "five_words.h" "addlist.h")
 
-add_executable (five_words_mod "five_words_mod.cpp" "five_words_list.h")
+add_executable (five_words_mod "five_words_mod.cpp" "five_words.h" "WordList.ixx" "addlist.h")
 
-add_executable (four_words "four_words.cpp" "four_words.h" "addlist.h" "getargs.cpp" "getargs.h")
+add_executable (four_words "four_words.cpp" "four_words.h" "WordList.ixx" "GetArgs.ixx" "addlist.h") # "getargs.cpp" "getargs.h")
 
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET five_words PROPERTY CXX_STANDARD 23)
-endif()
+set_property(TARGET five_words PROPERTY CXX_STANDARD 23)
+set_property(TARGET five_words_bits PROPERTY CXX_STANDARD 23)
+set_property(TARGET five_words_mod PROPERTY CXX_STANDARD 23)
+set_property(TARGET four_words PROPERTY CXX_STANDARD 23)
 
-# TODO: Add tests and install targets if needed.

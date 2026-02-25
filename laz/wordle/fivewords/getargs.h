@@ -14,7 +14,7 @@ typedef struct
     char  arg;        /* command line switch */
     char  type;       /* variable type */
     void  *variable;  /* pointer to variable */
-    char  *errmsg;    /* pointer to error message */
+    const char  *errmsg;    /* pointer to error message */
     } ARG;
 
 #define argswitch(a) getargs_switch_char = a

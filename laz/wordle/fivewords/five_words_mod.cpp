@@ -1,5 +1,5 @@
-﻿
-#include "five_words_list.h"
+﻿#include "five_words.h"
+import WordList;
 
 #define DIM(a)  (sizeof(a)/sizeof((a)[0]))
 
@@ -203,22 +203,30 @@ int main(int argc, char** argv)
 		logFile = fopen(argv[2], "wt");
 	else
 		logFile = stdout;
-	double start = system_current_time();
-	WordSumList sumList(noGameWords);
-	if (argc > 1)
-		loadFromFile(argv[1], sumList);
-	if (argc == 1)
-		loadFromCode(sumList);
-	double loaded = system_current_time();
-	fprintf(stdout, "Loaded %d words load %f milli\n", sumList.getCount(), loaded - start);
-	for (int i = 0; i < sumList.getCount(); i++)
-		sumWordLetters(sumList[i].word, sumList[i].sum, sumList[i].charbits);
-	sumList.compare = wordsSumSort;
-	sumList.sort();
-	double distrib = system_current_time();
-	fprintf(stdout, "Sorted %f sort %f milli\n", distrib - start, distrib - loaded);
-	result = deriveFive(0, sumList);
-	double ends = system_current_time();
-	fprintf(stdout, "Elapsed %f derived %f milli\n", ends - start, ends - distrib);
-	return 0;
+	try 
+	{
+		double start = system_current_time();
+		WordSumList sumList(noGameWords);
+		if (argc > 1)
+			loadFromFile(argv[1], sumList);
+		if (argc == 1)
+			loadFromCode(sumList);
+		double loaded = system_current_time();
+		fprintf(stdout, "Loaded %d words load %f milli\n", sumList.getCount(), loaded - start);
+		for (int i = 0; i < sumList.getCount(); i++)
+			sumWordLetters(sumList[i].word, sumList[i].sum, sumList[i].charbits);
+		sumList.compare = wordsSumSort;
+		sumList.sort();
+		double distrib = system_current_time();
+		fprintf(stdout, "Sorted %f sort %f milli\n", distrib - start, distrib - loaded);
+		result = deriveFive(0, sumList);
+		double ends = system_current_time();
+		fprintf(stdout, "Elapsed %f derived %f milli\n", ends - start, ends - distrib);
+		return 0;
+	}
+	catch (int error)
+	{
+	  fprintf(logFile, "Exception %d\n", error);
+		return error;
+	}
 }

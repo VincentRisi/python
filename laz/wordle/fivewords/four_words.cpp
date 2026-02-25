@@ -1,6 +1,9 @@
 ﻿#include "four_words.h"
+
+import WordList;
+import GetArgs;
 #include <stdio.h>
-#include "addlist.h"
+
 #define DIM(a)  (sizeof(a)/sizeof((a)[0]))
 
 using namespace std;
@@ -29,29 +32,11 @@ static double systemCurrentTime()
 }
 #endif
 
-typedef unsigned int uint;
-
-struct WordSum
-{
-	char word[6];
-	int sum;
-	uint charbits;
-	WordSum(const char* word, const int sum=0, const uint charbits=0)
-	{
-		this->word[5] = 0;
-		memcpy(this->word, word, 5);
-		this->sum = sum;
-		this->charbits = charbits;
-	};
-};
-
-typedef TAddList<WordSum, int> TWordSumList;
-
 static int distrib[26];
 
-inline uint offset(char letter) { return letter - 'A'; }
+static uint offset(char letter) { return letter - 'A'; }
 
-inline bool checkAndSet(uint& seen, char letter)
+static bool checkAndSet(uint& seen, char letter)
 {
 	uint charbit = 0x01 << offset(letter);
 	bool result = seen & charbit;
@@ -59,13 +44,13 @@ inline bool checkAndSet(uint& seen, char letter)
 	return result;
 }
 
-inline void charbitSet(uint& charbits, char letter)
+static void charbitSet(uint& charbits, char letter)
 {
 	uint charbit = 0x01 << offset(letter);
 	charbits |= charbit;
 }
 
-inline bool charbitSeen(uint& seen, char letter)
+static bool charbitSeen(uint& seen, char letter)
 {
 	uint charbits = 0x01 << offset(letter);
 	bool result = seen & charbits;
@@ -91,7 +76,7 @@ static void setDontUse()
 		charbitSet(dontuse, *setChar);
 }
 
-static void addUnique(TWordSumList& wordsLeft, const WordSum& word, int turn)
+static void addUnique(WordSumList& wordsLeft, const WordSum& word, int turn)
 {
 	char letter;
 	uint seen = 0;
@@ -122,7 +107,7 @@ static int wordsSumSort(WordSum* A, WordSum* B)
 	return n;
 }
 
-static bool isAnagram(int i, TWordSumList& words)
+static bool isAnagram(int i, WordSumList& words)
 {
 	// the word sum list is sorted in sum, mask, word order
 	WordSum &currword = words[i], &prevword = words[i-1];
@@ -133,10 +118,10 @@ static bool isAnagram(int i, TWordSumList& words)
 	return false;
 }
 
-static int deriveFour(int turn, TWordSumList& words)
+static int deriveFour(int turn, WordSumList& words)
 {
 	int result = 0;
-	TWordSumList wordsLeft(words.getCount());
+	WordSumList wordsLeft(words.getCount());
 	noWords = turn;
 	if (turn > 3)
 	{
@@ -200,7 +185,7 @@ static bool dropWord(const char* word)
 	return false;
 }
 
-static void loadFromFile(const char* inFileName, TWordSumList& sumList)
+static void loadFromFile(const char* inFileName, WordSumList& sumList)
 {
 	FILE* inFile = fopen(inFileName, "rb");
 	enum { BUFF_SIZE=1024*1024, LINE_SIZE = 1024 * 256	};
@@ -223,7 +208,7 @@ static void loadFromFile(const char* inFileName, TWordSumList& sumList)
 	}
 }
 
-static void loadFromCode(TWordSumList& sumList)
+static void loadFromCode(WordSumList& sumList)
 {
 	for (int i = 0; i < noGameWords; i++)
 	{
@@ -234,49 +219,69 @@ static void loadFromCode(TWordSumList& sumList)
 	}
 }
 
-#include "getargs.h"
-static char* logFileName = "";
-static char* wordFileName = "";
-static int   dontUseY = 0;
-static int   dontUseF = 0;
-static int   dontUseW = 1;
+//#include "getargs.h"
+static const char* logFileName = "";
+static const char* wordFileName = "";
+static bool  dontUseY = false;
+static bool  dontUseF = false;
+static bool  dontUseW = false;
 
-ARG argTab[] =
-{
-	{'Y', BOOLEAN, &dontUseY,      "Do not use Y"},
-	{'F', BOOLEAN, &dontUseF,      "Do not use F"},
-	{'W', BOOLEAN, &dontUseW,      "Do not use W"},
-	{'l', STRING,  &logFileName,   "Log file."},
-	{'w', STRING,  &wordFileName,  "Words file."},
-};
-#define TABSIZE (sizeof(argTab) / sizeof(ARG))
+//ARG argTab[] =
+//{
+//	{'Y', BOOLEAN, &dontUseY,      "Do not use Y"},
+//	{'F', BOOLEAN, &dontUseF,      "Do not use F"},
+//	{'W', BOOLEAN, &dontUseW,      "Do not use W"},
+//	{'l', STRING,  &logFileName,   "Log file."},
+//	{'w', STRING,  &wordFileName,  "Words file."},
+//};
+//#define TABSIZE (sizeof(argTab) / sizeof(ARG))
 
 int main(int argc, char** argv)
 {
 	int result;
-	setVowels();
-	setDontUse();
-	argc = getArgs(argc, argv, argTab, TABSIZE);
-	if (dontUseF) charbitSet(dontuse, 'F');
-	else if (dontUseY) charbitSet(dontuse, 'Y');
-	else charbitSet(dontuse, 'W');
-	if (strlen(logFileName)) logFile = fopen(logFileName, "wt");
-	double start = systemCurrentTime();
-	TWordSumList sumList(noGameWords);
-	if (strlen(wordFileName))
-		loadFromFile(wordFileName, sumList);
-	if (argc == 1)
-		loadFromCode(sumList);
-	double loaded = systemCurrentTime();
-	fprintf(stdout, "Loaded %d words load %f mill\n", sumList.getCount(), loaded - start);
-	for (int i = 0; i < sumList.getCount(); i++)
-		sumWordLetters(sumList[i].word, sumList[i].sum, sumList[i].charbits);
-	sumList.compare = wordsSumSort;
-	sumList.sort();
-	double distrib = systemCurrentTime();
-	fprintf(stdout, "Sorted %f sort %f mill\n", distrib - start, distrib - loaded);
-	result = deriveFour(0, sumList);
-	double ends = systemCurrentTime();
-	fprintf(stdout, "Elapsed %f derived %f mill\n", ends - start, ends - distrib);
-	return 0;
+	try
+	{
+		setVowels();
+		setDontUse();
+		//argc = getArgs(argc, argv, argTab, TABSIZE);
+		GetArgList argList(5);
+		GetArg argY('Y', BOOLEAN, &dontUseY, "Do not use Y");
+		GetArg argF('F', BOOLEAN, &dontUseF, "Do not use F");
+		GetArg argF('W', BOOLEAN, &dontUseW, "Do not use W");
+		GetArg argl('l', STRING,  &logFileName, "Log file.");
+		GetArg argw('w', STRING,  &wordFileName, "Words file.");
+		argList.add(argY);
+		argList.add(argF);
+		argList.add(argF);
+		argList.add(argl);
+		argList.add(argw);
+
+		if (dontUseF) charbitSet(dontuse, 'F');
+		else if (dontUseY) charbitSet(dontuse, 'Y');
+		else charbitSet(dontuse, 'W');
+		if (strlen(logFileName)) logFile = fopen(logFileName, "wt");
+		double start = systemCurrentTime();
+		WordSumList sumList(noGameWords);
+		if (strlen(wordFileName))
+			loadFromFile(wordFileName, sumList);
+		if (argc == 1)
+			loadFromCode(sumList);
+		double loaded = systemCurrentTime();
+		fprintf(stdout, "Loaded %d words load %f mill\n", sumList.getCount(), loaded - start);
+		for (int i = 0; i < sumList.getCount(); i++)
+			sumWordLetters(sumList[i].word, sumList[i].sum, sumList[i].charbits);
+		sumList.compare = wordsSumSort;
+		sumList.sort();
+		double distrib = systemCurrentTime();
+		fprintf(stdout, "Sorted %f sort %f mill\n", distrib - start, distrib - loaded);
+		result = deriveFour(0, sumList);
+		double ends = systemCurrentTime();
+		fprintf(stdout, "Elapsed %f derived %f mill\n", ends - start, ends - distrib);
+		return 0;
+	}
+	catch(int err)
+	{
+		fprintf(stdout, "Exception %d\n", err);
+		return err;
+	}
 }

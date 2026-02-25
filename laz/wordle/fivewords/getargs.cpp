@@ -135,7 +135,7 @@ void prUsage(ARG *tabp, int tabsize)
   }
 }
 
-int getArgs(int argc, char *argv[], ARG *tabp, int tabsize)
+int getArgs(int argc, char **argv, ARG *tabp, int tabsize)
 {
   register int nargc;
   register char **nargv, *p;

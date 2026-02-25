@@ -1,5 +1,6 @@
 ﻿#include "five_words.h"
 #include <stdio.h>
+
 #include "addlist.h"
 #define DIM(a)  (sizeof(a)/sizeof((a)[0]))
 
@@ -45,7 +46,7 @@ struct WordSum
 	};
 };
 
-typedef TAddList<WordSum, int> TWordSumList;
+typedef TAddList<WordSum, int> WordSumList;
 
 static int distrib[26];
 
@@ -89,7 +90,7 @@ static void sumWordLetters(const char* word, int& sumof, unsigned int& mask)
 	}
 }
 
-static void unique(TWordSumList& wordsLeft, const WordSum& word, int turn)
+static void unique(WordSumList& wordsLeft, const WordSum& word, int turn)
 {
 	char letter;
 	char seen[6];
@@ -130,7 +131,7 @@ static int wordsSumSort(WordSum* A, WordSum* B)
 	return n;
 }
 
-static bool isAnagram(int i, TWordSumList& words)
+static bool isAnagram(int i, WordSumList& words)
 {
 	// the word sum list is sorted in sum, mask, word order
 	WordSum &currword = words[i], &prevword = words[i-1];
@@ -141,10 +142,10 @@ static bool isAnagram(int i, TWordSumList& words)
 	return false;
 }
 
-static int deriveFive(int turn, TWordSumList& words)
+static int deriveFive(int turn, WordSumList& words)
 {
 	int result = 0;
-	TWordSumList wordsLeft(words.getCount());
+	WordSumList wordsLeft(words.getCount());
 	noWords = turn;
 	if (turn > 4)
 	{
@@ -179,7 +180,7 @@ struct AutoBuff
 	~AutoBuff() { free(buff); }
 };
 
-static void loadFromFile(const char* in_file_name, TWordSumList& sumList)
+static void loadFromFile(const char* in_file_name, WordSumList& sumList)
 {
 	FILE* in_file = fopen(in_file_name, "rb");
 	setvbuf(in_file, 0, _IOFBF, 1024 * 1024);
@@ -202,7 +203,7 @@ static void loadFromFile(const char* in_file_name, TWordSumList& sumList)
 	}
 }
 
-static void loadFromCode(TWordSumList& sumList)
+static void loadFromCode(WordSumList& sumList)
 {
 	for (int i = 0; i < noGameWords; i++)
 	{
@@ -221,22 +222,30 @@ int main(int argc, char** argv)
 		logFile = fopen(argv[2], "wt");
 	else
 		logFile = stdout;
-	double start = system_current_time();
-	TWordSumList sumList(noGameWords);
-	if (argc > 1)
-		loadFromFile(argv[1], sumList);
-	if (argc == 1)
-		loadFromCode(sumList);
-	double loaded = system_current_time();
-	fprintf(stdout, "Loaded %d words load %f milli\n", sumList.getCount(), loaded - start);
-	for (int i = 0; i < sumList.getCount(); i++)
-		sumWordLetters(sumList[i].word, sumList[i].sum, sumList[i].charbits);
-	sumList.compare = wordsSumSort;
-	sumList.sort();
-	double distrib = system_current_time();
-	fprintf(stdout, "Sorted %f sort %f milli\n", distrib - start, distrib - loaded);
-	result = deriveFive(0, sumList);
-	double ends = system_current_time();
-	fprintf(stdout, "Elapsed %f derived %f milli\n", ends - start, ends - distrib);
-	return 0;
+	try
+	{
+		double start = system_current_time();
+		WordSumList sumList(noGameWords);
+		if (argc > 1)
+			loadFromFile(argv[1], sumList);
+		if (argc == 1)
+			loadFromCode(sumList);
+		double loaded = system_current_time();
+		fprintf(stdout, "Loaded %d words load %f milli\n", sumList.getCount(), loaded - start);
+		for (int i = 0; i < sumList.getCount(); i++)
+			sumWordLetters(sumList[i].word, sumList[i].sum, sumList[i].charbits);
+		sumList.compare = wordsSumSort;
+		sumList.sort();
+		double distrib = system_current_time();
+		fprintf(stdout, "Sorted %f sort %f milli\n", distrib - start, distrib - loaded);
+		result = deriveFive(0, sumList);
+		double ends = system_current_time();
+		fprintf(stdout, "Elapsed %f derived %f milli\n", ends - start, ends - distrib);
+		return 0;
+	}
+	catch (int code)
+	{
+		fprintf(logFile, "Exception %d\n", code);
+		return code;
+	}
 }
