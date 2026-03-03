@@ -2,6 +2,7 @@
 
 import WordList;
 import GetArgs;
+
 #include <stdio.h>
 
 #define DIM(a)  (sizeof(a)/sizeof((a)[0]))
@@ -244,17 +245,17 @@ int main(int argc, char** argv)
 		setVowels();
 		setDontUse();
 		//argc = getArgs(argc, argv, argTab, TABSIZE);
-		GetArgList argList(5);
-		GetArg argY('Y', BOOLEAN, &dontUseY, "Do not use Y");
-		GetArg argF('F', BOOLEAN, &dontUseF, "Do not use F");
-		GetArg argF('W', BOOLEAN, &dontUseW, "Do not use W");
-		GetArg argl('l', STRING,  &logFileName, "Log file.");
-		GetArg argw('w', STRING,  &wordFileName, "Words file.");
-		argList.add(argY);
-		argList.add(argF);
-		argList.add(argF);
-		argList.add(argl);
-		argList.add(argw);
+		static GetArgList argList;
+		GetArg arg_Y('Y', &dontUseY, "Do not use Y");
+		GetArg arg_F('F', &dontUseF, "Do not use F");
+		GetArg arg_W('W', &dontUseW, "Do not use W");
+		GetArg arg_l('l', &logFileName, "Log file.");
+		GetArg arg_w('w', &wordFileName, "Words file.");
+		argList.add(arg_Y);
+		argList.add(arg_F); 
+		argList.add(arg_W);
+		argList.add(arg_l);
+		argList.add(arg_w);
 
 		if (dontUseF) charbitSet(dontuse, 'F');
 		else if (dontUseY) charbitSet(dontuse, 'Y');
