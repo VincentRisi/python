@@ -244,7 +244,6 @@ int main(int argc, char** argv)
 	{
 		setVowels();
 		setDontUse();
-		//argc = getArgs(argc, argv, argTab, TABSIZE);
 		static GetArgList argList;
 		GetArg arg_Y('Y', &dontUseY, "Do not use Y");
 		GetArg arg_F('F', &dontUseF, "Do not use F");
@@ -256,6 +255,7 @@ int main(int argc, char** argv)
 		argList.add(arg_W);
 		argList.add(arg_l);
 		argList.add(arg_w);
+		argc = getArgs(argc, argv, argList);
 
 		if (dontUseF) charbitSet(dontuse, 'F');
 		else if (dontUseY) charbitSet(dontuse, 'Y');
