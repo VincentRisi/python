@@ -245,11 +245,11 @@ int main(int argc, char** argv)
 		setVowels();
 		setDontUse();
 		static GetArgList argList;
-		GetArg arg_Y('Y', &dontUseY, "Do not use Y");
-		GetArg arg_F('F', &dontUseF, "Do not use F");
-		GetArg arg_W('W', &dontUseW, "Do not use W");
-		GetArg arg_l('l', &logFileName, "Log file.");
-		GetArg arg_w('w', &wordFileName, "Words file.");
+		GetArg arg_Y('Y', "skipY", &dontUseY, "Do not use Y");
+		GetArg arg_F('F', "skipF", &dontUseF, "Do not use F");
+		GetArg arg_W('W', "skipW", &dontUseW, "Do not use W");
+		GetArg arg_l('l', "logfile", &logFileName, "Log file name.");
+		GetArg arg_w('w', "wordfile", &wordFileName, "Words file name.");
 		argList.add(arg_Y);
 		argList.add(arg_F); 
 		argList.add(arg_W);

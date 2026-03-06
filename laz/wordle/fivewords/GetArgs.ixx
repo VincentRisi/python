@@ -11,34 +11,39 @@ bool getargs_passthru = false;
 export struct GetArg
 {
 	enum as_type { INTEGER, BOOLEAN, CHARACTER, STRING };
-	char  arg;              // command line switch
+	char  arg;              // command line switch char
+	const char* verb;       // command line switch verb
 	as_type type;           // variable type
-	void* variable;        // pointer to variable
+	void* variable;         // pointer to variable
 	const char* usage;      // pointer to error message
-	GetArg(char arg, int* variable, const char* usage)
+	GetArg(char arg, const char* verb, int* variable, const char* usage)
 	{
 		this->arg = arg;
+		this->verb = verb;
 		this->type = INTEGER;
 		this->variable = variable;
 		this->usage = usage;
 	};
-	GetArg(char arg, bool* variable, const char* usage)
+	GetArg(char arg, const char* verb, bool* variable, const char* usage)
 	{
 		this->arg = arg;
+		this->verb = verb;
 		this->type = BOOLEAN;
 		this->variable = variable;
 		this->usage = usage;
 	};
-	GetArg(char arg, char* variable, const char* usage)
+	GetArg(char arg, const char* verb, char* variable, const char* usage)
 	{
 		this->arg = arg;
+		this->verb = verb;
 		this->type = CHARACTER;
 		this->variable = variable;
 		this->usage = usage;
 	};
-	GetArg(char arg, const char** variable, const char* usage)
+	GetArg(char arg, const char* verb, const char** variable, const char* usage)
 	{
 		this->arg = arg;
+		this->verb = verb;
 		this->type = STRING;
 		this->variable = variable;
 		this->usage = usage;
