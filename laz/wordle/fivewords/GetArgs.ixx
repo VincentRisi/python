@@ -98,21 +98,86 @@ void printUsage(GetArgList& argList)
 		argList[i].printUsage();
 }
 
-export int getArgs(int argc, char** argv, GetArgList& argList)
+static int getVerb(GetArgList& argList, char* verb)
 {
+  for (int i = 0; i < argList.getCount(); i++)
+  {
+    //int n = strlen(arglist[i].verb);
+    if (strcmp(argList[i].verb, verb) == 0)
+      return i;
+  }
+  return -1;
+}
+
+static int setValue(GetArgList& argList, char* verb, int argc, char* argv[])
+{
+  
+}
+
+export int getArgs(int argc, char* argv[], GetArgList& argList)
+{
+
+  for (int i=1,no=1; i<argc; i++)
+  {
+    char* p = argv[i];
+    if (p[0] != getargs_switch_char)
+      continue;
+    if (p[1] == getargs_switch_char)
+    {
+      char* verb = p+2;
+      int n = getVerb(argList, verb);
+      if (n == -1)
+      {
+        if (getargs_passthru) continue;
+        return -1;
+      }
+      int used = setValue(argList, verb, argc, argv[i+1]);
+    }
+
+  } 
+  /*
 	int nargc;
-	char** nargv, * p;
+	char** nargv, *p, *verb;
 	GetArg* argp;
 
 	nargc = 1;
 	for (nargv = ++argv; --argc > 0; argv++)
 	{
-		if (**argv != getargs_switch_char)
+		p = *argv;
+		if (p[0] != getargs_switch_char)
 		{
 			*nargv++ = *argv;
 			nargc++;
+			continue;
 		}
-		else
+		if (p[1] == getargs_switch_char)
+		{
+			verb = p + 2;
+			for (int i = 0; i < argList.getCount(); i++)
+			{
+				int n = strlen(argList[i].verb);
+				int n2 = strlen(verb);
+				if (strncmp(argList[i].verb, verb, n) == 0)
+				{
+					argp = &argList[i];
+          if (n == n2 && argc > 0)
+          {
+            --argc;
+						argv++;
+						
+            
+            
+          }
+					break;
+				}
+			}
+			if (argp == 0)
+			{
+				printUsage(argList);
+		  }
+    }
+		if (strlen(p) > 1)
+		//else
 		{
 			p = (*argv) + 1;
 			for (int i = 0; i < argList.getCount(); i++)
@@ -147,6 +212,7 @@ export int getArgs(int argc, char** argv, GetArgList& argList)
 		}
 	}
 	return nargc;
+  */
 }
 
 int stoi(char** instr)
