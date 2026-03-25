@@ -11,38 +11,38 @@ bool getargs_passthru = false;
 export struct GetArg
 {
 	enum as_type { INTEGER, BOOLEAN, CHARACTER, STRING };
-	char  arg;              // command line switch char
+	char  sw;              // command line switch char
 	const char* verb;       // command line switch verb
 	as_type type;           // variable type
 	void* variable;         // pointer to variable
 	const char* usage;      // pointer to error message
-	GetArg(char arg, const char* verb, int* variable, const char* usage)
+	GetArg(char sw, const char* verb, int* variable, const char* usage)
 	{
-		this->arg = arg;
+		this->sw = sw;
 		this->verb = verb;
 		this->type = INTEGER;
 		this->variable = variable;
 		this->usage = usage;
 	};
-	GetArg(char arg, const char* verb, bool* variable, const char* usage)
+	GetArg(char sw, const char* verb, bool* variable, const char* usage)
 	{
-		this->arg = arg;
+		this->sw = sw;
 		this->verb = verb;
 		this->type = BOOLEAN;
 		this->variable = variable;
 		this->usage = usage;
 	};
-	GetArg(char arg, const char* verb, char* variable, const char* usage)
+	GetArg(char sw, const char* verb, char* variable, const char* usage)
 	{
-		this->arg = arg;
+		this->sw = sw;
 		this->verb = verb;
 		this->type = CHARACTER;
 		this->variable = variable;
 		this->usage = usage;
 	};
-	GetArg(char arg, const char* verb, const char** variable, const char* usage)
+	GetArg(char sw, const char* verb, const char** variable, const char* usage)
 	{
-		this->arg = arg;
+		this->sw = sw;
 		this->verb = verb;
 		this->type = STRING;
 		this->variable = variable;
@@ -54,23 +54,23 @@ export struct GetArg
 		{
 		case INTEGER:
 			printf("%c%c<num> %-40s [%-5d]\n", getargs_switch_char,
-				arg, usage, *((int*)variable));
+				sw, usage, *((int*)variable));
 			break;
 		case BOOLEAN:
 			printf("%c%c      %-40s [%-5s]\n", getargs_switch_char,
-				arg, usage, *((int*)variable) ? "TRUE" : "FALSE");
+				sw, usage, *((int*)variable) ? "TRUE" : "FALSE");
 			break;
 		case CHARACTER:
 			printf("%c%c<c>   %-40s [%-5c]\n", getargs_switch_char,
-				arg, usage, *((int*)variable));
+				sw, usage, *((int*)variable));
 			break;
 		case STRING:
 			printf("%c%c<str> %-40s [%s]\n", getargs_switch_char,
-				arg, usage, *(char**)variable);
+				sw, usage, *(char**)variable);
 			break;
 		}
 	}
-	void setValue(char* value)
+	bool setValue(char* value)
 	{
 		switch (type)
 		{
@@ -87,6 +87,7 @@ export struct GetArg
 			*(char**)variable = value;
 			break;
 		}
+		return type != BOOLEAN;
 	}
 };
 
@@ -102,118 +103,76 @@ static int getVerb(GetArgList& argList, char* verb)
 {
   for (int i = 0; i < argList.getCount(); i++)
   {
-    //int n = strlen(arglist[i].verb);
     if (strcmp(argList[i].verb, verb) == 0)
       return i;
   }
   return -1;
 }
 
-static int setValue(GetArgList& argList, char* verb, int argc, char* argv[])
+static int getSwitch(GetArgList& argList, char sw)
 {
-  
+	for (int i = 0; i < argList.getCount(); i++)
+	{
+		if (argList[i].sw == sw)
+			return i;
+	}
+	return -1;
+}
+
+
+static bool setValue(GetArg arg, char* argv)
+{
+	return arg.setValue(argv);
 }
 
 export int getArgs(int argc, char* argv[], GetArgList& argList)
 {
-
-  for (int i=1,no=1; i<argc; i++)
-  {
-    char* p = argv[i];
-    if (p[0] != getargs_switch_char)
-      continue;
-    if (p[1] == getargs_switch_char)
-    {
-      char* verb = p+2;
-      int n = getVerb(argList, verb);
-      if (n == -1)
-      {
-        if (getargs_passthru) continue;
-        return -1;
-      }
-      int used = setValue(argList, verb, argc, argv[i+1]);
-    }
-
-  } 
-  /*
-	int nargc;
-	char** nargv, *p, *verb;
-	GetArg* argp;
-
-	nargc = 1;
-	for (nargv = ++argv; --argc > 0; argv++)
+	int gap = 0;
+	for (int i = 1, no = 1; i < argc;)
 	{
-		p = *argv;
+		char* p = argv[i];
+		gap = 0;
 		if (p[0] != getargs_switch_char)
 		{
-			*nargv++ = *argv;
-			nargc++;
+			i++;
 			continue;
 		}
 		if (p[1] == getargs_switch_char)
 		{
-			verb = p + 2;
-			for (int i = 0; i < argList.getCount(); i++)
+			char* verb = p + 2;
+			int n = getVerb(argList, verb);
+			if (n == -1)
 			{
-				int n = strlen(argList[i].verb);
-				int n2 = strlen(verb);
-				if (strncmp(argList[i].verb, verb, n) == 0)
-				{
-					argp = &argList[i];
-          if (n == n2 && argc > 0)
-          {
-            --argc;
-						argv++;
-						
-            
-            
-          }
-					break;
-				}
+				if (getargs_passthru) continue;
+				return -1;
 			}
-			if (argp == 0)
-			{
-				printUsage(argList);
-		  }
-    }
-		if (strlen(p) > 1)
-		//else
-		{
-			p = (*argv) + 1;
-			for (int i = 0; i < argList.getCount(); i++)
-			{
-				if (argList[i].arg == *p)
-				{
-					argp = &argList[i];
-					argp->setValue(p);
-					break;
-				}
-			}
-			//				while (*p)
-			//				{
-			//					if ((argp = findarg(*p, tabp, tabsize)) != 0)
-			//						p = setarg(argp, p);
-			//					else if (getargs_passthru)
-			//					{
-			//						*nargv++ = *argv;
-			//						nargc++;
-			//						break;
-			//					}
-			//					else
-			//					{
-			//						prUsage(tabp, tabsize);
-			//#if defined(_WIN32) || defined(_WIN64)
-			//						return -1;
-			//#else
-			//						exit(1);
-			//#endif
-			//					}
-			//				}
+			bool used = setValue(argList[n], argv[i + 1]);
+			gap = used ? 2 : 1;
 		}
+		else
+		{
+			char sw = p[1];
+			int n = getSwitch(argList, sw);
+			if (n == -1)
+			{
+				if (getargs_passthru) continue;
+				return -1;
+			}
+			gap = 1;
+			if (strlen(p + 2) == 0)
+			{
+				if (setValue(argList[n], argv[i + 1]))
+					gap++;
+			}
+			else setValue(argList[n], p + 2);
+		}
+		argc -= gap;
+		for (int j = i; j < argc; j++)
+			argv[j] = argv[j + gap];
 	}
-	return nargc;
-  */
+	return argc;
 }
+
 
 int stoi(char** instr)
 {

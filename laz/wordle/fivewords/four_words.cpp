@@ -128,7 +128,7 @@ static int deriveFour(int turn, WordSumList& words)
 	{
 		for (int i = 1; i < turn; i++)
 			if (strcmp(forWords[i], forWords[i - 1]) < 0) return 4;
-		printf("%s %s %s %s\n", forWords[0], forWords[1], forWords[2], forWords[3]);
+		fprintf(logFile, "%s %s %s %s\n", forWords[0], forWords[1], forWords[2], forWords[3]);
 		return 4;
 	}
 	for (int i = 0; i < words.getCount(); i++)
@@ -227,16 +227,6 @@ static bool  dontUseY = false;
 static bool  dontUseF = false;
 static bool  dontUseW = false;
 
-//ARG argTab[] =
-//{
-//	{'Y', BOOLEAN, &dontUseY,      "Do not use Y"},
-//	{'F', BOOLEAN, &dontUseF,      "Do not use F"},
-//	{'W', BOOLEAN, &dontUseW,      "Do not use W"},
-//	{'l', STRING,  &logFileName,   "Log file."},
-//	{'w', STRING,  &wordFileName,  "Words file."},
-//};
-//#define TABSIZE (sizeof(argTab) / sizeof(ARG))
-
 int main(int argc, char** argv)
 {
 	int result;
@@ -256,11 +246,13 @@ int main(int argc, char** argv)
 		argList.add(arg_l);
 		argList.add(arg_w);
 		argc = getArgs(argc, argv, argList);
-
+		if (strlen(logFileName))
+			logFile = fopen(logFileName, "wt");
+		else
+			logFile = stdout;
 		if (dontUseF) charbitSet(dontuse, 'F');
 		else if (dontUseY) charbitSet(dontuse, 'Y');
 		else charbitSet(dontuse, 'W');
-		if (strlen(logFileName)) logFile = fopen(logFileName, "wt");
 		double start = systemCurrentTime();
 		WordSumList sumList(noGameWords);
 		if (strlen(wordFileName))
@@ -268,21 +260,21 @@ int main(int argc, char** argv)
 		if (argc == 1)
 			loadFromCode(sumList);
 		double loaded = systemCurrentTime();
-		fprintf(stdout, "Loaded %d words load %f mill\n", sumList.getCount(), loaded - start);
+		fprintf(logFile, "Loaded %d words load %f mill\n", sumList.getCount(), loaded - start);
 		for (int i = 0; i < sumList.getCount(); i++)
 			sumWordLetters(sumList[i].word, sumList[i].sum, sumList[i].charbits);
 		sumList.compare = wordsSumSort;
 		sumList.sort();
 		double distrib = systemCurrentTime();
-		fprintf(stdout, "Sorted %f sort %f mill\n", distrib - start, distrib - loaded);
+		fprintf(logFile, "Sorted %f sort %f mill\n", distrib - start, distrib - loaded);
 		result = deriveFour(0, sumList);
 		double ends = systemCurrentTime();
-		fprintf(stdout, "Elapsed %f derived %f mill\n", ends - start, ends - distrib);
+		fprintf(logFile, "Elapsed %f derived %f mill\n", ends - start, ends - distrib);
 		return 0;
 	}
 	catch(int err)
 	{
-		fprintf(stdout, "Exception %d\n", err);
+		fprintf(logFile, "Exception %d\n", err);
 		return err;
 	}
 }
