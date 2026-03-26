@@ -250,6 +250,7 @@ int main(int argc, char** argv)
 			logFile = fopen(logFileName, "wt");
 		else
 			logFile = stdout;
+		if (argc == -1) printUsage(argList, logFile);
 		if (dontUseF) charbitSet(dontuse, 'F');
 		else if (dontUseY) charbitSet(dontuse, 'Y');
 		else charbitSet(dontuse, 'W');

@@ -48,24 +48,24 @@ export struct GetArg
 		this->variable = variable;
 		this->usage = usage;
 	};
-	void printUsage()
+	void printUsage(FILE* logFile)
 	{
 		switch (type)
 		{
 		case INTEGER:
-			printf("%c%c<num> %-40s [%-5d]\n", getargs_switch_char,
+			fprintf(logFile, "%c%c<num> %-40s [%-5d]\n", getargs_switch_char,
 				sw, usage, *((int*)variable));
 			break;
 		case BOOLEAN:
-			printf("%c%c      %-40s [%-5s]\n", getargs_switch_char,
+			fprintf(logFile, "%c%c      %-40s [%-5s]\n", getargs_switch_char,
 				sw, usage, *((int*)variable) ? "TRUE" : "FALSE");
 			break;
 		case CHARACTER:
-			printf("%c%c<c>   %-40s [%-5c]\n", getargs_switch_char,
+			fprintf(logFile, "%c%c<c>   %-40s [%-5c]\n", getargs_switch_char,
 				sw, usage, *((int*)variable));
 			break;
 		case STRING:
-			printf("%c%c<str> %-40s [%s]\n", getargs_switch_char,
+			fprintf(logFile, "%c%c<str> %-40s [%s]\n", getargs_switch_char,
 				sw, usage, *(char**)variable);
 			break;
 		}
@@ -93,10 +93,10 @@ export struct GetArg
 
 export typedef TAddList<GetArg, int> GetArgList;
 
-void printUsage(GetArgList& argList)
+export void printUsage(GetArgList& argList, FILE* logFile)
 {
 	for (int i = 0; i < argList.getCount(); i++)
-		argList[i].printUsage();
+		argList[i].printUsage(logFile);
 }
 
 static int getVerb(GetArgList& argList, char* verb)
