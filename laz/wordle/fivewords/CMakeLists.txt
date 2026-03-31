@@ -12,16 +12,16 @@ endif()
 project ("five_words")
 
 # Add source to this project's executable.
-add_library (words "WordList.ixx" "GetArgs.ixx" "AddList.ixx" "addlist.h")
+add_library (words "WordList.ixx" "GetArgs.ixx" "AddList.ixx" "GameWords.ixx")
 
 add_executable (five_words_bits "five_words_bits.cpp" "five_words.h" "addlist.h")
 
 add_executable (five_words "five_words.cpp" "five_words.h" "addlist.h")
 
-add_executable (five_words_mod "five_words_mod.cpp" "five_words.h")
+add_executable (five_words_mod "five_words_mod.cpp")
 target_link_libraries (five_words_mod words)
 
-add_executable (four_words "four_words.cpp" "four_words.h" "addlist.h")
+add_executable (four_words "four_words.cpp" "four_words.h")
 target_link_libraries (four_words words)
 
 add_executable (getargs_test "getargs_test.cpp")

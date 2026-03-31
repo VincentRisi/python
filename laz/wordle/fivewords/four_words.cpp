@@ -3,17 +3,17 @@
 import WordList;
 import GetArgs;
 
-#include <stdio.h>
+import <stdio.h>;
 
 #define DIM(a)  (sizeof(a)/sizeof((a)[0]))
 
 using namespace std;
 
-#include "word_list.h"
+import GameWords;
 static int noGameWords = DIM(gameWords);
 static FILE* logFile;
 #if defined(_WIN32) || defined(_WIN64)
-#include<chrono>
+import <chrono>;
 using namespace std::chrono;
 
 static double systemCurrentTime()
@@ -24,6 +24,7 @@ static double systemCurrentTime()
 	return pig.count() / 1000000.0;
 }
 #else
+// need to look at gcc take on this. Maybe import sus::time;
 #include <sys/time.h>
 static double systemCurrentTime()
 {
@@ -220,7 +221,6 @@ static void loadFromCode(WordSumList& sumList)
 	}
 }
 
-//#include "getargs.h"
 static const char* logFileName = "";
 static const char* wordFileName = "";
 static bool  dontUseY = false;

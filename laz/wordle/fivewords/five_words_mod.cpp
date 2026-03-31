@@ -1,11 +1,11 @@
-﻿#include "stdio.h"
-import WordList;
+﻿import WordList;
+import <stdio.h>;
 
 #define DIM(a)  (sizeof(a)/sizeof((a)[0]))
 
 using namespace std;
 
-#include "word_list.h"
+import GameWords;
 static int noGameWords = DIM(gameWords);
 static FILE* logFile;
 #if defined(_WIN32) || defined(_WIN64)
