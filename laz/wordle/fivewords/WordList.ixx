@@ -1,7 +1,5 @@
 export module WordList;
-
-#include "addlist.h"
-#include <cstring>
+import AddList; 
 
 export typedef unsigned int uint;
 
@@ -20,4 +18,3 @@ export struct WordSum
 };
 
 export typedef TAddList<WordSum, int> WordSumList;
-

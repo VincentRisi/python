@@ -1,7 +1,7 @@
 export module GetArgs;
+import AddList; 
 
-#include "addlist.h"
-#include <cstring>
+//#include <cstring>
 
 static int stoi(char** instr);
 
@@ -70,7 +70,7 @@ export struct GetArg
 			break;
 		}
 	}
-	bool setValue(char* value)
+	bool setValue(char* value, bool set_bool)
 	{
 		switch (type)
 		{
@@ -78,7 +78,7 @@ export struct GetArg
 			*((int*)variable) = stoi(&value);
 			break;
 		case BOOLEAN:
-			*((int*)variable) = true;
+			*((int*)variable) = set_bool;
 			break;
 		case CHARACTER:
 			*((char*)variable) = *value;
@@ -120,9 +120,9 @@ static int getSwitch(GetArgList& argList, char sw)
 }
 
 
-static bool setValue(GetArg arg, char* argv)
+static bool setValue(GetArg arg, char* argv, bool set_bool)
 {
-	return arg.setValue(argv);
+	return arg.setValue(argv, set_bool);
 }
 
 export int getArgs(int argc, char* argv[], GetArgList& argList)
@@ -131,11 +131,23 @@ export int getArgs(int argc, char* argv[], GetArgList& argList)
 	for (int i = 1, no = 1; i < argc;)
 	{
 		char* p = argv[i];
+		if (strcmp(p, "--help") == 0)
+		{
+			argc = -1;
+			break;
+		}
+		int n = strlen(p);
+		bool set_bool = true;
 		gap = 0;
 		if (p[0] != getargs_switch_char)
 		{
 			i++;
 			continue;
+		}
+		if (n > 2 && p[n - 1] == '-')
+		{
+			set_bool = false;
+			p[n - 1] = 0;
 		}
 		if (p[1] == getargs_switch_char)
 		{
@@ -146,7 +158,7 @@ export int getArgs(int argc, char* argv[], GetArgList& argList)
 				if (getargs_passthru) continue;
 				return -1;
 			}
-			bool used = setValue(argList[n], argv[i + 1]);
+			bool used = setValue(argList[n], argv[i + 1], set_bool);
 			gap = used ? 2 : 1;
 		}
 		else
@@ -161,10 +173,10 @@ export int getArgs(int argc, char* argv[], GetArgList& argList)
 			gap = 1;
 			if (strlen(p + 2) == 0)
 			{
-				if (setValue(argList[n], argv[i + 1]))
+				if (setValue(argList[n], argv[i + 1], set_bool))
 					gap++;
 			}
-			else setValue(argList[n], p + 2);
+			else setValue(argList[n], p + 2, set_bool);
 		}
 		argc -= gap;
 		for (int j = i; j < argc; j++)
