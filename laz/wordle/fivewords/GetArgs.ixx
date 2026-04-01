@@ -1,17 +1,15 @@
 export module GetArgs;
 import AddList; 
 
-//#include <cstring>
-
 static int stoi(char** instr);
 
-char getargs_switch_char = '-';
-bool getargs_passthru = false;
+export char GETARGS_SWITCH_CHAR = '-';
+export bool GETARGS_PASSTHRU = false;
 
 export struct GetArg
 {
 	enum as_type { INTEGER, BOOLEAN, CHARACTER, STRING };
-	char  sw;              // command line switch char
+	char  sw;               // command line switch char
 	const char* verb;       // command line switch verb
 	as_type type;           // variable type
 	void* variable;         // pointer to variable
@@ -53,19 +51,19 @@ export struct GetArg
 		switch (type)
 		{
 		case INTEGER:
-			fprintf(logFile, "%c%c<num> %-40s [%-5d]\n", getargs_switch_char,
+			fprintf(logFile, "%c%c<num> %-40s [%-5d]\n", GETARGS_SWITCH_CHAR,
 				sw, usage, *((int*)variable));
 			break;
 		case BOOLEAN:
-			fprintf(logFile, "%c%c      %-40s [%-5s]\n", getargs_switch_char,
+			fprintf(logFile, "%c%c      %-40s [%-5s]\n", GETARGS_SWITCH_CHAR,
 				sw, usage, *((int*)variable) ? "TRUE" : "FALSE");
 			break;
 		case CHARACTER:
-			fprintf(logFile, "%c%c<c>   %-40s [%-5c]\n", getargs_switch_char,
+			fprintf(logFile, "%c%c<c>   %-40s [%-5c]\n", GETARGS_SWITCH_CHAR,
 				sw, usage, *((int*)variable));
 			break;
 		case STRING:
-			fprintf(logFile, "%c%c<str> %-40s [%s]\n", getargs_switch_char,
+			fprintf(logFile, "%c%c<str> %-40s [%s]\n", GETARGS_SWITCH_CHAR,
 				sw, usage, *(char**)variable);
 			break;
 		}
@@ -139,7 +137,7 @@ export int getArgs(int argc, char* argv[], GetArgList& argList)
 		int n = strlen(p);
 		bool set_bool = true;
 		gap = 0;
-		if (p[0] != getargs_switch_char)
+		if (p[0] != GETARGS_SWITCH_CHAR)
 		{
 			i++;
 			continue;
@@ -149,13 +147,13 @@ export int getArgs(int argc, char* argv[], GetArgList& argList)
 			set_bool = false;
 			p[n - 1] = 0;
 		}
-		if (p[1] == getargs_switch_char)
+		if (p[1] == GETARGS_SWITCH_CHAR)
 		{
 			char* verb = p + 2;
 			int n = getVerb(argList, verb);
 			if (n == -1)
 			{
-				if (getargs_passthru) continue;
+				if (GETARGS_PASSTHRU) continue;
 				return -1;
 			}
 			bool used = setValue(argList[n], argv[i + 1], set_bool);
@@ -167,7 +165,7 @@ export int getArgs(int argc, char* argv[], GetArgList& argList)
 			int n = getSwitch(argList, sw);
 			if (n == -1)
 			{
-				if (getargs_passthru) continue;
+				if (GETARGS_PASSTHRU) continue;
 				return -1;
 			}
 			gap = 1;

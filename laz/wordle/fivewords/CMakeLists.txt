@@ -11,8 +11,11 @@ endif()
 
 project ("five_words")
 
-# Add source to this project's executable.
-add_library (words "WordList.ixx" "GetArgs.ixx" "AddList.ixx" "GameWords.ixx")
+set(CMAKE_CXX_STANDARD 23)
+
+# Add source to this projects executable.
+
+add_library (words "AddList.ixx" "WordList.ixx" "GetArgs.ixx" "GameWords.ixx")
 
 add_executable (five_words_bits "five_words_bits.cpp" "five_words.h" "addlist.h")
 
@@ -27,9 +30,9 @@ target_link_libraries (four_words words)
 add_executable (getargs_test "getargs_test.cpp")
 target_link_libraries (getargs_test words)
 
-set_property(TARGET words PROPERTY CXX_STANDARD 23)
-set_property(TARGET five_words PROPERTY CXX_STANDARD 23)
-set_property(TARGET five_words_bits PROPERTY CXX_STANDARD 23)
-set_property(TARGET five_words_mod PROPERTY CXX_STANDARD 23)
-set_property(TARGET four_words PROPERTY CXX_STANDARD 23)
-set_property(TARGET getargs_test PROPERTY CXX_STANDARD 23)
+## set_property(TARGET words PROPERTY CXX_STANDARD 23)
+## set_property(TARGET five_words PROPERTY CXX_STANDARD 23)
+## set_property(TARGET five_words_bits PROPERTY CXX_STANDARD 23)
+## set_property(TARGET five_words_mod PROPERTY CXX_STANDARD 23)
+## set_property(TARGET four_words PROPERTY CXX_STANDARD 23)
+## set_property(TARGET getargs_test PROPERTY CXX_STANDARD 23)

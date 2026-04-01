@@ -10,7 +10,7 @@ using namespace std;
 static int noGameWords = DIM(gameWords);
 static FILE* logFile;
 #if defined(_WIN32) || defined(_WIN64)
-#include<chrono>
+#include <chrono>
 using namespace std::chrono;
 
 static double systemCurrentTime()
