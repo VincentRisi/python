@@ -5,12 +5,13 @@ project ("main_modules")
 set(CMAKE_CXX_STANDARD 23)
 
 add_library (main
-  #machine.ixx
+  mutex_msvc.ixx
   addlist.ixx 
   getargs.ixx
   xcstring.ixx
   tbuffer.ixx
   splits.ixx
+  date.ixx
   )
 
 add_executable (getargs_test getargs_test.cpp)
