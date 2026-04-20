@@ -185,6 +185,7 @@ export template <class T> struct TBuffer
 };
 
 export typedef TBuffer<char> TBChar;
+export typedef TBuffer<unsigned char> TBUChar;
 
 static char* _amp;
 static char* _lt;
