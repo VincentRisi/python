@@ -37,7 +37,7 @@ export struct tSockCB
 	bool    hasCertFile;
 };
 
-export enum eError
+export enum eSocketError
 {
     errSockOK
 	, errSockInit

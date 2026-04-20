@@ -82,7 +82,7 @@ static void _setup()
 	sa.bInheritHandle = 1;
 }
 
-struct Mutex
+export struct Mutex
 {
 	int secs, nanosecs;
 	bool failed;

@@ -16,6 +16,8 @@ add_library (main
   date.ixx
   obsocket_msvc.ixx
   cbsocket_msvc.ixx
+  blackboard.ixx
+  encoders.ixx
   )
 
 add_executable (getargs_test getargs_test.cpp)
