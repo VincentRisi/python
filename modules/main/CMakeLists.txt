@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 23)
 include_directories (old_h_and_cpp)
 
 add_library (main
+  machine.ixx
   mutex_msvc.ixx
   addlist.ixx 
   getargs.ixx
@@ -20,6 +21,6 @@ add_library (main
   encoders.ixx
   )
 
-add_executable (getargs_test getargs_test.cpp)
+add_executable (getargs_test testers/getargs_test.cpp)
 target_link_libraries (getargs_test main)
 
