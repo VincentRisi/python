@@ -3,8 +3,10 @@
 #include <winsock2.h>
 #include <windows.h>
 
+#if defined(USE_OPENSSL)
 #include "openssl/ossl_typ.h"
 #include <openssl/err.h>
+#endif
 
 #define  DESIRED_WINSOCK_VERSION 0x0101
 #define  MINIMUM_WINSOCK_VERSION 1
@@ -13,7 +15,6 @@
 #ifndef SOCKET_QSIZE
 #  define SOCKET_QSIZE 1024
 #endif
-//#define USE_OPENSSL
 
 export module obsocket;
 
@@ -30,11 +31,13 @@ export struct tSockCB
 	unsigned short Retries;     // For Wait
 	int TimeOut;                // For Wait
 	int ErrorNo;                // Error Code
+#if defined(USE_OPENSSL)
 	SSL_CTX* ctx;
 	SSL* ssl;
 	char    SSL_Error[512];
 	bool    hasCAFile;
 	bool    hasCertFile;
+#endif
 };
 
 export enum eSocketError

@@ -4,15 +4,16 @@ project ("main_modules")
 
 set(CMAKE_CXX_STANDARD 23)
 
-include_directories (old_h_and_cpp)
+include_directories (.)
 
 add_library (main
   machine.ixx
+  xcstring.ixx
+  tbuffer.ixx
+  logfile.ixx
   mutex_msvc.ixx
   addlist.ixx 
   getargs.ixx
-  xcstring.ixx
-  tbuffer.ixx
   splits.ixx
   date.ixx
   obsocket_msvc.ixx
