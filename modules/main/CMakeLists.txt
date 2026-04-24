@@ -8,6 +8,7 @@ include_directories (.)
 
 add_library (main
   machine.ixx
+  xdir.ixx
   xcstring.ixx
   tbuffer.ixx
   logfile.ixx
