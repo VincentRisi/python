@@ -52,7 +52,7 @@ static const std::string base64_alphanum_chars =
 "abcdefghijklmnopqrstuvwxyz"
 "0123456789";
 
-enum base64_type { Basic, URL_Safe, Mime };
+export enum base64_type { Basic, URL_Safe, Mime };
 
 #include <cctype>
 static inline bool is_base64(unsigned char c)

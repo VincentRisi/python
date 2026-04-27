@@ -15,7 +15,7 @@ import xdir;
 
 using namespace std;
 
-enum eLevel { eLogDebug, eLogInfo, eLogWarning, eLogError };
+export enum eLevel { eLogDebug, eLogInfo, eLogWarning, eLogError };
 
 const char *LevelStr[] = { "DBG", "INF", "WRN", "ERR"};
 

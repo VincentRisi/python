@@ -26,3 +26,6 @@ add_library (main
 add_executable (getargs_test testers/getargs_test.cpp)
 target_link_libraries (getargs_test main)
 
+add_executable (encoders_test testers/encoders_test.cpp)
+target_link_libraries (encoders_test main)
+
