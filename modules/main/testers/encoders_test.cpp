@@ -100,7 +100,7 @@ int main(int argc, char** argv)
 	TGetArg arg_use_size('s', "size", &use_size, "Integer");
   arg_list.add(arg_binfile_name);
   arg_list.add(arg_logfile_name);
-	arg_list.add(arg_use_size);
+  arg_list.add(arg_use_size);
   argc = getArgs(argc, argv, arg_list);
   if (argc == -1 || logfile_name == 0)
   {
@@ -109,16 +109,29 @@ int main(int argc, char** argv)
   }
   LogFile log = LogFile(logfile_name);
   log.Log(logfile_name);
-  log.Log(binfile_name);
-	FILE* f = fopen(binfile_name, "rb");
-	fseek(f, 0, SEEK_END);
-	long size = ftell(f);
-	fseek(f, 0, SEEK_SET);
-  if (use_size > 0 && use_size < size)
-    size = use_size;
+  int size = 1024;
   TBUChar buffer(size);
-	fread(buffer, 1, size, f);
-  fclose(f);
+  if (binfile_name)
+  {
+    log.Log(binfile_name);
+    FILE* f = fopen(binfile_name, "rb");
+    fseek(f, 0, SEEK_END);
+    long file_size = ftell(f);
+    fseek(f, 0, SEEK_SET);
+    if (use_size > 0 && use_size < file_size)
+      size = use_size;
+    buffer.resize(size);
+	  fread(buffer, 1, size, f);
+    fclose(f);
+  }
+  else
+  {
+    if (use_size > 0)
+			size = use_size;
+    buffer.resize(size);
+    for (int i = 0; i < size; i++)
+			buffer[i] = (unsigned char)(i % 256);
+  }
 	base64_test(log, size, buffer);
   TBUChar outbuffer((size * 4) / 3 + 16);
 	asciify_test(log, size, buffer, outbuffer);
