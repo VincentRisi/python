@@ -1,5 +1,5 @@
 
-#include <stdio.h>
+#include <cstdio>
 import std;
 import getargs;
 import encoders;
@@ -8,6 +8,12 @@ import tbuffer;
 
 static const char* logfile_name;
 static const char* binfile_name;
+static int         use_size = 0;
+
+typedef unsigned int uint;
+typedef unsigned short ushort;
+typedef unsigned char* puchar;
+typedef unsigned char uchar;
 
 bool compare_buffers(unsigned char* buffer1, unsigned char* buffer2, long size)
 {
@@ -22,7 +28,7 @@ bool compare_buffers(unsigned char* buffer1, unsigned char* buffer2, long size)
 void base64_test(LogFile& log, long size, unsigned char* buffer)
 {
 	std::string encoded = base64_encode(buffer, size, Basic);
-  log.lprintf(eLogDebug, "%ld %ld %s", size, encoded.length(), encoded.c_str());
+  log.lprintf(eLogDebug, "base64 %ld %ld %s", size, encoded.length(), encoded.c_str());
 	std::string decoded = base64_decode(encoded, Basic);
 	bool equal = compare_buffers(buffer, (unsigned char*)decoded.c_str(), size);
   if (!equal)
@@ -30,7 +36,7 @@ void base64_test(LogFile& log, long size, unsigned char* buffer)
   else
 		log.lprintf(eLogInfo, "Decoded buffer matches original buffer for Basic encoding");
 	encoded = base64_encode(buffer, size, Mime);
-  log.lprintf(eLogDebug, "%ld %ld %s", size, encoded.length(), encoded.c_str());
+  log.lprintf(eLogDebug, "base64 %ld %ld %s", size, encoded.length(), encoded.c_str());
   decoded = base64_decode(encoded, Mime);
   equal = compare_buffers(buffer, (unsigned char*)decoded.c_str(), size);
   if (!equal)
@@ -38,7 +44,7 @@ void base64_test(LogFile& log, long size, unsigned char* buffer)
   else
     log.lprintf(eLogInfo, "Decoded buffer matches original buffer for Mime encoding");
   encoded = base64_encode(buffer, size, URL_Safe);
-  log.lprintf(eLogDebug, "%ld %ld %s", size, encoded.length(), encoded.c_str());
+  log.lprintf(eLogDebug, "base64 %ld %ld %s", size, encoded.length(), encoded.c_str());
   decoded = base64_decode(encoded, URL_Safe);
   if (!equal)
     log.lprintf(eLogError, "Decoded buffer does not match original buffer for URL_Safe encoding");
@@ -46,13 +52,55 @@ void base64_test(LogFile& log, long size, unsigned char* buffer)
     log.lprintf(eLogInfo, "Decoded buffer matches original buffer for URL_Safe encoding");
 }
 
+void asciify_test(LogFile& log, uint insize, unsigned char* buffer, TBUChar& outbuffer)
+{
+  uint outsize = outbuffer.size;
+  uint used = In3Out4(buffer, insize, outbuffer.data, outsize);
+	log.lprintf(eLogInfo, "asciify %d %d %d %s", insize, outsize, used, outbuffer.data);
+  TBUChar decoded(insize);
+	In4Out3(outbuffer, used, decoded.data, insize);
+  bool equal = compare_buffers(buffer, decoded, insize);
+  if (!equal)
+    log.lprintf(eLogError, "Decoded buffer does not match original buffer");
+  else
+    log.lprintf(eLogInfo, "Decoded buffer matches original buffer");
+}
+
+void ascii85_test(LogFile& log, uint insize, unsigned char* buffer, TBUChar& outbuffer)
+{
+	ascii85_encode(outbuffer, buffer, insize);
+  log.lprintf(eLogDebug, "ascii85 %ld %ld %s", insize, outbuffer.size, outbuffer.data);
+  TBUChar decoded(insize);
+	ascii85_decode(decoded, (unsigned char*)outbuffer.data, outbuffer.size);
+  bool equal = compare_buffers(buffer, decoded, insize);
+  if (!equal)
+    log.lprintf(eLogError, "Decoded buffer does not match original buffer");
+  else
+    log.lprintf(eLogInfo, "Decoded buffer matches original buffer");
+}
+
+void z85_test(LogFile& log, uint insize, unsigned char* buffer, TBUChar& outbuffer)
+{
+  z85_encode(outbuffer, buffer, insize);
+  log.lprintf(eLogDebug, "z85 %ld %ld %s", insize, outbuffer.size, outbuffer.data);
+  TBUChar decoded(insize);
+  z85_decode(decoded, (unsigned char*)outbuffer.data, outbuffer.size);
+  bool equal = compare_buffers(buffer, decoded, insize);
+  if (!equal)
+    log.lprintf(eLogError, "Decoded buffer does not match original buffer");
+  else
+    log.lprintf(eLogInfo, "Decoded buffer matches original buffer");
+}
+
 int main(int argc, char** argv)
 {
   static GetArgList arg_list;
   TGetArg arg_binfile_name('b', "binfile", &binfile_name, "String");
   TGetArg arg_logfile_name('l', "logfile", &logfile_name, "String");
+	TGetArg arg_use_size('s', "size", &use_size, "Integer");
   arg_list.add(arg_binfile_name);
   arg_list.add(arg_logfile_name);
+	arg_list.add(arg_use_size);
   argc = getArgs(argc, argv, arg_list);
   if (argc == -1 || logfile_name == 0)
   {
@@ -66,9 +114,15 @@ int main(int argc, char** argv)
 	fseek(f, 0, SEEK_END);
 	long size = ftell(f);
 	fseek(f, 0, SEEK_SET);
+  if (use_size > 0 && use_size < size)
+    size = use_size;
   TBUChar buffer(size);
 	fread(buffer, 1, size, f);
   fclose(f);
-	base64_test(log, 2000, buffer);
-  log.Log("Done");
+	base64_test(log, size, buffer);
+  TBUChar outbuffer((size * 4) / 3 + 16);
+	asciify_test(log, size, buffer, outbuffer);
+  outbuffer.resize((size * 5) / 4 + 16);
+	ascii85_test(log, size, buffer, outbuffer);
+  z85_test(log, size, buffer, outbuffer);
 }
