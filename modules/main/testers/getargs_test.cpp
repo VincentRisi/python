@@ -21,4 +21,5 @@ int main(int argc, char** argv)
   if (argc == -1) printUsage(argList, stdout);
   fprintf(stdout, "done\n");
   fflush(stdout);
+  return 0;
 }

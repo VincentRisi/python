@@ -29,3 +29,7 @@ target_link_libraries (getargs_test main)
 add_executable (encoders_test testers/encoders_test.cpp)
 target_link_libraries (encoders_test main)
 
+add_executable (splits_test testers/splits_test.cpp)
+target_link_libraries (splits_test main)
+
+
