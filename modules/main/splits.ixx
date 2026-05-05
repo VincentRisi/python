@@ -380,6 +380,7 @@ public:
   virtual ~Splitter() { rc = splits_done(&ctx); }
   const char* error() { return splits_error(ctx); }
   int get_rc() { return rc; }
+	char** flds() { return ctx->flds; }
   int no_flds() { return ctx->no_flds; }
   int error_no() { return ctx->error_no; }
   int read(const char* data, char delim) { return rc = splits_read(ctx, data, delim); }
@@ -395,8 +396,6 @@ public:
   int to_double(double* tgt, int no) { return rc = splits_to_double(ctx, tgt, no); }
   int as_money(double src, int no) { return rc = splits_as_money(ctx, src, no); }
   int as_double(double src, int no) { return rc = splits_as_double(ctx, src, no); }
-  int to_chap(char* tgt, int maxlen, int no) { return rc = splits_to_char(ctx, tgt, maxlen, no); }
+  int to_char(char* tgt, int maxlen, int no) { return rc = splits_to_char(ctx, tgt, maxlen, no); }
   int as_char(char* src, int no) { return rc = splits_as_char(ctx, src, no); }
 };
-
-
