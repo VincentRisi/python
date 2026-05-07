@@ -32,4 +32,9 @@ target_link_libraries (encoders_test main)
 add_executable (splits_test testers/splits_test.cpp)
 target_link_libraries (splits_test main)
 
+include_external_msproject("aaxbuild" "./testers/aaxbuild.pyproj"
+    GUID "a704a7dd-44df-41fd-ba66-cb85f359e7bf"
+    PLATFORM "Any CPU"
+    )
+
 
