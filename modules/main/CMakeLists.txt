@@ -4,7 +4,7 @@ project ("main_modules")
 
 set(CMAKE_CXX_STANDARD 23)
 
-include_directories (.)
+include_directories (. testers)
 
 add_library (main
   machine.ixx
@@ -29,7 +29,7 @@ target_link_libraries (getargs_test main)
 add_executable (encoders_test testers/encoders_test.cpp)
 target_link_libraries (encoders_test main)
 
-add_executable (splits_test testers/splits_test.cpp)
+add_executable (splits_test testers/splits_test.cpp testers/aaxlist.h)
 target_link_libraries (splits_test main)
 
 include_external_msproject("aaxbuild" "./testers/aaxbuild.pyproj"

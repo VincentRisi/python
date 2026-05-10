@@ -1,20 +1,34 @@
 from aaxlist import books
 print (len(books))
 delim = '|'
-use_fields = list()
+use_fields = []
 for book in books:
     for field in vars(book):
         if field not in use_fields:
             use_fields.append(field)
+
 with open('aaxlist.input', 'w') as ofile:
-    line = ''
-    separator = ''
-    for field in use_fields:
-        if field in ['comment','description']:
-            continue
-        line += f'{separator}{field}'
-        separator = delim
-    ofile.write(f'{line}\n')
+    with open('aaxlist.h', 'w') as hfile:
+        hfile.write('#pragma once\n\n')
+        hfile.write('struct Book\n{\n')
+        line = ''
+        separator = ''
+        enum_list = []
+        for field in use_fields:
+            if field in ['description']:
+                continue
+            enum_list.append(field)
+            hfile.write(f'    const char* {field};\n')
+            line += f'{separator}{field}'
+            separator = delim
+        hfile.write('};\n')
+        hfile.write(f'const char* book_fields = "{line}";\n')
+        hfile.write('enum BookFields\n{\n')
+        for field in enum_list:
+            hfile.write(f'    {field},\n')
+        hfile.write('    BookFieldsCount\n')
+        hfile.write('};\n')
+        ofile.write(f'{line}\n')
     
     def check(value, delim):
         if value is None:
@@ -29,7 +43,7 @@ with open('aaxlist.input', 'w') as ofile:
         line = ''
         separator = ''
         for field in use_fields:
-            if field in ['comment','description']:
+            if field in ['description']:
                 continue
             if hasattr(book, field):
                 line += separator
