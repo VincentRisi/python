@@ -49,6 +49,9 @@ with open('aaxlist.input', 'w') as ofile:
                 line += separator
                 line += f"{check(getattr(book, field), delim)}"
                 separator = delim
+            else:
+                line += separator
+                separator = delim
         try:
             ofile.write(f'{line}\n')
         except Exception as e:
