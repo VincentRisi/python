@@ -1,26 +1,27 @@
-#include <stdlib.h>
-#include <malloc.h>
-#include <winsock2.h>
-#include <windows.h>
+export module obsocket;
+import machine;
+
+import <cstdlib>;
+import <malloc.h>;
+import <winsock.h>;
+import <windows.h>;
 
 #if defined(USE_OPENSSL)
 #include "openssl/ossl_typ.h"
 #include <openssl/err.h>
 #endif
 
-#define  DESIRED_WINSOCK_VERSION 0x0101
-#define  MINIMUM_WINSOCK_VERSION 1
-#define  ioctl   ioctlsocket
-#define  PROTOCOL "tcp"
+const auto& ioctl = ioctlsocket;
+const int DESIRED_WINSOCK_VERSION = 0x0101;
+const int MINIMUM_WINSOCK_VERSION = 1;
+const char* PROTOCOL = "tcp";
 #ifndef SOCKET_QSIZE
-#  define SOCKET_QSIZE 1024
+  const int SOCKET_QSIZE = 1024;
 #endif
 
-export module obsocket;
-
-typedef int socklen_t;
-typedef char* pchar;
-typedef unsigned int uint;
+using socklen_t = int;
+using pchar = char*;
+using uint = unsigned int;
 
 export struct tSockCB
 {

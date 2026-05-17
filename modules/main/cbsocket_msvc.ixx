@@ -9,10 +9,10 @@ import <format>;
 
 using namespace std;
 
-typedef int socklen_t;
-typedef char* pchar;
-typedef unsigned int uint;
-typedef unsigned short ushort;
+using socklen_t = int;
+using pchar = char*;
+using uint = unsigned int;
+using ushort = unsigned short;	
 
 export struct XSocketErr : public exception
 {
@@ -69,7 +69,7 @@ export class CBSockClient
 {
 protected:
 	CBSockClient() {}
-	static int ParseName(char* name, const char sep, char* names[])
+	static int ParseName(pchar name, const char sep, pchar names[])
 	{
 		// ---------------------------------------------------------
 		// returns 0 if name does not start with a separator

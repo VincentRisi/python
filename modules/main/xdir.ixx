@@ -1,5 +1,6 @@
 
 export module xdir;
+import machine;
 import <cstdio>;
 import <cstdlib>;
 import <cstring>;

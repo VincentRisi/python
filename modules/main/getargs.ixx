@@ -1,5 +1,6 @@
 export module getargs;
-import addlist; 
+import machine;
+import addlist;
 
 static int stoi(char** instr);
 
@@ -89,7 +90,7 @@ export struct TGetArg
 	}
 };
 
-export typedef TAddList<TGetArg, int> GetArgList;
+export using GetArgList = TAddList<TGetArg, int>;
 
 export void printUsage(GetArgList& argList, FILE* logFile)
 {

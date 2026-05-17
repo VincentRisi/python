@@ -1,4 +1,5 @@
 export module blackboard;
+import machine;
 import tbuffer;
 
 import <windows.h>;
@@ -7,8 +8,6 @@ import <iostream>;
 import <format>;
 
 using namespace std;
-
-typedef char* pchar;
 
 enum EXBlackBoard
 { eBBNoError = 0

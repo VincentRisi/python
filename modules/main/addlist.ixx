@@ -1,5 +1,7 @@
 export module addlist;
 export import <iostream>;
+import machine;
+import <cstdlib>;
 
 using namespace std;
 
@@ -9,7 +11,7 @@ int error(int code, std::string err)
   throw code; 
 }
 
-export typedef int (*fptr)(const void*, const void*);
+export using fptr = int (*)(const void*, const void*);
 export template <class TELEMENT, class TINDEX>
 struct TAddList
 {

@@ -1,6 +1,5 @@
-
-#include <format>
 export module logfile;
+import machine;
 import <cstdio>;
 import <corecrt.h>;
 import <ctime>;

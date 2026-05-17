@@ -21,6 +21,7 @@ add_library (main
   cbsocket_msvc.ixx
   blackboard.ixx
   encoders.ixx
+  #jsoncpp.ixx
   )
 
 add_executable (getargs_test testers/getargs_test.cpp)

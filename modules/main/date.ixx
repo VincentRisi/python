@@ -1,10 +1,14 @@
 export module date;
+import machine;
 import <cstdio>;
 import <corecrt.h>;
 import <time.h>;
 
-typedef unsigned char uchar;
-typedef char* pchar;
+//using uchar = unsigned char;
+//using pchar = char*;
+
+// The leapYear function determines whether a given year is a leap year according to 
+// the rules of the Gregorian calendar.
 
 export bool leapYear(int year)
 {
@@ -16,6 +20,14 @@ export bool leapYear(int year)
     return (true);
   return (false);
 }
+
+// The following functions are based on the algorithm described in "Calendrical Calculations" by Reingold and Dershowitz.
+// originally published in "Communications of the ACM" in 1992. 
+// The algorithm is designed to be efficient and accurate for a wide range of dates, including those in the distant past and future.
+// The gregDateToDays function converts a given Gregorian date (day, month, year) into the number of days 
+// since a fixed reference point (January 1, 4713 BC). In error called this function "Julian Day Number", but it is not the same 
+// as the Julian Day Number used in astronomy, which counts days from a different reference point (January 1, 4713 BC at noon). 
+// The algorithm accounts for leap years and the varying number of days in each month to ensure accurate conversion.
 
 export int gregDateToDays(int day, int month, int year)
 {
@@ -37,6 +49,9 @@ export int gregDateToDays(int day, int month, int year)
   lCy = lYear - 100 * lCentury;
   return (146097 * lCentury) / 4 + (1461 * lCy) / 4 + (153 * lMonth + 2) / 5 + lDay + 1721119;
 }
+
+// The gregDaysToDate function performs the inverse operation, converting a given number of days since the reference point 
+// back into a Gregorian date (day, month, year).
 
 export void gregDaysToDate(int gregDays, int& day, int& month, int& year)
 {
@@ -65,6 +80,9 @@ export void gregDaysToDate(int gregDays, int& day, int& month, int& year)
   year = (int)lYear;
 }
 
+// The currentDate function retrieves the current date from the system 
+// and formats it as an integer in the format YYYYMMDD.
+
 export int currentDate()
 {
   time_t tt;
@@ -74,6 +92,9 @@ export int currentDate()
   lt = localtime(&tt);
   return (19000000L + 10000L * (int)lt->tm_year + 100L * ((int)lt->tm_mon + 1) + (int)lt->tm_mday);
 }
+
+// The currentTime function retrieves the current time from the system
+// and formats it as an integer in the format HHMMSS.
 
 export int currentTime()
 {
@@ -85,6 +106,9 @@ export int currentTime()
   return (10000L * (int)lt->tm_hour + 100L * ((int)lt->tm_min) + (int)lt->tm_sec);
 }
 
+// The fromOracleDate function converts an Oracle date, 
+// represented as a 7-byte array, into an integer in the format YYYYMMDD.
+
 export int fromOracleDate(uchar* oradate)
 {
   int date;
@@ -95,6 +119,9 @@ export int fromOracleDate(uchar* oradate)
     date -= ((int)oradate[2] * 100L + (int)oradate[3]);
   return date;
 }
+
+// The toOracleDate function converts a date represented as an integer in the format YYYYMMDD 
+// and an optional time in the format HHMMSS
 
 export void toOracleDate(uchar* oradate, int yyyymmdd, int hhmmss)
 {
@@ -129,6 +156,9 @@ export void toOracleDate(uchar* oradate, int yyyymmdd, int hhmmss)
     oradate[0] += 100;
   }
 }
+
+// The gregDaysToOracle function converts a given number of days since the reference point
+// into an Oracle date string in the format YYYYMMDD.
 
 export pchar gregDaysToOracle(int aGregDays, pchar aOracleDate)
 {

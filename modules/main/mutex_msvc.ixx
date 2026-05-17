@@ -27,6 +27,7 @@ Usage is quite simple:
 ----------------------------------------------------------------------------- */
 
 export module mutex;
+import machine;
 import <windows.h>;
 import <exception>;
 import <iostream>;

@@ -1,6 +1,7 @@
-#include <string.h>
-#include <cctype>
 export module xcstring;
+import machine;
+import <string.h>;
+import <cctype>;
 
 export char* strltrim(char* s)
 {

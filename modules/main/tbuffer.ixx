@@ -14,6 +14,8 @@
  */
 
 export module tbuffer;
+import machine;
+import <cstdlib>;
 export import <iostream>;
 export import xcstring;
 
@@ -184,8 +186,8 @@ export template <class T> struct TBuffer
 
 };
 
-export typedef TBuffer<char> TBChar;
-export typedef TBuffer<unsigned char> TBUChar;
+export using TBChar = TBuffer<char>;
+export using TBUChar = TBuffer<unsigned char>;
 
 static char* _amp;
 static char* _lt;

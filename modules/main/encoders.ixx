@@ -55,10 +55,19 @@ static const std::string base64_alphanum_chars =
 export enum base64_type { Basic, URL_Safe, Mime };
 
 #include <cctype>
+// Check if a character is a valid base64 character (alphanumeric, +, /, -, _)	
 static inline bool is_base64(unsigned char c)
 {
 	return (isalnum(c) || (c == '+') || (c == '/') || (c == '-') || (c == '_'));
 }
+
+// The base64_encode function takes a pointer to the bytes to encode, the length of the input data,
+// the type of base64 encoding to use (Basic, URL_Safe, or Mime), and a boolean indicating 
+// whether to use padding characters.
+// It processes the input data in chunks of three bytes, converting them into four base64 
+// characters according to the specified encoding type.
+// The function handles the final chunk of data that may be less than three bytes, applying padding if necessary.
+// The resulting base64-encoded string is returned as a std::string.
 
 export std::string base64_encode(unsigned char const* bytes_to_encode, unsigned int in_len, base64_type type = Basic, bool use_padding = true)
 {
@@ -201,7 +210,12 @@ export std::string base64_decode(std::string const& encoded_string, base64_type 
 // number of zeroes being padded. Then for decoding do not forget to skip this extra
 // byte.
 
-export void ascii85_encode(TBUChar& buff, unsigned char* input, int data_size)
+using uint = unsigned int;
+using ushort = unsigned short;
+using puchar = unsigned char*;
+using uchar = unsigned char;
+
+export void ascii85_encode(TBUChar& buff, puchar input, int data_size)
 {
 	buff.clear();
 	for (int i = 0; i < data_size; i += 4)
@@ -209,13 +223,13 @@ export void ascii85_encode(TBUChar& buff, unsigned char* input, int data_size)
 		const char* p = (char*)(input + i);
 		if (data_size >= 4 && strncmp(p, "    ", 4) == 0)
 		{
-			buff.append((unsigned char*)"y");
+			buff.append((puchar)"y");
 			continue;
 		}
 		const unsigned int* v = (unsigned int*)(input + i);
 		if (data_size >= 4 && *v == 0)
 		{
-			buff.append((unsigned char*)"z");
+			buff.append((puchar)"z");
 			continue;
 		}
 		int n = i;
@@ -233,7 +247,7 @@ export void ascii85_encode(TBUChar& buff, unsigned char* input, int data_size)
 	}
 }
 
-export void ascii85_decode(TBUChar& buff, unsigned char* input, int data_size)
+export void ascii85_decode(TBUChar& buff, puchar input, int data_size)
 {
 	buff.clear();
 	for (int i = 0; i < data_size; i++)
@@ -286,7 +300,7 @@ export void ascii85_decode(TBUChar& buff, unsigned char* input, int data_size)
 
 const char* z85code = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-:+=^!/*?&<>()[]{}@%$#";
 
-export void z85_encode(TBUChar& buff, unsigned char* input, int data_size)
+export void z85_encode(TBUChar& buff, puchar input, int data_size)
 {
 	buff.clear();
 	for (int i = 0; i < data_size; i += 4)
@@ -306,7 +320,7 @@ export void z85_encode(TBUChar& buff, unsigned char* input, int data_size)
 	}
 }
 
-export void z85_decode(TBUChar& buff, unsigned char* input, int data_size)
+export void z85_decode(TBUChar& buff, puchar input, int data_size)
 {
 	buff.clear();
 	char k[2] = ".";
@@ -328,11 +342,6 @@ export void z85_decode(TBUChar& buff, unsigned char* input, int data_size)
 		buff.append(outwork, 4);
 	}
 }
-
-typedef unsigned int uint;
-typedef unsigned short ushort;
-typedef unsigned char* puchar;
-typedef unsigned char uchar;
 
 export uint In3Out4(puchar input, uint inlen, puchar output, uint outlen)
 {
@@ -398,7 +407,6 @@ export uint Encode12To8(puchar input, puchar output)
 }
 
 export uint Decode8To12(puchar input, puchar output)
-
 {
 	static union
 	{
