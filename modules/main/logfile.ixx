@@ -30,7 +30,7 @@ export struct XLogFile : public exception
 	}
 };
 
-#define LOGFILE_BUFFER_LENGTH 32*1024
+const size_t LOGFILE_BUFFER_LENGTH = 32*1024;
 
 export class LogFile
 {

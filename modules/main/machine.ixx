@@ -33,16 +33,16 @@ export const unsigned int _MACHINE_CHAR_SIZE_   = sizeof(char);
    export using uint16 = unsigned __int16;
    export using uint32 = unsigned __int32;
    export using uint64 = unsigned __int64;
-#elif defined(__GNUC__)
+#elif defined(__GNUC__) || defined(__clang__)
    #include <sys/types.h>
-   #define int8   int8_t
-   #define int16  int16_t
-   #define int32  int32_t
-   #define int64  int64_t
-   #define uint8  u_int8_t
-   #define uint16 u_int16_t
-   #define uint32 u_int32_t
-   #define uint64 u_int64_t
+   export using int8 = int8_t;
+   export using int16 = int16_t;
+   export using int32 = int32_t;
+   export using int64 = int64_t;
+   export using uint8 = u_int8_t;
+   export using uint16 = u_int16_t;
+   export using uint32 = u_int32_t;
+   export using uint64 = u_int64_t;
 #endif
 
 export using pchar = char*;

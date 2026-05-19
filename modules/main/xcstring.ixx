@@ -3,6 +3,24 @@ import machine;
 import <string.h>;
 import <cctype>;
 
+/// The xcstring module provides a collection of string manipulation functions that operate on C-style strings (null-terminated character arrays).
+// These functions include:
+// - `strltrim`: Removes leading whitespace characters (spaces and tabs) from a string.
+// - `strcpad`: Pads a string to a specified field length with a given character, centering the original string within the padded result.
+// - `strlpad`: Pads a string to a specified field length with a given character, aligning the original string to the right.
+// - `strrpad`: Pads a string to a specified field length with a given character, aligning the original string to the left.
+// - `tolower_stricmp`: Compares two strings in a case-insensitive manner, converting characters to lowercase before comparison.
+// - `tolower_strnicmp`: Compares two strings in a case-insensitive manner for a specified number of characters.
+// - `stricmp`: A wrapper around `tolower_stricmp` for case-insensitive string comparison.
+// - `strnicmp`: A wrapper around `tolower_strnicmp` for case-insensitive string comparison of a specified number of characters.
+// - `streq`: Checks if two strings are equal using a case-sensitive comparison.
+// - `strieq`: Checks if two strings are equal using a case-insensitive comparison.
+// - `strrtrim`: Removes trailing whitespace characters (spaces and tabs) from a string.
+// - `strtrim`: Removes both leading and trailing whitespace characters from a string.
+// - `strupr`: Converts all characters in a string to uppercase.
+// - `strlwr`: Converts all characters in a string to lowercase.
+// - `strncpyz`: A safe version of `strncpy` that ensures the destination string is null-terminated.
+
 export char* strltrim(char* s)
 {
 	char* t = s;
