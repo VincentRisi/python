@@ -12,7 +12,7 @@ add_library (main
   xcstring.ixx
   tbuffer.ixx
   logfile.ixx
-  mutex_msvc.ixx
+  mutex.ixx
   addlist.ixx 
   getargs.ixx
   splits.ixx

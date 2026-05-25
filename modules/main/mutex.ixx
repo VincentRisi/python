@@ -8,7 +8,6 @@ feature added is the semaphores are timed - and on the constructor seconds
 and nanoseconds can be provided. If 0 seconds and nano seconds are specified
 then the wait will block indefinitely.
 
-
 Usage is quite simple:
 1)
 	import mutex;
@@ -28,7 +27,9 @@ Usage is quite simple:
 
 export module mutex;
 import machine;
+#if defined(_MSC_VER)
 import <windows.h>;
+#endif
 import <exception>;
 import <iostream>;
 import <format>;
@@ -83,10 +84,84 @@ static void _setup()
 	sa.bInheritHandle = 1;
 }
 
+#if defined(__GNUC__) || defined(__clang__)
+import <sys/types.h>;
+import <sys/ipc.h>;
+import <sys/sem.h>;
+import <errno.h>;
+#endif
+
 export struct Mutex
 {
 	int secs, nanosecs;
 	bool failed;
+#if defined(__GNUC__) || defined(__clang__)
+  int semaphore;
+
+  int makePrivate()
+  {
+    int semaphore = semget(IPC_PRIVATE, 1, 0666 | IPC_CREAT);
+    return semaphore;
+  }
+
+  int makeNamed(const char* name)
+  {
+    FILE* temp = fopen(name, "rb");
+    if (temp == 0)
+    {
+      temp = fopen(name, "wb");
+      if (temp == 0)
+        throw XMUTEX(eMutexFtokFailed);
+    }
+    fclose(temp);
+    key_t semKey = ftok(name, 1);
+    if (semKey == -1)
+      throw XMUTEX(eMutexSemKeyFailed);
+    int semaphore = semget(semKey, 1, 0666 | IPC_CREAT);
+    if (semaphore == -1)
+      throw XMUTEX(eMutexSemGetFailed);
+    return semaphore;
+  }
+
+  void remove(int semaphore)
+  {
+    semctl(semaphore, 0, IPC_RMID);
+  }
+
+  void acquire()
+  {
+    struct timespec waitFor = {secs, nanosecs};
+    static struct sembuf acquireOp[] =  // The possible semaphore
+    { 0, 0, 0                           // Wait for semaphore == 0
+    , 0, 1, SEM_UNDO                    // inc semaphore if crash undo
+    };
+    int rc = semtimedop(semaphore, acquireOp, 2, secs != 0 || nanosecs != 0 ? &waitFor : 0);
+    if (rc == -1)
+    {
+      failed = true;
+      if (errno == EINTR)
+        return;
+      throw XMUTEX(eMutexAcquireFailed);
+    }
+  }
+
+  void release()
+  {
+    struct timespec waitFor = {secs, nanosecs};
+    static struct sembuf releaseOp[] =
+    { 0, -1, SEM_UNDO  // dec semaphore
+    };
+    int rc = semtimedop(semaphore, releaseOp, 1, secs != 0 || nanosecs != 0 ? &waitFor : 0);
+    if (rc == -1)
+    {
+      failed = true;
+      throw XMUTEX(eMutexReleaseFailed);
+    }
+  }
+
+#elif defined(_MSC_VER)	
+  HANDLE semaphore;
+
 	HANDLE makePrivate()
 	{
 		_setup();
@@ -108,19 +183,7 @@ export struct Mutex
 	{
 		CloseHandle(semaphore);
 	}
-	HANDLE semaphore;
-	Mutex(HANDLE semaphore, int secs = 0, int nanosecs = 0)
-	{
-		this->semaphore = semaphore;
-		this->secs = secs;
-		this->nanosecs = nanosecs;
-		this->failed = false;
-		acquire();
-	}
-	~Mutex()
-	{
-		release();
-	}
+
 	void acquire()
 	{
 		DWORD waitFor = (DWORD)(secs * 1000 + nanosecs / 1000000);
@@ -140,6 +203,24 @@ export struct Mutex
 	{
 		ReleaseMutex(semaphore);
 	}
+#endif
+
+#if defined(__GNUC__) || defined(__clang__)
+  Mutex(int semaphore, int secs=0, int nanosecs=0)
+#elif defined(_MSC_VER)
+  Mutex(HANDLE semaphore, int secs=0, int nanosecs=0)
+#endif
+  {
+    this->semaphore = semaphore;
+    this->secs = secs;
+    this->nanosecs = nanosecs;
+    this->failed = false;
+    acquire();
+  }
+  ~Mutex()
+  {
+    release();
+  }
 };
 
 
