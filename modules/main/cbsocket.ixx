@@ -478,4 +478,3 @@ public:
 	int ListenPort() const { return fSockCB->ListenPort; }
 	Mutex *mutex;
 };
-

@@ -17,8 +17,8 @@ add_library (main
   getargs.ixx
   splits.ixx
   date.ixx
-  obsocket_msvc.ixx
-  cbsocket_msvc.ixx
+  obsocket.ixx
+  cbsocket.ixx
   blackboard.ixx
   encoders.ixx
   #jsoncpp.ixx

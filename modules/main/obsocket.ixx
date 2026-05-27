@@ -2,26 +2,31 @@ export module obsocket;
 import machine;
 
 import <cstdlib>;
+#if defined(_MSC_VER)
 import <malloc.h>;
 import <winsock.h>;
 import <windows.h>;
+#elif defined(__GNUC__) || defined(__clang__)
+import <string.h>
+#endif
 
 #if defined(USE_OPENSSL)
 #include "openssl/ossl_typ.h"
 #include <openssl/err.h>
 #endif
 
+#if defined(_MSC_VER)
 const auto& ioctl = ioctlsocket;
 const int DESIRED_WINSOCK_VERSION = 0x0101;
 const int MINIMUM_WINSOCK_VERSION = 1;
 const char* PROTOCOL = "tcp";
+#endif
+
 #ifndef SOCKET_QSIZE
   const int SOCKET_QSIZE = 1024;
 #endif
 
 using socklen_t = int;
-using pchar = char*;
-using uint = unsigned int;
 
 export struct tSockCB
 {
@@ -796,4 +801,3 @@ const char* SockErrorText(int rc)
 	}
 	return "Unknown Error";
 }
-

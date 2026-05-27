@@ -55,3 +55,5 @@ export using pint = int*;
 export using plong = long*;
 export using pfloat = float*;
 export using pdouble = double*;
+export using uint = unsigned int;
+
