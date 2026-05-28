@@ -33,6 +33,7 @@ import <windows.h>;
 import <exception>;
 import <iostream>;
 import <format>;
+import <print>;
 
 using namespace std;
 enum EMutex
@@ -62,8 +63,7 @@ export struct XMutex : public exception
 	}
 	XMutex(int error, const char* context = "")
 	{
-		string err = format("Mutex {} {} : {}", context, error, getText(error));
-		cout << err << endl;
+		println("Mutex {} {} : {}", context, error, getText(error));
 	}
 	XMutex(const XMutex& aX)
 	{
@@ -222,5 +222,3 @@ export struct Mutex
     release();
   }
 };
-
-

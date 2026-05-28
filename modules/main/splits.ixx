@@ -1,9 +1,9 @@
-#include <cstdio>
-#include <cstdlib>
-#include <string.h>
-#include <malloc.h>
-
 export module splits;
+import <cstdio>;
+import <cstdlib>;
+import <string.h>;
+import <malloc.h>;
+
 import xcstring;
 
 export typedef struct Splits

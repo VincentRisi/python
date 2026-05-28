@@ -2,13 +2,23 @@ export module addlist;
 export import <iostream>;
 import machine;
 import <cstdlib>;
+import <print>;
 
 using namespace std;
+export struct XAddList : public exception
+{
+  XAddList(const char* file, const int line, int code, std::string err)
+  {
+    println("AddList {} {} : {} {}", file, line, code, err);
+  }
+  XAddList(const XAddList& aX)
+  {
+  }
+};
 
-int error(int code, std::string err) 
+int error(const char* file, const int line, int code, std::string err) 
 { 
-	std::cout << err << std::endl;
-  throw code; 
+  throw XAddList(file, line, code, err); 
 }
 
 export using fptr = int (*)(const void*, const void*);
@@ -27,7 +37,7 @@ struct TAddList
       if (list == 0)
       {
 				std::string err = std::format("Memory Allocation Failure for {}", sizeof(rec) * allocCount);
-        error(1, err);
+        error(__FILE__, __LINE__, 1, err);
       }
     }
     list[count++] = rec;           // will shallow copy; if you have a copy constructor then beware of leaks
@@ -46,7 +56,7 @@ struct TAddList
     else
     { 
 			std::string err = std::format("Deletion of non existing item {}", index);
-      error(1, err);
+      error(__FILE__, __LINE__, 2, err);
     }
   }
   void clear()
@@ -58,7 +68,7 @@ struct TAddList
     if (compare == 0)
     {
 			std::string err = std::format("No sort/search compare function defined {}", count);
-      error(1, err);
+      error(__FILE__, __LINE__, 3, err);
     }
     TELEMENT* found = (TELEMENT*)bsearch(lookup, list, (int)count, sizeof(TELEMENT), (fptr)compare);
     if (found)
@@ -70,7 +80,7 @@ struct TAddList
     if (compare == 0)
     {
 			std::string err = std::format("No sort/search compare function defined {}", count);
-      error(1, err);
+      error(__FILE__, __LINE__, 3, err);
     }
     if (count > 1)
     qsort(list, (int)count, sizeof(TELEMENT), (fptr)compare);
@@ -80,7 +90,7 @@ struct TAddList
     if (i >= count || i < 0)
     {
 			std::string err = std::format("Accessing out of range {}", i);
-      error(1, err);
+      error(__FILE__, __LINE__, 4, err);
     }
     return list[i];
   }
