@@ -13,16 +13,16 @@ export using byte2 = struct { char p[2]; };
 export using byte4 = struct { char p[4]; };
 export using byte8 = struct { char p[8]; };
 
-export const unsigned int _MACHINE_FLOAT_SIZE_  = sizeof(float);
-export const unsigned int _MACHINE_DOUBLE_SIZE_ = sizeof(double);
+export constexpr unsigned int _MACHINE_FLOAT_SIZE_  = sizeof(float);
+export constexpr unsigned int _MACHINE_DOUBLE_SIZE_ = sizeof(double);
 #if defined _MSC_VER
-export const unsigned int _MACHINE_LONG_SIZE_   = sizeof(long long);
+export constexpr unsigned int _MACHINE_LONG_SIZE_   = sizeof(long long);
 #else
 export const unsigned int _MACHINE_LONG_SIZE_   = sizeof(long);
 #endif
-export const unsigned int _MACHINE_INT_SIZE_    = sizeof(int);
-export const unsigned int _MACHINE_SHORT_SIZE_  = sizeof(short);
-export const unsigned int _MACHINE_CHAR_SIZE_   = sizeof(char);
+export constexpr unsigned int _MACHINE_INT_SIZE_    = sizeof(int);
+export constexpr unsigned int _MACHINE_SHORT_SIZE_  = sizeof(short);
+export constexpr unsigned int _MACHINE_CHAR_SIZE_   = sizeof(char);
 
 #if defined(_MSC_VER)
    export using int8 = __int8;

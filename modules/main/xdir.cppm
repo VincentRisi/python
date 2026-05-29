@@ -6,10 +6,10 @@ import <cstdlib>;
 import <cstring>;
 import xcstring;
 
-export const int DIRMAX_PATH = _MAX_PATH;
-export const int DIRMAX_DIR  = _MAX_DRIVE + _MAX_DIR;
-export const int DIRMAX_NAME = _MAX_FNAME;
-export const int DIRMAX_EXT  = _MAX_EXT;
+export constexpr int DIRMAX_PATH = _MAX_PATH;
+export constexpr int DIRMAX_DIR  = _MAX_DRIVE + _MAX_DIR;
+export constexpr int DIRMAX_NAME = _MAX_FNAME;
+export constexpr int DIRMAX_EXT  = _MAX_EXT;
 
 //  splits path into user supplied memory for dir, name and ext 
 export void FNameSplit(const char *path, char *dir, char *name, char *ext)
