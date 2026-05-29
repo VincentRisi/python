@@ -10,20 +10,20 @@ set(CMAKE_CXX_EXTENSIONS OFF) # Set to ON if you want compiler-specific extensio
 include_directories (. testers)
 
 add_library (main
-  machine.ixx
-  xdir.ixx
-  xcstring.ixx
-  tbuffer.ixx
-  logfile.ixx
-  mutex.ixx
-  addlist.ixx 
-  getargs.ixx
-  splits.ixx
-  date.ixx
-  obsocket.ixx
-  cbsocket.ixx
-  blackboard.ixx
-  encoders.ixx
+  machine.cpp
+  xdir.cpp
+  xcstring.cpp
+  tbuffer.cpp
+  logfile.cpp
+  mutex.cpp
+  addlist.cpp 
+  getargs.cpp
+  splits.cpp
+  date.cpp
+  obsocket.cpp
+  cbsocket.cpp
+  blackboard.cpp
+  encoders.cpp
   )
 
 add_executable (getargs_test testers/getargs_test.cpp)
