@@ -1,12 +1,16 @@
 export module logfile;
 import machine;
-import <cstdio>;
 import <corecrt.h>;
-import <ctime>;
-import <sys/timeb.h>;
 import <cstdarg>;
+import <cstdio>;
 import <cstdlib>;
-import <format>;
+import <ctime>;
+import <exception>;
+import <iosfwd>;
+import <ostream>;
+import <print>;
+import <string>;
+import <sys/timeb.h>;
 import <windows.h>;
 import <exception>;
 import <iostream>;
@@ -20,17 +24,16 @@ const char *LevelStr[] = { "DBG", "INF", "WRN", "ERR"};
 
 export struct XLogFile : public exception
 {
-	XLogFile(std::string error, std::string context = "")
+	XLogFile(const char* file, const int line, const std::string error)
 	{
-		std::string err = std::format("Logfile {} {}", context, error);
-		std::cout << err << std::endl;
+		println("LogFile : {} {} {}", file, line, error);
 	}
 	XLogFile(const XLogFile& aX)
 	{
 	}
 };
 
-const size_t LOGFILE_BUFFER_LENGTH = 32*1024;
+constexpr size_t LOGFILE_BUFFER_LENGTH = 32*1024;
 
 export class LogFile
 {
@@ -225,7 +228,7 @@ protected:
 		if (!fLog)
 		{
 			snprintf(errorStr, sizeof(errorStr), "Failed to open file(%s)", TBFileName.c_str());
-			throw XLogFile(errorStr, format("{} {}", __FILE__, __LINE__));
+			throw XLogFile(__FILE__, __LINE__, errorStr);
 		}
 	}
 	void LogToFile(const char* msg, eLevel msgLevel)
@@ -340,7 +343,7 @@ public:
 		{
 			if (LogFile::__logFile__ == 0)
 			{
-				throw XLogFile("Can not initialize - No logfile previously constructed", format("{} {}", __FILE__, __LINE__));
+				throw XLogFile(__FILE__, __LINE__, "Can not initialize - No logfile previously constructed");
 			}
 			usefilename = LogFile::__logFile__->FileName.c_str();
 		}
