@@ -1,5 +1,4 @@
 export module machine;
-import std;
 
 // The machine module provides definitions for various data types and constants 
 // related to the underlying hardware architecture.

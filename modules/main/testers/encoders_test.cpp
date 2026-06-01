@@ -1,6 +1,5 @@
 
 #include <cstdio>
-import std;
 import getargs;
 import encoders;
 import logfile;
