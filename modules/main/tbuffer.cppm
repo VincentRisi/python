@@ -18,14 +18,35 @@ import machine;
 import <cstdlib>;
 export import <iostream>;
 export import xcstring;
+import <print>;
 
 using namespace std;
 
-int error(int code, std::string err)
+enum EMutex
 {
-	std::cout << err << std::endl;
-	throw code;
-}
+	eMNoError = 0
+	, eMemoryError
+};
+
+export struct XBuffer : public exception
+{
+	static const char* getText(int err)
+	{
+		switch (err)
+		{
+		case eMNoError:            return "No Error";
+		case eMemoryError:         return "Memory Allocation Failure";
+		default:                   return "Unknown exception";
+		}
+	}
+	XBuffer(const char* file, const int line, int error)
+	{
+		println("Buffer {} {} {} : {}", file, line, error, getText(error));
+	}
+	XBuffer(const XBuffer& aX)
+	{
+	}
+};
 
 export template <class T> struct TBuffer
 {
@@ -39,12 +60,7 @@ export template <class T> struct TBuffer
 		used = 0;
 		data = (T*)calloc(size, sizeof(T));
 		if (data == 0)
-			//throw XBUFFERXCEPT(eMemoryError);
-		{
-			std::string err = std::format("Memory Allocation Failure for {}", size * sizeof(T));
-			error(1, err);
-		}
-
+			throw XBuffer(__FILE__, __LINE__, eMemoryError);
 	}
 
 	TBuffer(const TBuffer& from)
@@ -86,12 +102,7 @@ export template <class T> struct TBuffer
 		T* tmp = (T*)realloc(data, bytelen);
 
 		if (bytelen != 0 && tmp == 0)
-			//throw XBUFFERXCEPT(eMemoryError);
-		{
-			std::string err = std::format("Memory Allocation Failure for {}", bytelen);
-			error(2, err);
-		}
-
+			throw XBuffer(__FILE__, __LINE__, eMemoryError);
 
 		data = tmp;
 	}
@@ -101,16 +112,9 @@ export template <class T> struct TBuffer
 		size_t newsize = size + add;
 		bytelen = newsize * sizeof(T);
 		T* tmp = (T*)realloc(data, bytelen);
-
 		if (tmp == 0)
-			//throw XBUFFERXCEPT(eMemoryError);
-		{
-			std::string err = std::format("Memory Allocation Failure for {}", bytelen);
-			error(3, err);
-		}
-
+			throw XBuffer(__FILE__, __LINE__, eMemoryError);
 		data = tmp;
-
 		char* b = (char*)(data + size);
 		size = newsize;
 		memset(b, 0, add * sizeof(T));
@@ -168,19 +172,11 @@ export template <class T> struct TBuffer
 			dest = 0;
 			return 0;
 		}
-
 		dest = (char*)malloc(used + 1);
-
 		if (!dest)
-			//throw XBUFFERXCEPT(eMemoryError);
-		{
-			std::string err = std::format("Memory Allocation Failure for {}", used + 1);
-			error(4, err);
-		}
-
+			throw XBuffer(__FILE__, __LINE__, eMemoryError);
 		memcpy(dest, data, used);
 		dest[used] = 0;
-
 		return used;
 	}
 
