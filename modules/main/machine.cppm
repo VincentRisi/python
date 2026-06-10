@@ -25,25 +25,29 @@ export constexpr unsigned int _MACHINE_SHORT_SIZE_  = sizeof(short);
 export constexpr unsigned int _MACHINE_CHAR_SIZE_   = sizeof(char);
 
 #if defined(_MSC_VER)
-   export using int8 = __int8;
-   export using int16 = __int16;
-   export using int32 = __int32;
-   export using int64 = __int64;
-   export using uint8 =  unsigned __int8;
-   export using uint16 = unsigned __int16;
-   export using uint32 = unsigned __int32;
-   export using uint64 = unsigned __int64;
+export using int8 = __int8;
+export using int16 = __int16;
+export using int32 = __int32;
+export using int64 = __int64;
+export using uint8 =  unsigned __int8;
+export using uint16 = unsigned __int16;
+export using uint32 = unsigned __int32;
+export using uint64 = unsigned __int64;
+//
 #elif defined(__GNUC__) || defined(__clang__)
-   #include <sys/types.h>
-   export using int8 = int8_t;
-   export using int16 = int16_t;
-   export using int32 = int32_t;
-   export using int64 = int64_t;
-   export using uint8 = u_int8_t;
-   export using uint16 = u_int16_t;
-   export using uint32 = u_int32_t;
-   export using uint64 = u_int64_t;
+#include <sys/types.h>
+export using int8 = int8_t;
+export using int16 = int16_t;
+export using int32 = int32_t;
+export using int64 = int64_t;
+export using uint8 = u_int8_t;
+export using uint16 = u_int16_t;
+export using uint32 = u_int32_t;
+export using uint64 = u_int64_t;
+//#define OS_LINE_FEED "\n"
 #endif
+export using ssize_t = int64;
+export using size_t = uint64;
 
 export using pchar = char*;
 export using uchar = unsigned char;

@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF) # Set to ON if you want compiler-specific extensions 
                               # (e.g., -std=gnu++23)
 
-include_directories (. testers)
+include_directories (. testers expat)
 
 add_library (main
   machine.cppm
@@ -24,6 +24,19 @@ add_library (main
   cbsocket.cppm
   blackboard.cppm
   encoders.cppm
+  portal/databuilder.cppm
+  portal/xmlmake.cppm
+  portal/xmlrecord.cppm
+  )
+
+add_library (expat
+  expat/xmldef.h
+  expat/xmlparse.h 
+  expat/xmlparse.c 
+  expat/xmlrole.c 
+  expat/xmlrole.h
+  expat/xmltok.c 
+  expat/xmltok.h
   )
 
 add_executable (getargs_test testers/getargs_test.cpp)
