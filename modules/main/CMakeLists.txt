@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF) # Set to ON if you want compiler-specific extensions 
                               # (e.g., -std=gnu++23)
 
-include_directories (. testers expat)
+include_directories (. testers expat jsoncpp)
 
 add_library (main
   machine.cppm
@@ -25,6 +25,7 @@ add_library (main
   blackboard.cppm
   encoders.cppm
   portal/databuilder.cppm
+  portal/json_databuilder.cppm
   portal/xmlmake.cppm
   portal/xmlrecord.cppm
   )
@@ -37,6 +38,25 @@ add_library (expat
   expat/xmlrole.h
   expat/xmltok.c 
   expat/xmltok.h
+  )
+
+add_library(jsoncpp 
+  jsoncpp/json/allocator.h
+  jsoncpp/json/assertions.h
+  jsoncpp/json/autolink.h
+  jsoncpp/json/config.h
+  jsoncpp/json/features.h
+  jsoncpp/json/forwards.h
+  jsoncpp/json/json.h
+  jsoncpp/json/reader.h
+  jsoncpp/json/value.h
+  jsoncpp/json/version.h
+  jsoncpp/json/writer.h
+  jsoncpp/src/json_tool.h
+  jsoncpp/src/json_reader.cpp
+  jsoncpp/src/json_valueiterator.inl
+  jsoncpp/src/json_value.cpp
+  jsoncpp/src/json_writer.cpp
   )
 
 add_executable (getargs_test testers/getargs_test.cpp)
