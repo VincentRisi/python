@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF) # Set to ON if you want compiler-specific extensions 
                               # (e.g., -std=gnu++23)
 
-include_directories (. testers expat jsoncpp)
+include_directories (. testers expat jsoncpp portal/oci_21/oracle)
 
 add_library (main
   machine.cppm
@@ -28,6 +28,7 @@ add_library (main
   portal/json_databuilder.cppm
   portal/xmlmake.cppm
   portal/xmlrecord.cppm
+  portal/ociapi.cppm
   )
 
 add_library (expat
