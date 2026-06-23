@@ -47,7 +47,7 @@ static int32 JP_GregDate(int32 year, int32 month, int32 day)
 		+ 1721119;
 }
 
-static int32 JP_GregDate(char* YYYYMMDD)
+static int32 JP_GregDate(const char* YYYYMMDD)
 {
 	int32 day, month, year;
 	char work[5];
@@ -63,7 +63,7 @@ static int32 JP_GregDate(char* YYYYMMDD)
 	return  JP_GregDate(year, month, day);
 }
 
-static int32 JP_Seconds(char* HHMISS)
+static int32 JP_Seconds(const char* HHMISS)
 {
 	int32 secs, mins, hours;
 	char work[5];
@@ -109,60 +109,6 @@ static void JP_CalendarDate(int32 jul, char* YYYYMMDD)
 	sprintf(work, "%04.4d%02.2d%02.2d", year, month, day);
 	strncpy(YYYYMMDD, work, 8);
 	YYYYMMDD[8] = 0;
-}
-
-static int32 JP_NewConnector(TJConnector*& conn)
-{
-	try
-	{
-		conn = new TJConnector;
-		return 0;
-	}
-	catch (...)
-	{
-		return -1;
-	}
-}
-
-static int32 JP_NewQuery(TJQuery*& qry, TJConnector& conn)
-{
-	try
-	{
-		qry = new TJQuery(conn);
-		return 0;
-	}
-	catch (...)
-	{
-		return -1;
-	}
-}
-
-static int32 JP_FreeConnector(TJConnector*& conn)
-{
-	try
-	{
-		delete conn;
-		conn = 0;
-		return 0;
-	}
-	catch (...)
-	{
-		return -1;
-	}
-}
-
-static int32 JP_FreeQuery(TJQuery*& qry)
-{
-	try
-	{
-		delete qry;
-		qry = 0;
-		return 0;
-	}
-	catch (...)
-	{
-		return -1;
-	}
 }
 
 export struct TJOCIDate
@@ -424,6 +370,33 @@ export struct TJConnector
 	}
 };
 
+static int32 JP_NewConnector(TJConnector*& conn)
+{
+	try
+	{
+		conn = new TJConnector;
+		return 0;
+	}
+	catch (...)
+	{
+		return -1;
+	}
+}
+
+static int32 JP_FreeConnector(TJConnector*& conn)
+{
+	try
+	{
+		delete conn;
+		conn = 0;
+		return 0;
+	}
+	catch (...)
+	{
+		return -1;
+	}
+}
+
 export struct TJQuery
 {
 	int32 signature;
@@ -561,7 +534,7 @@ export struct TJQuery
 			conn.ThrowOnError(file, line);
 		JP_SetupArray(*this, noBinds, noRows, sizeRow);
 	}
-	static void JP_BindByName(TJQuery& qry, const text* name, int32 bindNo, void* data, int32 dataLen, ub2 dataType, sb2 isNull)
+	static void JP_BindByName(TJQuery& qry, const text* name, int32 bindNo, void* data, int32 dataLen, ub2 dataType, sb2 isNull=0)
 	{
 		qry.indicators[bindNo] = isNull == JP_NOT_NULL ? JP_NOT_NULL : JP_NULL;
 		qry.conn.result = OCIBindByName2(qry.ociStmt,
@@ -798,7 +771,7 @@ export struct TJQuery
 	void  BindArray(const char* name, int32 bindNo, char* data, int32 datalen, int32 ansichar = 0)
 	{
 		int32 result;
-		result = JP_BindStringArray(*this, (text*)name, bindNo, data, dataLen, ansichar);
+		result = JP_BindStringArray(*this, (text*)name, bindNo, data, datalen, ansichar);
 		if (result)
 			conn.ThrowOnError(file, line);
 	}
@@ -892,9 +865,9 @@ export struct TJQuery
 		JP_DefineByPos(qry, defineNo, data, sizeof(TJOCIDate), SQLT_DAT);
 		return _Result(qry);
 	}
-	static int32 JP_DefineBLob(TJQuery& qry, int32 defineNo, char* data, int32 datalen)
+	static int32 JP_DefineBLob(TJQuery& qry, int32 defineNo, char* data, int32 dataSize)
 	{
-		JP_DefineByPos(qry, defineNo, data, datalen, SQLT_LBI);
+		JP_DefineByPos(qry, defineNo, data, dataSize, SQLT_LBI);
 		return _Result(qry);
 	}
 	static int32 JP_DefineUtf8(TJQuery& qry, int32 defineNo, unsigned char* data, int32 dataLen)
@@ -947,7 +920,7 @@ export struct TJQuery
 		if (JP_DefineDate(*this, defineNo, data))
 			conn.ThrowOnError(file, line);
 	}
-	void  DefineBlob(int32 defineNo, char* data, int32 dataSize)
+	void  DefineBlob(int32 defineNo, char* data, int32 datalen)
 	{
 		if (JP_DefineBLob(*this, defineNo, data, datalen))
 			conn.ThrowOnError(file, line);
@@ -1410,6 +1383,33 @@ export struct TJQuery
 		return ocidate;
 	}
 };
+
+static int32 JP_NewQuery(TJQuery*& qry, TJConnector& conn)
+{
+	try
+	{
+		qry = new TJQuery(conn);
+		return 0;
+	}
+	catch (...)
+	{
+		return -1;
+	}
+}
+
+static int32 JP_FreeQuery(TJQuery*& qry)
+{
+	try
+	{
+		delete qry;
+		qry = 0;
+		return 0;
+	}
+	catch (...)
+	{
+		return -1;
+	}
+}
 
 void TJConnector::TimeStamp(char* timeStamp)
 {
