@@ -29,6 +29,7 @@ add_library (main
   portal/xmlmake.cppm
   portal/xmlrecord.cppm
   portal/ociapi.cppm
+  portal/audit.cppm
   )
 
 add_library (expat

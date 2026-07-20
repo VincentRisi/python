@@ -2,13 +2,14 @@ export module ociapi;
 import machine;
 
 #if defined(_MSC_VER)
-#include <malloc.h>
+import <malloc.h>;
 #endif
-#include <string.h>
-#include <cstdlib>
-#include <ctime>
-#include "oci.h"
-#include <cstdio>
+
+import <cstdio>;
+import "oci.h";
+import <ctime>;
+import <cstdlib>;
+export import <string.h>;
 import <exception>;
 import <iostream>;
 import <format>;
@@ -228,6 +229,7 @@ export const short JP_NULL = -1;
 export const short JP_NOT_NULL = 0;
 
 #define TJ_CAST (const OraText*)
+
 export struct TJConnector
 {
 	int32 signature;
@@ -417,7 +419,7 @@ export struct TJQuery
 	int16* indicators;
 	char file[65];
 	int32 line;
-	void FileAndLine(char* aFile, int32 aLine)
+	void FileAndLine(const char* aFile, int32 aLine)
 	{
 		strncpy(file, aFile, sizeof(file) - 1);
 		line = aLine;
@@ -452,7 +454,7 @@ export struct TJQuery
 		ociBinds = 0;
 		ociDefines = 0;
 		ociStmt = 0;
-		file[sizeof(file) - 1] = 0; // just in case
+		memset(file, 0, sizeof(file));
 	}
 	~TJQuery()
 	{
