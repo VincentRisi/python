@@ -41,7 +41,7 @@ public class OciCMod extends Generator
   /**
    * Generates the procedure classes for each table present.
    */
-  public static void generate(Database database, String output, PrintWriter outLog)
+  public static void generateTable(Database database, String output, PrintWriter outLog)
   {
     OciCMod.outLog = outLog;
     setFlags(database);
@@ -50,7 +50,7 @@ public class OciCMod extends Generator
       try
       {
         Table table = database.tables.elementAt(i);
-        generate(table, output);
+        generateTable(table, output);
         //outLog.println(format("Code: %s%s.sh", output, table.name));
         outLog.println(format("Code: %s%s.cppm", output, table.name));
         //generateSnips(table, output, outLog, true);
@@ -120,7 +120,7 @@ public class OciCMod extends Generator
     return output + node + ext;
   }
 
-  static private void generate(Table table, String output) throws Exception
+  static private void generateTable(Table table, String output) throws Exception
   {
     try (PrintWriter outData = new PrintWriter(new FileOutputStream(fileName(output, table.useName().toLowerCase(), ".cppm"))))
     {
