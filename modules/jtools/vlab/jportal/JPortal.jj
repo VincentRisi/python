@@ -389,6 +389,7 @@ public class JPortal
       e.printStackTrace();
     }
   }
+}}
 }
 PARSER_END(JPortal)
 
