@@ -33,7 +33,6 @@ export using uint8 =  unsigned __int8;
 export using uint16 = unsigned __int16;
 export using uint32 = unsigned __int32;
 export using uint64 = unsigned __int64;
-//
 #elif defined(__GNUC__) || defined(__clang__)
 #include <sys/types.h>
 export using int8 = int8_t;

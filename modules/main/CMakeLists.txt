@@ -2,7 +2,12 @@ cmake_minimum_required (VERSION 4.2)
 
 project (main_modules)
 
-set(CMAKE_CXX_STANDARD 23)
+if ("${CMAKE_CXX_COMPILER}" STREQUAL "clang-cl")
+  set(CMAKE_CXX_STANDARD 26)
+else ()
+  set(CMAKE_CXX_STANDARD 23)
+endif ()  
+
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF) # Set to ON if you want compiler-specific extensions 
                               # (e.g., -std=gnu++23)
@@ -24,12 +29,12 @@ add_library (main
   cbsocket.cppm
   blackboard.cppm
   encoders.cppm
-  portal/databuilder.cppm
-  portal/json_databuilder.cppm
-  portal/xmlmake.cppm
-  portal/xmlrecord.cppm
-  portal/ociapi.cppm
-  portal/audit.cppm
+  #portal/databuilder.cppm
+  #portal/json_databuilder.cppm
+  #portal/xmlmake.cppm
+  #portal/xmlrecord.cppm
+  #portal/ociapi.cppm
+  #portal/audit.cppm
   )
 
 add_library (expat

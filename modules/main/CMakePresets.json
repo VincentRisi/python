@@ -1,0 +1,58 @@
+{
+  "version": 4,
+  "configurePresets": [
+    {
+      "name": "clang",
+      "displayName": "Clang-CL",
+      "description": "Target Windows x64 with the Clang-CL compiler",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "toolset": {
+        "value": "v145,host=x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_C_COMPILER": "clang-cl",
+        "CMAKE_CXX_COMPILER": "clang-cl",
+         "CMAKE_CXX_STANDARD": "26",
+         "CMAKE_CXX_STANDARD_REQUIRED": "ON",
+         "CMAKE_CXX_EXTENSIONS": "OFF"        
+      },
+      "vendor": {
+        "://microsoft.com": {
+          "intelliSenseMode": "windows-clang-x64"
+        }
+      }
+    },
+    {
+      "name": "msvc",
+      "displayName": "VS-18-2026",
+      "description": "Target Windows x64 with the MSVC compiler",
+      "generator": "Visual Studio 18 2026",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "toolset": {
+        "value": "v145,host=x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+         "CMAKE_CXX_STANDARD": "23",
+         "CMAKE_CXX_STANDARD_REQUIRED": "ON",
+         "CMAKE_CXX_EXTENSIONS": "OFF"       
+      },
+      "vendor": {
+        "://microsoft.com": {
+          "intelliSenseMode": "windows-msvc-x64"
+        }
+      }
+    }
+  ]
+}
